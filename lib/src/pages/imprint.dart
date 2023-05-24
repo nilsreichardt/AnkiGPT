@@ -11,14 +11,13 @@ class ImprintPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Impressum')),
       body: const SingleChildScrollView(
         child: MaxWidthConstrainedBox(
-          maxWidth: 1200,
           child: Padding(
             padding: EdgeInsets.all(12),
             child: SelectionArea(
               child: MarkdownBody(
                 selectable: true,
                 data: '''Angaben gemäß § 5 TMG
-                
+
 Nils Reichardt Agency
 Grimmstr. 33
 40235 Düsseldorf

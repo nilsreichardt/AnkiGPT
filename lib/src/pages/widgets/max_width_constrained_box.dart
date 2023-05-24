@@ -4,7 +4,7 @@ class MaxWidthConstrainedBox extends StatelessWidget {
   const MaxWidthConstrainedBox({
     super.key,
     required this.child,
-    this.maxWidth = 1000,
+    this.maxWidth = 1200,
   });
 
   final Widget child;

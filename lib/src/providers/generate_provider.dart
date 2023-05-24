@@ -1,6 +1,10 @@
+import 'package:ankigpt/src/infrastructure/session_repository.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
+import 'package:ankigpt/src/providers/session_repository_provider.dart';
+import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
@@ -8,58 +12,84 @@ final generateStateProvider =
     StateNotifierProvider<GenerateNotifier, GenerateState>(
   (ref) {
     final logger = ref.watch(loggerProvider);
+    final sessionRepository = ref.watch(sessionRepositoryProvider);
+    final textEditingController = ref.watch(slideTextFieldControllerProvider);
     return GenerateNotifier(
       logger: logger,
+      sessionRepository: sessionRepository,
+      textEditingController: textEditingController,
     );
   },
 );
 
+final localCards = [
+  AnkiCard(
+    createdAt: DateTime.now(),
+    front: 'What is the capital of Spain?',
+    back: 'Madrid',
+  ),
+  AnkiCard(
+    createdAt: DateTime.now(),
+    front: 'What is the capital of Portugal?',
+    back: 'Lisbon',
+  ),
+  AnkiCard(
+    createdAt: DateTime.now(),
+    front: 'What is the capital of the Netherlands?',
+    back: 'Amsterdam',
+  ),
+  AnkiCard(
+    createdAt: DateTime.now(),
+    front: 'What is the capital of France?',
+    back: 'Paris',
+  ),
+  AnkiCard(
+    createdAt: DateTime.now(),
+    front: 'What is the capital of Germany?',
+    back: 'Berlin',
+  ),
+  AnkiCard(
+    createdAt: DateTime.now(),
+    front: 'What is the capital of Italy?',
+    back: 'Rome',
+  ),
+];
+
 class GenerateNotifier extends StateNotifier<GenerateState> {
   final Logger logger;
+  final SessionRepository sessionRepository;
+  final TextEditingController textEditingController;
 
   GenerateNotifier({
     required this.logger,
+    required this.sessionRepository,
+    required this.textEditingController,
   }) : super(const GenerateState.initial());
 
   Future<void> submit() async {
     logger.d("Generating cards...");
 
     state = const GenerateState.loading();
-    await Future.delayed(const Duration(seconds: 2));
 
-    final cards = <AnkiCard>[];
-    cards.addAll(const [
-      AnkiCard(
-        front: 'What is the capital of France?',
-        back: 'Paris',
-      ),
-      AnkiCard(
-        front: 'What is the capital of Germany?',
-        back: 'Berlin',
-      ),
-      AnkiCard(
-        front: 'What is the capital of Italy?',
-        back: 'Rome',
-      ),
-    ]);
-    state = state = GenerateState.loading(alreadyGeneratedCards: cards);
+    final sessionId = await sessionRepository.startSession(
+      slideContent: textEditingController.text,
+      numberOfCards: 3,
+    );
+    bool isCompleted = false;
+    while (!isCompleted) {
+      final getCardsResponse = await sessionRepository.getCards(
+        sessionId: sessionId,
+      );
 
-    await Future.delayed(const Duration(seconds: 2));
-    cards.addAll(const [
-      AnkiCard(
-        front: 'What is the capital of Spain?',
-        back: 'Madrid',
-      ),
-      AnkiCard(
-        front: 'What is the capital of Portugal?',
-        back: 'Lisbon',
-      ),
-      AnkiCard(
-        front: 'What is the capital of the Netherlands?',
-        back: 'Amsterdam',
-      ),
-    ]);
+      final cards = getCardsResponse.cards;
 
-    state = state = GenerateState.success(generatedCards: cards);
+      if (getCardsResponse.isCompleted) {
+        isCompleted = true;
+        state = GenerateState.success(generatedCards: cards);
+      } else {
+        state = GenerateState.loading(alreadyGeneratedCards: cards);
+        await Future.delayed(const Duration(seconds: 3));
+      }
+    }
   }
 }

@@ -3,6 +3,7 @@ import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
+import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
@@ -96,7 +97,7 @@ class Results extends ConsumerWidget {
   const Results({super.key});
 
   String buildMarkdown(List<AnkiCard> cards) {
-    String markdown = '| Front | Back |\n| --- | --- |\n';
+    String markdown = '| Frage | Antwort |\n| --- | --- |\n';
     for (final card in cards) {
       markdown += '| ${card.front} | ${card.back} |\n';
     }
@@ -160,10 +161,59 @@ class Controls extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
+        const Select(),
+        Expanded(flex: 3, child: const SizedBox.shrink()),
         LoadingButton(isVisible: view.isGenerating),
         DownloadButton(isVisible: view.isDownloadButtonVisible),
         GenerateButton(isEnabled: view.isGeneratedButtonEnabled),
       ],
+    );
+  }
+}
+
+enum CardGenrationSize {
+  three,
+  six,
+  nine,
+  fifteen;
+
+  String getUiText() {
+    switch (this) {
+      case CardGenrationSize.three:
+        return '3 Karten';
+      case CardGenrationSize.six:
+        return '6 Karten';
+      case CardGenrationSize.nine:
+        return '9 Karten';
+      case CardGenrationSize.fifteen:
+        return '15 Karten';
+    }
+  }
+}
+
+class Select extends ConsumerWidget {
+  const Select({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Expanded(
+      flex: 1,
+      child: DropdownButtonFormField<CardGenrationSize>(
+        value: ref.read(cardGenrationSizeProvider),
+        items: [
+          ...CardGenrationSize.values.map(
+            (c) => DropdownMenuItem(
+              value: c,
+              child: Text(c.getUiText()),
+            ),
+          )
+        ],
+        onChanged: (v) {
+          if (v != null) {
+            ref.read(cardGenrationSizeProvider.notifier).state = v;
+          }
+        },
+      ),
     );
   }
 }

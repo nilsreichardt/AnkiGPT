@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'AnkiGPT',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00FF7F)),
         useMaterial3: true,
       ),
       home: const MyHomePage(),

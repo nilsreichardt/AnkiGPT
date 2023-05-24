@@ -1,3 +1,4 @@
+import 'package:ankigpt/firebase_options.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
@@ -10,11 +11,14 @@ import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   // We need to create a provider container because at this point, we don't
   // have any widget or provider scope set. Therefore, we can only access
   // provider through the container.
@@ -26,6 +30,8 @@ void main() {
   FlutterError.onError = (details) {
     logger.e('FlutterError.onError', details.exception, details.stack);
   };
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(ProviderScope(
     observers: [

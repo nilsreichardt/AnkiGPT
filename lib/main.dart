@@ -1,14 +1,40 @@
+import 'package:ankigpt/src/models/anki_card.dart';
+import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
+import 'package:ankigpt/src/providers/generate_provider.dart';
+import 'package:ankigpt/src/providers/logger/logger_provider.dart';
+import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
+import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const ProviderScope(
-    child: MyApp(),
+  // We need to create a provider container because at this point, we don't
+  // have any widget or provider scope set. Therefore, we can only access
+  // provider through the container.
+  final container = ProviderContainer();
+
+  final memoryOutput = container.read(memoryOutputProvider);
+  final logger = container.read(loggerProvider);
+
+  FlutterError.onError = (details) {
+    logger.e('FlutterError.onError', details.exception, details.stack);
+  };
+
+  runApp(ProviderScope(
+    observers: [
+      ProviderLoggerObserver(logger),
+    ],
+    overrides: [
+      memoryOutputProvider.overrideWithValue(memoryOutput),
+      loggerProvider.overrideWithValue(logger),
+    ],
+    child: const MyApp(),
   ));
 }
 
@@ -49,12 +75,62 @@ class MyHomePage extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(12),
             child: Column(
-              children: [SlideContextField(), SizedBox(height: 12), Controls()],
+              children: [
+                Text("Side is not working yet..."),
+                SizedBox(height: 12),
+                SlideContextField(),
+                SizedBox(height: 12),
+                Controls(),
+                SizedBox(height: 12),
+                Results(),
+              ],
             ),
           ),
         ),
       ),
     );
+  }
+}
+
+class Results extends ConsumerWidget {
+  const Results({super.key});
+
+  String buildMarkdown(List<AnkiCard> cards) {
+    String markdown = '| Front | Back |\n| --- | --- |\n';
+    for (final card in cards) {
+      markdown += '| ${card.front} | ${card.back} |\n';
+    }
+    return markdown;
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(generateStateProvider);
+    return AnimatedSwitcher(
+        layoutBuilder: (currentChild, previousChildren) => Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                ...previousChildren,
+                if (currentChild != null) currentChild,
+              ],
+            ),
+        duration: const Duration(milliseconds: 300),
+        child: Container(
+          key: ValueKey(state),
+          child: state.maybeWhen(
+            loading: (cards) => MarkdownBody(
+              selectable: true,
+              softLineBreak: true,
+              data: buildMarkdown(cards),
+            ),
+            success: (cards) => MarkdownBody(
+              selectable: true,
+              softLineBreak: true,
+              data: buildMarkdown(cards),
+            ),
+            orElse: () => const SizedBox(),
+          ),
+        ));
   }
 }
 
@@ -85,13 +161,14 @@ class Controls extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         LoadingButton(isVisible: view.isGenerating),
+        DownloadButton(isVisible: view.isDownloadButtonVisible),
         GenerateButton(isEnabled: view.isGeneratedButtonEnabled),
       ],
     );
   }
 }
 
-class GenerateButton extends StatelessWidget {
+class GenerateButton extends ConsumerWidget {
   const GenerateButton({
     super.key,
     required this.isEnabled,
@@ -100,13 +177,49 @@ class GenerateButton extends StatelessWidget {
   final bool isEnabled;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Align(
       alignment: Alignment.centerRight,
       child: ElevatedButton(
-        onPressed: isEnabled ? () {} : null,
+        onPressed: isEnabled
+            ? () {
+                ref.read(generateStateProvider.notifier).submit();
+              }
+            : null,
         child: const Text('Generieren'),
       ),
+    );
+  }
+}
+
+class DownloadButton extends ConsumerWidget {
+  const DownloadButton({
+    super.key,
+    required this.isVisible,
+  });
+
+  final bool isVisible;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.read(generateStateProvider);
+    final isFinished = state is GenerationStateSuccess;
+    return Padding(
+      padding: const EdgeInsets.only(right: 12),
+      child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: Opacity(
+            key: ValueKey(isFinished),
+            opacity: isVisible ? 1 : 0,
+            child: IgnorePointer(
+              ignoring: !isVisible,
+              child: IconButton(
+                tooltip: isFinished ? 'Download' : 'Download gleich möglich...',
+                onPressed: isFinished ? () {} : null,
+                icon: const Icon(Icons.download),
+              ),
+            ),
+          )),
     );
   }
 }

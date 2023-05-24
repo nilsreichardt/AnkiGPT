@@ -7,5 +7,7 @@ class ControlsView with _$ControlsView {
   const factory ControlsView({
     required bool isGeneratedButtonEnabled,
     required bool isGenerating,
+    required bool isDownloadAvailable,
+    required bool isDownloadButtonVisible,
   }) = _ControlsView;
 }

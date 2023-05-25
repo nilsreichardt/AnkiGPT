@@ -1,3 +1,4 @@
+import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/infrastructure/session_repository.dart';
 import 'package:ankigpt/src/infrastructure/user_repository.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
@@ -72,7 +73,9 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
     required this.userRepository,
   }) : super(const GenerateState.initial());
 
-  Future<void> submit() async {
+  Future<void> submit({
+    required CardGenrationSize size,
+  }) async {
     logger.d("Generating cards...");
     state = const GenerateState.loading();
 
@@ -83,7 +86,7 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
 
     final sessionId = await sessionRepository.startSession(
       slideContent: textEditingController.text,
-      numberOfCards: 3,
+      numberOfCards: size.toInt(),
     );
     bool isCompleted = false;
     while (!isCompleted) {

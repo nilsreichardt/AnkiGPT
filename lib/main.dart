@@ -185,6 +185,19 @@ enum CardGenrationSize {
   nine,
   fifteen;
 
+  int toInt() {
+    switch (this) {
+      case CardGenrationSize.three:
+        return 3;
+      case CardGenrationSize.six:
+        return 6;
+      case CardGenrationSize.nine:
+        return 9;
+      case CardGenrationSize.fifteen:
+        return 15;
+    }
+  }
+
   String getUiText() {
     switch (this) {
       case CardGenrationSize.three:
@@ -241,7 +254,8 @@ class GenerateButton extends ConsumerWidget {
       child: ElevatedButton(
         onPressed: isEnabled
             ? () {
-                ref.read(generateStateProvider.notifier).submit();
+                final size = ref.read(cardGenrationSizeProvider);
+                ref.read(generateStateProvider.notifier).submit(size: size);
               }
             : null,
         child: const Text('Generieren'),

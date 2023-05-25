@@ -14,5 +14,6 @@ class GenerateState with _$GenerateState {
       GenerationStateError;
   const factory GenerateState.success({
     required List<AnkiCard> generatedCards,
+    required String? downloadUrl,
   }) = GenerationStateSuccess;
 }

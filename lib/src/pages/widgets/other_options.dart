@@ -3,10 +3,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 enum OthersOptionsItem {
   imprint,
+  feedback,
   github;
 
   String getUiText(BuildContext context) {
     switch (this) {
+      case OthersOptionsItem.feedback:
+        return 'Feedback';
       case OthersOptionsItem.imprint:
         return 'Impressum';
       case OthersOptionsItem.github:
@@ -34,6 +37,8 @@ class OthersOptionsState extends State<OthersOptions> {
           .toList(),
       onSelected: (OthersOptionsItem item) {
         switch (item) {
+          case OthersOptionsItem.feedback:
+            launchUrl(Uri.parse('https://wa.me/4915229504121'));
           case OthersOptionsItem.github:
             launchUrl(Uri.parse('https://github.com/nilsreichardt/ankigpt'));
             break;

@@ -15,6 +15,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -83,7 +84,8 @@ class MyHomePage extends StatelessWidget {
             padding: EdgeInsets.all(12),
             child: Column(
               children: [
-                Text("Side is not working yet..."),
+                Text(
+                    "Bisher nur ausgelegt für BWL. Karten können falsche Informationen enthalten!"),
                 SizedBox(height: 12),
                 SlideContextField(),
                 SizedBox(height: 12),
@@ -130,7 +132,7 @@ class Results extends ConsumerWidget {
               softLineBreak: true,
               data: buildMarkdown(cards),
             ),
-            success: (cards) => MarkdownBody(
+            success: (cards, url) => MarkdownBody(
               selectable: true,
               softLineBreak: true,
               data: buildMarkdown(cards),
@@ -168,7 +170,7 @@ class Controls extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         const Select(),
-        Expanded(flex: 3, child: const SizedBox.shrink()),
+        const Expanded(flex: 3, child: SizedBox.shrink()),
         LoadingButton(isVisible: view.isGenerating),
         DownloadButton(isVisible: view.isDownloadButtonVisible),
         GenerateButton(isEnabled: view.isGeneratedButtonEnabled),
@@ -271,7 +273,21 @@ class DownloadButton extends ConsumerWidget {
               ignoring: !isVisible,
               child: IconButton(
                 tooltip: isFinished ? 'Download' : 'Download gleich möglich...',
-                onPressed: isFinished ? () {} : null,
+                onPressed: isFinished
+                    ? () {
+                        final url = state.downloadUrl;
+                        if (url == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Download fehlgeschlagen.'),
+                            ),
+                          );
+                          return;
+                        }
+
+                        launchUrl(Uri.parse(url));
+                      }
+                    : null,
                 icon: const Icon(Icons.download),
               ),
             ),

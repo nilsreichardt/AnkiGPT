@@ -92,11 +92,15 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
         sessionId: sessionId,
       );
 
-      final cards = getCardsResponse.cards;
+      final cards = List<AnkiCard>.of(getCardsResponse.cards ?? [])
+        ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
 
       if (getCardsResponse.isCompleted) {
         isCompleted = true;
-        state = GenerateState.success(generatedCards: cards);
+        state = GenerateState.success(
+          generatedCards: cards,
+          downloadUrl: getCardsResponse.csv?.downloadUrl,
+        );
       } else {
         state = GenerateState.loading(alreadyGeneratedCards: cards);
         await Future.delayed(const Duration(seconds: 3));

@@ -20,8 +20,9 @@ GetCardsResponse _$GetCardsResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GetCardsResponse {
-  List<AnkiCard> get cards => throw _privateConstructorUsedError;
+  List<AnkiCard>? get cards => throw _privateConstructorUsedError;
   bool get isCompleted => throw _privateConstructorUsedError;
+  CsvMetadata? get csv => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +37,13 @@ abstract class $GetCardsResponseCopyWith<$Res> {
           GetCardsResponse value, $Res Function(GetCardsResponse) then) =
       _$GetCardsResponseCopyWithImpl<$Res, GetCardsResponse>;
   @useResult
-  $Res call({List<AnkiCard> cards, bool isCompleted, String? error});
+  $Res call(
+      {List<AnkiCard>? cards,
+      bool isCompleted,
+      CsvMetadata? csv,
+      String? error});
+
+  $CsvMetadataCopyWith<$Res>? get csv;
 }
 
 /// @nodoc
@@ -52,24 +59,41 @@ class _$GetCardsResponseCopyWithImpl<$Res, $Val extends GetCardsResponse>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? cards = null,
+    Object? cards = freezed,
     Object? isCompleted = null,
+    Object? csv = freezed,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
-      cards: null == cards
+      cards: freezed == cards
           ? _value.cards
           : cards // ignore: cast_nullable_to_non_nullable
-              as List<AnkiCard>,
+              as List<AnkiCard>?,
       isCompleted: null == isCompleted
           ? _value.isCompleted
           : isCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
+      csv: freezed == csv
+          ? _value.csv
+          : csv // ignore: cast_nullable_to_non_nullable
+              as CsvMetadata?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CsvMetadataCopyWith<$Res>? get csv {
+    if (_value.csv == null) {
+      return null;
+    }
+
+    return $CsvMetadataCopyWith<$Res>(_value.csv!, (value) {
+      return _then(_value.copyWith(csv: value) as $Val);
+    });
   }
 }
 
@@ -81,7 +105,14 @@ abstract class _$$_GetCardsResponseCopyWith<$Res>
       __$$_GetCardsResponseCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<AnkiCard> cards, bool isCompleted, String? error});
+  $Res call(
+      {List<AnkiCard>? cards,
+      bool isCompleted,
+      CsvMetadata? csv,
+      String? error});
+
+  @override
+  $CsvMetadataCopyWith<$Res>? get csv;
 }
 
 /// @nodoc
@@ -95,19 +126,24 @@ class __$$_GetCardsResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? cards = null,
+    Object? cards = freezed,
     Object? isCompleted = null,
+    Object? csv = freezed,
     Object? error = freezed,
   }) {
     return _then(_$_GetCardsResponse(
-      cards: null == cards
+      cards: freezed == cards
           ? _value._cards
           : cards // ignore: cast_nullable_to_non_nullable
-              as List<AnkiCard>,
+              as List<AnkiCard>?,
       isCompleted: null == isCompleted
           ? _value.isCompleted
           : isCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
+      csv: freezed == csv
+          ? _value.csv
+          : csv // ignore: cast_nullable_to_non_nullable
+              as CsvMetadata?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -120,30 +156,35 @@ class __$$_GetCardsResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_GetCardsResponse implements _GetCardsResponse {
   const _$_GetCardsResponse(
-      {required final List<AnkiCard> cards,
+      {final List<AnkiCard>? cards,
       required this.isCompleted,
+      this.csv,
       this.error})
       : _cards = cards;
 
   factory _$_GetCardsResponse.fromJson(Map<String, dynamic> json) =>
       _$$_GetCardsResponseFromJson(json);
 
-  final List<AnkiCard> _cards;
+  final List<AnkiCard>? _cards;
   @override
-  List<AnkiCard> get cards {
+  List<AnkiCard>? get cards {
+    final value = _cards;
+    if (value == null) return null;
     if (_cards is EqualUnmodifiableListView) return _cards;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_cards);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
   final bool isCompleted;
   @override
+  final CsvMetadata? csv;
+  @override
   final String? error;
 
   @override
   String toString() {
-    return 'GetCardsResponse(cards: $cards, isCompleted: $isCompleted, error: $error)';
+    return 'GetCardsResponse(cards: $cards, isCompleted: $isCompleted, csv: $csv, error: $error)';
   }
 
   @override
@@ -154,13 +195,14 @@ class _$_GetCardsResponse implements _GetCardsResponse {
             const DeepCollectionEquality().equals(other._cards, _cards) &&
             (identical(other.isCompleted, isCompleted) ||
                 other.isCompleted == isCompleted) &&
+            (identical(other.csv, csv) || other.csv == csv) &&
             (identical(other.error, error) || other.error == error));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_cards), isCompleted, error);
+      const DeepCollectionEquality().hash(_cards), isCompleted, csv, error);
 
   @JsonKey(ignore: true)
   @override
@@ -178,17 +220,20 @@ class _$_GetCardsResponse implements _GetCardsResponse {
 
 abstract class _GetCardsResponse implements GetCardsResponse {
   const factory _GetCardsResponse(
-      {required final List<AnkiCard> cards,
+      {final List<AnkiCard>? cards,
       required final bool isCompleted,
+      final CsvMetadata? csv,
       final String? error}) = _$_GetCardsResponse;
 
   factory _GetCardsResponse.fromJson(Map<String, dynamic> json) =
       _$_GetCardsResponse.fromJson;
 
   @override
-  List<AnkiCard> get cards;
+  List<AnkiCard>? get cards;
   @override
   bool get isCompleted;
+  @override
+  CsvMetadata? get csv;
   @override
   String? get error;
   @override

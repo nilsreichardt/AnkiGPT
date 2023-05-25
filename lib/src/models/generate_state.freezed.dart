@@ -21,7 +21,9 @@ mixin _$GenerateState {
     required TResult Function(String slide) initial,
     required TResult Function(List<AnkiCard> alreadyGeneratedCards) loading,
     required TResult Function(String message) error,
-    required TResult Function(List<AnkiCard> generatedCards) success,
+    required TResult Function(
+            List<AnkiCard> generatedCards, String? downloadUrl)
+        success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -29,7 +31,8 @@ mixin _$GenerateState {
     TResult? Function(String slide)? initial,
     TResult? Function(List<AnkiCard> alreadyGeneratedCards)? loading,
     TResult? Function(String message)? error,
-    TResult? Function(List<AnkiCard> generatedCards)? success,
+    TResult? Function(List<AnkiCard> generatedCards, String? downloadUrl)?
+        success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,7 +40,8 @@ mixin _$GenerateState {
     TResult Function(String slide)? initial,
     TResult Function(List<AnkiCard> alreadyGeneratedCards)? loading,
     TResult Function(String message)? error,
-    TResult Function(List<AnkiCard> generatedCards)? success,
+    TResult Function(List<AnkiCard> generatedCards, String? downloadUrl)?
+        success,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -155,7 +159,9 @@ class _$GenerationStateInitial implements GenerationStateInitial {
     required TResult Function(String slide) initial,
     required TResult Function(List<AnkiCard> alreadyGeneratedCards) loading,
     required TResult Function(String message) error,
-    required TResult Function(List<AnkiCard> generatedCards) success,
+    required TResult Function(
+            List<AnkiCard> generatedCards, String? downloadUrl)
+        success,
   }) {
     return initial(slide);
   }
@@ -166,7 +172,8 @@ class _$GenerationStateInitial implements GenerationStateInitial {
     TResult? Function(String slide)? initial,
     TResult? Function(List<AnkiCard> alreadyGeneratedCards)? loading,
     TResult? Function(String message)? error,
-    TResult? Function(List<AnkiCard> generatedCards)? success,
+    TResult? Function(List<AnkiCard> generatedCards, String? downloadUrl)?
+        success,
   }) {
     return initial?.call(slide);
   }
@@ -177,7 +184,8 @@ class _$GenerationStateInitial implements GenerationStateInitial {
     TResult Function(String slide)? initial,
     TResult Function(List<AnkiCard> alreadyGeneratedCards)? loading,
     TResult Function(String message)? error,
-    TResult Function(List<AnkiCard> generatedCards)? success,
+    TResult Function(List<AnkiCard> generatedCards, String? downloadUrl)?
+        success,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -313,7 +321,9 @@ class _$GenerationStateLoading implements GenerationStateLoading {
     required TResult Function(String slide) initial,
     required TResult Function(List<AnkiCard> alreadyGeneratedCards) loading,
     required TResult Function(String message) error,
-    required TResult Function(List<AnkiCard> generatedCards) success,
+    required TResult Function(
+            List<AnkiCard> generatedCards, String? downloadUrl)
+        success,
   }) {
     return loading(alreadyGeneratedCards);
   }
@@ -324,7 +334,8 @@ class _$GenerationStateLoading implements GenerationStateLoading {
     TResult? Function(String slide)? initial,
     TResult? Function(List<AnkiCard> alreadyGeneratedCards)? loading,
     TResult? Function(String message)? error,
-    TResult? Function(List<AnkiCard> generatedCards)? success,
+    TResult? Function(List<AnkiCard> generatedCards, String? downloadUrl)?
+        success,
   }) {
     return loading?.call(alreadyGeneratedCards);
   }
@@ -335,7 +346,8 @@ class _$GenerationStateLoading implements GenerationStateLoading {
     TResult Function(String slide)? initial,
     TResult Function(List<AnkiCard> alreadyGeneratedCards)? loading,
     TResult Function(String message)? error,
-    TResult Function(List<AnkiCard> generatedCards)? success,
+    TResult Function(List<AnkiCard> generatedCards, String? downloadUrl)?
+        success,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -460,7 +472,9 @@ class _$GenerationStateError implements GenerationStateError {
     required TResult Function(String slide) initial,
     required TResult Function(List<AnkiCard> alreadyGeneratedCards) loading,
     required TResult Function(String message) error,
-    required TResult Function(List<AnkiCard> generatedCards) success,
+    required TResult Function(
+            List<AnkiCard> generatedCards, String? downloadUrl)
+        success,
   }) {
     return error(message);
   }
@@ -471,7 +485,8 @@ class _$GenerationStateError implements GenerationStateError {
     TResult? Function(String slide)? initial,
     TResult? Function(List<AnkiCard> alreadyGeneratedCards)? loading,
     TResult? Function(String message)? error,
-    TResult? Function(List<AnkiCard> generatedCards)? success,
+    TResult? Function(List<AnkiCard> generatedCards, String? downloadUrl)?
+        success,
   }) {
     return error?.call(message);
   }
@@ -482,7 +497,8 @@ class _$GenerationStateError implements GenerationStateError {
     TResult Function(String slide)? initial,
     TResult Function(List<AnkiCard> alreadyGeneratedCards)? loading,
     TResult Function(String message)? error,
-    TResult Function(List<AnkiCard> generatedCards)? success,
+    TResult Function(List<AnkiCard> generatedCards, String? downloadUrl)?
+        success,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -545,7 +561,7 @@ abstract class _$$GenerationStateSuccessCopyWith<$Res> {
           $Res Function(_$GenerationStateSuccess) then) =
       __$$GenerationStateSuccessCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<AnkiCard> generatedCards});
+  $Res call({List<AnkiCard> generatedCards, String? downloadUrl});
 }
 
 /// @nodoc
@@ -560,12 +576,17 @@ class __$$GenerationStateSuccessCopyWithImpl<$Res>
   @override
   $Res call({
     Object? generatedCards = null,
+    Object? downloadUrl = freezed,
   }) {
     return _then(_$GenerationStateSuccess(
       generatedCards: null == generatedCards
           ? _value._generatedCards
           : generatedCards // ignore: cast_nullable_to_non_nullable
               as List<AnkiCard>,
+      downloadUrl: freezed == downloadUrl
+          ? _value.downloadUrl
+          : downloadUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -573,7 +594,8 @@ class __$$GenerationStateSuccessCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GenerationStateSuccess implements GenerationStateSuccess {
-  const _$GenerationStateSuccess({required final List<AnkiCard> generatedCards})
+  const _$GenerationStateSuccess(
+      {required final List<AnkiCard> generatedCards, required this.downloadUrl})
       : _generatedCards = generatedCards;
 
   final List<AnkiCard> _generatedCards;
@@ -585,8 +607,11 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
   }
 
   @override
+  final String? downloadUrl;
+
+  @override
   String toString() {
-    return 'GenerateState.success(generatedCards: $generatedCards)';
+    return 'GenerateState.success(generatedCards: $generatedCards, downloadUrl: $downloadUrl)';
   }
 
   @override
@@ -595,12 +620,14 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
         (other.runtimeType == runtimeType &&
             other is _$GenerationStateSuccess &&
             const DeepCollectionEquality()
-                .equals(other._generatedCards, _generatedCards));
+                .equals(other._generatedCards, _generatedCards) &&
+            (identical(other.downloadUrl, downloadUrl) ||
+                other.downloadUrl == downloadUrl));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_generatedCards));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_generatedCards), downloadUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -615,9 +642,11 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
     required TResult Function(String slide) initial,
     required TResult Function(List<AnkiCard> alreadyGeneratedCards) loading,
     required TResult Function(String message) error,
-    required TResult Function(List<AnkiCard> generatedCards) success,
+    required TResult Function(
+            List<AnkiCard> generatedCards, String? downloadUrl)
+        success,
   }) {
-    return success(generatedCards);
+    return success(generatedCards, downloadUrl);
   }
 
   @override
@@ -626,9 +655,10 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
     TResult? Function(String slide)? initial,
     TResult? Function(List<AnkiCard> alreadyGeneratedCards)? loading,
     TResult? Function(String message)? error,
-    TResult? Function(List<AnkiCard> generatedCards)? success,
+    TResult? Function(List<AnkiCard> generatedCards, String? downloadUrl)?
+        success,
   }) {
-    return success?.call(generatedCards);
+    return success?.call(generatedCards, downloadUrl);
   }
 
   @override
@@ -637,11 +667,12 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
     TResult Function(String slide)? initial,
     TResult Function(List<AnkiCard> alreadyGeneratedCards)? loading,
     TResult Function(String message)? error,
-    TResult Function(List<AnkiCard> generatedCards)? success,
+    TResult Function(List<AnkiCard> generatedCards, String? downloadUrl)?
+        success,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(generatedCards);
+      return success(generatedCards, downloadUrl);
     }
     return orElse();
   }
@@ -686,10 +717,11 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
 
 abstract class GenerationStateSuccess implements GenerateState {
   const factory GenerationStateSuccess(
-          {required final List<AnkiCard> generatedCards}) =
-      _$GenerationStateSuccess;
+      {required final List<AnkiCard> generatedCards,
+      required final String? downloadUrl}) = _$GenerationStateSuccess;
 
   List<AnkiCard> get generatedCards;
+  String? get downloadUrl;
   @JsonKey(ignore: true)
   _$$GenerationStateSuccessCopyWith<_$GenerationStateSuccess> get copyWith =>
       throw _privateConstructorUsedError;

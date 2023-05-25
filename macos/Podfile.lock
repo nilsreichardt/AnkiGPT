@@ -4,15 +4,29 @@ PODS:
     - Firebase/Functions (~> 10.9.0)
     - firebase_core
     - FlutterMacOS
+  - Firebase/Auth (10.9.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (~> 10.9.0)
   - Firebase/CoreOnly (10.9.0):
     - FirebaseCore (= 10.9.0)
   - Firebase/Functions (10.9.0):
     - Firebase/CoreOnly
     - FirebaseFunctions (~> 10.9.0)
+  - firebase_auth (4.6.1):
+    - Firebase/Auth (~> 10.9.0)
+    - Firebase/CoreOnly (~> 10.9.0)
+    - firebase_core
+    - FlutterMacOS
   - firebase_core (2.13.0):
     - Firebase/CoreOnly (~> 10.9.0)
     - FlutterMacOS
   - FirebaseAppCheckInterop (10.9.0)
+  - FirebaseAuth (10.9.0):
+    - FirebaseAppCheckInterop (~> 10.0)
+    - FirebaseCore (~> 10.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GTMSessionFetcher/Core (< 4.0, >= 2.1)
   - FirebaseAuthInterop (10.9.0)
   - FirebaseCore (10.9.0):
     - FirebaseCoreInternal (~> 10.0)
@@ -33,11 +47,21 @@ PODS:
   - FirebaseMessagingInterop (10.9.0)
   - FirebaseSharedSwift (10.9.0)
   - FlutterMacOS (1.0.0)
+  - GoogleUtilities/AppDelegateSwizzler (7.11.1):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
   - GoogleUtilities/Environment (7.11.1):
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/Logger (7.11.1):
     - GoogleUtilities/Environment
+  - GoogleUtilities/Network (7.11.1):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
   - "GoogleUtilities/NSData+zlib (7.11.1)"
+  - GoogleUtilities/Reachability (7.11.1):
+    - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (3.1.1)
   - PromisesObjC (2.2.0)
   - url_launcher_macos (0.0.1):
@@ -45,6 +69,7 @@ PODS:
 
 DEPENDENCIES:
   - cloud_functions (from `Flutter/ephemeral/.symlinks/plugins/cloud_functions/macos`)
+  - firebase_auth (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos`)
   - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
@@ -53,6 +78,7 @@ SPEC REPOS:
   trunk:
     - Firebase
     - FirebaseAppCheckInterop
+    - FirebaseAuth
     - FirebaseAuthInterop
     - FirebaseCore
     - FirebaseCoreExtension
@@ -67,6 +93,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   cloud_functions:
     :path: Flutter/ephemeral/.symlinks/plugins/cloud_functions/macos
+  firebase_auth:
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos
   firebase_core:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_core/macos
   FlutterMacOS:
@@ -77,8 +105,10 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   cloud_functions: 2851cfdd43cd696b3b4af8c673bb5a9d34b8fc86
   Firebase: bd152f0f3d278c4060c5c71359db08ebcfd5a3e2
+  firebase_auth: 6fc0967d98c2ff489d3e2977c9e9f52a5b69eb22
   firebase_core: feb9ea6e23cfb6d4961cd2abeec1b79b47790b8d
   FirebaseAppCheckInterop: e69dde5cd51b88ee1b4339d6766b691272256f9b
+  FirebaseAuth: 21d5e902fcea44d0d961540fc4742966ae6118cc
   FirebaseAuthInterop: e53c08e60a02de17d1ab77c5032db8ae22d3a799
   FirebaseCore: b68d3616526ec02e4d155166bbafb8eca64af557
   FirebaseCoreExtension: d3e9bba2930a8033042112397cd9f006a1bb203d

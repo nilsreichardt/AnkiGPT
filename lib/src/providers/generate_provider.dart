@@ -1,9 +1,11 @@
 import 'package:ankigpt/src/infrastructure/session_repository.dart';
+import 'package:ankigpt/src/infrastructure/user_repository.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
+import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -14,10 +16,12 @@ final generateStateProvider =
     final logger = ref.watch(loggerProvider);
     final sessionRepository = ref.watch(sessionRepositoryProvider);
     final textEditingController = ref.watch(slideTextFieldControllerProvider);
+    final userRepository = ref.watch(userRepositoryProvider);
     return GenerateNotifier(
       logger: logger,
       sessionRepository: sessionRepository,
       textEditingController: textEditingController,
+      userRepository: userRepository,
     );
   },
 );
@@ -59,15 +63,22 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
   final Logger logger;
   final SessionRepository sessionRepository;
   final TextEditingController textEditingController;
+  final UserRepository userRepository;
 
   GenerateNotifier({
     required this.logger,
     required this.sessionRepository,
     required this.textEditingController,
+    required this.userRepository,
   }) : super(const GenerateState.initial());
 
   Future<void> submit() async {
     logger.d("Generating cards...");
+
+    if (!userRepository.isSignIn()) {
+      logger.d("User is not signed in, signing in...");
+      await userRepository.signIn();
+    }
 
     state = const GenerateState.loading();
 

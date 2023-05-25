@@ -107,7 +107,7 @@ class Results extends ConsumerWidget {
   String buildMarkdown(List<AnkiCard> cards) {
     String markdown = '| Frage | Antwort |\n| --- | --- |\n';
     for (final card in cards) {
-      markdown += '| ${card.front} | ${card.back} |\n';
+      markdown += '| ${card.question} | ${card.answer} |\n';
     }
     return markdown;
   }

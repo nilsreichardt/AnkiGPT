@@ -20,8 +20,8 @@ AnkiCard _$AnkiCardFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AnkiCard {
-  String get front => throw _privateConstructorUsedError;
-  String get back => throw _privateConstructorUsedError;
+  String get question => throw _privateConstructorUsedError;
+  String get answer => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +35,7 @@ abstract class $AnkiCardCopyWith<$Res> {
   factory $AnkiCardCopyWith(AnkiCard value, $Res Function(AnkiCard) then) =
       _$AnkiCardCopyWithImpl<$Res, AnkiCard>;
   @useResult
-  $Res call({String front, String back, DateTime createdAt});
+  $Res call({String question, String answer, DateTime createdAt});
 }
 
 /// @nodoc
@@ -51,18 +51,18 @@ class _$AnkiCardCopyWithImpl<$Res, $Val extends AnkiCard>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? front = null,
-    Object? back = null,
+    Object? question = null,
+    Object? answer = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
-      front: null == front
-          ? _value.front
-          : front // ignore: cast_nullable_to_non_nullable
+      question: null == question
+          ? _value.question
+          : question // ignore: cast_nullable_to_non_nullable
               as String,
-      back: null == back
-          ? _value.back
-          : back // ignore: cast_nullable_to_non_nullable
+      answer: null == answer
+          ? _value.answer
+          : answer // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -79,7 +79,7 @@ abstract class _$$_AnkiCardCopyWith<$Res> implements $AnkiCardCopyWith<$Res> {
       __$$_AnkiCardCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String front, String back, DateTime createdAt});
+  $Res call({String question, String answer, DateTime createdAt});
 }
 
 /// @nodoc
@@ -93,18 +93,18 @@ class __$$_AnkiCardCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? front = null,
-    Object? back = null,
+    Object? question = null,
+    Object? answer = null,
     Object? createdAt = null,
   }) {
     return _then(_$_AnkiCard(
-      front: null == front
-          ? _value.front
-          : front // ignore: cast_nullable_to_non_nullable
+      question: null == question
+          ? _value.question
+          : question // ignore: cast_nullable_to_non_nullable
               as String,
-      back: null == back
-          ? _value.back
-          : back // ignore: cast_nullable_to_non_nullable
+      answer: null == answer
+          ? _value.answer
+          : answer // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -118,21 +118,21 @@ class __$$_AnkiCardCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AnkiCard implements _AnkiCard {
   const _$_AnkiCard(
-      {required this.front, required this.back, required this.createdAt});
+      {required this.question, required this.answer, required this.createdAt});
 
   factory _$_AnkiCard.fromJson(Map<String, dynamic> json) =>
       _$$_AnkiCardFromJson(json);
 
   @override
-  final String front;
+  final String question;
   @override
-  final String back;
+  final String answer;
   @override
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'AnkiCard(front: $front, back: $back, createdAt: $createdAt)';
+    return 'AnkiCard(question: $question, answer: $answer, createdAt: $createdAt)';
   }
 
   @override
@@ -140,15 +140,16 @@ class _$_AnkiCard implements _AnkiCard {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AnkiCard &&
-            (identical(other.front, front) || other.front == front) &&
-            (identical(other.back, back) || other.back == back) &&
+            (identical(other.question, question) ||
+                other.question == question) &&
+            (identical(other.answer, answer) || other.answer == answer) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, front, back, createdAt);
+  int get hashCode => Object.hash(runtimeType, question, answer, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -166,16 +167,16 @@ class _$_AnkiCard implements _AnkiCard {
 
 abstract class _AnkiCard implements AnkiCard {
   const factory _AnkiCard(
-      {required final String front,
-      required final String back,
+      {required final String question,
+      required final String answer,
       required final DateTime createdAt}) = _$_AnkiCard;
 
   factory _AnkiCard.fromJson(Map<String, dynamic> json) = _$_AnkiCard.fromJson;
 
   @override
-  String get front;
+  String get question;
   @override
-  String get back;
+  String get answer;
   @override
   DateTime get createdAt;
   @override

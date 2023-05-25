@@ -5,7 +5,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'get_cards_response.freezed.dart';
 part 'get_cards_response.g.dart';
 
-@Freezed(fromJson: true)
+@Freezed(
+  fromJson: true,
+)
 class GetCardsResponse with _$GetCardsResponse {
   const factory GetCardsResponse({
     List<AnkiCard>? cards,

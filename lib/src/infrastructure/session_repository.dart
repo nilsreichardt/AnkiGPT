@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/get_cards_response.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -12,21 +15,28 @@ class SessionRepository {
     required int numberOfCards,
   }) async {
     final result = await functions
-        .httpsCallable('startSession')
+        .httpsCallableFromUrl('https://route-haaaagicoa-ew.a.run.app')
         .call<Map<String, dynamic>>({
-      'slideContent': slideContent,
-      'numberOfCards': numberOfCards,
+      'destination': 'startSession',
+      'payload': {
+        'slideContent': slideContent,
+        'numberOfCards': '$numberOfCards',
+      }
     });
-    return result.data['sessionId'];
+    return result.data['id'];
   }
 
   Future<GetCardsResponse> getCards({
     required SessionId sessionId,
   }) async {
-    final result =
-        await functions.httpsCallable('getCards').call<Map<String, dynamic>>({
-      'sessionId': sessionId,
+    final result = await functions
+        .httpsCallableFromUrl('https://route-haaaagicoa-ew.a.run.app')
+        .call<Map<String, dynamic>>({
+      'destination': 'getCards',
+      'payload': {
+        'sessionId': sessionId,
+      }
     });
-    return GetCardsResponse.fromJson(result.data);
+    return GetCardsResponse.fromJson(jsonDecode(jsonEncode(result.data)));
   }
 }

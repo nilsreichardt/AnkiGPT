@@ -29,33 +29,33 @@ final generateStateProvider =
 final localCards = [
   AnkiCard(
     createdAt: DateTime.now(),
-    front: 'What is the capital of Spain?',
-    back: 'Madrid',
+    question: 'What is the capital of Spain?',
+    answer: 'Madrid',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
-    front: 'What is the capital of Portugal?',
-    back: 'Lisbon',
+    question: 'What is the capital of Portugal?',
+    answer: 'Lisbon',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
-    front: 'What is the capital of the Netherlands?',
-    back: 'Amsterdam',
+    question: 'What is the capital of the Netherlands?',
+    answer: 'Amsterdam',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
-    front: 'What is the capital of France?',
-    back: 'Paris',
+    question: 'What is the capital of France?',
+    answer: 'Paris',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
-    front: 'What is the capital of Germany?',
-    back: 'Berlin',
+    question: 'What is the capital of Germany?',
+    answer: 'Berlin',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
-    front: 'What is the capital of Italy?',
-    back: 'Rome',
+    question: 'What is the capital of Italy?',
+    answer: 'Rome',
   ),
 ];
 
@@ -74,13 +74,12 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
 
   Future<void> submit() async {
     logger.d("Generating cards...");
+    state = const GenerateState.loading();
 
     if (!userRepository.isSignIn()) {
       logger.d("User is not signed in, signing in...");
       await userRepository.signIn();
     }
-
-    state = const GenerateState.loading();
 
     final sessionId = await sessionRepository.startSession(
       slideContent: textEditingController.text,

@@ -165,14 +165,6 @@ class Results extends ConsumerWidget {
                 loading: (_, language) => _LanguageText(language: language),
                 orElse: () => const SizedBox.shrink(),
               ),
-              if (state is GenerationStateSuccess &&
-                  state.language != null) ...[
-                Text(
-                  'Detected language: ${state.language!.getDisplayName()}',
-                  style: const TextStyle(color: Colors.grey),
-                ),
-                const SizedBox(height: 12),
-              ],
               state.maybeWhen(
                 loading: (cards, language) => MarkdownBody(
                   selectable: true,
@@ -446,7 +438,7 @@ class LoadingButton extends StatelessWidget {
               padding: const EdgeInsets.only(right: 12),
               child: Tooltip(
                 key: super.key,
-                message: 'Generating Cards...',
+                message: 'Generating Cards... Takes 30 - 90 seconds.',
                 child: const SizedBox(
                   height: 25,
                   width: 25,

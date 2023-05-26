@@ -29,7 +29,7 @@ Map<String, dynamic> _$$_GetCardsResponseToJson(_$_GetCardsResponse instance) =>
     };
 
 const _$LanguageEnumMap = {
-  Language.en: 'english',
-  Language.de: 'german',
+  Language.en: 'en',
+  Language.de: 'de',
   Language.unknown: 'unknown',
 };

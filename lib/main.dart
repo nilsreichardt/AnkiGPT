@@ -1,6 +1,7 @@
 import 'package:ankigpt/firebase_options.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
+import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
@@ -156,7 +157,14 @@ class Results extends ConsumerWidget {
         child: Container(
           key: ValueKey(state),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              state.maybeWhen(
+                error: (_, __, language) => _LanguageText(language: language),
+                success: (_, __, language) => _LanguageText(language: language),
+                loading: (_, language) => _LanguageText(language: language),
+                orElse: () => const SizedBox.shrink(),
+              ),
               if (state is GenerationStateSuccess &&
                   state.language != null) ...[
                 Text(
@@ -192,6 +200,23 @@ class Results extends ConsumerWidget {
             ],
           ),
         ));
+  }
+}
+
+class _LanguageText extends StatelessWidget {
+  const _LanguageText({required this.language});
+
+  final Language? language;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Text(
+        'Detected language: ${language == null ? '...' : language!.getDisplayName()}',
+        style: TextStyle(color: Colors.grey[500]),
+      ),
+    );
   }
 }
 

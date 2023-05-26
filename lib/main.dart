@@ -364,32 +364,35 @@ class GenerateButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Align(
       alignment: Alignment.centerRight,
-      child: ElevatedButton.icon(
-        icon: const Icon(Icons.play_arrow),
-        label: const Text('Generate'),
-        onPressed: isEnabled
-            ? () async {
-                try {
-                  final size = ref.read(cardGenrationSizeProvider);
-                  await ref
-                      .read(generateStateProvider.notifier)
-                      .submit(size: size);
-                } catch (e) {
-                  if (e is TooShortInputException) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => const TooLessInputDialog(),
+      child: Tooltip(
+        message: 'Generating takes 1 - 5 minutes.',
+        child: ElevatedButton.icon(
+          icon: const Icon(Icons.play_arrow),
+          label: const Text('Generate'),
+          onPressed: isEnabled
+              ? () async {
+                  try {
+                    final size = ref.read(cardGenrationSizeProvider);
+                    await ref
+                        .read(generateStateProvider.notifier)
+                        .submit(size: size);
+                  } catch (e) {
+                    if (e is TooShortInputException) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const TooLessInputDialog(),
+                      );
+                      return;
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(e.toString()),
+                      ),
                     );
-                    return;
                   }
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(e.toString()),
-                    ),
-                  );
                 }
-              }
-            : null,
+              : null,
+        ),
       ),
     );
   }

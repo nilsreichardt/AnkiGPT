@@ -119,7 +119,7 @@ class ErrorText extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Text(
-      'Error: $text',
+      'Error while generating ("$text"). Please retry.',
       style: TextStyle(color: Theme.of(context).colorScheme.error),
     );
   }
@@ -307,7 +307,7 @@ class GenerateButton extends ConsumerWidget {
       alignment: Alignment.centerRight,
       child: ElevatedButton.icon(
         icon: const Icon(Icons.play_arrow),
-        label: const Text('Generieren'),
+        label: const Text('Generate'),
         onPressed: isEnabled
             ? () async {
                 try {
@@ -344,7 +344,7 @@ class TooLessInputDialog extends StatelessWidget {
     return AlertDialog(
       title: const Text('Too short!'),
       content: const Text(
-          'Please add more text. If the text is too short, GPT cannot generate maps.'),
+          'Please add more text. If the text is too short, GPT cannot generate the flashcards.'),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),

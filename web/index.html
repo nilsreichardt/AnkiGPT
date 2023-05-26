@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -18,7 +19,13 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Gerne AnkiGPT aus den Vorlesungsfolien mit einem Klick Anki-Karteikarten zum Lernen.">
+  <meta name="description"
+    content="Generate flashcards from the lecture slides with one click and easily export them to Anki.">
+  <meta name="keywords"
+    content="Flashcard generator, GPT flashcards, Lecture slide conversion, Automated flashcards, AI flashcards, Slide to flashcard conversion, GPT-powered flashcards, Lecture slide flashcards, Intelligent flashcard creator, AI-assisted flashcards, Slide-based learning, Automatic flashcard generation, Smart study tool, Efficient flashcard creation, Lecture notes to flashcards, AI-driven learning, Personalized flashcards, Study aid generator, Quick flashcard creation, GPT-enabled study tool">
+
+  <meta property="og:image"
+    content="https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2FLogo.png?alt=media&token=9a00a19e-19d8-44a2-bf49-4e69487728e9">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -27,7 +34,7 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
   <title>AnkiGPT</title>
   <link rel="manifest" href="manifest.json">
@@ -41,16 +48,17 @@
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 </head>
+
 <body>
   <script>
-    window.addEventListener('load', function(ev) {
+    window.addEventListener('load', function (ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
+        onEntrypointLoaded: function (engineInitializer) {
+          engineInitializer.initializeEngine().then(function (appRunner) {
             appRunner.runApp();
           });
         }
@@ -62,4 +70,5 @@
     <div class="double-bounce2"></div>
   </div>
 </body>
+
 </html>

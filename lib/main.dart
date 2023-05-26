@@ -439,7 +439,7 @@ class DownloadButton extends ConsumerWidget {
             orElse: () => '',
           ),
           child: ElevatedButton.icon(
-            label: const Text('Import to Anki'),
+            label: const Text('Export to Anki'),
             onPressed: isFinished
                 ? () {
                     final url = state.downloadUrl;

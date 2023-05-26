@@ -1,5 +1,6 @@
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/csv_metadata.dart';
+import 'package:ankigpt/src/models/language.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'get_cards_response.freezed.dart';
@@ -14,6 +15,7 @@ class GetCardsResponse with _$GetCardsResponse {
     required bool isCompleted,
     CsvMetadata? csv,
     String? error,
+    Language? language,
   }) = _GetCardsResponse;
 
   factory GetCardsResponse.fromJson(Map<String, dynamic> json) =>

@@ -78,20 +78,30 @@ class MyHomePage extends StatelessWidget {
           OthersOptions(),
         ],
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: MaxWidthConstrainedBox(
           child: Padding(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             child: Column(
               children: [
-                Text(
-                    "Bisher nur ausgelegt für BWL. Karten können falsche Informationen enthalten!"),
-                SizedBox(height: 12),
-                SlideContextField(),
-                SizedBox(height: 12),
-                Controls(),
-                SizedBox(height: 12),
-                Results(),
+                MarkdownBody(
+                  data:
+                      "Flashcards may contain incorrect information! Click [here](https://wa.me/4915229504121) to give feedback or get support.",
+                  onTapLink: (
+                    text,
+                    href,
+                    _,
+                  ) {
+                    if (href == null) return;
+                    launchUrl(Uri.parse(href));
+                  },
+                ),
+                const SizedBox(height: 12),
+                const SlideContextField(),
+                const SizedBox(height: 12),
+                const Controls(),
+                const SizedBox(height: 12),
+                const Results(),
               ],
             ),
           ),
@@ -101,14 +111,33 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
+class ErrorText extends ConsumerWidget {
+  const ErrorText({super.key, required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Text(
+      'Error: $text',
+      style: TextStyle(color: Theme.of(context).colorScheme.error),
+    );
+  }
+}
+
 class Results extends ConsumerWidget {
   const Results({super.key});
 
-  String buildMarkdown(List<AnkiCard> cards) {
-    String markdown = '| Frage | Antwort |\n| --- | --- |\n';
+  String buildMarkdown(List<AnkiCard> cards, {required bool isCompleted}) {
+    String markdown = '| Question | Answer |\n| --- | --- |\n';
     for (final card in cards) {
       markdown += '| ${card.question} | ${card.answer} |\n';
     }
+
+    if (!isCompleted) {
+      markdown += '| ... | ... |\n';
+    }
+
     return markdown;
   }
 
@@ -126,18 +155,41 @@ class Results extends ConsumerWidget {
         duration: const Duration(milliseconds: 300),
         child: Container(
           key: ValueKey(state),
-          child: state.maybeWhen(
-            loading: (cards) => MarkdownBody(
-              selectable: true,
-              softLineBreak: true,
-              data: buildMarkdown(cards),
-            ),
-            success: (cards, url) => MarkdownBody(
-              selectable: true,
-              softLineBreak: true,
-              data: buildMarkdown(cards),
-            ),
-            orElse: () => const SizedBox(),
+          child: Column(
+            children: [
+              if (state is GenerationStateSuccess &&
+                  state.language != null) ...[
+                Text(
+                  'Detected language: ${state.language!.getDisplayName()}',
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                const SizedBox(height: 12),
+              ],
+              state.maybeWhen(
+                loading: (cards, language) => MarkdownBody(
+                  selectable: true,
+                  softLineBreak: true,
+                  data: buildMarkdown(cards, isCompleted: false),
+                ),
+                error: (error, cards, language) => Column(
+                  children: [
+                    ErrorText(text: error),
+                    const SizedBox(height: 12),
+                    MarkdownBody(
+                      selectable: true,
+                      softLineBreak: true,
+                      data: buildMarkdown(cards, isCompleted: false),
+                    ),
+                  ],
+                ),
+                success: (cards, url, language) => MarkdownBody(
+                  selectable: true,
+                  softLineBreak: true,
+                  data: buildMarkdown(cards, isCompleted: true),
+                ),
+                orElse: () => const SizedBox(),
+              ),
+            ],
           ),
         ));
   }
@@ -153,7 +205,8 @@ class SlideContextField extends ConsumerWidget {
       minLines: 5,
       maxLines: 10,
       decoration: const InputDecoration(
-        hintText: 'Kopiere hier den Inhalt der Vorlesungsfolie.',
+        hintText:
+            'Copy the text of 2 - 10 slides of the lecture and paste it here. Supported langauges: English and German.',
         border: OutlineInputBorder(),
       ),
     );
@@ -169,10 +222,11 @@ class Controls extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const Select(),
-        const Expanded(flex: 3, child: SizedBox.shrink()),
-        LoadingButton(isVisible: view.isGenerating),
         DownloadButton(isVisible: view.isDownloadButtonVisible),
+        const Expanded(child: SizedBox.shrink()),
+        LoadingButton(isVisible: view.isGenerating),
+        const Select(),
+        const SizedBox(width: 12),
         GenerateButton(isEnabled: view.isGeneratedButtonEnabled),
       ],
     );
@@ -201,13 +255,13 @@ enum CardGenrationSize {
   String getUiText() {
     switch (this) {
       case CardGenrationSize.three:
-        return '3 Karten';
+        return '3 Cards';
       case CardGenrationSize.six:
-        return '6 Karten';
+        return '6 Cards';
       case CardGenrationSize.nine:
-        return '9 Karten';
+        return '9 Cards';
       case CardGenrationSize.fifteen:
-        return '15 Karten';
+        return '15 Cards';
     }
   }
 }
@@ -217,8 +271,8 @@ class Select extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Expanded(
-      flex: 1,
+    return SizedBox(
+      width: 120,
       child: DropdownButtonFormField<CardGenrationSize>(
         value: ref.read(cardGenrationSizeProvider),
         items: [
@@ -251,15 +305,52 @@ class GenerateButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Align(
       alignment: Alignment.centerRight,
-      child: ElevatedButton(
+      child: ElevatedButton.icon(
+        icon: const Icon(Icons.play_arrow),
+        label: const Text('Generieren'),
         onPressed: isEnabled
-            ? () {
-                final size = ref.read(cardGenrationSizeProvider);
-                ref.read(generateStateProvider.notifier).submit(size: size);
+            ? () async {
+                try {
+                  final size = ref.read(cardGenrationSizeProvider);
+                  await ref
+                      .read(generateStateProvider.notifier)
+                      .submit(size: size);
+                } catch (e) {
+                  if (e is TooShortInputException) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => const TooLessInputDialog(),
+                    );
+                    return;
+                  }
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(e.toString()),
+                    ),
+                  );
+                }
               }
             : null,
-        child: const Text('Generieren'),
       ),
+    );
+  }
+}
+
+class TooLessInputDialog extends StatelessWidget {
+  const TooLessInputDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Too short!'),
+      content: const Text(
+          'Please add more text. If the text is too short, GPT cannot generate maps.'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }
@@ -279,33 +370,36 @@ class DownloadButton extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 12),
       child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: Opacity(
-            key: ValueKey(isFinished),
-            opacity: isVisible ? 1 : 0,
-            child: IgnorePointer(
-              ignoring: !isVisible,
-              child: IconButton(
-                tooltip: isFinished ? 'Download' : 'Download gleich möglich...',
-                onPressed: isFinished
-                    ? () {
-                        final url = state.downloadUrl;
-                        if (url == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Download fehlgeschlagen.'),
-                            ),
-                          );
-                          return;
-                        }
+        duration: const Duration(milliseconds: 300),
+        child: Tooltip(
+          key: ValueKey(isFinished),
+          message: state.maybeWhen(
+            loading: (_, __) =>
+                'Still generating... Please wait a few seconds.',
+            success: (_, __, ___) => 'Download as .csv file to import it',
+            orElse: () => '',
+          ),
+          child: ElevatedButton.icon(
+            label: const Text('Import to Anki'),
+            onPressed: isFinished
+                ? () {
+                    final url = state.downloadUrl;
+                    if (url == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Download failed.'),
+                        ),
+                      );
+                      return;
+                    }
 
-                        launchUrl(Uri.parse(url));
-                      }
-                    : null,
-                icon: const Icon(Icons.download),
-              ),
-            ),
-          )),
+                    launchUrl(Uri.parse(url));
+                  }
+                : null,
+            icon: const Icon(Icons.download),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -327,7 +421,7 @@ class LoadingButton extends StatelessWidget {
               padding: const EdgeInsets.only(right: 12),
               child: Tooltip(
                 key: super.key,
-                message: 'Erstelle Karte...',
+                message: 'Generating Cards...',
                 child: const SizedBox(
                   height: 25,
                   width: 25,

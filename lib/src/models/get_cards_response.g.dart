@@ -16,6 +16,7 @@ _$_GetCardsResponse _$$_GetCardsResponseFromJson(Map<String, dynamic> json) =>
           ? null
           : CsvMetadata.fromJson(json['csv'] as Map<String, dynamic>),
       error: json['error'] as String?,
+      language: $enumDecodeNullable(_$LanguageEnumMap, json['language']),
     );
 
 Map<String, dynamic> _$$_GetCardsResponseToJson(_$_GetCardsResponse instance) =>
@@ -24,4 +25,11 @@ Map<String, dynamic> _$$_GetCardsResponseToJson(_$_GetCardsResponse instance) =>
       'isCompleted': instance.isCompleted,
       'csv': instance.csv,
       'error': instance.error,
+      'language': _$LanguageEnumMap[instance.language],
     };
+
+const _$LanguageEnumMap = {
+  Language.english: 'english',
+  Language.german: 'german',
+  Language.unknown: 'unknown',
+};

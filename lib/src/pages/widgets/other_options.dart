@@ -11,7 +11,7 @@ enum OthersOptionsItem {
       case OthersOptionsItem.feedback:
         return 'Feedback';
       case OthersOptionsItem.imprint:
-        return 'Impressum';
+        return 'Imprint';
       case OthersOptionsItem.github:
         return 'GitHub';
     }

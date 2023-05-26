@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/infrastructure/session_repository.dart';
 import 'package:ankigpt/src/infrastructure/user_repository.dart';
@@ -77,6 +79,11 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
     required CardGenrationSize size,
   }) async {
     logger.d("Generating cards...");
+
+    if (textEditingController.text.length < 200) {
+      throw TooShortInputException();
+    }
+
     state = const GenerateState.loading();
 
     if (!userRepository.isSignIn()) {
@@ -97,16 +104,31 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
       final cards = List<AnkiCard>.of(getCardsResponse.cards ?? [])
         ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
 
+      if (getCardsResponse.error != null) {
+        state = GenerateState.error(
+          message: getCardsResponse.error!,
+          generatedCards: cards,
+          language: getCardsResponse.language,
+        );
+        return;
+      }
+
       if (getCardsResponse.isCompleted) {
         isCompleted = true;
         state = GenerateState.success(
           generatedCards: cards,
           downloadUrl: getCardsResponse.csv?.downloadUrl,
+          language: getCardsResponse.language,
         );
       } else {
-        state = GenerateState.loading(alreadyGeneratedCards: cards);
+        state = GenerateState.loading(
+          alreadyGeneratedCards: cards,
+          language: getCardsResponse.language,
+        );
         await Future.delayed(const Duration(seconds: 3));
       }
     }
   }
 }
+
+class TooShortInputException implements Exception {}

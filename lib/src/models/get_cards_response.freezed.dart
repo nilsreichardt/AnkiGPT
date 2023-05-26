@@ -24,6 +24,7 @@ mixin _$GetCardsResponse {
   bool get isCompleted => throw _privateConstructorUsedError;
   CsvMetadata? get csv => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
+  Language? get language => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +42,8 @@ abstract class $GetCardsResponseCopyWith<$Res> {
       {List<AnkiCard>? cards,
       bool isCompleted,
       CsvMetadata? csv,
-      String? error});
+      String? error,
+      Language? language});
 
   $CsvMetadataCopyWith<$Res>? get csv;
 }
@@ -63,6 +65,7 @@ class _$GetCardsResponseCopyWithImpl<$Res, $Val extends GetCardsResponse>
     Object? isCompleted = null,
     Object? csv = freezed,
     Object? error = freezed,
+    Object? language = freezed,
   }) {
     return _then(_value.copyWith(
       cards: freezed == cards
@@ -81,6 +84,10 @@ class _$GetCardsResponseCopyWithImpl<$Res, $Val extends GetCardsResponse>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
+      language: freezed == language
+          ? _value.language
+          : language // ignore: cast_nullable_to_non_nullable
+              as Language?,
     ) as $Val);
   }
 
@@ -109,7 +116,8 @@ abstract class _$$_GetCardsResponseCopyWith<$Res>
       {List<AnkiCard>? cards,
       bool isCompleted,
       CsvMetadata? csv,
-      String? error});
+      String? error,
+      Language? language});
 
   @override
   $CsvMetadataCopyWith<$Res>? get csv;
@@ -130,6 +138,7 @@ class __$$_GetCardsResponseCopyWithImpl<$Res>
     Object? isCompleted = null,
     Object? csv = freezed,
     Object? error = freezed,
+    Object? language = freezed,
   }) {
     return _then(_$_GetCardsResponse(
       cards: freezed == cards
@@ -148,6 +157,10 @@ class __$$_GetCardsResponseCopyWithImpl<$Res>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
+      language: freezed == language
+          ? _value.language
+          : language // ignore: cast_nullable_to_non_nullable
+              as Language?,
     ));
   }
 }
@@ -159,7 +172,8 @@ class _$_GetCardsResponse implements _GetCardsResponse {
       {final List<AnkiCard>? cards,
       required this.isCompleted,
       this.csv,
-      this.error})
+      this.error,
+      this.language})
       : _cards = cards;
 
   factory _$_GetCardsResponse.fromJson(Map<String, dynamic> json) =>
@@ -181,10 +195,12 @@ class _$_GetCardsResponse implements _GetCardsResponse {
   final CsvMetadata? csv;
   @override
   final String? error;
+  @override
+  final Language? language;
 
   @override
   String toString() {
-    return 'GetCardsResponse(cards: $cards, isCompleted: $isCompleted, csv: $csv, error: $error)';
+    return 'GetCardsResponse(cards: $cards, isCompleted: $isCompleted, csv: $csv, error: $error, language: $language)';
   }
 
   @override
@@ -196,13 +212,20 @@ class _$_GetCardsResponse implements _GetCardsResponse {
             (identical(other.isCompleted, isCompleted) ||
                 other.isCompleted == isCompleted) &&
             (identical(other.csv, csv) || other.csv == csv) &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.language, language) ||
+                other.language == language));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_cards), isCompleted, csv, error);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_cards),
+      isCompleted,
+      csv,
+      error,
+      language);
 
   @JsonKey(ignore: true)
   @override
@@ -223,7 +246,8 @@ abstract class _GetCardsResponse implements GetCardsResponse {
       {final List<AnkiCard>? cards,
       required final bool isCompleted,
       final CsvMetadata? csv,
-      final String? error}) = _$_GetCardsResponse;
+      final String? error,
+      final Language? language}) = _$_GetCardsResponse;
 
   factory _GetCardsResponse.fromJson(Map<String, dynamic> json) =
       _$_GetCardsResponse.fromJson;
@@ -236,6 +260,8 @@ abstract class _GetCardsResponse implements GetCardsResponse {
   CsvMetadata? get csv;
   @override
   String? get error;
+  @override
+  Language? get language;
   @override
   @JsonKey(ignore: true)
   _$$_GetCardsResponseCopyWith<_$_GetCardsResponse> get copyWith =>

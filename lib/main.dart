@@ -5,6 +5,7 @@ import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
+import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
@@ -146,52 +147,66 @@ class Results extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(generateStateProvider);
     return AnimatedSwitcher(
-        layoutBuilder: (currentChild, previousChildren) => Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                ...previousChildren,
-                if (currentChild != null) currentChild,
-              ],
+      layoutBuilder: (currentChild, previousChildren) => Stack(
+        alignment: Alignment.topCenter,
+        children: <Widget>[
+          ...previousChildren,
+          if (currentChild != null) currentChild,
+        ],
+      ),
+      duration: const Duration(milliseconds: 300),
+      child: state.maybeWhen(
+        initial: (_) => const Tutorial(),
+        orElse: () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            state.maybeWhen(
+              error: (_, __, language) => _LanguageText(language: language),
+              success: (_, __, language) => _LanguageText(language: language),
+              loading: (_, language) => _LanguageText(language: language),
+              orElse: () => const SizedBox.shrink(),
             ),
-        duration: const Duration(milliseconds: 300),
-        child: Container(
-          key: ValueKey(state),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              state.maybeWhen(
-                error: (_, __, language) => _LanguageText(language: language),
-                success: (_, __, language) => _LanguageText(language: language),
-                loading: (_, language) => _LanguageText(language: language),
-                orElse: () => const SizedBox.shrink(),
+            state.maybeWhen(
+              loading: (cards, language) => MarkdownBody(
+                selectable: true,
+                softLineBreak: true,
+                data: buildMarkdown(cards, isCompleted: false),
               ),
-              state.maybeWhen(
-                loading: (cards, language) => MarkdownBody(
-                  selectable: true,
-                  softLineBreak: true,
-                  data: buildMarkdown(cards, isCompleted: false),
-                ),
-                error: (error, cards, language) => Column(
-                  children: [
-                    ErrorText(text: error),
-                    const SizedBox(height: 12),
-                    MarkdownBody(
-                      selectable: true,
-                      softLineBreak: true,
-                      data: buildMarkdown(cards, isCompleted: false),
-                    ),
-                  ],
-                ),
-                success: (cards, url, language) => MarkdownBody(
-                  selectable: true,
-                  softLineBreak: true,
-                  data: buildMarkdown(cards, isCompleted: true),
-                ),
-                orElse: () => const SizedBox(),
+              error: (error, cards, language) => Column(
+                children: [
+                  ErrorText(text: error),
+                  const SizedBox(height: 12),
+                  MarkdownBody(
+                    selectable: true,
+                    softLineBreak: true,
+                    data: buildMarkdown(cards, isCompleted: false),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ));
+              success: (cards, url, language) => MarkdownBody(
+                selectable: true,
+                softLineBreak: true,
+                data: buildMarkdown(cards, isCompleted: true),
+              ),
+              orElse: () => const SizedBox(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Tutorial extends StatelessWidget {
+  const Tutorial({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const TutorialVideoPlayer(
+      aspectRatio: 16 / 9,
+      videoUrl:
+          'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Ftutorial.mp4?alt=media&token=efcd7c72-ed7f-45b1-8e51-1913ac03cb26',
+    );
   }
 }
 
@@ -236,6 +251,26 @@ class Controls extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final view = ref.watch(controlsViewProvider);
+    final isSmartphone = MediaQuery.of(context).size.width < 530;
+    if (isSmartphone) {
+      return Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const Select(),
+              const Expanded(child: SizedBox.shrink()),
+              LoadingButton(isVisible: view.isGenerating),
+              const SizedBox(width: 12),
+              GenerateButton(isEnabled: view.isGeneratedButtonEnabled),
+            ],
+          ),
+          const SizedBox(height: 16),
+          DownloadButton(isVisible: view.isDownloadButtonVisible),
+        ],
+      );
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [

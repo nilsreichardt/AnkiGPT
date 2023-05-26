@@ -1,24 +1,13 @@
 enum Language {
-  english,
-  german,
+  en,
+  de,
   unknown;
-
-  String get name {
-    switch (this) {
-      case Language.english:
-        return 'en';
-      case Language.german:
-        return 'de';
-      case Language.unknown:
-        return 'unknown';
-    }
-  }
 
   String getDisplayName() {
     switch (this) {
-      case Language.english:
+      case Language.en:
         return 'English';
-      case Language.german:
+      case Language.de:
         return 'German';
       case Language.unknown:
         return 'Unknown';

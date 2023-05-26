@@ -7,6 +7,7 @@ environment:
   sdk: ">=3.1.0-126.0.dev <4.0.0"
 
 dependencies:
+  chewie: ^1.5.0
   cloud_functions: ^4.3.1
   cupertino_icons: ^1.0.5
   firebase_auth: ^4.6.1

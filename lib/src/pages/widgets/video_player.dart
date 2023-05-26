@@ -1,3 +1,4 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:video_player/video_player.dart';
@@ -18,6 +19,7 @@ class TutorialVideoPlayer extends StatefulWidget {
 
 class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
   late final VideoPlayerController _controller;
+  ChewieController? _chewieController;
   String? error;
 
   @override
@@ -42,9 +44,15 @@ class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
     if (UniversalPlatform.isMacOS) return;
     try {
       await _controller.initialize();
-      await _controller.setLooping(true);
       await _controller.setVolume(0);
-      await _controller.play();
+      setState(() {
+        _chewieController = ChewieController(
+          videoPlayerController: _controller,
+          autoInitialize: true,
+          autoPlay: true,
+          looping: true,
+        );
+      });
     } catch (e) {
       debugPrint('Could not load video: $e');
 
@@ -55,6 +63,7 @@ class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
   @override
   void dispose() {
     _controller.dispose();
+    _chewieController?.dispose();
     super.dispose();
   }
 
@@ -77,7 +86,12 @@ class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
                     decoration: const BoxDecoration(color: Colors.orange),
                   )
                 else
-                  VideoPlayer(_controller),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: _chewieController == null
+                        ? const SizedBox.shrink()
+                        : Chewie(controller: _chewieController!),
+                  ),
                 if (error != null) _ErrorText(error: error!)
               ],
             ),

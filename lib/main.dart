@@ -17,9 +17,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+// ignore: depend_on_referenced_packages
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<void> main() async {
+  usePathUrlStrategy();
+
   WidgetsFlutterBinding.ensureInitialized();
 
   // We need to create a provider container because at this point, we don't
@@ -202,10 +206,13 @@ class Tutorial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const TutorialVideoPlayer(
-      aspectRatio: 16 / 9,
-      videoUrl:
-          'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Ftutorial.mp4?alt=media&token=efcd7c72-ed7f-45b1-8e51-1913ac03cb26',
+    return const Padding(
+      padding: EdgeInsets.only(top: 20),
+      child: TutorialVideoPlayer(
+        aspectRatio: 16 / 9,
+        videoUrl:
+            'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Ftutorial.mp4?alt=media&token=efcd7c72-ed7f-45b1-8e51-1913ac03cb26',
+      ),
     );
   }
 }

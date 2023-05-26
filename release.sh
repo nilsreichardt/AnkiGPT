@@ -1,5 +1,6 @@
 #!/bin/bash
 
-fvm flutter build web
+# Canvaskit is required for video player package
+fvm flutter build web --web-renderer canvaskit
 firebase deploy
 echo "Deployed 🎉"

@@ -33,6 +33,9 @@ jobs:
   app-preview:
     if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-22.04
+    permissions:
+      pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
+      checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs 
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 

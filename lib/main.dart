@@ -70,11 +70,11 @@ class MyApp extends StatelessWidget {
 
         const releaseDate = String.fromEnvironment(
           'RELEASE_DATE',
-          defaultValue: 'Jan 1',
+          defaultValue: 'Jan 1 2023',
         );
         return Column(
           children: [
-            Expanded(child: child!),
+            Expanded(child: child),
             const Footer(releaseDate: releaseDate),
           ],
         );

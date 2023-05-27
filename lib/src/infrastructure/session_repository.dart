@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/get_cards_response.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:cloud_functions/cloud_functions.dart';

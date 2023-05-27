@@ -30,6 +30,42 @@ jobs:
       - name: Format
         run: dart format --set-exit-if-changed .
 
+  test:
+    # We need to use macOS because of the golden tests, see 
+    # https://github.com/flutter/flutter/issues/36667#issuecomment-521335243.
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+    
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
+    
+      - uses: subosito/flutter-action@main
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+        
+      - name: Test
+        run: flutter test
+        
+      # Uploads the results of failed tests as .zip to GitHub.
+      #
+      # You can find the file under the "Summary" Tab on GitHub when all jobs of
+      # this workflows finished.
+      - name: Upload failed golden tests
+        if: failure()
+        uses: actions/upload-artifact@65d862660abb392b8c4a3d1195a2108db131dd05
+        with:
+          name: failed-golden-tests
+          # When a golden test failed, are the results stored in the "failures"
+          # folder. The failures can be at several places, like in the app
+          # folder and in different packages.
+          path: "**/failures/*.png"
+          # We ignore it when no files could be found because the test command
+          # could also be failed because of an unit test. In this case there
+          # would be no failed golden test to upload.
+          if-no-files-found: ignore
+
   app-preview:
     if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-22.04

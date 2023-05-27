@@ -66,6 +66,8 @@ PODS:
   - PromisesObjC (2.2.0)
   - url_launcher_macos (0.0.1):
     - FlutterMacOS
+  - wakelock_macos (0.0.1):
+    - FlutterMacOS
 
 DEPENDENCIES:
   - cloud_functions (from `Flutter/ephemeral/.symlinks/plugins/cloud_functions/macos`)
@@ -73,6 +75,7 @@ DEPENDENCIES:
   - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
+  - wakelock_macos (from `Flutter/ephemeral/.symlinks/plugins/wakelock_macos/macos`)
 
 SPEC REPOS:
   trunk:
@@ -101,6 +104,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral
   url_launcher_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
+  wakelock_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/wakelock_macos/macos
 
 SPEC CHECKSUMS:
   cloud_functions: 2851cfdd43cd696b3b4af8c673bb5a9d34b8fc86
@@ -121,6 +126,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   url_launcher_macos: 5335912b679c073563f29d89d33d10d459f95451
+  wakelock_macos: bc3f2a9bd8d2e6c89fee1e1822e7ddac3bd004a9
 
 PODFILE CHECKSUM: 236401fc2c932af29a9fcf0e97baeeb2d750d367
 

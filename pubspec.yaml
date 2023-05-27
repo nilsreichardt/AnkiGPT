@@ -4,7 +4,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.1.0-126.0.dev <4.0.0"
+  sdk: ">=3.1.0-63.1.beta <4.0.0"
 
 dependencies:
   chewie: ^1.5.0
@@ -31,20 +31,8 @@ dev_dependencies:
   freezed: ^2.3.4
   build_runner: ^2.4.4
   json_serializable: ^6.7.0
-  icons_launcher: ^2.1.0
 
 flutter:
   uses-material-design: true
   assets:
     - assets/logo/
-
-icons_launcher:
-  image_path: "assets/logo.png"
-  platforms:
-    web:
-      enable: true
-      image_path: "assets/logo.png"
-      favicon_path: "assets/favicon.png"
-    macos:
-      enable: true
-      image_path: "assets/macos.png"

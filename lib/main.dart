@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:ankigpt/firebase_options.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
+import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
@@ -64,6 +67,20 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00FF7F)),
         useMaterial3: true,
       ),
+      builder: (context, child) {
+        if (child == null) return const SizedBox();
+
+        const releaseDate = String.fromEnvironment(
+          'RELEASE_DATE',
+          defaultValue: 'Jan 1',
+        );
+        return Column(
+          children: [
+            Expanded(child: child!),
+            const Footer(releaseDate: releaseDate),
+          ],
+        );
+      },
       home: const MyHomePage(),
       routes: {
         '/imprint': (context) => const ImprintPage(),
@@ -91,30 +108,18 @@ class MyHomePage extends StatelessWidget {
           OthersOptions(),
         ],
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: MaxWidthConstrainedBox(
           child: Padding(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(12),
             child: Column(
               children: [
-                MarkdownBody(
-                  data:
-                      "Flashcards may contain incorrect information! Click [here](https://wa.me/4915229504121) to give feedback or get support.",
-                  onTapLink: (
-                    text,
-                    href,
-                    _,
-                  ) {
-                    if (href == null) return;
-                    launchUrl(Uri.parse(href));
-                  },
-                ),
-                const SizedBox(height: 12),
-                const SlideContextField(),
-                const SizedBox(height: 12),
-                const Controls(),
-                const SizedBox(height: 12),
-                const Results(),
+                SizedBox(height: 12),
+                SlideContextField(),
+                SizedBox(height: 12),
+                Controls(),
+                SizedBox(height: 12),
+                Results(),
               ],
             ),
           ),

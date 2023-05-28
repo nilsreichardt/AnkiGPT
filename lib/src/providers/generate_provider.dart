@@ -82,6 +82,10 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
       throw TooShortInputException();
     }
 
+    if (textEditingController.text.length > 15000) {
+      throw TooLongInputException();
+    }
+
     state = const GenerateState.loading();
 
     if (!userRepository.isSignIn()) {
@@ -130,3 +134,5 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
 }
 
 class TooShortInputException implements Exception {}
+
+class TooLongInputException implements Exception {}

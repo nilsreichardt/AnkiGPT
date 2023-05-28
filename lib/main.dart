@@ -410,6 +410,15 @@ class GenerateButton extends ConsumerWidget {
                       );
                       return;
                     }
+
+                    if (e is TooLongInputException) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const TooLongInputDialog(),
+                      );
+                      return;
+                    }
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(e.toString()),
@@ -429,10 +438,42 @@ class TooLessInputDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return const _InvalidInputDialog(
+      title: 'Too short!',
+      content:
+          'Please add more text. If the text is too short, GPT cannot generate the flashcards.',
+    );
+  }
+}
+
+class TooLongInputDialog extends StatelessWidget {
+  const TooLongInputDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const _InvalidInputDialog(
+      title: 'Too long!',
+      content:
+          'Your text is too long. If the text is too long, GPT cannot generate the flashcards. Use less than 15,000 characters.',
+    );
+  }
+}
+
+class _InvalidInputDialog extends StatelessWidget {
+  const _InvalidInputDialog({
+    Key? key,
+    required this.title,
+    required this.content,
+  }) : super(key: key);
+
+  final String title;
+  final String content;
+
+  @override
+  Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Too short!'),
-      content: const Text(
-          'Please add more text. If the text is too short, GPT cannot generate the flashcards.'),
+      title: Text(title),
+      content: Text(content),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),

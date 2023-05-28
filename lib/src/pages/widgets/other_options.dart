@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 enum OthersOptionsItem {
   imprint,
+  privacy,
   feedback,
   github;
 
@@ -14,6 +15,8 @@ enum OthersOptionsItem {
         return 'Imprint';
       case OthersOptionsItem.github:
         return 'GitHub';
+      case OthersOptionsItem.privacy:
+        return 'Privacy Policy';
     }
   }
 }
@@ -44,6 +47,11 @@ class OthersOptionsState extends State<OthersOptions> {
             break;
           case OthersOptionsItem.imprint:
             Navigator.of(context).pushNamed('/imprint');
+            break;
+          case OthersOptionsItem.privacy:
+            const url =
+                'https://firebasestorage.googleapis.com/v0/b/storage.ankigpt.wtf/o/assets%2Fprivacy_policy_en.pdf?alt=media&token=f20b646d-f7fe-41fa-96d5-98b641cc7b56';
+            launchUrl(Uri.parse(url));
             break;
         }
       },

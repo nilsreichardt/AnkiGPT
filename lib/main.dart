@@ -303,34 +303,48 @@ class Controls extends ConsumerWidget {
 }
 
 enum CardGenrationSize {
-  three,
-  six,
-  nine,
-  fifteen;
+  five,
+  ten,
+  twenty,
+  fifty,
+  seventyFive,
+  hundred;
 
   int toInt() {
     switch (this) {
-      case CardGenrationSize.three:
-        return 3;
-      case CardGenrationSize.six:
-        return 6;
-      case CardGenrationSize.nine:
-        return 9;
-      case CardGenrationSize.fifteen:
-        return 15;
+      case CardGenrationSize.five:
+        return 5;
+      case CardGenrationSize.ten:
+        return 10;
+      case CardGenrationSize.twenty:
+        return 20;
+      case CardGenrationSize.fifty:
+        return 50;
+      case CardGenrationSize.seventyFive:
+        return 75;
+      case CardGenrationSize.hundred:
+        return 100;
     }
   }
 
   String getUiText() {
+    return '${toInt()} cards';
+  }
+
+  String getDurationText() {
     switch (this) {
-      case CardGenrationSize.three:
-        return '3 Cards';
-      case CardGenrationSize.six:
-        return '6 Cards';
-      case CardGenrationSize.nine:
-        return '9 Cards';
-      case CardGenrationSize.fifteen:
-        return '15 Cards';
+      case CardGenrationSize.five:
+        return '~ 1 - 2 min';
+      case CardGenrationSize.ten:
+        return '~ 1 - 2 min';
+      case CardGenrationSize.twenty:
+        return '~ 3 - 5 min';
+      case CardGenrationSize.fifty:
+        return '~ 5 - 10 min';
+      case CardGenrationSize.seventyFive:
+        return '~ 10 min';
+      case CardGenrationSize.hundred:
+        return '~ 10 min';
     }
   }
 }
@@ -372,10 +386,12 @@ class GenerateButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final size = ref.watch(cardGenrationSizeProvider);
     return Align(
       alignment: Alignment.centerRight,
       child: Tooltip(
-        message: 'Generating takes 1 - 5 minutes.',
+        message:
+            'Generating ${size.getUiText()} takes ${size.getDurationText()}',
         child: ElevatedButton.icon(
           icon: const Icon(Icons.play_arrow),
           label: const Text('Generate'),

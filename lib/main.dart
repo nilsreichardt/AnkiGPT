@@ -167,19 +167,19 @@ class _UploadFileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const borderRadius = BorderRadius.all(Radius.circular(12));
     return InkWell(
+      borderRadius: borderRadius,
       onTap: () => showDialog(
           context: context, builder: (context) => const PremiumDialog()),
       child: Material(
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        borderRadius: borderRadius,
         color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
         child: const Padding(
           padding: EdgeInsets.all(40),
           child: Column(
             children: [
-              Icon(
-                Icons.upload_file,
-              ),
+              Icon(Icons.upload_file),
               Text('Upload PDF file'),
               SizedBox(height: 8),
               PlusBadge(),
@@ -192,7 +192,12 @@ class _UploadFileButton extends StatelessWidget {
 }
 
 class PlusBadge extends StatelessWidget {
-  const PlusBadge({super.key});
+  const PlusBadge({
+    super.key,
+    this.withText = true,
+  });
+
+  final bool withText;
 
   @override
   Widget build(BuildContext context) {
@@ -208,18 +213,20 @@ class PlusBadge extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.star,
                 size: 14,
               ),
-              SizedBox(width: 6),
-              Text(
-                'PLUS',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
+              if (withText) ...[
+                const SizedBox(width: 6),
+                const Text(
+                  'PLUS',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
+              ]
             ],
           ),
         ),
@@ -249,14 +256,19 @@ Lifetime: 9,99€ (no subscription)
         ),
         TextButton(
           onPressed: () {
+            final parameters = <String, String>{
+              'subject': '💎 AnkiGPT Premium',
+              'body':
+                  'Hey!\n\nI would like to buy AnkiGPT for €9.99.\n\nBest regards'
+            };
             final mailto = Uri(
-                scheme: 'http',
-                path: 'support@ankigpt.wtf',
-                queryParameters: {
-                  'subject': '💎 AnkiGPT Premium',
-                  'body':
-                      'Hey!\n\nI would like to buy AnkiGPT for 9.99€.\n\nBest regards'
-                });
+              scheme: 'mailto',
+              path: 'support@ankigpt.wtf',
+              query: parameters.entries
+                  .map((e) =>
+                      '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                  .join('&'),
+            );
             launchUrl(mailto);
           },
           child: const Text('BUY'),
@@ -446,8 +458,8 @@ enum CardGenrationSize {
   ten,
   twenty,
   fifty,
-  seventyFive,
-  hundred;
+  hundred,
+  hundredFifty;
 
   int toInt() {
     switch (this) {
@@ -459,10 +471,10 @@ enum CardGenrationSize {
         return 20;
       case CardGenrationSize.fifty:
         return 50;
-      case CardGenrationSize.seventyFive:
-        return 75;
       case CardGenrationSize.hundred:
         return 100;
+      case CardGenrationSize.hundredFifty:
+        return 150;
     }
   }
 
@@ -480,10 +492,21 @@ enum CardGenrationSize {
         return '~ 3 - 5 min';
       case CardGenrationSize.fifty:
         return '~ 5 - 10 min';
-      case CardGenrationSize.seventyFive:
-        return '~ 10 min';
       case CardGenrationSize.hundred:
         return '~ 10 min';
+      case CardGenrationSize.hundredFifty:
+        return '~ 15 min';
+    }
+  }
+
+  bool isPlus() {
+    switch (this) {
+      case CardGenrationSize.fifty:
+      case CardGenrationSize.hundred:
+      case CardGenrationSize.hundredFifty:
+        return true;
+      default:
+        return false;
     }
   }
 }
@@ -494,19 +517,42 @@ class Select extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
-      width: 120,
+      width: 152,
       child: DropdownButtonFormField<CardGenrationSize>(
-        value: ref.read(cardGenrationSizeProvider),
+        value: ref.watch(cardGenrationSizeProvider),
         items: [
           ...CardGenrationSize.values.map(
             (c) => DropdownMenuItem(
               value: c,
-              child: Text(c.getUiText()),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(c.getUiText()),
+                  if (c.isPlus()) ...[
+                    const SizedBox(width: 12),
+                    const SizedBox(
+                      width: 38,
+                      child: PlusBadge(
+                        withText: false,
+                      ),
+                    )
+                  ]
+                ],
+              ),
             ),
           )
         ],
         onChanged: (v) {
           if (v != null) {
+            if (v.isPlus()) {
+              showDialog(
+                context: context,
+                builder: (_) => const PremiumDialog(),
+              );
+              return;
+            }
+
             ref.read(cardGenrationSizeProvider.notifier).state = v;
           }
         },

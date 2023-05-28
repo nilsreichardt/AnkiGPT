@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ankigpt/firebase_options.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
@@ -113,7 +115,7 @@ class MyHomePage extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: 12),
-                SlideContextField(),
+                InputBox(),
                 SizedBox(height: 12),
                 Controls(),
                 SizedBox(height: 12),
@@ -123,6 +125,143 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class InputBox extends StatelessWidget {
+  const InputBox({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isSmartphone = MediaQuery.of(context).size.width < 550;
+    if (isSmartphone) {
+      return Column(
+        children: [
+          const SlideContextField(),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: const _UploadFileButton(),
+          ),
+        ],
+      );
+    }
+
+    return const Row(
+      children: [
+        Expanded(
+          child: SlideContextField(),
+        ),
+        SizedBox(width: 12),
+        _UploadFileButton(),
+      ],
+    );
+  }
+}
+
+class _UploadFileButton extends StatelessWidget {
+  const _UploadFileButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => showDialog(
+          context: context, builder: (context) => const PremiumDialog()),
+      child: Material(
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+        child: const Padding(
+          padding: EdgeInsets.all(40),
+          child: Column(
+            children: [
+              Icon(
+                Icons.upload_file,
+              ),
+              Text('Upload PDF file'),
+              SizedBox(height: 8),
+              PlusBadge(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PlusBadge extends StatelessWidget {
+  const PlusBadge({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: 100,
+      ),
+      child: Material(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.orange,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.star,
+                size: 14,
+              ),
+              SizedBox(width: 6),
+              Text(
+                'PLUS',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PremiumDialog extends StatelessWidget {
+  const PremiumDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("AnkiGPT Plus"),
+      content: const Text('''Advantages:
+* Generate 50 or 100 cards at once
+* Upload lecture slides and automatically generate flashcards
+* Premium support
+
+Lifetime: 9,99€ (no subscription)
+'''),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('CANCEL'),
+        ),
+        TextButton(
+          onPressed: () {
+            final mailto = Uri(
+                scheme: 'http',
+                path: 'support@ankigpt.wtf',
+                queryParameters: {
+                  'subject': '💎 AnkiGPT Premium',
+                  'body':
+                      'Hey!\n\nI would like to buy AnkiGPT for 9.99€.\n\nBest regards'
+                });
+            launchUrl(mailto);
+          },
+          child: const Text('BUY'),
+        ),
+      ],
     );
   }
 }

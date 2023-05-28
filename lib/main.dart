@@ -171,7 +171,9 @@ class _UploadFileButton extends StatelessWidget {
     return InkWell(
       borderRadius: borderRadius,
       onTap: () => showDialog(
-          context: context, builder: (context) => const PremiumDialog()),
+        context: context,
+        builder: (context) => const _PlusDialog(),
+      ),
       child: Material(
         borderRadius: borderRadius,
         color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -235,20 +237,19 @@ class PlusBadge extends StatelessWidget {
   }
 }
 
-class PremiumDialog extends StatelessWidget {
-  const PremiumDialog({super.key});
+class _PlusDialog extends StatelessWidget {
+  const _PlusDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text("AnkiGPT Plus"),
       content: const Text('''Advantages:
-* Generate 50 or 100 cards at once
+* Generate 50, 100 or 150 cards at once
 * Upload lecture slides and automatically generate flashcards
 * Premium support
 
-Lifetime: 9,99€ (no subscription)
-'''),
+Lifetime: €9.99 (no subscription)'''),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
@@ -548,9 +549,8 @@ class Select extends ConsumerWidget {
             if (v.isPlus()) {
               showDialog(
                 context: context,
-                builder: (_) => const PremiumDialog(),
+                builder: (_) => const _PlusDialog(),
               );
-              return;
             }
 
             ref.read(cardGenrationSizeProvider.notifier).state = v;
@@ -588,6 +588,14 @@ class GenerateButton extends ConsumerWidget {
                         .read(generateStateProvider.notifier)
                         .submit(size: size);
                   } catch (e) {
+                    if (e is PlusMembershipRequiredException) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => const _PlusDialog(),
+                      );
+                      return;
+                    }
+
                     if (e is TooShortInputException) {
                       showDialog(
                         context: context,

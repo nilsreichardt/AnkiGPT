@@ -236,7 +236,7 @@ class PlusBadge extends StatelessWidget {
 }
 
 class _PlusDialog extends StatelessWidget {
-  const _PlusDialog({super.key});
+  const _PlusDialog();
 
   @override
   Widget build(BuildContext context) {

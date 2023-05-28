@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:ankigpt/firebase_options.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';

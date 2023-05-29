@@ -113,7 +113,7 @@ class MyHomePage extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: 12),
-                SlideContextField(),
+                InputBox(),
                 SizedBox(height: 12),
                 Controls(),
                 SizedBox(height: 12),
@@ -123,6 +123,156 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class InputBox extends StatelessWidget {
+  const InputBox({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isSmartphone = MediaQuery.of(context).size.width < 550;
+    if (isSmartphone) {
+      return Column(
+        children: [
+          const SlideContextField(),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: const _UploadFileButton(),
+          ),
+        ],
+      );
+    }
+
+    return const Row(
+      children: [
+        Expanded(
+          child: SlideContextField(),
+        ),
+        SizedBox(width: 12),
+        _UploadFileButton(),
+      ],
+    );
+  }
+}
+
+class _UploadFileButton extends StatelessWidget {
+  const _UploadFileButton();
+
+  @override
+  Widget build(BuildContext context) {
+    const borderRadius = BorderRadius.all(Radius.circular(12));
+    return InkWell(
+      borderRadius: borderRadius,
+      onTap: () => showDialog(
+        context: context,
+        builder: (context) => const _PlusDialog(),
+      ),
+      child: Material(
+        borderRadius: borderRadius,
+        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+        child: const Padding(
+          padding: EdgeInsets.all(40),
+          child: Column(
+            children: [
+              Icon(Icons.upload_file),
+              Text('Upload PDF file'),
+              SizedBox(height: 8),
+              PlusBadge(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PlusBadge extends StatelessWidget {
+  const PlusBadge({
+    super.key,
+    this.withText = true,
+  });
+
+  final bool withText;
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: 100,
+      ),
+      child: Material(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.orange,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.star,
+                size: 14,
+              ),
+              if (withText) ...[
+                const SizedBox(width: 6),
+                const Text(
+                  'PLUS',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ]
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PlusDialog extends StatelessWidget {
+  const _PlusDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("AnkiGPT Plus"),
+      content: const Text('''Advantages:
+* Generate 50, 100 or 150 cards at once
+* Upload lecture slides and automatically generate flashcards
+* Premium support
+
+Lifetime: €9.99 (no subscription)'''),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('CANCEL'),
+        ),
+        TextButton(
+          onPressed: () {
+            final parameters = <String, String>{
+              'subject': '💎 AnkiGPT Premium',
+              'body':
+                  'Hey!\n\nI would like to buy AnkiGPT for €9.99.\n\nBest regards'
+            };
+            final mailto = Uri(
+              scheme: 'mailto',
+              path: 'support@ankigpt.wtf',
+              query: parameters.entries
+                  .map((e) =>
+                      '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                  .join('&'),
+            );
+            launchUrl(mailto);
+          },
+          child: const Text('BUY'),
+        ),
+      ],
     );
   }
 }
@@ -307,8 +457,8 @@ enum CardGenrationSize {
   ten,
   twenty,
   fifty,
-  seventyFive,
-  hundred;
+  hundred,
+  hundredFifty;
 
   int toInt() {
     switch (this) {
@@ -320,10 +470,10 @@ enum CardGenrationSize {
         return 20;
       case CardGenrationSize.fifty:
         return 50;
-      case CardGenrationSize.seventyFive:
-        return 75;
       case CardGenrationSize.hundred:
         return 100;
+      case CardGenrationSize.hundredFifty:
+        return 150;
     }
   }
 
@@ -341,10 +491,21 @@ enum CardGenrationSize {
         return '~ 3 - 5 min';
       case CardGenrationSize.fifty:
         return '~ 5 - 10 min';
-      case CardGenrationSize.seventyFive:
-        return '~ 10 min';
       case CardGenrationSize.hundred:
         return '~ 10 min';
+      case CardGenrationSize.hundredFifty:
+        return '~ 15 min';
+    }
+  }
+
+  bool isPlus() {
+    switch (this) {
+      case CardGenrationSize.fifty:
+      case CardGenrationSize.hundred:
+      case CardGenrationSize.hundredFifty:
+        return true;
+      default:
+        return false;
     }
   }
 }
@@ -355,19 +516,41 @@ class Select extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
-      width: 120,
+      width: 152,
       child: DropdownButtonFormField<CardGenrationSize>(
-        value: ref.read(cardGenrationSizeProvider),
+        value: ref.watch(cardGenrationSizeProvider),
         items: [
           ...CardGenrationSize.values.map(
             (c) => DropdownMenuItem(
               value: c,
-              child: Text(c.getUiText()),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(c.getUiText()),
+                  if (c.isPlus()) ...[
+                    const SizedBox(width: 12),
+                    const SizedBox(
+                      width: 38,
+                      child: PlusBadge(
+                        withText: false,
+                      ),
+                    )
+                  ]
+                ],
+              ),
             ),
           )
         ],
         onChanged: (v) {
           if (v != null) {
+            if (v.isPlus()) {
+              showDialog(
+                context: context,
+                builder: (_) => const _PlusDialog(),
+              );
+            }
+
             ref.read(cardGenrationSizeProvider.notifier).state = v;
           }
         },
@@ -403,6 +586,14 @@ class GenerateButton extends ConsumerWidget {
                         .read(generateStateProvider.notifier)
                         .submit(size: size);
                   } catch (e) {
+                    if (e is PlusMembershipRequiredException) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => const _PlusDialog(),
+                      );
+                      return;
+                    }
+
                     if (e is TooShortInputException) {
                       showDialog(
                         context: context,

@@ -78,6 +78,10 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
   }) async {
     logger.d("Generating cards...");
 
+    if (size.isPlus()) {
+      throw PlusMembershipRequiredException();
+    }
+
     if (textEditingController.text.length < 200) {
       throw TooShortInputException();
     }
@@ -136,3 +140,5 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
 class TooShortInputException implements Exception {}
 
 class TooLongInputException implements Exception {}
+
+class PlusMembershipRequiredException implements Exception {}

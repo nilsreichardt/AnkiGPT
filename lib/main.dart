@@ -7,6 +7,7 @@ import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
+import 'package:ankigpt/src/providers/buy_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
@@ -235,11 +236,11 @@ class PlusBadge extends StatelessWidget {
   }
 }
 
-class _PlusDialog extends StatelessWidget {
+class _PlusDialog extends ConsumerWidget {
   const _PlusDialog();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: const Text("AnkiGPT Plus"),
       content: const Text('''Advantages:
@@ -269,6 +270,8 @@ Lifetime: €9.99 (no subscription)'''),
                   .join('&'),
             );
             launchUrl(mailto);
+
+            ref.read(buyProvider);
           },
           child: const Text('BUY'),
         ),

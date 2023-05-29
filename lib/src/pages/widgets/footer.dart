@@ -5,7 +5,10 @@ import 'package:url_launcher/url_launcher.dart';
 class Footer extends StatelessWidget {
   const Footer({
     Key? key,
-    required this.releaseDate,
+    this.releaseDate = const String.fromEnvironment(
+      'RELEASE_DATE',
+      defaultValue: 'Jan 1 2023',
+    ),
   }) : super(key: key);
 
   /// The date of the release, should be formatted as 'MONTH DAY YEAR' (e.g. 'June 1 2023').

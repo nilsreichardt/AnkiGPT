@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ankigpt/src/models/get_cards_response.dart';
 import 'package:ankigpt/src/models/session_id.dart';
+import 'package:ankigpt/src/providers/buy_provider.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 class SessionRepository {
@@ -14,7 +15,7 @@ class SessionRepository {
     required int numberOfCards,
   }) async {
     final result = await functions
-        .httpsCallableFromUrl('https://route-haaaagicoa-ew.a.run.app')
+        .httpsCallableFromUrl(routeFunctionsUrl)
         .call<Map<String, dynamic>>({
       'destination': 'startSession',
       'payload': {
@@ -29,7 +30,7 @@ class SessionRepository {
     required SessionId sessionId,
   }) async {
     final result = await functions
-        .httpsCallableFromUrl('https://route-haaaagicoa-ew.a.run.app')
+        .httpsCallableFromUrl(routeFunctionsUrl)
         .call<Map<String, dynamic>>({
       'destination': 'getCards',
       'payload': {

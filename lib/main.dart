@@ -66,20 +66,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00FF7F)),
         useMaterial3: true,
       ),
-      builder: (context, child) {
-        if (child == null) return const SizedBox();
-
-        const releaseDate = String.fromEnvironment(
-          'RELEASE_DATE',
-          defaultValue: 'Jan 1 2023',
-        );
-        return Column(
-          children: [
-            Expanded(child: child),
-            const Footer(releaseDate: releaseDate),
-          ],
-        );
-      },
       home: const MyHomePage(),
       routes: {
         '/imprint': (context) => const ImprintPage(),
@@ -107,6 +93,7 @@ class MyHomePage extends StatelessWidget {
           OthersOptions(),
         ],
       ),
+      bottomNavigationBar: const Footer(),
       body: const SingleChildScrollView(
         child: MaxWidthConstrainedBox(
           child: Padding(

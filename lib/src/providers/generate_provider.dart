@@ -3,6 +3,7 @@ import 'package:ankigpt/src/infrastructure/session_repository.dart';
 import 'package:ankigpt/src/infrastructure/user_repository.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
+import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
@@ -18,11 +19,13 @@ final generateStateProvider =
     final sessionRepository = ref.watch(sessionRepositoryProvider);
     final textEditingController = ref.watch(slideTextFieldControllerProvider);
     final userRepository = ref.watch(userRepositoryProvider);
+    final hasPlus = ref.watch(hasPlusProvider);
     return GenerateNotifier(
       logger: logger,
       sessionRepository: sessionRepository,
       textEditingController: textEditingController,
       userRepository: userRepository,
+      hasPlus: hasPlus,
     );
   },
 );
@@ -86,12 +89,14 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
   final SessionRepository sessionRepository;
   final TextEditingController textEditingController;
   final UserRepository userRepository;
+  final bool hasPlus;
 
   GenerateNotifier({
     required this.logger,
     required this.sessionRepository,
     required this.textEditingController,
     required this.userRepository,
+    required this.hasPlus,
   }) : super(const GenerateState.initial());
 
   Future<void> submit({
@@ -99,7 +104,7 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
   }) async {
     logger.d("Generating cards...");
 
-    if (size.isPlus()) {
+    if (!hasPlus && size.isPlus()) {
       throw PlusMembershipRequiredException();
     }
 

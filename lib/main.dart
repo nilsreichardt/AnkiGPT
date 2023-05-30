@@ -11,6 +11,7 @@ import 'package:ankigpt/src/providers/buy_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
+import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
@@ -81,14 +82,12 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.all(12),
-          child: SvgPicture.asset(
-            'assets/logo/raw_logo.svg',
-          ),
+        leading: const Padding(
+          padding: EdgeInsets.all(12),
+          child: _Logo(),
         ),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('AnkiGPT'),
+        title: const _Title(),
         actions: const [
           OthersOptions(),
         ],
@@ -119,6 +118,33 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _Title extends ConsumerWidget {
+  const _Title();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final hasPlus = ref.watch(hasPlusProvider);
+    return Text('AnkiGPT${hasPlus ? ' Plus' : ''}');
+  }
+}
+
+class _Logo extends ConsumerWidget {
+  const _Logo();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return GestureDetector(
+      onDoubleTap: () {
+        final hasPlus = ref.read(hasPlusProvider);
+        ref.read(hasPlusProvider.notifier).state = !hasPlus;
+      },
+      child: SvgPicture.asset(
+        'assets/logo/raw_logo.svg',
       ),
     );
   }
@@ -565,6 +591,7 @@ class Select extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final hasPlus = ref.watch(hasPlusProvider);
     return SizedBox(
       width: 152,
       child: DropdownButtonFormField<CardGenrationSize>(
@@ -578,7 +605,7 @@ class Select extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(c.getUiText()),
-                  if (c.isPlus()) ...[
+                  if (!hasPlus && c.isPlus()) ...[
                     const SizedBox(width: 12),
                     const SizedBox(
                       width: 38,
@@ -594,7 +621,7 @@ class Select extends ConsumerWidget {
         ],
         onChanged: (v) {
           if (v != null) {
-            if (v.isPlus()) {
+            if (!hasPlus && v.isPlus()) {
               showDialog(
                 context: context,
                 builder: (_) => const _PlusDialog(),

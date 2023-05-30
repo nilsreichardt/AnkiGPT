@@ -17,8 +17,8 @@ import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -94,19 +94,28 @@ class MyHomePage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: const Footer(),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: MaxWidthConstrainedBox(
           child: Padding(
-            padding: EdgeInsets.all(12),
-            child: Column(
-              children: [
-                SizedBox(height: 12),
-                InputBox(),
-                SizedBox(height: 12),
-                Controls(),
-                SizedBox(height: 12),
-                Results(),
-              ],
+            padding: const EdgeInsets.all(12),
+            child: AnimationLimiter(
+              child: Column(
+                children: AnimationConfiguration.toStaggeredList(
+                  duration: const Duration(milliseconds: 500),
+                  childAnimationBuilder: (widget) => SlideAnimation(
+                    verticalOffset: 20,
+                    child: FadeInAnimation(child: widget),
+                  ),
+                  children: const [
+                    SizedBox(height: 12),
+                    InputBox(),
+                    SizedBox(height: 12),
+                    Controls(),
+                    SizedBox(height: 12),
+                    Results(),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -284,19 +293,6 @@ class ErrorText extends ConsumerWidget {
 class Results extends ConsumerWidget {
   const Results({super.key});
 
-  String buildMarkdown(List<AnkiCard> cards, {required bool isCompleted}) {
-    String markdown = '| Question | Answer |\n| --- | --- |\n';
-    for (final card in cards) {
-      markdown += '| ${card.question} | ${card.answer} |\n';
-    }
-
-    if (!isCompleted) {
-      markdown += '| ... | ... |\n';
-    }
-
-    return markdown;
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(generateStateProvider);
@@ -321,28 +317,92 @@ class Results extends ConsumerWidget {
               orElse: () => const SizedBox.shrink(),
             ),
             state.maybeWhen(
-              loading: (cards, language) => MarkdownBody(
-                selectable: true,
-                softLineBreak: true,
-                data: buildMarkdown(cards, isCompleted: false),
-              ),
+              loading: (cards, language) => _ResultList(cards: cards),
               error: (error, cards, language) => Column(
                 children: [
                   ErrorText(text: error),
                   const SizedBox(height: 12),
-                  MarkdownBody(
-                    selectable: true,
-                    softLineBreak: true,
-                    data: buildMarkdown(cards, isCompleted: false),
-                  ),
+                  _ResultList(cards: cards)
                 ],
               ),
-              success: (cards, url, language) => MarkdownBody(
-                selectable: true,
-                softLineBreak: true,
-                data: buildMarkdown(cards, isCompleted: true),
-              ),
+              success: (cards, url, language) => _ResultList(cards: cards),
               orElse: () => const SizedBox(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ResultList extends StatelessWidget {
+  const _ResultList({
+    Key? key,
+    required this.cards,
+  }) : super(key: key);
+
+  final List<AnkiCard> cards;
+
+  @override
+  Widget build(BuildContext context) {
+    return SelectionArea(
+      child: AnimationLimiter(
+        child: Column(
+          children: AnimationConfiguration.toStaggeredList(
+            duration: const Duration(milliseconds: 375),
+            childAnimationBuilder: (widget) => SlideAnimation(
+              verticalOffset: 20,
+              child: FadeInAnimation(child: widget),
+            ),
+            children: [
+              for (final card in cards)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: ResultCard(card: card),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ResultCard extends StatelessWidget {
+  const ResultCard({
+    Key? key,
+    required this.card,
+  }) : super(key: key);
+
+  final AnkiCard card;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      borderRadius: BorderRadius.circular(15),
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    card.question,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 6),
+            Text(
+              card.answer,
+              style: TextStyle(color: Colors.grey[700]),
             ),
           ],
         ),

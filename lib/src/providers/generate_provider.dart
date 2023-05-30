@@ -58,6 +58,27 @@ final localCards = [
     question: 'What is the capital of Italy?',
     answer: 'Rome',
   ),
+  AnkiCard(
+    createdAt: DateTime.now(),
+    question: 'What is the capital of Belgium?',
+    answer: 'Brussels',
+  ),
+  AnkiCard(
+    createdAt: DateTime.now(),
+    question: 'What is the capital of Luxembourg?',
+    answer: 'Luxembourg',
+  ),
+  AnkiCard(
+    createdAt: DateTime.now(),
+    question: 'What is the capital of Switzerland?',
+    answer: 'Bern',
+  ),
+  AnkiCard(
+    createdAt: DateTime.now(),
+    question: 'What is Platform as a Service (PaaS)?',
+    answer:
+        "Platform as a Service (PaaS) is a model of cloud computing that provides a platform for application development and deployment. In this model, cloud providers offer a complete development and deployment environment that allows software developers to build, deploy, and manage their applications in the cloud using a browser-based interface or APIs. It is highly scalable and flexible since cloud providers take care of the platform's infrastructure, and software developers can focus on developing their applications.",
+  ),
 ];
 
 class GenerateNotifier extends StateNotifier<GenerateState> {

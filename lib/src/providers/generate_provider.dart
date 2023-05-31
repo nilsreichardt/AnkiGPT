@@ -104,6 +104,10 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
   }) async {
     logger.d("Generating cards...");
 
+    state = GenerateState.success(generatedCards: localCards, downloadUrl: '');
+
+    return;
+
     if (!hasPlus && size.isPlus()) {
       throw PlusMembershipRequiredException();
     }

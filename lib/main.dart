@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ankigpt/firebase_options.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
@@ -394,7 +396,7 @@ class _ResultList extends StatelessWidget {
   }
 }
 
-class ResultCard extends StatelessWidget {
+class ResultCard extends StatefulWidget {
   const ResultCard({
     Key? key,
     required this.card,
@@ -403,34 +405,83 @@ class ResultCard extends StatelessWidget {
   final AnkiCard card;
 
   @override
+  State<ResultCard> createState() => _ResultCardState();
+}
+
+class _ResultCardState extends State<ResultCard> {
+  bool hovering = false;
+  int randomNumber = 0;
+
+  void switchHovering() {
+    setState(() {
+      hovering = !hovering;
+
+      // We need to add a random number to the key to prevent having two widgets
+      // with the same key when the user hovers over the card multiple times. If
+      // the user hovers over the same card multiple times, the widget with the
+      // old key will still be in the tree because of the animation.
+      randomNumber = Random().nextInt(1000000);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.circular(15),
-      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    card.question,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+    return MouseRegion(
+      onEnter: (_) => switchHovering(),
+      onExit: (_) => switchHovering(),
+      child: Material(
+        borderRadius: BorderRadius.circular(15),
+        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(14, 6, 14, 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.card.question,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                )
-              ],
-            ),
-            const SizedBox(height: 6),
-            Text(
-              card.answer,
-              style: TextStyle(color: Colors.grey[700]),
-            ),
-          ],
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 250),
+                    child: Opacity(
+                      key: ValueKey('$randomNumber + $hovering'),
+                      opacity: hovering ? 1 : 0,
+                      child: IgnorePointer(
+                        ignoring: !hovering,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              tooltip: 'Dislike, if this is a bad card.',
+                              iconSize: 15,
+                              onPressed: () {},
+                              icon: const Icon(Icons.thumb_down),
+                            ),
+                            IconButton(
+                              tooltip: 'Like, if this is a good card.',
+                              iconSize: 15,
+                              onPressed: () {},
+                              icon: const Icon(Icons.thumb_up),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Text(
+                widget.card.answer,
+                style: TextStyle(color: Colors.grey[700]),
+              ),
+            ],
+          ),
         ),
       ),
     );

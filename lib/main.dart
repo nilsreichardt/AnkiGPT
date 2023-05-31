@@ -378,6 +378,9 @@ class _ResultList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SelectionArea(
       child: AnimationLimiter(
+        // We don't use cards.length as key because we don't want to animate all
+        // cards when the list changes.
+        key: ValueKey(cards.isEmpty),
         child: Column(
           children: AnimationConfiguration.toStaggeredList(
             duration: const Duration(milliseconds: 375),

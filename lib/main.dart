@@ -100,6 +100,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             child: AnimationLimiter(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: AnimationConfiguration.toStaggeredList(
                   duration: const Duration(milliseconds: 500),
                   childAnimationBuilder: (widget) => SlideAnimation(

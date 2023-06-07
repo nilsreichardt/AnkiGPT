@@ -14,10 +14,20 @@ class GetCardsResponse with _$GetCardsResponse {
     List<AnkiCard>? cards,
     required bool isCompleted,
     CsvMetadata? csv,
-    String? error,
+    @JsonKey(fromJson: parseError) String? error,
     Language? language,
   }) = _GetCardsResponse;
 
   factory GetCardsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCardsResponseFromJson(json);
+}
+
+String? parseError(dynamic data) {
+  if (data == null) null;
+
+  if (data is Map<String, dynamic>) {
+    return data['message'] as String;
+  }
+
+  return data.toString();
 }

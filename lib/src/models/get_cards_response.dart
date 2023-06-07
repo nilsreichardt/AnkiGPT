@@ -29,5 +29,5 @@ String? parseError(dynamic data) {
     return data['message'] as String;
   }
 
-  return data.toString();
+  return data;
 }

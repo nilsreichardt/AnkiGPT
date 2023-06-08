@@ -374,8 +374,12 @@ class Results extends ConsumerWidget {
               orElse: () => const SizedBox.shrink(),
             ),
             state.maybeWhen(
-              loading: (sessionId, cards, language) =>
-                  _ResultList(sessionId: sessionId, cards: cards),
+              loading: (sessionId, cards, language) => cards.isEmpty
+                  ? const _LoadingCards()
+                  : _ResultList(
+                      sessionId: sessionId,
+                      cards: cards,
+                    ),
               error: (sessionId, error, cards, language) => Column(
                 children: [
                   ErrorText(text: error),
@@ -392,6 +396,41 @@ class Results extends ConsumerWidget {
               ),
               orElse: () => const SizedBox(),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LoadingCards extends StatelessWidget {
+  const _LoadingCards();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 32),
+      child: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 12),
+            const CircularProgressIndicator(),
+            const SizedBox(height: 12),
+            const Text(
+              'Generating cards... This may take a few minutes.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              'You can close the browser tab and come back later.',
+              style: TextStyle(
+                color: Colors.grey[500]!,
+                fontSize: 14,
+              ),
+            )
           ],
         ),
       ),
@@ -718,7 +757,7 @@ class Controls extends ConsumerWidget {
             children: [
               const Select(),
               const Expanded(child: SizedBox.shrink()),
-              LoadingButton(isVisible: view.isGenerating),
+              LoadingButton(isVisible: view.showLoadingIndicator),
               const SizedBox(width: 12),
               GenerateButton(isEnabled: view.isGeneratedButtonEnabled),
             ],
@@ -734,7 +773,7 @@ class Controls extends ConsumerWidget {
       children: [
         DownloadButton(isVisible: view.isDownloadButtonVisible),
         const Expanded(child: SizedBox.shrink()),
-        LoadingButton(isVisible: view.isGenerating),
+        LoadingButton(isVisible: view.showLoadingIndicator),
         const Select(),
         const SizedBox(width: 12),
         GenerateButton(isEnabled: view.isGeneratedButtonEnabled),

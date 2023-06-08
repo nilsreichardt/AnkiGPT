@@ -9,5 +9,6 @@ class ControlsView with _$ControlsView {
     required bool isGenerating,
     required bool isDownloadAvailable,
     required bool isDownloadButtonVisible,
+    required bool showLoadingIndicator,
   }) = _ControlsView;
 }

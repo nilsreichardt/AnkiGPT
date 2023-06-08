@@ -20,6 +20,7 @@ mixin _$ControlsView {
   bool get isGenerating => throw _privateConstructorUsedError;
   bool get isDownloadAvailable => throw _privateConstructorUsedError;
   bool get isDownloadButtonVisible => throw _privateConstructorUsedError;
+  bool get showLoadingIndicator => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ControlsViewCopyWith<ControlsView> get copyWith =>
@@ -36,7 +37,8 @@ abstract class $ControlsViewCopyWith<$Res> {
       {bool isGeneratedButtonEnabled,
       bool isGenerating,
       bool isDownloadAvailable,
-      bool isDownloadButtonVisible});
+      bool isDownloadButtonVisible,
+      bool showLoadingIndicator});
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$ControlsViewCopyWithImpl<$Res, $Val extends ControlsView>
     Object? isGenerating = null,
     Object? isDownloadAvailable = null,
     Object? isDownloadButtonVisible = null,
+    Object? showLoadingIndicator = null,
   }) {
     return _then(_value.copyWith(
       isGeneratedButtonEnabled: null == isGeneratedButtonEnabled
@@ -74,6 +77,10 @@ class _$ControlsViewCopyWithImpl<$Res, $Val extends ControlsView>
           ? _value.isDownloadButtonVisible
           : isDownloadButtonVisible // ignore: cast_nullable_to_non_nullable
               as bool,
+      showLoadingIndicator: null == showLoadingIndicator
+          ? _value.showLoadingIndicator
+          : showLoadingIndicator // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -90,7 +97,8 @@ abstract class _$$_ControlsViewCopyWith<$Res>
       {bool isGeneratedButtonEnabled,
       bool isGenerating,
       bool isDownloadAvailable,
-      bool isDownloadButtonVisible});
+      bool isDownloadButtonVisible,
+      bool showLoadingIndicator});
 }
 
 /// @nodoc
@@ -108,6 +116,7 @@ class __$$_ControlsViewCopyWithImpl<$Res>
     Object? isGenerating = null,
     Object? isDownloadAvailable = null,
     Object? isDownloadButtonVisible = null,
+    Object? showLoadingIndicator = null,
   }) {
     return _then(_$_ControlsView(
       isGeneratedButtonEnabled: null == isGeneratedButtonEnabled
@@ -126,6 +135,10 @@ class __$$_ControlsViewCopyWithImpl<$Res>
           ? _value.isDownloadButtonVisible
           : isDownloadButtonVisible // ignore: cast_nullable_to_non_nullable
               as bool,
+      showLoadingIndicator: null == showLoadingIndicator
+          ? _value.showLoadingIndicator
+          : showLoadingIndicator // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -137,7 +150,8 @@ class _$_ControlsView implements _ControlsView {
       {required this.isGeneratedButtonEnabled,
       required this.isGenerating,
       required this.isDownloadAvailable,
-      required this.isDownloadButtonVisible});
+      required this.isDownloadButtonVisible,
+      required this.showLoadingIndicator});
 
   @override
   final bool isGeneratedButtonEnabled;
@@ -147,10 +161,12 @@ class _$_ControlsView implements _ControlsView {
   final bool isDownloadAvailable;
   @override
   final bool isDownloadButtonVisible;
+  @override
+  final bool showLoadingIndicator;
 
   @override
   String toString() {
-    return 'ControlsView(isGeneratedButtonEnabled: $isGeneratedButtonEnabled, isGenerating: $isGenerating, isDownloadAvailable: $isDownloadAvailable, isDownloadButtonVisible: $isDownloadButtonVisible)';
+    return 'ControlsView(isGeneratedButtonEnabled: $isGeneratedButtonEnabled, isGenerating: $isGenerating, isDownloadAvailable: $isDownloadAvailable, isDownloadButtonVisible: $isDownloadButtonVisible, showLoadingIndicator: $showLoadingIndicator)';
   }
 
   @override
@@ -167,12 +183,19 @@ class _$_ControlsView implements _ControlsView {
                 other.isDownloadAvailable == isDownloadAvailable) &&
             (identical(
                     other.isDownloadButtonVisible, isDownloadButtonVisible) ||
-                other.isDownloadButtonVisible == isDownloadButtonVisible));
+                other.isDownloadButtonVisible == isDownloadButtonVisible) &&
+            (identical(other.showLoadingIndicator, showLoadingIndicator) ||
+                other.showLoadingIndicator == showLoadingIndicator));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isGeneratedButtonEnabled,
-      isGenerating, isDownloadAvailable, isDownloadButtonVisible);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isGeneratedButtonEnabled,
+      isGenerating,
+      isDownloadAvailable,
+      isDownloadButtonVisible,
+      showLoadingIndicator);
 
   @JsonKey(ignore: true)
   @override
@@ -186,7 +209,8 @@ abstract class _ControlsView implements ControlsView {
       {required final bool isGeneratedButtonEnabled,
       required final bool isGenerating,
       required final bool isDownloadAvailable,
-      required final bool isDownloadButtonVisible}) = _$_ControlsView;
+      required final bool isDownloadButtonVisible,
+      required final bool showLoadingIndicator}) = _$_ControlsView;
 
   @override
   bool get isGeneratedButtonEnabled;
@@ -196,6 +220,8 @@ abstract class _ControlsView implements ControlsView {
   bool get isDownloadAvailable;
   @override
   bool get isDownloadButtonVisible;
+  @override
+  bool get showLoadingIndicator;
   @override
   @JsonKey(ignore: true)
   _$$_ControlsViewCopyWith<_$_ControlsView> get copyWith =>

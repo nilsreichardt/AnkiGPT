@@ -27,7 +27,7 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
         with:
-          sdk: 3.1.0
+          sdk: beta
 
       - name: Format
         run: dart format --set-exit-if-changed .

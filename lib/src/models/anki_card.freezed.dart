@@ -23,6 +23,7 @@ mixin _$AnkiCard {
   String get id => throw _privateConstructorUsedError;
   String get question => throw _privateConstructorUsedError;
   String get answer => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: parseTimestampOrIsoString)
   DateTime get createdAt => throw _privateConstructorUsedError;
   bool get hasLiked => throw _privateConstructorUsedError;
   bool get hasDisliked => throw _privateConstructorUsedError;
@@ -42,7 +43,7 @@ abstract class $AnkiCardCopyWith<$Res> {
       {String id,
       String question,
       String answer,
-      DateTime createdAt,
+      @JsonKey(fromJson: parseTimestampOrIsoString) DateTime createdAt,
       bool hasLiked,
       bool hasDisliked});
 }
@@ -107,7 +108,7 @@ abstract class _$$_AnkiCardCopyWith<$Res> implements $AnkiCardCopyWith<$Res> {
       {String id,
       String question,
       String answer,
-      DateTime createdAt,
+      @JsonKey(fromJson: parseTimestampOrIsoString) DateTime createdAt,
       bool hasLiked,
       bool hasDisliked});
 }
@@ -166,7 +167,7 @@ class _$_AnkiCard implements _AnkiCard {
       {required this.id,
       required this.question,
       required this.answer,
-      required this.createdAt,
+      @JsonKey(fromJson: parseTimestampOrIsoString) required this.createdAt,
       this.hasLiked = false,
       this.hasDisliked = false});
 
@@ -180,6 +181,7 @@ class _$_AnkiCard implements _AnkiCard {
   @override
   final String answer;
   @override
+  @JsonKey(fromJson: parseTimestampOrIsoString)
   final DateTime createdAt;
   @override
   @JsonKey()
@@ -234,7 +236,8 @@ abstract class _AnkiCard implements AnkiCard {
       {required final String id,
       required final String question,
       required final String answer,
-      required final DateTime createdAt,
+      @JsonKey(fromJson: parseTimestampOrIsoString)
+          required final DateTime createdAt,
       final bool hasLiked,
       final bool hasDisliked}) = _$_AnkiCard;
 
@@ -247,6 +250,7 @@ abstract class _AnkiCard implements AnkiCard {
   @override
   String get answer;
   @override
+  @JsonKey(fromJson: parseTimestampOrIsoString)
   DateTime get createdAt;
   @override
   bool get hasLiked;

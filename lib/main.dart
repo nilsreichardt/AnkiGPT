@@ -8,8 +8,10 @@ import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
+import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/card_feedback_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
+import 'package:ankigpt/src/pages/widgets/history_section.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/theme.dart';
@@ -19,6 +21,7 @@ import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
 import 'package:ankigpt/src/providers/dislike_provider.dart';
+import 'package:ankigpt/src/providers/firebase_auth_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/like_provider.dart';
@@ -147,13 +150,20 @@ class _Logo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
-      onDoubleTap: () {
-        final hasPlus = ref.read(hasPlusProvider);
-        ref.read(hasPlusProvider.notifier).state = !hasPlus;
-      },
-      child: SvgPicture.asset(
-        'assets/logo/raw_logo.svg',
+    return Tooltip(
+      message: 'Home',
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () {
+          ref.read(generateStateProvider.notifier).reset();
+        },
+        onDoubleTap: () {
+          final hasPlus = ref.read(hasPlusProvider);
+          ref.read(hasPlusProvider.notifier).state = !hasPlus;
+        },
+        child: SvgPicture.asset(
+          'assets/logo/raw_logo.svg',
+        ),
       ),
     );
   }
@@ -344,7 +354,14 @@ class Results extends ConsumerWidget {
       ),
       duration: const Duration(milliseconds: 300),
       child: state.maybeWhen(
-        initial: (_) => const Tutorial(),
+        initial: (_) {
+          final isSignedIn = ref.read(firebaseAuthProvider).currentUser != null;
+          if (isSignedIn) {
+            return const HistorySection();
+          }
+
+          return const Tutorial();
+        },
         orElse: () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -458,9 +475,7 @@ class _ResultCardState extends ConsumerState<ResultCard> {
     return MouseRegion(
       onEnter: (_) => switchHovering(),
       onExit: (_) => switchHovering(),
-      child: Material(
-        borderRadius: BorderRadius.circular(15),
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      child: AnkiGptCard(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(14, 6, 14, 16),
           child: Column(

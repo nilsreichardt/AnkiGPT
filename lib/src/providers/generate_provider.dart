@@ -3,6 +3,7 @@ import 'package:ankigpt/src/infrastructure/session_repository.dart';
 import 'package:ankigpt/src/infrastructure/user_repository.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
+import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
@@ -181,6 +182,23 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
         await Future.delayed(const Duration(seconds: 3));
       }
     }
+  }
+
+  void setSuccess({
+    required String sessionId,
+    required List<AnkiCard> generatedCards,
+    required String downloadUrl,
+    required Language language,
+  }) =>
+      state = GenerateState.success(
+        sessionId: sessionId,
+        generatedCards: generatedCards,
+        downloadUrl: downloadUrl,
+        language: language,
+      );
+
+  void reset() {
+    state = const GenerateState.initial();
   }
 }
 

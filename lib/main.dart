@@ -20,6 +20,7 @@ import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
@@ -101,6 +102,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             child: AnimationLimiter(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: AnimationConfiguration.toStaggeredList(
                   duration: const Duration(milliseconds: 500),
                   childAnimationBuilder: (widget) => SlideAnimation(
@@ -311,9 +313,12 @@ class ErrorText extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Text(
-      'Error while generating ("$text"). Please retry.',
-      style: TextStyle(color: Theme.of(context).colorScheme.error),
+    return MarkdownBody(
+      data:
+          'Error while generating ("$text"). Please retry or contact [support](https://wa.me/4915229504121).',
+      styleSheet: MarkdownStyleSheet(
+        p: TextStyle(color: Theme.of(context).colorScheme.error),
+      ),
     );
   }
 }
@@ -375,6 +380,9 @@ class _ResultList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SelectionArea(
       child: AnimationLimiter(
+        // We don't use cards.length as key because we don't want to animate all
+        // cards when the list changes.
+        key: ValueKey(cards.isEmpty),
         child: Column(
           children: AnimationConfiguration.toStaggeredList(
             duration: const Duration(milliseconds: 375),

@@ -23,6 +23,7 @@ mixin _$GetCardsResponse {
   List<AnkiCard>? get cards => throw _privateConstructorUsedError;
   bool get isCompleted => throw _privateConstructorUsedError;
   CsvMetadata? get csv => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: parseError)
   String? get error => throw _privateConstructorUsedError;
   Language? get language => throw _privateConstructorUsedError;
 
@@ -42,7 +43,7 @@ abstract class $GetCardsResponseCopyWith<$Res> {
       {List<AnkiCard>? cards,
       bool isCompleted,
       CsvMetadata? csv,
-      String? error,
+      @JsonKey(fromJson: parseError) String? error,
       Language? language});
 
   $CsvMetadataCopyWith<$Res>? get csv;
@@ -116,7 +117,7 @@ abstract class _$$_GetCardsResponseCopyWith<$Res>
       {List<AnkiCard>? cards,
       bool isCompleted,
       CsvMetadata? csv,
-      String? error,
+      @JsonKey(fromJson: parseError) String? error,
       Language? language});
 
   @override
@@ -172,7 +173,7 @@ class _$_GetCardsResponse implements _GetCardsResponse {
       {final List<AnkiCard>? cards,
       required this.isCompleted,
       this.csv,
-      this.error,
+      @JsonKey(fromJson: parseError) this.error,
       this.language})
       : _cards = cards;
 
@@ -194,6 +195,7 @@ class _$_GetCardsResponse implements _GetCardsResponse {
   @override
   final CsvMetadata? csv;
   @override
+  @JsonKey(fromJson: parseError)
   final String? error;
   @override
   final Language? language;
@@ -246,7 +248,7 @@ abstract class _GetCardsResponse implements GetCardsResponse {
       {final List<AnkiCard>? cards,
       required final bool isCompleted,
       final CsvMetadata? csv,
-      final String? error,
+      @JsonKey(fromJson: parseError) final String? error,
       final Language? language}) = _$_GetCardsResponse;
 
   factory _GetCardsResponse.fromJson(Map<String, dynamic> json) =
@@ -259,6 +261,7 @@ abstract class _GetCardsResponse implements GetCardsResponse {
   @override
   CsvMetadata? get csv;
   @override
+  @JsonKey(fromJson: parseError)
   String? get error;
   @override
   Language? get language;

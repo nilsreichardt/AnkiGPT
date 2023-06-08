@@ -15,7 +15,7 @@ _$_GetCardsResponse _$$_GetCardsResponseFromJson(Map<String, dynamic> json) =>
       csv: json['csv'] == null
           ? null
           : CsvMetadata.fromJson(json['csv'] as Map<String, dynamic>),
-      error: json['error'] as String?,
+      error: parseError(json['error']),
       language: $enumDecodeNullable(_$LanguageEnumMap, json['language']),
     );
 

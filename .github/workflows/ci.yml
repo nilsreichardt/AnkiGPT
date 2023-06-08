@@ -30,7 +30,7 @@ jobs:
           sdk: beta
 
       - name: Format
-        run: dart format --set-exit-if-changed .
+        run: dart format $(find lib -name "*.dart" -not \( -name "*.*freezed.dart" -o -name "*.*g.dart" \) ) --set-exit-if-changed .
 
   test:
     # We need to use macOS because of the golden tests, see

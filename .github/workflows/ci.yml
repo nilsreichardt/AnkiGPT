@@ -24,30 +24,32 @@ jobs:
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
-      - name: Install Dart 
+      - name: Install Dart
         uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
+        with:
+          sdk: 3.1.0
 
       - name: Format
         run: dart format --set-exit-if-changed .
 
   test:
-    # We need to use macOS because of the golden tests, see 
+    # We need to use macOS because of the golden tests, see
     # https://github.com/flutter/flutter/issues/36667#issuecomment-521335243.
     runs-on: macos-12
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
-    
+
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
-    
+
       - uses: subosito/flutter-action@main
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
-        
+
       - name: Test
         run: flutter test
-        
+
       # Uploads the results of failed tests as .zip to GitHub.
       #
       # You can find the file under the "Summary" Tab on GitHub when all jobs of
@@ -71,7 +73,7 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
-      checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs 
+      checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 

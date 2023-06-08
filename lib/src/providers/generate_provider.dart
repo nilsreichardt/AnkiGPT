@@ -35,52 +35,62 @@ final localCards = [
     createdAt: DateTime.now(),
     question: 'What is the capital of Spain?',
     answer: 'Madrid',
+    id: '1',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
     question: 'What is the capital of Portugal?',
     answer: 'Lisbon',
+    id: '2',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
     question: 'What is the capital of the Netherlands?',
     answer: 'Amsterdam',
+    id: '3',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
     question: 'What is the capital of France?',
     answer: 'Paris',
+    id: '4',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
     question: 'What is the capital of Germany?',
     answer: 'Berlin',
+    id: '5',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
     question: 'What is the capital of Italy?',
     answer: 'Rome',
+    id: '6',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
     question: 'What is the capital of Belgium?',
     answer: 'Brussels',
+    id: '7',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
     question: 'What is the capital of Luxembourg?',
     answer: 'Luxembourg',
+    id: '8',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
     question: 'What is the capital of Switzerland?',
     answer: 'Bern',
+    id: '9',
   ),
   AnkiCard(
     createdAt: DateTime.now(),
     question: 'What is Platform as a Service (PaaS)?',
     answer:
         "Platform as a Service (PaaS) is a model of cloud computing that provides a platform for application development and deployment. In this model, cloud providers offer a complete development and deployment environment that allows software developers to build, deploy, and manage their applications in the cloud using a browser-based interface or APIs. It is highly scalable and flexible since cloud providers take care of the platform's infrastructure, and software developers can focus on developing their applications.",
+    id: '10',
   ),
 ];
 
@@ -104,9 +114,13 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
   }) async {
     logger.d("Generating cards...");
 
-    state = GenerateState.success(generatedCards: localCards, downloadUrl: '');
+    // state = GenerateState.success(
+    //   sessionId: '123',
+    //   generatedCards: localCards,
+    //   downloadUrl: '',
+    // );
 
-    return;
+    // return;
 
     if (!hasPlus && size.isPlus()) {
       throw PlusMembershipRequiredException();
@@ -142,6 +156,7 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
 
       if (getCardsResponse.error != null) {
         state = GenerateState.error(
+          sessionId: getCardsResponse.sessionId!,
           message: getCardsResponse.error!,
           generatedCards: cards,
           language: getCardsResponse.language,
@@ -152,12 +167,14 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
       if (getCardsResponse.isCompleted) {
         isCompleted = true;
         state = GenerateState.success(
+          sessionId: getCardsResponse.sessionId!,
           generatedCards: cards,
           downloadUrl: getCardsResponse.csv?.downloadUrl,
           language: getCardsResponse.language,
         );
       } else {
         state = GenerateState.loading(
+          sessionId: getCardsResponse.sessionId,
           alreadyGeneratedCards: cards,
           language: getCardsResponse.language,
         );

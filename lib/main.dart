@@ -2,18 +2,26 @@ import 'dart:math';
 
 import 'package:ankigpt/firebase_options.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
+import 'package:ankigpt/src/models/card_feedback.dart';
+import 'package:ankigpt/src/models/card_id.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/models/language.dart';
+import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
+import 'package:ankigpt/src/pages/widgets/card_feedback_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
+import 'package:ankigpt/src/pages/widgets/theme.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/buy_provider.dart';
+import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
+import 'package:ankigpt/src/providers/dislike_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/like_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
@@ -66,10 +74,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'AnkiGPT',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00FF7F)),
-        useMaterial3: true,
-      ),
+      theme: ankigptTheme,
       home: const MyHomePage(),
       routes: {
         '/imprint': (context) => const ImprintPage(),
@@ -344,21 +349,30 @@ class Results extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             state.maybeWhen(
-              error: (_, __, language) => _LanguageText(language: language),
-              success: (_, __, language) => _LanguageText(language: language),
-              loading: (_, language) => _LanguageText(language: language),
+              error: (_, __, ___, language) =>
+                  _LanguageText(language: language),
+              success: (_, __, ___, language) =>
+                  _LanguageText(language: language),
+              loading: (_, ___, language) => _LanguageText(language: language),
               orElse: () => const SizedBox.shrink(),
             ),
             state.maybeWhen(
-              loading: (cards, language) => _ResultList(cards: cards),
-              error: (error, cards, language) => Column(
+              loading: (sessionId, cards, language) =>
+                  _ResultList(sessionId: sessionId, cards: cards),
+              error: (sessionId, error, cards, language) => Column(
                 children: [
                   ErrorText(text: error),
                   const SizedBox(height: 12),
-                  _ResultList(cards: cards)
+                  _ResultList(
+                    cards: cards,
+                    sessionId: sessionId,
+                  )
                 ],
               ),
-              success: (cards, url, language) => _ResultList(cards: cards),
+              success: (sessionId, cards, url, language) => _ResultList(
+                sessionId: sessionId,
+                cards: cards,
+              ),
               orElse: () => const SizedBox(),
             ),
           ],
@@ -372,8 +386,10 @@ class _ResultList extends StatelessWidget {
   const _ResultList({
     Key? key,
     required this.cards,
+    required this.sessionId,
   }) : super(key: key);
 
+  final SessionId? sessionId;
   final List<AnkiCard> cards;
 
   @override
@@ -394,7 +410,10 @@ class _ResultList extends StatelessWidget {
               for (final card in cards)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: ResultCard(card: card),
+                  child: ResultCard(
+                    card: card,
+                    sessionId: sessionId!,
+                  ),
                 ),
             ],
           ),
@@ -404,19 +423,21 @@ class _ResultList extends StatelessWidget {
   }
 }
 
-class ResultCard extends StatefulWidget {
+class ResultCard extends ConsumerStatefulWidget {
   const ResultCard({
     Key? key,
     required this.card,
+    required this.sessionId,
   }) : super(key: key);
 
   final AnkiCard card;
+  final SessionId sessionId;
 
   @override
-  State<ResultCard> createState() => _ResultCardState();
+  ConsumerState<ResultCard> createState() => _ResultCardState();
 }
 
-class _ResultCardState extends State<ResultCard> {
+class _ResultCardState extends ConsumerState<ResultCard> {
   bool hovering = false;
   int randomNumber = 0;
 
@@ -456,31 +477,11 @@ class _ResultCardState extends State<ResultCard> {
                       ),
                     ),
                   ),
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 250),
-                    child: Opacity(
-                      key: ValueKey('$randomNumber + $hovering'),
-                      opacity: hovering ? 1 : 0,
-                      child: IgnorePointer(
-                        ignoring: !hovering,
-                        child: Row(
-                          children: [
-                            IconButton(
-                              tooltip: 'Dislike, if this is a bad card.',
-                              iconSize: 15,
-                              onPressed: () {},
-                              icon: const Icon(Icons.thumb_down),
-                            ),
-                            IconButton(
-                              tooltip: 'Like, if this is a good card.',
-                              iconSize: 15,
-                              onPressed: () {},
-                              icon: const Icon(Icons.thumb_up),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                  _Controls(
+                    isHovering: hovering,
+                    cardId: widget.card.id,
+                    randomNumber: randomNumber,
+                    sessionId: widget.sessionId,
                   )
                 ],
               ),
@@ -492,6 +493,146 @@ class _ResultCardState extends State<ResultCard> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Controls extends ConsumerWidget {
+  const _Controls({
+    required this.isHovering,
+    required this.cardId,
+    required this.randomNumber,
+    required this.sessionId,
+  });
+
+  final bool isHovering;
+  final CardId cardId;
+  final SessionId sessionId;
+  final int randomNumber;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final status = ref.watch(cardFeedbackStatusProvider(cardId));
+    final hasLiked = status == CardFeedbackStatus.liked;
+    final hasDisliked = status == CardFeedbackStatus.disliked;
+    return Row(
+      children: [
+        if (hasLiked)
+          _UndoLikeButton(
+            cardId: cardId,
+            sessionId: sessionId,
+          ),
+        if (hasDisliked)
+          _UndoDislikeButton(
+            cardId: cardId,
+            sessionId: sessionId,
+          ),
+        if (!hasDisliked && !hasLiked)
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 250),
+            child: Opacity(
+              key: ValueKey('$randomNumber + $isHovering'),
+              opacity: isHovering ? 1 : 0,
+              child: IgnorePointer(
+                ignoring: !isHovering,
+                child: Row(
+                  children: [
+                    IconButton(
+                      tooltip: 'Dislike, if this is a bad card.',
+                      iconSize: 15,
+                      onPressed: () {
+                        ref
+                            .read(cardFeedbackStatusProvider(cardId).notifier)
+                            .state = CardFeedbackStatus.disliked;
+                        ref.read(
+                          dislikeCardProvider(
+                            cardId: cardId,
+                            sessionId: sessionId,
+                          ),
+                        );
+                        showCardDislikeDialog(
+                          context,
+                          cardId: cardId,
+                          sessionId: sessionId,
+                        );
+                      },
+                      icon: const Icon(Icons.thumb_down),
+                    ),
+                    IconButton(
+                      tooltip: 'Like, if this is a good card.',
+                      iconSize: 15,
+                      onPressed: () {
+                        ref
+                            .read(cardFeedbackStatusProvider(cardId).notifier)
+                            .state = CardFeedbackStatus.liked;
+                        ref.read(
+                          likeCardProvider(
+                            cardId: cardId,
+                            sessionId: sessionId,
+                          ),
+                        );
+                        showCardLikeDialog(
+                          context,
+                          sessionId: sessionId,
+                          cardId: cardId,
+                        );
+                      },
+                      icon: const Icon(Icons.thumb_up),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
+      ],
+    );
+  }
+}
+
+class _UndoLikeButton extends ConsumerWidget {
+  const _UndoLikeButton({
+    required this.cardId,
+    required this.sessionId,
+  });
+
+  final CardId cardId;
+  final SessionId sessionId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return IconButton(
+      tooltip: 'Undo like',
+      iconSize: 15,
+      onPressed: () {
+        ref.read(cardFeedbackStatusProvider(cardId).notifier).state =
+            CardFeedbackStatus.notReviewed;
+        ref.read(undoLikeCardProvider(cardId: cardId, sessionId: sessionId));
+      },
+      icon: const Icon(Icons.thumb_up),
+    );
+  }
+}
+
+class _UndoDislikeButton extends ConsumerWidget {
+  const _UndoDislikeButton({
+    required this.cardId,
+    required this.sessionId,
+  });
+
+  final CardId cardId;
+  final SessionId sessionId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return IconButton(
+      tooltip: 'Undo dislike',
+      iconSize: 15,
+      onPressed: () {
+        ref.read(cardFeedbackStatusProvider(cardId).notifier).state =
+            CardFeedbackStatus.notReviewed;
+        ref.read(undoDislikeCardProvider(cardId: cardId, sessionId: sessionId));
+      },
+      icon: const Icon(Icons.thumb_down),
     );
   }
 }
@@ -830,9 +971,9 @@ class DownloadButton extends ConsumerWidget {
         child: Tooltip(
           key: ValueKey(isFinished),
           message: state.maybeWhen(
-            loading: (_, __) =>
+            loading: (_, __, ___) =>
                 'Still generating... Please wait a few seconds.',
-            success: (_, __, ___) => 'Download as .csv file to import it',
+            success: (_, __, ___, ____) => 'Download as .csv file to import it',
             orElse: () => '',
           ),
           child: ElevatedButton.icon(
@@ -877,7 +1018,7 @@ class LoadingButton extends StatelessWidget {
               padding: const EdgeInsets.only(right: 12),
               child: Tooltip(
                 key: super.key,
-                message: 'Generating Cards... Takes 30 - 90 seconds.',
+                message: 'Generating Cards...',
                 child: const SizedBox(
                   height: 25,
                   width: 25,

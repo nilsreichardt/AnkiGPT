@@ -1,45 +1,91 @@
 import 'package:ankigpt/src/models/card_feedback.dart';
+import 'package:ankigpt/src/models/card_id.dart';
+import 'package:ankigpt/src/models/session_id.dart';
+import 'package:ankigpt/src/providers/dislike_provider.dart';
+import 'package:ankigpt/src/providers/like_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-Future<void> showCardLikeDialog(BuildContext context) async {
+Future<void> showCardLikeDialog(
+  BuildContext context, {
+  required CardId cardId,
+  required SessionId sessionId,
+}) async {
   return showDialog<void>(
     context: context,
-    builder: (context) => const CardLikeDialog(),
+    builder: (context) => CardLikeDialog(
+      cardId: cardId,
+      sessionId: sessionId,
+    ),
     routeSettings: const RouteSettings(name: 'card-like-dialog'),
   );
 }
 
-Future<void> showCardDislikeDialog(BuildContext context) async {
+Future<void> showCardDislikeDialog(
+  BuildContext context, {
+  required CardId cardId,
+  required SessionId sessionId,
+}) async {
   return showDialog<void>(
     context: context,
-    builder: (context) => const CardDislikeDialog(),
+    builder: (context) => CardDislikeDialog(
+      cardId: cardId,
+      sessionId: sessionId,
+    ),
     routeSettings: const RouteSettings(name: 'card-dislike-dialog'),
   );
 }
 
-class CardLikeDialog extends StatelessWidget {
-  const CardLikeDialog({super.key});
+class CardLikeDialog extends ConsumerWidget {
+  const CardLikeDialog({
+    super.key,
+    required this.cardId,
+    required this.sessionId,
+  });
+
+  final CardId cardId;
+  final SessionId sessionId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return _CardFeedbackBaseDialog(
       icon: const Icon(Icons.thumb_up),
       iconColor: Theme.of(context).colorScheme.primary,
-      onSubmit: (values) {},
+      onSubmit: (values) {
+        ref.read(likeCardProvider(
+          sessionId: sessionId,
+          cardId: cardId,
+          text: values.$2,
+        ));
+      },
       textfieldHint: 'What do you like about the card?',
     );
   }
 }
 
-class CardDislikeDialog extends StatelessWidget {
-  const CardDislikeDialog({super.key});
+class CardDislikeDialog extends ConsumerWidget {
+  const CardDislikeDialog({
+    super.key,
+    required this.cardId,
+    required this.sessionId,
+  });
+
+  final CardId cardId;
+  final SessionId sessionId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return _CardFeedbackBaseDialog(
       icon: const Icon(Icons.thumb_down),
       iconColor: Colors.red,
-      onSubmit: (values) {},
+      onSubmit: (values) {
+        ref.read(dislikeCardProvider(
+          sessionId: sessionId,
+          cardId: cardId,
+          checkboxes: values.$1,
+          text: values.$2,
+        ));
+      },
       feedbackTypes: CardDislikeFeedbackType.values,
       textfieldHint:
           'What is the issue with the card? How could it be improved?',
@@ -131,7 +177,10 @@ class _CardFeedbackBaseDialogState extends State<_CardFeedbackBaseDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: () => widget.onSubmit((feedbackCheckboxes, feedbackText)),
+          onPressed: () {
+            widget.onSubmit((feedbackCheckboxes, feedbackText));
+            Navigator.of(context).pop();
+          },
           child: const Text('Submit'),
         ),
       ],

@@ -7,6 +7,7 @@ part of 'anki_card.dart';
 // **************************************************************************
 
 _$_AnkiCard _$$_AnkiCardFromJson(Map<String, dynamic> json) => _$_AnkiCard(
+      id: json['id'] as String,
       question: json['question'] as String,
       answer: json['answer'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
@@ -16,6 +17,7 @@ _$_AnkiCard _$$_AnkiCardFromJson(Map<String, dynamic> json) => _$_AnkiCard(
 
 Map<String, dynamic> _$$_AnkiCardToJson(_$_AnkiCard instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'question': instance.question,
       'answer': instance.answer,
       'createdAt': instance.createdAt.toIso8601String(),

@@ -20,6 +20,7 @@ AnkiCard _$AnkiCardFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AnkiCard {
+  String get id => throw _privateConstructorUsedError;
   String get question => throw _privateConstructorUsedError;
   String get answer => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -38,7 +39,8 @@ abstract class $AnkiCardCopyWith<$Res> {
       _$AnkiCardCopyWithImpl<$Res, AnkiCard>;
   @useResult
   $Res call(
-      {String question,
+      {String id,
+      String question,
       String answer,
       DateTime createdAt,
       bool hasLiked,
@@ -58,6 +60,7 @@ class _$AnkiCardCopyWithImpl<$Res, $Val extends AnkiCard>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? question = null,
     Object? answer = null,
     Object? createdAt = null,
@@ -65,6 +68,10 @@ class _$AnkiCardCopyWithImpl<$Res, $Val extends AnkiCard>
     Object? hasDisliked = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       question: null == question
           ? _value.question
           : question // ignore: cast_nullable_to_non_nullable
@@ -97,7 +104,8 @@ abstract class _$$_AnkiCardCopyWith<$Res> implements $AnkiCardCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String question,
+      {String id,
+      String question,
       String answer,
       DateTime createdAt,
       bool hasLiked,
@@ -115,6 +123,7 @@ class __$$_AnkiCardCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? question = null,
     Object? answer = null,
     Object? createdAt = null,
@@ -122,6 +131,10 @@ class __$$_AnkiCardCopyWithImpl<$Res>
     Object? hasDisliked = null,
   }) {
     return _then(_$_AnkiCard(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       question: null == question
           ? _value.question
           : question // ignore: cast_nullable_to_non_nullable
@@ -150,7 +163,8 @@ class __$$_AnkiCardCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AnkiCard implements _AnkiCard {
   const _$_AnkiCard(
-      {required this.question,
+      {required this.id,
+      required this.question,
       required this.answer,
       required this.createdAt,
       this.hasLiked = false,
@@ -159,6 +173,8 @@ class _$_AnkiCard implements _AnkiCard {
   factory _$_AnkiCard.fromJson(Map<String, dynamic> json) =>
       _$$_AnkiCardFromJson(json);
 
+  @override
+  final String id;
   @override
   final String question;
   @override
@@ -174,7 +190,7 @@ class _$_AnkiCard implements _AnkiCard {
 
   @override
   String toString() {
-    return 'AnkiCard(question: $question, answer: $answer, createdAt: $createdAt, hasLiked: $hasLiked, hasDisliked: $hasDisliked)';
+    return 'AnkiCard(id: $id, question: $question, answer: $answer, createdAt: $createdAt, hasLiked: $hasLiked, hasDisliked: $hasDisliked)';
   }
 
   @override
@@ -182,6 +198,7 @@ class _$_AnkiCard implements _AnkiCard {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AnkiCard &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.question, question) ||
                 other.question == question) &&
             (identical(other.answer, answer) || other.answer == answer) &&
@@ -196,7 +213,7 @@ class _$_AnkiCard implements _AnkiCard {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, question, answer, createdAt, hasLiked, hasDisliked);
+      runtimeType, id, question, answer, createdAt, hasLiked, hasDisliked);
 
   @JsonKey(ignore: true)
   @override
@@ -214,7 +231,8 @@ class _$_AnkiCard implements _AnkiCard {
 
 abstract class _AnkiCard implements AnkiCard {
   const factory _AnkiCard(
-      {required final String question,
+      {required final String id,
+      required final String question,
       required final String answer,
       required final DateTime createdAt,
       final bool hasLiked,
@@ -222,6 +240,8 @@ abstract class _AnkiCard implements AnkiCard {
 
   factory _AnkiCard.fromJson(Map<String, dynamic> json) = _$_AnkiCard.fromJson;
 
+  @override
+  String get id;
   @override
   String get question;
   @override

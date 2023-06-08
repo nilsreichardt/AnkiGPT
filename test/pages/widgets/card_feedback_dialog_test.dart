@@ -13,7 +13,11 @@ void main() {
           home: Scaffold(
             body: Builder(builder: (context) {
               return ElevatedButton(
-                onPressed: () => showCardLikeDialog(context),
+                onPressed: () => showCardLikeDialog(
+                  context,
+                  cardId: '',
+                  sessionId: '',
+                ),
                 child: const Text('Click'),
               );
             }),
@@ -36,7 +40,11 @@ void main() {
           home: Scaffold(
             body: Builder(builder: (context) {
               return ElevatedButton(
-                onPressed: () => showCardDislikeDialog(context),
+                onPressed: () => showCardDislikeDialog(
+                  context,
+                  cardId: '',
+                  sessionId: '',
+                ),
                 child: const Text('Click'),
               );
             }),

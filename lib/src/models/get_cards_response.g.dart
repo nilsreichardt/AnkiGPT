@@ -8,6 +8,7 @@ part of 'get_cards_response.dart';
 
 _$_GetCardsResponse _$$_GetCardsResponseFromJson(Map<String, dynamic> json) =>
     _$_GetCardsResponse(
+      sessionId: json['sessionId'] as String?,
       cards: (json['cards'] as List<dynamic>?)
           ?.map((e) => AnkiCard.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21,6 +22,7 @@ _$_GetCardsResponse _$$_GetCardsResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_GetCardsResponseToJson(_$_GetCardsResponse instance) =>
     <String, dynamic>{
+      'sessionId': instance.sessionId,
       'cards': instance.cards,
       'isCompleted': instance.isCompleted,
       'csv': instance.csv,

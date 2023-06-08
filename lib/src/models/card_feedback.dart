@@ -1,4 +1,4 @@
-abstract class CardFeedbackType {
+abstract class CardFeedbackType implements Enum {
   String getCheckboxText();
 }
 
@@ -15,4 +15,10 @@ enum CardDislikeFeedbackType implements CardFeedbackType {
         return 'Not true';
     }
   }
+}
+
+enum CardFeedbackStatus {
+  notReviewed,
+  liked,
+  disliked,
 }

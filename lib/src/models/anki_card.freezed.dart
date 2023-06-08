@@ -23,6 +23,8 @@ mixin _$AnkiCard {
   String get question => throw _privateConstructorUsedError;
   String get answer => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
+  bool get hasLiked => throw _privateConstructorUsedError;
+  bool get hasDisliked => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +37,12 @@ abstract class $AnkiCardCopyWith<$Res> {
   factory $AnkiCardCopyWith(AnkiCard value, $Res Function(AnkiCard) then) =
       _$AnkiCardCopyWithImpl<$Res, AnkiCard>;
   @useResult
-  $Res call({String question, String answer, DateTime createdAt});
+  $Res call(
+      {String question,
+      String answer,
+      DateTime createdAt,
+      bool hasLiked,
+      bool hasDisliked});
 }
 
 /// @nodoc
@@ -54,6 +61,8 @@ class _$AnkiCardCopyWithImpl<$Res, $Val extends AnkiCard>
     Object? question = null,
     Object? answer = null,
     Object? createdAt = null,
+    Object? hasLiked = null,
+    Object? hasDisliked = null,
   }) {
     return _then(_value.copyWith(
       question: null == question
@@ -68,6 +77,14 @@ class _$AnkiCardCopyWithImpl<$Res, $Val extends AnkiCard>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      hasLiked: null == hasLiked
+          ? _value.hasLiked
+          : hasLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasDisliked: null == hasDisliked
+          ? _value.hasDisliked
+          : hasDisliked // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -79,7 +96,12 @@ abstract class _$$_AnkiCardCopyWith<$Res> implements $AnkiCardCopyWith<$Res> {
       __$$_AnkiCardCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String question, String answer, DateTime createdAt});
+  $Res call(
+      {String question,
+      String answer,
+      DateTime createdAt,
+      bool hasLiked,
+      bool hasDisliked});
 }
 
 /// @nodoc
@@ -96,6 +118,8 @@ class __$$_AnkiCardCopyWithImpl<$Res>
     Object? question = null,
     Object? answer = null,
     Object? createdAt = null,
+    Object? hasLiked = null,
+    Object? hasDisliked = null,
   }) {
     return _then(_$_AnkiCard(
       question: null == question
@@ -110,6 +134,14 @@ class __$$_AnkiCardCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      hasLiked: null == hasLiked
+          ? _value.hasLiked
+          : hasLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasDisliked: null == hasDisliked
+          ? _value.hasDisliked
+          : hasDisliked // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -118,7 +150,11 @@ class __$$_AnkiCardCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AnkiCard implements _AnkiCard {
   const _$_AnkiCard(
-      {required this.question, required this.answer, required this.createdAt});
+      {required this.question,
+      required this.answer,
+      required this.createdAt,
+      this.hasLiked = false,
+      this.hasDisliked = false});
 
   factory _$_AnkiCard.fromJson(Map<String, dynamic> json) =>
       _$$_AnkiCardFromJson(json);
@@ -129,10 +165,16 @@ class _$_AnkiCard implements _AnkiCard {
   final String answer;
   @override
   final DateTime createdAt;
+  @override
+  @JsonKey()
+  final bool hasLiked;
+  @override
+  @JsonKey()
+  final bool hasDisliked;
 
   @override
   String toString() {
-    return 'AnkiCard(question: $question, answer: $answer, createdAt: $createdAt)';
+    return 'AnkiCard(question: $question, answer: $answer, createdAt: $createdAt, hasLiked: $hasLiked, hasDisliked: $hasDisliked)';
   }
 
   @override
@@ -144,12 +186,17 @@ class _$_AnkiCard implements _AnkiCard {
                 other.question == question) &&
             (identical(other.answer, answer) || other.answer == answer) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.hasLiked, hasLiked) ||
+                other.hasLiked == hasLiked) &&
+            (identical(other.hasDisliked, hasDisliked) ||
+                other.hasDisliked == hasDisliked));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, question, answer, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType, question, answer, createdAt, hasLiked, hasDisliked);
 
   @JsonKey(ignore: true)
   @override
@@ -169,7 +216,9 @@ abstract class _AnkiCard implements AnkiCard {
   const factory _AnkiCard(
       {required final String question,
       required final String answer,
-      required final DateTime createdAt}) = _$_AnkiCard;
+      required final DateTime createdAt,
+      final bool hasLiked,
+      final bool hasDisliked}) = _$_AnkiCard;
 
   factory _AnkiCard.fromJson(Map<String, dynamic> json) = _$_AnkiCard.fromJson;
 
@@ -179,6 +228,10 @@ abstract class _AnkiCard implements AnkiCard {
   String get answer;
   @override
   DateTime get createdAt;
+  @override
+  bool get hasLiked;
+  @override
+  bool get hasDisliked;
   @override
   @JsonKey(ignore: true)
   _$$_AnkiCardCopyWith<_$_AnkiCard> get copyWith =>

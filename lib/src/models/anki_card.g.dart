@@ -10,6 +10,8 @@ _$_AnkiCard _$$_AnkiCardFromJson(Map<String, dynamic> json) => _$_AnkiCard(
       question: json['question'] as String,
       answer: json['answer'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
+      hasLiked: json['hasLiked'] as bool? ?? false,
+      hasDisliked: json['hasDisliked'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_AnkiCardToJson(_$_AnkiCard instance) =>
@@ -17,4 +19,6 @@ Map<String, dynamic> _$$_AnkiCardToJson(_$_AnkiCard instance) =>
       'question': instance.question,
       'answer': instance.answer,
       'createdAt': instance.createdAt.toIso8601String(),
+      'hasLiked': instance.hasLiked,
+      'hasDisliked': instance.hasDisliked,
     };

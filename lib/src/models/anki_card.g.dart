@@ -10,7 +10,7 @@ _$_AnkiCard _$$_AnkiCardFromJson(Map<String, dynamic> json) => _$_AnkiCard(
       id: json['id'] as String,
       question: json['question'] as String,
       answer: json['answer'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: parseTimestampOrIsoString(json['createdAt']),
       hasLiked: json['hasLiked'] as bool? ?? false,
       hasDisliked: json['hasDisliked'] as bool? ?? false,
     );

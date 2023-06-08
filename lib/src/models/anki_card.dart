@@ -1,3 +1,4 @@
+import 'package:ankigpt/src/infrastructure/firestore_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'anki_card.freezed.dart';
@@ -9,11 +10,16 @@ class AnkiCard with _$AnkiCard {
     required String id,
     required String question,
     required String answer,
-    required DateTime createdAt,
+    @JsonKey(fromJson: parseTimestampOrIsoString) required DateTime createdAt,
     @Default(false) bool hasLiked,
     @Default(false) bool hasDisliked,
   }) = _AnkiCard;
 
   factory AnkiCard.fromJson(Map<String, dynamic> json) =>
       _$AnkiCardFromJson(json);
+
+  factory AnkiCard.fromJsonInjectedId(String id, Map<String, dynamic> json) {
+    json['id'] = id;
+    return AnkiCard.fromJson(json);
+  }
 }

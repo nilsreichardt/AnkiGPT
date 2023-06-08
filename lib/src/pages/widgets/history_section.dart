@@ -64,7 +64,9 @@ class HistorySection extends ConsumerWidget {
 }
 
 class _ErrorText extends StatelessWidget {
-  const _ErrorText({super.key, required this.error});
+  const _ErrorText({
+    required this.error,
+  });
 
   final String error;
 

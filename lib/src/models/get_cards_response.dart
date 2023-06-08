@@ -1,6 +1,7 @@
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/csv_metadata.dart';
 import 'package:ankigpt/src/models/language.dart';
+import 'package:ankigpt/src/models/session_id.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'get_cards_response.freezed.dart';
@@ -11,6 +12,7 @@ part 'get_cards_response.g.dart';
 )
 class GetCardsResponse with _$GetCardsResponse {
   const factory GetCardsResponse({
+    SessionId? sessionId,
     List<AnkiCard>? cards,
     required bool isCompleted,
     CsvMetadata? csv,

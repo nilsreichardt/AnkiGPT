@@ -20,6 +20,7 @@ GetCardsResponse _$GetCardsResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GetCardsResponse {
+  String? get sessionId => throw _privateConstructorUsedError;
   List<AnkiCard>? get cards => throw _privateConstructorUsedError;
   bool get isCompleted => throw _privateConstructorUsedError;
   CsvMetadata? get csv => throw _privateConstructorUsedError;
@@ -40,7 +41,8 @@ abstract class $GetCardsResponseCopyWith<$Res> {
       _$GetCardsResponseCopyWithImpl<$Res, GetCardsResponse>;
   @useResult
   $Res call(
-      {List<AnkiCard>? cards,
+      {String? sessionId,
+      List<AnkiCard>? cards,
       bool isCompleted,
       CsvMetadata? csv,
       @JsonKey(fromJson: parseError) String? error,
@@ -62,6 +64,7 @@ class _$GetCardsResponseCopyWithImpl<$Res, $Val extends GetCardsResponse>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? sessionId = freezed,
     Object? cards = freezed,
     Object? isCompleted = null,
     Object? csv = freezed,
@@ -69,6 +72,10 @@ class _$GetCardsResponseCopyWithImpl<$Res, $Val extends GetCardsResponse>
     Object? language = freezed,
   }) {
     return _then(_value.copyWith(
+      sessionId: freezed == sessionId
+          ? _value.sessionId
+          : sessionId // ignore: cast_nullable_to_non_nullable
+              as String?,
       cards: freezed == cards
           ? _value.cards
           : cards // ignore: cast_nullable_to_non_nullable
@@ -114,7 +121,8 @@ abstract class _$$_GetCardsResponseCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<AnkiCard>? cards,
+      {String? sessionId,
+      List<AnkiCard>? cards,
       bool isCompleted,
       CsvMetadata? csv,
       @JsonKey(fromJson: parseError) String? error,
@@ -135,6 +143,7 @@ class __$$_GetCardsResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? sessionId = freezed,
     Object? cards = freezed,
     Object? isCompleted = null,
     Object? csv = freezed,
@@ -142,6 +151,10 @@ class __$$_GetCardsResponseCopyWithImpl<$Res>
     Object? language = freezed,
   }) {
     return _then(_$_GetCardsResponse(
+      sessionId: freezed == sessionId
+          ? _value.sessionId
+          : sessionId // ignore: cast_nullable_to_non_nullable
+              as String?,
       cards: freezed == cards
           ? _value._cards
           : cards // ignore: cast_nullable_to_non_nullable
@@ -170,7 +183,8 @@ class __$$_GetCardsResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_GetCardsResponse implements _GetCardsResponse {
   const _$_GetCardsResponse(
-      {final List<AnkiCard>? cards,
+      {this.sessionId,
+      final List<AnkiCard>? cards,
       required this.isCompleted,
       this.csv,
       @JsonKey(fromJson: parseError) this.error,
@@ -180,6 +194,8 @@ class _$_GetCardsResponse implements _GetCardsResponse {
   factory _$_GetCardsResponse.fromJson(Map<String, dynamic> json) =>
       _$$_GetCardsResponseFromJson(json);
 
+  @override
+  final String? sessionId;
   final List<AnkiCard>? _cards;
   @override
   List<AnkiCard>? get cards {
@@ -202,7 +218,7 @@ class _$_GetCardsResponse implements _GetCardsResponse {
 
   @override
   String toString() {
-    return 'GetCardsResponse(cards: $cards, isCompleted: $isCompleted, csv: $csv, error: $error, language: $language)';
+    return 'GetCardsResponse(sessionId: $sessionId, cards: $cards, isCompleted: $isCompleted, csv: $csv, error: $error, language: $language)';
   }
 
   @override
@@ -210,6 +226,8 @@ class _$_GetCardsResponse implements _GetCardsResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_GetCardsResponse &&
+            (identical(other.sessionId, sessionId) ||
+                other.sessionId == sessionId) &&
             const DeepCollectionEquality().equals(other._cards, _cards) &&
             (identical(other.isCompleted, isCompleted) ||
                 other.isCompleted == isCompleted) &&
@@ -223,6 +241,7 @@ class _$_GetCardsResponse implements _GetCardsResponse {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      sessionId,
       const DeepCollectionEquality().hash(_cards),
       isCompleted,
       csv,
@@ -245,7 +264,8 @@ class _$_GetCardsResponse implements _GetCardsResponse {
 
 abstract class _GetCardsResponse implements GetCardsResponse {
   const factory _GetCardsResponse(
-      {final List<AnkiCard>? cards,
+      {final String? sessionId,
+      final List<AnkiCard>? cards,
       required final bool isCompleted,
       final CsvMetadata? csv,
       @JsonKey(fromJson: parseError) final String? error,
@@ -254,6 +274,8 @@ abstract class _GetCardsResponse implements GetCardsResponse {
   factory _GetCardsResponse.fromJson(Map<String, dynamic> json) =
       _$_GetCardsResponse.fromJson;
 
+  @override
+  String? get sessionId;
   @override
   List<AnkiCard>? get cards;
   @override

@@ -10,3 +10,5 @@ analyzer:
     # We need to ignore these errors, because of @JsonKey in freezed files:
     # https://github.com/rrousselGit/freezed/issues/488.
     invalid_annotation_target: ignore
+  plugins:
+    - custom_lint

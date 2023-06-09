@@ -7,7 +7,7 @@ part of 'slide_text_field_controller_provider.dart';
 // **************************************************************************
 
 String _$slideTextFieldControllerHash() =>
-    r'b94e5179c2c3807c993cf4dbd1456d2588c0cd29';
+    r'a4c59e62f3e573e298cafaffbb7131e093907dac';
 
 /// See also [slideTextFieldController].
 @ProviderFor(slideTextFieldController)

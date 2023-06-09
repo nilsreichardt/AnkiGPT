@@ -3,10 +3,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'functions_provider.g.dart';
 
-final functionsProvider = Provider((ref) {
-  return FirebaseFunctions.instanceFor(region: 'europe-west1');
-});
-
 @riverpod
 FirebaseFunctions cloudFunctions(CloudFunctionsRef ref) {
   return FirebaseFunctions.instanceFor(region: 'europe-west1');

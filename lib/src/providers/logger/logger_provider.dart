@@ -1,11 +1,14 @@
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'logger_provider.g.dart';
 
 /// A provider that provides a [Logger] instance.
 ///
 /// The logger instance will be created in the main method.
-final loggerProvider = Provider<Logger>((ref) {
+@riverpod
+Logger logger(LoggerRef ref) {
   final memoryOutput = ref.watch(memoryOutputProvider);
   return Logger(
     printer: PrettyPrinter(
@@ -22,4 +25,4 @@ final loggerProvider = Provider<Logger>((ref) {
       ],
     ),
   );
-});
+}

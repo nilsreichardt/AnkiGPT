@@ -1,8 +1,11 @@
 import 'package:ankigpt/src/infrastructure/session_repository.dart';
 import 'package:ankigpt/src/providers/functions_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final sessionRepositoryProvider = Provider((ref) {
-  final functions = ref.watch(functionsProvider);
+part 'session_repository_provider.g.dart';
+
+@riverpod
+SessionRepository sessionRepository(SessionRepositoryRef ref) {
+  final functions = ref.watch(cloudFunctionsProvider);
   return SessionRepository(functions: functions);
-});
+}

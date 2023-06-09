@@ -10,110 +10,30 @@ import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final generateStateProvider =
-    StateNotifierProvider<GenerateNotifier, GenerateState>(
-  (ref) {
-    final logger = ref.watch(loggerProvider);
-    final sessionRepository = ref.watch(sessionRepositoryProvider);
-    final textEditingController = ref.watch(slideTextFieldControllerProvider);
-    final userRepository = ref.watch(userRepositoryProvider);
-    final hasPlus = ref.watch(hasPlusProvider);
-    return GenerateNotifier(
-      logger: logger,
-      sessionRepository: sessionRepository,
-      textEditingController: textEditingController,
-      userRepository: userRepository,
-      hasPlus: hasPlus,
-    );
-  },
-);
+part 'generate_provider.g.dart';
 
-final localCards = [
-  AnkiCard(
-    createdAt: DateTime.now(),
-    question: 'What is the capital of Spain?',
-    answer: 'Madrid',
-    id: '1',
-  ),
-  AnkiCard(
-    createdAt: DateTime.now(),
-    question: 'What is the capital of Portugal?',
-    answer: 'Lisbon',
-    id: '2',
-  ),
-  AnkiCard(
-    createdAt: DateTime.now(),
-    question: 'What is the capital of the Netherlands?',
-    answer: 'Amsterdam',
-    id: '3',
-  ),
-  AnkiCard(
-    createdAt: DateTime.now(),
-    question: 'What is the capital of France?',
-    answer: 'Paris',
-    id: '4',
-  ),
-  AnkiCard(
-    createdAt: DateTime.now(),
-    question: 'What is the capital of Germany?',
-    answer: 'Berlin',
-    id: '5',
-  ),
-  AnkiCard(
-    createdAt: DateTime.now(),
-    question: 'What is the capital of Italy?',
-    answer: 'Rome',
-    id: '6',
-  ),
-  AnkiCard(
-    createdAt: DateTime.now(),
-    question: 'What is the capital of Belgium?',
-    answer: 'Brussels',
-    id: '7',
-  ),
-  AnkiCard(
-    createdAt: DateTime.now(),
-    question: 'What is the capital of Luxembourg?',
-    answer: 'Luxembourg',
-    id: '8',
-  ),
-  AnkiCard(
-    createdAt: DateTime.now(),
-    question: 'What is the capital of Switzerland?',
-    answer: 'Bern',
-    id: '9',
-  ),
-  AnkiCard(
-    createdAt: DateTime.now(),
-    question: 'What is Platform as a Service (PaaS)?',
-    answer:
-        "Platform as a Service (PaaS) is a model of cloud computing that provides a platform for application development and deployment. In this model, cloud providers offer a complete development and deployment environment that allows software developers to build, deploy, and manage their applications in the cloud using a browser-based interface or APIs. It is highly scalable and flexible since cloud providers take care of the platform's infrastructure, and software developers can focus on developing their applications.",
-    id: '10',
-  ),
-];
+@riverpod
+class GenerateNotifier extends _$GenerateNotifier {
+  Logger get _logger => ref.read(loggerProvider);
+  TextEditingController get _textEditingController =>
+      ref.read(slideTextFieldControllerProvider);
+  UserRepository get _userRepository => ref.read(userRepositoryProvider);
+  SessionRepository get _sessionRepository =>
+      ref.read(sessionRepositoryProvider);
+  bool get _hasPlus => ref.read(hasPlusProvider);
 
-class GenerateNotifier extends StateNotifier<GenerateState> {
-  final Logger logger;
-  final SessionRepository sessionRepository;
-  final TextEditingController textEditingController;
-  final UserRepository userRepository;
-  final bool hasPlus;
-
-  GenerateNotifier({
-    required this.logger,
-    required this.sessionRepository,
-    required this.textEditingController,
-    required this.userRepository,
-    required this.hasPlus,
-  }) : super(const GenerateState.initial());
+  @override
+  GenerateState build() {
+    return const GenerateState.initial();
+  }
 
   Future<void> submit({
     required CardGenrationSize size,
   }) async {
-    logger.d("Generating cards...");
+    _logger.d("Generating cards...");
 
     // state = GenerateState.success(
     //   sessionId: '123',
@@ -123,32 +43,32 @@ class GenerateNotifier extends StateNotifier<GenerateState> {
 
     // return;
 
-    if (!hasPlus && size.isPlus()) {
+    if (!_hasPlus && size.isPlus()) {
       throw PlusMembershipRequiredException();
     }
 
-    if (textEditingController.text.length < 200) {
+    if (_textEditingController.text.length < 200) {
       throw TooShortInputException();
     }
 
-    if (textEditingController.text.length > 15000) {
+    if (_textEditingController.text.length > 15000) {
       throw TooLongInputException();
     }
 
     state = const GenerateState.loading();
 
-    if (!userRepository.isSignIn()) {
-      logger.d("User is not signed in, signing in...");
-      await userRepository.signIn();
+    if (!_userRepository.isSignIn()) {
+      _logger.d("User is not signed in, signing in...");
+      await _userRepository.signIn();
     }
 
-    final sessionId = await sessionRepository.startSession(
-      slideContent: textEditingController.text,
+    final sessionId = await _sessionRepository.startSession(
+      slideContent: _textEditingController.text,
       numberOfCards: size.toInt(),
     );
     bool isCompleted = false;
     while (!isCompleted) {
-      final getCardsResponse = await sessionRepository.getCards(
+      final getCardsResponse = await _sessionRepository.getCards(
         sessionId: sessionId,
       );
 

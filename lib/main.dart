@@ -155,12 +155,9 @@ class _Logo extends ConsumerWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          ref.read(generateStateProvider.notifier).reset();
+          ref.read(generateNotifierProvider.notifier).reset();
         },
-        onDoubleTap: () {
-          final hasPlus = ref.read(hasPlusProvider);
-          ref.read(hasPlusProvider.notifier).state = !hasPlus;
-        },
+        onDoubleTap: () => ref.read(hasPlusProvider.notifier).toggle(),
         child: SvgPicture.asset(
           'assets/logo/raw_logo.svg',
         ),
@@ -343,7 +340,7 @@ class Results extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(generateStateProvider);
+    final state = ref.watch(generateNotifierProvider);
     return AnimatedSwitcher(
       layoutBuilder: (currentChild, previousChildren) => Stack(
         alignment: Alignment.topCenter,
@@ -566,7 +563,8 @@ class _Controls extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final status = ref.watch(cardFeedbackStatusProvider(cardId));
+    final status = ref.watch(cardFeedbackStatusControllerProvider)[cardId] ??
+        CardFeedbackStatus.notReviewed;
     final hasLiked = status == CardFeedbackStatus.liked;
     final hasDisliked = status == CardFeedbackStatus.disliked;
     return Row(
@@ -596,8 +594,8 @@ class _Controls extends ConsumerWidget {
                       iconSize: 15,
                       onPressed: () {
                         ref
-                            .read(cardFeedbackStatusProvider(cardId).notifier)
-                            .state = CardFeedbackStatus.disliked;
+                            .read(cardFeedbackStatusControllerProvider.notifier)
+                            .setStatus(cardId, CardFeedbackStatus.disliked);
                         ref.read(
                           dislikeCardProvider(
                             cardId: cardId,
@@ -617,8 +615,8 @@ class _Controls extends ConsumerWidget {
                       iconSize: 15,
                       onPressed: () {
                         ref
-                            .read(cardFeedbackStatusProvider(cardId).notifier)
-                            .state = CardFeedbackStatus.liked;
+                            .read(cardFeedbackStatusControllerProvider.notifier)
+                            .setStatus(cardId, CardFeedbackStatus.liked);
                         ref.read(
                           likeCardProvider(
                             cardId: cardId,
@@ -658,8 +656,9 @@ class _UndoLikeButton extends ConsumerWidget {
       tooltip: 'Undo like',
       iconSize: 15,
       onPressed: () {
-        ref.read(cardFeedbackStatusProvider(cardId).notifier).state =
-            CardFeedbackStatus.notReviewed;
+        ref
+            .read(cardFeedbackStatusControllerProvider.notifier)
+            .setStatus(cardId, CardFeedbackStatus.notReviewed);
         ref.read(undoLikeCardProvider(cardId: cardId, sessionId: sessionId));
       },
       icon: const Icon(Icons.thumb_up),
@@ -682,8 +681,9 @@ class _UndoDislikeButton extends ConsumerWidget {
       tooltip: 'Undo dislike',
       iconSize: 15,
       onPressed: () {
-        ref.read(cardFeedbackStatusProvider(cardId).notifier).state =
-            CardFeedbackStatus.notReviewed;
+        ref
+            .read(cardFeedbackStatusControllerProvider.notifier)
+            .setStatus(cardId, CardFeedbackStatus.notReviewed);
         ref.read(undoDislikeCardProvider(cardId: cardId, sessionId: sessionId));
       },
       icon: const Icon(Icons.thumb_down),
@@ -914,7 +914,7 @@ class GenerateButton extends ConsumerWidget {
                   try {
                     final size = ref.read(cardGenrationSizeProvider);
                     await ref
-                        .read(generateStateProvider.notifier)
+                        .read(generateNotifierProvider.notifier)
                         .submit(size: size);
                   } catch (e) {
                     if (e is PlusMembershipRequiredException) {
@@ -1016,7 +1016,7 @@ class DownloadButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.read(generateStateProvider);
+    final state = ref.read(generateNotifierProvider);
     final isFinished = state is GenerationStateSuccess;
     return Padding(
       padding: const EdgeInsets.only(right: 12),

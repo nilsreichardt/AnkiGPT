@@ -17,13 +17,13 @@ part 'generate_provider.g.dart';
 
 @riverpod
 class GenerateNotifier extends _$GenerateNotifier {
-  Logger get logger => ref.read(loggerProvider);
-  TextEditingController get textEditingController =>
+  Logger get _logger => ref.read(loggerProvider);
+  TextEditingController get _textEditingController =>
       ref.read(slideTextFieldControllerProvider);
-  UserRepository get userRepository => ref.read(userRepositoryProvider);
-  SessionRepository get sessionRepository =>
+  UserRepository get _userRepository => ref.read(userRepositoryProvider);
+  SessionRepository get _sessionRepository =>
       ref.read(sessionRepositoryProvider);
-  bool get hasPlus => ref.read(hasPlusProvider);
+  bool get _hasPlus => ref.read(hasPlusProvider);
 
   @override
   GenerateState build() {
@@ -33,7 +33,7 @@ class GenerateNotifier extends _$GenerateNotifier {
   Future<void> submit({
     required CardGenrationSize size,
   }) async {
-    logger.d("Generating cards...");
+    _logger.d("Generating cards...");
 
     // state = GenerateState.success(
     //   sessionId: '123',
@@ -43,32 +43,32 @@ class GenerateNotifier extends _$GenerateNotifier {
 
     // return;
 
-    if (!hasPlus && size.isPlus()) {
+    if (!_hasPlus && size.isPlus()) {
       throw PlusMembershipRequiredException();
     }
 
-    if (textEditingController.text.length < 200) {
+    if (_textEditingController.text.length < 200) {
       throw TooShortInputException();
     }
 
-    if (textEditingController.text.length > 15000) {
+    if (_textEditingController.text.length > 15000) {
       throw TooLongInputException();
     }
 
     state = const GenerateState.loading();
 
-    if (!userRepository.isSignIn()) {
-      logger.d("User is not signed in, signing in...");
-      await userRepository.signIn();
+    if (!_userRepository.isSignIn()) {
+      _logger.d("User is not signed in, signing in...");
+      await _userRepository.signIn();
     }
 
-    final sessionId = await sessionRepository.startSession(
-      slideContent: textEditingController.text,
+    final sessionId = await _sessionRepository.startSession(
+      slideContent: _textEditingController.text,
       numberOfCards: size.toInt(),
     );
     bool isCompleted = false;
     while (!isCompleted) {
-      final getCardsResponse = await sessionRepository.getCards(
+      final getCardsResponse = await _sessionRepository.getCards(
         sessionId: sessionId,
       );
 

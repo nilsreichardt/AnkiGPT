@@ -157,10 +157,7 @@ class _Logo extends ConsumerWidget {
         onTap: () {
           ref.read(generateNotifierProvider.notifier).reset();
         },
-        onDoubleTap: () {
-          final hasPlus = ref.read(hasPlusProvider);
-          ref.read(hasPlusProvider.notifier).state = !hasPlus;
-        },
+        onDoubleTap: () => ref.read(hasPlusProvider.notifier).toggle(),
         child: SvgPicture.asset(
           'assets/logo/raw_logo.svg',
         ),

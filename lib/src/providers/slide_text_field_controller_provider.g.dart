@@ -7,12 +7,12 @@ part of 'slide_text_field_controller_provider.dart';
 // **************************************************************************
 
 String _$slideTextFieldControllerHash() =>
-    r'a4c59e62f3e573e298cafaffbb7131e093907dac';
+    r'546f885d45101d6c2fd900324205272c4bf029be';
 
 /// See also [slideTextFieldController].
 @ProviderFor(slideTextFieldController)
 final slideTextFieldControllerProvider =
-    AutoDisposeProvider<TextEditingController>.internal(
+    Provider<TextEditingController>.internal(
   slideTextFieldController,
   name: r'slideTextFieldControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,5 @@ final slideTextFieldControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef SlideTextFieldControllerRef
-    = AutoDisposeProviderRef<TextEditingController>;
+typedef SlideTextFieldControllerRef = ProviderRef<TextEditingController>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

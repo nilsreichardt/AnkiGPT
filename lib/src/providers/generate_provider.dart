@@ -1,14 +1,18 @@
+import 'dart:async';
+
 import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/infrastructure/session_repository.dart';
 import 'package:ankigpt/src/infrastructure/user_repository.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/models/language.dart';
+import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,9 +28,13 @@ class GenerateNotifier extends _$GenerateNotifier {
   SessionRepository get _sessionRepository =>
       ref.read(sessionRepositoryProvider);
   bool get _hasPlus => ref.read(hasPlusProvider);
+  FirebaseFirestore get _firestore => FirebaseFirestore.instance;
+
+  StreamSubscription<DocumentSnapshot<SessionDto>>? _subscription;
 
   @override
   GenerateState build() {
+    ref.onDispose(() => _stopSubscription());
     return const GenerateState.initial();
   }
 
@@ -66,42 +74,59 @@ class GenerateNotifier extends _$GenerateNotifier {
       slideContent: _textEditingController.text,
       numberOfCards: size.toInt(),
     );
-    bool isCompleted = false;
-    while (!isCompleted) {
-      final getCardsResponse = await _sessionRepository.getCards(
-        sessionId: sessionId,
-      );
 
-      final cards = List<AnkiCard>.of(getCardsResponse.cards ?? [])
-        ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    _subscription = _firestore
+        .collection('Sessions')
+        .doc(sessionId)
+        .withConverter(
+          fromFirestore: (doc, options) =>
+              SessionDto.fromJsonWithInjectedId(sessionId, doc.data()!),
+          toFirestore: (_, __) => throw UnimplementedError(),
+        )
+        .snapshots()
+        .listen((event) {
+      final dto = event.data();
+      if (dto == null) {
+        return;
+      }
 
-      if (getCardsResponse.error != null) {
+      _logger.d("Received session dto with ${dto.cards?.length} cards");
+
+      final hasError = dto.error != null;
+      if (hasError) {
+        _stopSubscription();
         state = GenerateState.error(
-          sessionId: getCardsResponse.sessionId!,
-          message: getCardsResponse.error!,
-          generatedCards: cards,
-          language: getCardsResponse.language,
+          message: dto.error!,
+          sessionId: sessionId,
+          language: dto.language,
         );
         return;
       }
 
-      if (getCardsResponse.isCompleted) {
-        isCompleted = true;
+      final cards = dto.cards?.values.toList() ?? [];
+      final isCompleted = dto.isCompleted;
+      if (isCompleted) {
+        _stopSubscription();
         state = GenerateState.success(
-          sessionId: getCardsResponse.sessionId!,
+          sessionId: sessionId,
           generatedCards: cards,
-          downloadUrl: getCardsResponse.csv?.downloadUrl,
-          language: getCardsResponse.language,
+          downloadUrl: dto.csv!.downloadUrl,
+          language: dto.language,
         );
-      } else {
-        state = GenerateState.loading(
-          sessionId: getCardsResponse.sessionId,
-          alreadyGeneratedCards: cards,
-          language: getCardsResponse.language,
-        );
-        await Future.delayed(const Duration(seconds: 3));
+        return;
       }
-    }
+
+      state = GenerateState.loading(
+        sessionId: sessionId,
+        alreadyGeneratedCards: cards,
+        language: dto.language,
+      );
+    });
+  }
+
+  void _stopSubscription() {
+    _logger.d("Stopping subscription for generating cards...");
+    _subscription?.cancel();
   }
 
   void setSuccess({

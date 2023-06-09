@@ -1,7 +1,6 @@
 import 'package:ankigpt/src/infrastructure/firestore_utils.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/csv_metadata.dart';
-import 'package:ankigpt/src/models/get_cards_response.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -42,4 +41,14 @@ Map<String, AnkiCard>? parseCards(Map<String, dynamic>? json) {
     (k, e) =>
         MapEntry(k, AnkiCard.fromJsonInjectedId(k, e as Map<String, dynamic>)),
   );
+}
+
+String? parseError(dynamic data) {
+  if (data == null) null;
+
+  if (data is Map<String, dynamic>) {
+    return data['message'] as String;
+  }
+
+  return data;
 }

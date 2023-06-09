@@ -101,7 +101,7 @@ class _CreatedHistoryDeck extends ConsumerWidget {
       numberOfCards: numberOfCards,
       name: name,
       onTap: () {
-        ref.read(generateStateProvider.notifier).setSuccess(
+        ref.read(generateNotifierProvider.notifier).setSuccess(
               sessionId: dto.id,
               generatedCards: dto.cards?.values.toList() ?? [],
               downloadUrl: dto.csv!.downloadUrl,

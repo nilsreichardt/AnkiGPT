@@ -155,7 +155,7 @@ class _Logo extends ConsumerWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          ref.read(generateStateProvider.notifier).reset();
+          ref.read(generateNotifierProvider.notifier).reset();
         },
         onDoubleTap: () {
           final hasPlus = ref.read(hasPlusProvider);
@@ -343,7 +343,7 @@ class Results extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(generateStateProvider);
+    final state = ref.watch(generateNotifierProvider);
     return AnimatedSwitcher(
       layoutBuilder: (currentChild, previousChildren) => Stack(
         alignment: Alignment.topCenter,
@@ -914,7 +914,7 @@ class GenerateButton extends ConsumerWidget {
                   try {
                     final size = ref.read(cardGenrationSizeProvider);
                     await ref
-                        .read(generateStateProvider.notifier)
+                        .read(generateNotifierProvider.notifier)
                         .submit(size: size);
                   } catch (e) {
                     if (e is PlusMembershipRequiredException) {
@@ -1016,7 +1016,7 @@ class DownloadButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.read(generateStateProvider);
+    final state = ref.read(generateNotifierProvider);
     final isFinished = state is GenerationStateSuccess;
     return Padding(
       padding: const EdgeInsets.only(right: 12),

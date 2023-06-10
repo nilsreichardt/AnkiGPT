@@ -563,8 +563,7 @@ class _Controls extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final status = ref.watch(cardFeedbackStatusControllerProvider)[cardId] ??
-        CardFeedbackStatus.notReviewed;
+    final status = ref.watch(cardFeedbackStatusControllerProvider(cardId));
     final hasLiked = status == CardFeedbackStatus.liked;
     final hasDisliked = status == CardFeedbackStatus.disliked;
     return Row(
@@ -594,8 +593,9 @@ class _Controls extends ConsumerWidget {
                       iconSize: 15,
                       onPressed: () {
                         ref
-                            .read(cardFeedbackStatusControllerProvider.notifier)
-                            .setStatus(cardId, CardFeedbackStatus.disliked);
+                            .read(cardFeedbackStatusControllerProvider(cardId)
+                                .notifier)
+                            .setStatus(CardFeedbackStatus.disliked);
                         ref.read(
                           dislikeCardProvider(
                             cardId: cardId,
@@ -615,8 +615,9 @@ class _Controls extends ConsumerWidget {
                       iconSize: 15,
                       onPressed: () {
                         ref
-                            .read(cardFeedbackStatusControllerProvider.notifier)
-                            .setStatus(cardId, CardFeedbackStatus.liked);
+                            .read(cardFeedbackStatusControllerProvider(cardId)
+                                .notifier)
+                            .setStatus(CardFeedbackStatus.liked);
                         ref.read(
                           likeCardProvider(
                             cardId: cardId,
@@ -657,8 +658,8 @@ class _UndoLikeButton extends ConsumerWidget {
       iconSize: 15,
       onPressed: () {
         ref
-            .read(cardFeedbackStatusControllerProvider.notifier)
-            .setStatus(cardId, CardFeedbackStatus.notReviewed);
+            .read(cardFeedbackStatusControllerProvider(cardId).notifier)
+            .setStatus(CardFeedbackStatus.notReviewed);
         ref.read(undoLikeCardProvider(cardId: cardId, sessionId: sessionId));
       },
       icon: const Icon(Icons.thumb_up),
@@ -682,8 +683,8 @@ class _UndoDislikeButton extends ConsumerWidget {
       iconSize: 15,
       onPressed: () {
         ref
-            .read(cardFeedbackStatusControllerProvider.notifier)
-            .setStatus(cardId, CardFeedbackStatus.notReviewed);
+            .read(cardFeedbackStatusControllerProvider(cardId).notifier)
+            .setStatus(CardFeedbackStatus.notReviewed);
         ref.read(undoDislikeCardProvider(cardId: cardId, sessionId: sessionId));
       },
       icon: const Icon(Icons.thumb_down),

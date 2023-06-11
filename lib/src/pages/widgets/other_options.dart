@@ -63,6 +63,13 @@ class OthersOptions extends ConsumerWidget {
             break;
           case OthersOptionsItem.signOut:
             ref.read(userRepositoryProvider).signOut();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'You also need to refresh the page to be fully signed out.',
+                ),
+              ),
+            );
             break;
         }
       },

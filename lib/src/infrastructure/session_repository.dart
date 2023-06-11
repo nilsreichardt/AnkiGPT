@@ -1,11 +1,14 @@
 import 'package:ankigpt/src/models/session_id.dart';
-import 'package:ankigpt/src/providers/buy_provider.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 class SessionRepository {
   final FirebaseFunctions functions;
+  final String routeFunctionsUrl;
 
-  const SessionRepository({required this.functions});
+  const SessionRepository({
+    required this.functions,
+    required this.routeFunctionsUrl,
+  });
 
   Future<SessionId> startSession({
     required String slideContent,

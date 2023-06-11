@@ -24,6 +24,7 @@ import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
 import 'package:ankigpt/src/providers/dislike_provider.dart';
 import 'package:ankigpt/src/providers/firebase_auth_provider.dart';
+import 'package:ankigpt/src/providers/flavor_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/like_provider.dart';
@@ -54,12 +55,13 @@ Future<void> main() async {
 
   final memoryOutput = container.read(memoryOutputProvider);
   final logger = container.read(loggerProvider);
+  final flavor = _getFlavor(logger);
 
   FlutterError.onError = (details) {
     logger.e('FlutterError.onError', details.exception, details.stack);
   };
 
-  await _initFirebase(logger);
+  await _initFirebase(flavor);
 
   runApp(ProviderScope(
     observers: [
@@ -68,15 +70,20 @@ Future<void> main() async {
     overrides: [
       memoryOutputProvider.overrideWithValue(memoryOutput),
       loggerProvider.overrideWithValue(logger),
+      flavorProvider.overrideWithValue(flavor),
     ],
     child: const MyApp(),
   ));
 }
 
-Future<FirebaseApp> _initFirebase(Logger logger) async {
+Flavor _getFlavor(Logger logger) {
   final flavor = Flavor.values
       .byName(const String.fromEnvironment('FLAVOR', defaultValue: 'prod'));
   logger.i('Flavor: ${flavor.name}');
+  return flavor;
+}
+
+Future<FirebaseApp> _initFirebase(Flavor flavor) async {
   switch (flavor) {
     case Flavor.dev:
       return Firebase.initializeApp(

@@ -6,7 +6,7 @@ part of 'dislike_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dislikeRepositoryHash() => r'252dac4b3c3a83fa89805f148cb52c3aa905f508';
+String _$dislikeRepositoryHash() => r'cf7df203163314947490a69b8299ba00dbdcf503';
 
 /// See also [dislikeRepository].
 @ProviderFor(dislikeRepository)

@@ -190,13 +190,19 @@ class _Logo extends ConsumerWidget {
   }
 }
 
-class InputBox extends StatelessWidget {
+class InputBox extends ConsumerWidget {
   const InputBox({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pickedFile = ref.watch(pickedFileProvider);
+    final hasPickedFile = pickedFile != null;
+    if (hasPickedFile) {
+      return const _PickedFileButton();
+    }
+
     final isSmartphone = MediaQuery.of(context).size.width < 550;
     if (isSmartphone) {
       return Column(
@@ -223,32 +229,127 @@ class InputBox extends StatelessWidget {
   }
 }
 
-class _UploadFileButton extends StatelessWidget {
+class _UploadFileButton extends ConsumerWidget {
   const _UploadFileButton();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     const borderRadius = BorderRadius.all(Radius.circular(12));
+    final hasPlus = ref.watch(hasPlusProvider);
+    final pickedFile = ref.watch(pickedFileProvider);
+    final hasPickedFile = pickedFile != null;
     return InkWell(
       borderRadius: borderRadius,
-      onTap: () => showDialog(
-        context: context,
-        builder: (context) => const _PlusDialog(),
-      ),
+      onTap: () {
+        final hasPlus = ref.read(hasPlusProvider);
+        if (!hasPlus) {
+          showDialog(
+            context: context,
+            builder: (context) => const _PlusDialog(),
+          );
+          return;
+        }
+
+        ref.read(generateNotifierProvider.notifier).pickFile();
+      },
       child: Material(
         borderRadius: borderRadius,
         color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-        child: const Padding(
-          padding: EdgeInsets.all(40),
+        child: Padding(
+          padding: const EdgeInsets.all(40),
           child: Column(
             children: [
-              Icon(Icons.upload_file),
-              Text('Upload PDF file'),
-              SizedBox(height: 8),
-              PlusBadge(),
+              const Icon(Icons.upload_file),
+              SizedBox(height: hasPlus ? 13 : 0),
+              Text(hasPickedFile ? 'File picked.' : 'Upload PDF file'),
+              SizedBox(height: hasPlus ? 13 : 8),
+              if (!hasPlus || hasPickedFile) ...[
+                if (!hasPlus) const PlusBadge(),
+                if (hasPickedFile) const _RemoveFileButton(),
+              ]
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _PickedFileButton extends ConsumerWidget {
+  const _PickedFileButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const borderRadius = BorderRadius.all(Radius.circular(12));
+    final pickedFile = ref.watch(pickedFileProvider);
+    return SizedBox(
+      width: double.infinity,
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: () {
+          final hasPlus = ref.read(hasPlusProvider);
+          if (!hasPlus) {
+            showDialog(
+              context: context,
+              builder: (context) => const _PlusDialog(),
+            );
+            return;
+          }
+
+          ref.read(generateNotifierProvider.notifier).pickFile();
+        },
+        child: Material(
+          borderRadius: borderRadius,
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              const SizedBox(height: 12),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 40, 12, 40),
+                  child: Column(
+                    children: [
+                      const Icon(Icons.upload_file),
+                      const SizedBox(height: 13),
+                      Text(pickedFile!.name),
+                      const SizedBox(height: 13),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 12,
+                right: 12,
+                child: IconButton(
+                  tooltip: 'Remove file',
+                  onPressed: () {
+                    ref
+                        .read(generateNotifierProvider.notifier)
+                        .clearPickedFile();
+                  },
+                  icon: const Icon(Icons.delete),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RemoveFileButton extends StatelessWidget {
+  const _RemoveFileButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.red,
+      borderRadius: BorderRadius.circular(12),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        child: Text('Remove file'),
       ),
     );
   }

@@ -13,6 +13,7 @@ import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -31,6 +32,7 @@ class GenerateNotifier extends _$GenerateNotifier {
   FirebaseFirestore get _firestore => FirebaseFirestore.instance;
 
   StreamSubscription<DocumentSnapshot<SessionDto>>? _subscription;
+  PlatformFile? _pickedFile;
 
   @override
   GenerateState build() {
@@ -145,6 +147,23 @@ class GenerateNotifier extends _$GenerateNotifier {
   void reset() {
     state = const GenerateState.initial();
   }
+
+  Future<void> pickFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      allowedExtensions: ['pdf'],
+      allowMultiple: false,
+      type: FileType.custom,
+    );
+
+    if (result == null || result.files.isEmpty) return;
+    _pickedFile = result.files.first;
+    ref.read(pickedFileProvider.notifier).set(_pickedFile);
+  }
+
+  void clearPickedFile() {
+    _pickedFile = null;
+    ref.read(pickedFileProvider.notifier).set(_pickedFile);
+  }
 }
 
 class TooShortInputException implements Exception {}
@@ -152,3 +171,15 @@ class TooShortInputException implements Exception {}
 class TooLongInputException implements Exception {}
 
 class PlusMembershipRequiredException implements Exception {}
+
+@riverpod
+class PickedFile extends _$PickedFile {
+  @override
+  PlatformFile? build() {
+    return null;
+  }
+
+  void set(PlatformFile? value) {
+    state = value;
+  }
+}

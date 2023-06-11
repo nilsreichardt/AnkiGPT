@@ -27,11 +27,13 @@ import 'package:ankigpt/src/providers/firebase_auth_provider.dart';
 import 'package:ankigpt/src/providers/flavor_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:ankigpt/src/providers/like_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
+import 'package:ankigpt/src/providers/user_id_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -306,18 +308,15 @@ class _PickedFileButton extends ConsumerWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              const SizedBox(height: 12),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 40, 12, 40),
-                  child: Column(
-                    children: [
-                      const Icon(Icons.upload_file),
-                      const SizedBox(height: 13),
-                      Text(pickedFile?.name ?? 'File picked.'),
-                      const SizedBox(height: 13),
-                    ],
-                  ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 40, 12, 40),
+                child: Column(
+                  children: [
+                    const Icon(Icons.upload_file),
+                    const SizedBox(height: 13),
+                    Text(pickedFile?.name ?? 'File picked.'),
+                    const SizedBox(height: 13),
+                  ],
                 ),
               ),
               Positioned(
@@ -479,7 +478,7 @@ class Results extends ConsumerWidget {
       duration: const Duration(milliseconds: 300),
       child: state.maybeWhen(
         initial: (_) {
-          final isSignedIn = ref.read(firebaseAuthProvider).currentUser != null;
+          final isSignedIn = ref.watch(isSignedInProvider);
           if (isSignedIn) {
             return const HistorySection();
           }

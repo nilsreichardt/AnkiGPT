@@ -24,7 +24,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'generate_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class GenerateNotifier extends _$GenerateNotifier {
   Logger get _logger => ref.read(loggerProvider);
   TextEditingController get _textEditingController =>
@@ -80,9 +80,12 @@ class GenerateNotifier extends _$GenerateNotifier {
 
     SessionId? sessionId;
     if (_hasPickedFile) {
-      sessionId = const Uuid().v4();
-      final successful =
-          await _uploadFile(sessionId: sessionId, userId: userId!);
+      // If the user has picked a file, the client generates the session id. In the other case, the server generates it.
+      sessionId = _generateSessionId();
+      final successful = await _uploadFile(
+        sessionId: sessionId,
+        userId: userId!,
+      );
       if (!successful) {
         return;
       }
@@ -94,7 +97,6 @@ class GenerateNotifier extends _$GenerateNotifier {
     }
 
     sessionId = await _sessionRepository.startSession(
-      slideContent: _textEditingController.text,
       numberOfCards: size.toInt(),
       sessionId: sessionId,
       input: Input(
@@ -184,6 +186,12 @@ class GenerateNotifier extends _$GenerateNotifier {
       _logger.e('Failed to upload file', e);
       return false;
     }
+  }
+
+  SessionId _generateSessionId() {
+    final id = const Uuid().v4();
+    _logger.d("Generated session id: $id");
+    return id;
   }
 
   void _stopSubscription() {

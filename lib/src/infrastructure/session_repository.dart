@@ -21,7 +21,6 @@ class SessionRepository {
   });
 
   Future<SessionId> startSession({
-    required String? slideContent,
     required Input input,
     required int numberOfCards,
     required SessionId? sessionId,

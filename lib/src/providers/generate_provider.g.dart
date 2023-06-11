@@ -6,12 +6,12 @@ part of 'generate_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$generateNotifierHash() => r'c065920e749f93799d954e71e6502f41cf211adf';
+String _$generateNotifierHash() => r'8e9a9520ff8c7b7139da24faaaec9e631c04288a';
 
 /// See also [GenerateNotifier].
 @ProviderFor(GenerateNotifier)
 final generateNotifierProvider =
-    AutoDisposeNotifierProvider<GenerateNotifier, GenerateState>.internal(
+    NotifierProvider<GenerateNotifier, GenerateState>.internal(
   GenerateNotifier.new,
   name: r'generateNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,7 +21,7 @@ final generateNotifierProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$GenerateNotifier = AutoDisposeNotifier<GenerateState>;
+typedef _$GenerateNotifier = Notifier<GenerateState>;
 String _$pickedFileHash() => r'45c4fe2ce2a186fbae92a34b26b601c8de4f6d6a';
 
 /// See also [PickedFile].

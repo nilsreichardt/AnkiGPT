@@ -18,4 +18,8 @@ class UserRepository {
   UserId? getUserId() {
     return firebaseAuth.currentUser?.uid;
   }
+
+  Future<void> signOut() async {
+    await firebaseAuth.signOut();
+  }
 }

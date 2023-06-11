@@ -63,15 +63,20 @@ class GenerateNotifier extends _$GenerateNotifier {
     }
 
     final text = _textEditingController.text;
-    if (text.length < 200) {
-      throw TooShortInputException();
+
+    if (!_hasPickedFile) {
+      if (text.length < 200) {
+        throw TooShortInputException();
+      }
+
+      if (text.length > 10000) {
+        throw TooLongInputException();
+      }
     }
 
-    if (text.length > 10000) {
-      throw TooLongInputException();
-    }
-
-    state = const GenerateState.loading();
+    state = GenerateState.loading(
+      isUploadFile: _hasPickedFile,
+    );
 
     UserId? userId = _userRepository.getUserId();
     if (!_userRepository.isSignedIn()) {
@@ -87,6 +92,11 @@ class GenerateNotifier extends _$GenerateNotifier {
       if (!successful) {
         return;
       }
+
+      state = GenerateState.loading(
+        sessionId: sessionId,
+        isUploadFile: false,
+      );
     }
 
     sessionId = await _sessionRepository.startSession(

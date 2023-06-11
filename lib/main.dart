@@ -977,7 +977,7 @@ class TooLongInputDialog extends StatelessWidget {
     return const _InvalidInputDialog(
       title: 'Too long!',
       content:
-          'Your text is too long. If the text is too long, GPT cannot generate the flashcards. Use less than 15,000 characters.',
+          'Your text is too long. If the text is too long, GPT cannot generate the flashcards. Use less than 10,000 characters.',
     );
   }
 }

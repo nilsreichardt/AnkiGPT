@@ -59,7 +59,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       throw TooShortInputException();
     }
 
-    if (_textEditingController.text.length > 15000) {
+    if (_textEditingController.text.length > 10000) {
       throw TooLongInputException();
     }
 

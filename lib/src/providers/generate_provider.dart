@@ -65,13 +65,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     final text = _textEditingController.text;
 
     if (!_hasPickedFile) {
-      if (text.length < 200) {
-        throw TooShortInputException();
-      }
-
-      if (text.length > 10000) {
-        throw TooLongInputException();
-      }
+      _validateTextInput(text);
     }
 
     state = GenerateState.loading(
@@ -157,6 +151,16 @@ class GenerateNotifier extends _$GenerateNotifier {
         language: dto.language,
       );
     });
+  }
+
+  void _validateTextInput(String text) {
+    if (text.length < 200) {
+      throw TooShortInputException();
+    }
+
+    if (text.length > 10000) {
+      throw TooLongInputException();
+    }
   }
 
   Future<bool> _uploadFile({

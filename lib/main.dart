@@ -1,9 +1,11 @@
 import 'dart:math';
 
-import 'package:ankigpt/firebase_options.dart';
+import 'package:ankigpt/firebase_options_prod.dart' as prod;
+import 'package:ankigpt/firebase_options_dev.dart' as dev;
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/card_feedback.dart';
 import 'package:ankigpt/src/models/card_id.dart';
+import 'package:ankigpt/src/models/flavor.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
@@ -37,6 +39,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<void> main() async {
@@ -56,7 +59,7 @@ Future<void> main() async {
     logger.e('FlutterError.onError', details.exception, details.stack);
   };
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await _initFirebase(logger);
 
   runApp(ProviderScope(
     observers: [
@@ -68,6 +71,20 @@ Future<void> main() async {
     ],
     child: const MyApp(),
   ));
+}
+
+Future<FirebaseApp> _initFirebase(Logger logger) async {
+  final flavor = Flavor.values
+      .byName(const String.fromEnvironment('FLAVOR', defaultValue: 'prod'));
+  logger.i('Flavor: ${flavor.name}');
+  switch (flavor) {
+    case Flavor.dev:
+      return Firebase.initializeApp(
+          options: dev.DefaultFirebaseOptions.currentPlatform);
+    case Flavor.prod:
+      return Firebase.initializeApp(
+          options: prod.DefaultFirebaseOptions.currentPlatform);
+  }
 }
 
 class MyApp extends StatelessWidget {

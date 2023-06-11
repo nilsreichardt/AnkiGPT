@@ -5,21 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "ankigpt",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "ankigpt (profile mode)",
+            "name": "ankigpt (prod)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "args": [
+                "--dart-define=FLAVOR=prod",
+            ]
         },
         {
-            "name": "ankigpt (release mode)",
+            "name": "ankigpt (dev)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
-        }
+            "args": [
+                "--dart-define=FLAVOR=dev",
+            ]
+        },
     ]
 }

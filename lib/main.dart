@@ -839,12 +839,14 @@ class Tutorial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(top: 20),
-      child: TutorialVideoPlayer(
-        aspectRatio: 16 / 9,
-        videoUrl:
-            'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Ftutorial.mp4?alt=media&token=efcd7c72-ed7f-45b1-8e51-1913ac03cb26',
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.only(top: 20),
+        child: TutorialVideoPlayer(
+          aspectRatio: 16 / 9,
+          videoUrl:
+              'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Ftutorial.mp4?alt=media&token=efcd7c72-ed7f-45b1-8e51-1913ac03cb26',
+        ),
       ),
     );
   }

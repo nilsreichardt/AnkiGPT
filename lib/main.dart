@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:ankigpt/firebase_options_prod.dart' as prod;
 import 'package:ankigpt/firebase_options_dev.dart' as dev;
+import 'package:ankigpt/firebase_options_prod.dart' as prod;
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/card_feedback.dart';
 import 'package:ankigpt/src/models/card_id.dart';
@@ -23,7 +23,6 @@ import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
 import 'package:ankigpt/src/providers/dislike_provider.dart';
-import 'package:ankigpt/src/providers/firebase_auth_provider.dart';
 import 'package:ankigpt/src/providers/flavor_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
@@ -33,7 +32,6 @@ import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
-import 'package:ankigpt/src/providers/user_id_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -286,22 +284,26 @@ class _PickedFileButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     const borderRadius = BorderRadius.all(Radius.circular(12));
     final pickedFile = ref.watch(pickedFileProvider);
+    final isLoading =
+        ref.watch(generateNotifierProvider) is GenerationStateLoading;
     return SizedBox(
       width: double.infinity,
       child: InkWell(
         borderRadius: borderRadius,
-        onTap: () {
-          final hasPlus = ref.read(hasPlusProvider);
-          if (!hasPlus) {
-            showDialog(
-              context: context,
-              builder: (context) => const _PlusDialog(),
-            );
-            return;
-          }
+        onTap: isLoading
+            ? null
+            : () {
+                final hasPlus = ref.read(hasPlusProvider);
+                if (!hasPlus) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const _PlusDialog(),
+                  );
+                  return;
+                }
 
-          ref.read(generateNotifierProvider.notifier).pickFile();
-        },
+                ref.read(generateNotifierProvider.notifier).pickFile();
+              },
         child: Material(
           borderRadius: borderRadius,
           color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -323,12 +325,15 @@ class _PickedFileButton extends ConsumerWidget {
                 top: 12,
                 right: 12,
                 child: IconButton(
-                  tooltip: 'Remove file',
-                  onPressed: () {
-                    ref
-                        .read(generateNotifierProvider.notifier)
-                        .clearPickedFile();
-                  },
+                  tooltip:
+                      'Remove file${isLoading ? ' (disabled while loading)' : ''}',
+                  onPressed: isLoading
+                      ? null
+                      : () {
+                          ref
+                              .read(generateNotifierProvider.notifier)
+                              .clearPickedFile();
+                        },
                   icon: const Icon(Icons.delete),
                 ),
               ),

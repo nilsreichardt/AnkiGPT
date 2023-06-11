@@ -199,32 +199,39 @@ class InputBox extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pickedFile = ref.watch(pickedFileProvider);
     final hasPickedFile = pickedFile != null;
-    if (hasPickedFile) {
-      return const _PickedFileButton();
-    }
 
-    final isSmartphone = MediaQuery.of(context).size.width < 550;
-    if (isSmartphone) {
-      return Column(
-        children: [
-          const SlideContextField(),
-          const SizedBox(height: 12),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: const _UploadFileButton(),
-          ),
-        ],
-      );
-    }
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 275),
+      child: Container(
+        key: ValueKey(hasPickedFile),
+        child: hasPickedFile
+            ? const _PickedFileButton()
+            : () {
+                final isSmartphone = MediaQuery.of(context).size.width < 550;
+                if (isSmartphone) {
+                  return Column(
+                    children: [
+                      const SlideContextField(),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: const _UploadFileButton(),
+                      ),
+                    ],
+                  );
+                }
 
-    return const Row(
-      children: [
-        Expanded(
-          child: SlideContextField(),
-        ),
-        SizedBox(width: 12),
-        _UploadFileButton(),
-      ],
+                return const Row(
+                  children: [
+                    Expanded(
+                      child: SlideContextField(),
+                    ),
+                    SizedBox(width: 12),
+                    _UploadFileButton(),
+                  ],
+                );
+              }(),
+      ),
     );
   }
 }
@@ -236,8 +243,6 @@ class _UploadFileButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     const borderRadius = BorderRadius.all(Radius.circular(12));
     final hasPlus = ref.watch(hasPlusProvider);
-    final pickedFile = ref.watch(pickedFileProvider);
-    final hasPickedFile = pickedFile != null;
     return InkWell(
       borderRadius: borderRadius,
       onTap: () {
@@ -261,12 +266,9 @@ class _UploadFileButton extends ConsumerWidget {
             children: [
               const Icon(Icons.upload_file),
               SizedBox(height: hasPlus ? 13 : 0),
-              Text(hasPickedFile ? 'File picked.' : 'Upload PDF file'),
+              const Text('Upload PDF file'),
               SizedBox(height: hasPlus ? 13 : 8),
-              if (!hasPlus || hasPickedFile) ...[
-                if (!hasPlus) const PlusBadge(),
-                if (hasPickedFile) const _RemoveFileButton(),
-              ]
+              if (!hasPlus) const PlusBadge(),
             ],
           ),
         ),

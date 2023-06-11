@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'buy_provider.dart';
+part of 'flavor_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$buyHash() => r'2e48eca8ded837f0b49010fd7a922323c6a59a61';
+String _$flavorHash() => r'25ba4a0d5bc764f5d1eefe0d64f557e200ff4c3a';
 
-/// See also [buy].
-@ProviderFor(buy)
-final buyProvider = AutoDisposeFutureProvider<void>.internal(
-  buy,
-  name: r'buyProvider',
+/// See also [flavor].
+@ProviderFor(flavor)
+final flavorProvider = AutoDisposeProvider<Flavor>.internal(
+  flavor,
+  name: r'flavorProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$buyHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$flavorHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef BuyRef = AutoDisposeFutureProviderRef<void>;
+typedef FlavorRef = AutoDisposeProviderRef<Flavor>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

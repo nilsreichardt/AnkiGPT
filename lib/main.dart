@@ -1,9 +1,11 @@
 import 'dart:math';
 
-import 'package:ankigpt/firebase_options.dart';
+import 'package:ankigpt/firebase_options_prod.dart' as prod;
+import 'package:ankigpt/firebase_options_dev.dart' as dev;
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/card_feedback.dart';
 import 'package:ankigpt/src/models/card_id.dart';
+import 'package:ankigpt/src/models/flavor.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
@@ -22,6 +24,7 @@ import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
 import 'package:ankigpt/src/providers/dislike_provider.dart';
 import 'package:ankigpt/src/providers/firebase_auth_provider.dart';
+import 'package:ankigpt/src/providers/flavor_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/like_provider.dart';
@@ -37,6 +40,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<void> main() async {
@@ -51,12 +55,13 @@ Future<void> main() async {
 
   final memoryOutput = container.read(memoryOutputProvider);
   final logger = container.read(loggerProvider);
+  final flavor = _getFlavor(logger);
 
   FlutterError.onError = (details) {
     logger.e('FlutterError.onError', details.exception, details.stack);
   };
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await _initFirebase(flavor);
 
   runApp(ProviderScope(
     observers: [
@@ -65,9 +70,28 @@ Future<void> main() async {
     overrides: [
       memoryOutputProvider.overrideWithValue(memoryOutput),
       loggerProvider.overrideWithValue(logger),
+      flavorProvider.overrideWithValue(flavor),
     ],
     child: const MyApp(),
   ));
+}
+
+Flavor _getFlavor(Logger logger) {
+  final flavor = Flavor.values
+      .byName(const String.fromEnvironment('FLAVOR', defaultValue: 'prod'));
+  logger.i('Flavor: ${flavor.name}');
+  return flavor;
+}
+
+Future<FirebaseApp> _initFirebase(Flavor flavor) async {
+  switch (flavor) {
+    case Flavor.dev:
+      return Firebase.initializeApp(
+          options: dev.DefaultFirebaseOptions.currentPlatform);
+    case Flavor.prod:
+      return Firebase.initializeApp(
+          options: prod.DefaultFirebaseOptions.currentPlatform);
+  }
 }
 
 class MyApp extends StatelessWidget {

@@ -6,7 +6,7 @@ part of 'like_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$likeRepositoryHash() => r'945d5b7425931a20402cd1572495883d18d46025';
+String _$likeRepositoryHash() => r'06060370732529e66dec9818bddf48d69cf16b16';
 
 /// See also [likeRepository].
 @ProviderFor(likeRepository)

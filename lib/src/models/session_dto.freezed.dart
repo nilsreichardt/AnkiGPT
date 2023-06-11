@@ -22,7 +22,7 @@ SessionDto _$SessionDtoFromJson(Map<String, dynamic> json) {
 mixin _$SessionDto {
   String get id => throw _privateConstructorUsedError;
   Language? get language => throw _privateConstructorUsedError;
-  String get slideContent => throw _privateConstructorUsedError;
+  Input get input => throw _privateConstructorUsedError;
   @JsonKey(fromJson: parseTimestamp)
   DateTime get createdAt => throw _privateConstructorUsedError;
   CsvMetadata? get csv => throw _privateConstructorUsedError;
@@ -48,7 +48,7 @@ abstract class $SessionDtoCopyWith<$Res> {
   $Res call(
       {String id,
       Language? language,
-      String slideContent,
+      Input input,
       @JsonKey(fromJson: parseTimestamp) DateTime createdAt,
       CsvMetadata? csv,
       @JsonKey(fromJson: parseCards) Map<String, AnkiCard>? cards,
@@ -56,6 +56,7 @@ abstract class $SessionDtoCopyWith<$Res> {
       @JsonKey(fromJson: parseError) String? error,
       int numberOfCards});
 
+  $InputCopyWith<$Res> get input;
   $CsvMetadataCopyWith<$Res>? get csv;
 }
 
@@ -74,7 +75,7 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
   $Res call({
     Object? id = null,
     Object? language = freezed,
-    Object? slideContent = null,
+    Object? input = null,
     Object? createdAt = null,
     Object? csv = freezed,
     Object? cards = freezed,
@@ -91,10 +92,10 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
               as Language?,
-      slideContent: null == slideContent
-          ? _value.slideContent
-          : slideContent // ignore: cast_nullable_to_non_nullable
-              as String,
+      input: null == input
+          ? _value.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as Input,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -124,6 +125,14 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
 
   @override
   @pragma('vm:prefer-inline')
+  $InputCopyWith<$Res> get input {
+    return $InputCopyWith<$Res>(_value.input, (value) {
+      return _then(_value.copyWith(input: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $CsvMetadataCopyWith<$Res>? get csv {
     if (_value.csv == null) {
       return null;
@@ -146,7 +155,7 @@ abstract class _$$_SessionDtoCopyWith<$Res>
   $Res call(
       {String id,
       Language? language,
-      String slideContent,
+      Input input,
       @JsonKey(fromJson: parseTimestamp) DateTime createdAt,
       CsvMetadata? csv,
       @JsonKey(fromJson: parseCards) Map<String, AnkiCard>? cards,
@@ -154,6 +163,8 @@ abstract class _$$_SessionDtoCopyWith<$Res>
       @JsonKey(fromJson: parseError) String? error,
       int numberOfCards});
 
+  @override
+  $InputCopyWith<$Res> get input;
   @override
   $CsvMetadataCopyWith<$Res>? get csv;
 }
@@ -171,7 +182,7 @@ class __$$_SessionDtoCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? language = freezed,
-    Object? slideContent = null,
+    Object? input = null,
     Object? createdAt = null,
     Object? csv = freezed,
     Object? cards = freezed,
@@ -188,10 +199,10 @@ class __$$_SessionDtoCopyWithImpl<$Res>
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
               as Language?,
-      slideContent: null == slideContent
-          ? _value.slideContent
-          : slideContent // ignore: cast_nullable_to_non_nullable
-              as String,
+      input: null == input
+          ? _value.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as Input,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -226,7 +237,7 @@ class _$_SessionDto implements _SessionDto {
   const _$_SessionDto(
       {required this.id,
       required this.language,
-      required this.slideContent,
+      required this.input,
       @JsonKey(fromJson: parseTimestamp)
           required this.createdAt,
       required this.csv,
@@ -246,7 +257,7 @@ class _$_SessionDto implements _SessionDto {
   @override
   final Language? language;
   @override
-  final String slideContent;
+  final Input input;
   @override
   @JsonKey(fromJson: parseTimestamp)
   final DateTime createdAt;
@@ -274,7 +285,7 @@ class _$_SessionDto implements _SessionDto {
 
   @override
   String toString() {
-    return 'SessionDto(id: $id, language: $language, slideContent: $slideContent, createdAt: $createdAt, csv: $csv, cards: $cards, isCompleted: $isCompleted, error: $error, numberOfCards: $numberOfCards)';
+    return 'SessionDto(id: $id, language: $language, input: $input, createdAt: $createdAt, csv: $csv, cards: $cards, isCompleted: $isCompleted, error: $error, numberOfCards: $numberOfCards)';
   }
 
   @override
@@ -285,8 +296,7 @@ class _$_SessionDto implements _SessionDto {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.language, language) ||
                 other.language == language) &&
-            (identical(other.slideContent, slideContent) ||
-                other.slideContent == slideContent) &&
+            (identical(other.input, input) || other.input == input) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.csv, csv) || other.csv == csv) &&
@@ -304,7 +314,7 @@ class _$_SessionDto implements _SessionDto {
       runtimeType,
       id,
       language,
-      slideContent,
+      input,
       createdAt,
       csv,
       const DeepCollectionEquality().hash(_cards),
@@ -330,7 +340,7 @@ abstract class _SessionDto implements SessionDto {
   const factory _SessionDto(
       {required final String id,
       required final Language? language,
-      required final String slideContent,
+      required final Input input,
       @JsonKey(fromJson: parseTimestamp)
           required final DateTime createdAt,
       required final CsvMetadata? csv,
@@ -349,7 +359,7 @@ abstract class _SessionDto implements SessionDto {
   @override
   Language? get language;
   @override
-  String get slideContent;
+  Input get input;
   @override
   @JsonKey(fromJson: parseTimestamp)
   DateTime get createdAt;
@@ -368,5 +378,151 @@ abstract class _SessionDto implements SessionDto {
   @override
   @JsonKey(ignore: true)
   _$$_SessionDtoCopyWith<_$_SessionDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Input _$InputFromJson(Map<String, dynamic> json) {
+  return _Input.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Input {
+  String get text => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $InputCopyWith<Input> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $InputCopyWith<$Res> {
+  factory $InputCopyWith(Input value, $Res Function(Input) then) =
+      _$InputCopyWithImpl<$Res, Input>;
+  @useResult
+  $Res call({String text, String type});
+}
+
+/// @nodoc
+class _$InputCopyWithImpl<$Res, $Val extends Input>
+    implements $InputCopyWith<$Res> {
+  _$InputCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? text = null,
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_InputCopyWith<$Res> implements $InputCopyWith<$Res> {
+  factory _$$_InputCopyWith(_$_Input value, $Res Function(_$_Input) then) =
+      __$$_InputCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String text, String type});
+}
+
+/// @nodoc
+class __$$_InputCopyWithImpl<$Res> extends _$InputCopyWithImpl<$Res, _$_Input>
+    implements _$$_InputCopyWith<$Res> {
+  __$$_InputCopyWithImpl(_$_Input _value, $Res Function(_$_Input) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? text = null,
+    Object? type = null,
+  }) {
+    return _then(_$_Input(
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Input implements _Input {
+  const _$_Input({required this.text, required this.type});
+
+  factory _$_Input.fromJson(Map<String, dynamic> json) =>
+      _$$_InputFromJson(json);
+
+  @override
+  final String text;
+  @override
+  final String type;
+
+  @override
+  String toString() {
+    return 'Input(text: $text, type: $type)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Input &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, text, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_InputCopyWith<_$_Input> get copyWith =>
+      __$$_InputCopyWithImpl<_$_Input>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_InputToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Input implements Input {
+  const factory _Input(
+      {required final String text, required final String type}) = _$_Input;
+
+  factory _Input.fromJson(Map<String, dynamic> json) = _$_Input.fromJson;
+
+  @override
+  String get text;
+  @override
+  String get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$_InputCopyWith<_$_Input> get copyWith =>
       throw _privateConstructorUsedError;
 }

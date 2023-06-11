@@ -30,6 +30,7 @@ dependencies:
   riverpod_annotation: ^2.1.1
   universal_platform: ^1.0.0+1
   url_launcher: ^6.1.11
+  uuid: ^3.0.7
   video_player: ^2.6.1
 
 dev_dependencies:

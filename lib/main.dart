@@ -492,16 +492,20 @@ class Results extends ConsumerWidget {
                   _LanguageText(language: language),
               success: (_, __, ___, language) =>
                   _LanguageText(language: language),
-              loading: (_, ___, language) => _LanguageText(language: language),
+              loading: (_, ___, language, ____) =>
+                  _LanguageText(language: language),
               orElse: () => const SizedBox.shrink(),
             ),
             state.maybeWhen(
-              loading: (sessionId, cards, language) => cards.isEmpty
-                  ? const _LoadingCards()
-                  : _ResultList(
-                      sessionId: sessionId,
-                      cards: cards,
-                    ),
+              loading: (sessionId, cards, language, isUploadingFile) =>
+                  cards.isEmpty
+                      ? _LoadingCards(
+                          isUploadFile: isUploadingFile,
+                        )
+                      : _ResultList(
+                          sessionId: sessionId,
+                          cards: cards,
+                        ),
               error: (sessionId, error, cards, language) => Column(
                 children: [
                   ErrorText(text: error),
@@ -526,34 +530,47 @@ class Results extends ConsumerWidget {
 }
 
 class _LoadingCards extends StatelessWidget {
-  const _LoadingCards();
+  const _LoadingCards({
+    required this.isUploadFile,
+  });
+
+  final bool isUploadFile;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 12),
-            const CircularProgressIndicator(),
-            const SizedBox(height: 12),
-            const Text(
-              'Generating cards... This may take a few minutes.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: Column(
+            key: ValueKey(isUploadFile),
+            children: [
+              const SizedBox(height: 12),
+              const CircularProgressIndicator(),
+              const SizedBox(height: 12),
+              Text(
+                isUploadFile
+                    ? 'Uploading file...'
+                    : 'Generating cards... This may take a few minutes.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            Text(
-              'You can close the browser tab and come back later.',
-              style: TextStyle(
-                color: Colors.grey[500]!,
-                fontSize: 14,
-              ),
-            )
-          ],
+              Opacity(
+                opacity: isUploadFile ? 0 : 1,
+                child: Text(
+                  'You can close the browser tab and come back later.',
+                  style: TextStyle(
+                    color: Colors.grey[500]!,
+                    fontSize: 14,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -1151,8 +1168,7 @@ class DownloadButton extends ConsumerWidget {
         child: Tooltip(
           key: ValueKey(isFinished),
           message: state.maybeWhen(
-            loading: (_, __, ___) =>
-                'Still generating... Please wait a few seconds.',
+            loading: (_, __, ___, ____) => 'Still generating... Please wait.',
             success: (_, __, ___, ____) => 'Download as .csv file to import it',
             orElse: () => '',
           ),

@@ -14,7 +14,7 @@ class SessionDto with _$SessionDto {
   const factory SessionDto({
     required String id,
     required Language? language,
-    required String slideContent,
+    required Input input,
     @JsonKey(fromJson: parseTimestamp) required DateTime createdAt,
     required CsvMetadata? csv,
     @JsonKey(fromJson: parseCards) required Map<String, AnkiCard>? cards,
@@ -51,4 +51,14 @@ String? parseError(dynamic data) {
   }
 
   return data;
+}
+
+@Freezed(fromJson: true)
+class Input with _$Input {
+  const factory Input({
+    required String text,
+    required String type,
+  }) = _Input;
+
+  factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 }

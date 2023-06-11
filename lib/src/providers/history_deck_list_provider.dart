@@ -17,7 +17,7 @@ Stream<List<HistoryDeck>> historyDeckList(HistoryDeckListRef ref) {
   return Stream.value(
     sessions.value?.map((dto) {
           final name =
-              '${dto.slideContent.substring(0, min(dto.slideContent.length, 150))}...';
+              '${dto.input.text.substring(0, min(dto.input.text.length, 150))}...';
           if (dto.error != null) {
             return HistoryDeck.error(
                 createdAt: dto.createdAt,

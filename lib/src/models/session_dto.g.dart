@@ -10,7 +10,7 @@ _$_SessionDto _$$_SessionDtoFromJson(Map<String, dynamic> json) =>
     _$_SessionDto(
       id: json['id'] as String,
       language: $enumDecodeNullable(_$LanguageEnumMap, json['language']),
-      slideContent: json['slideContent'] as String,
+      input: Input.fromJson(json['input'] as Map<String, dynamic>),
       createdAt: parseTimestamp(json['createdAt'] as Timestamp),
       csv: json['csv'] == null
           ? null
@@ -25,7 +25,7 @@ Map<String, dynamic> _$$_SessionDtoToJson(_$_SessionDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'language': _$LanguageEnumMap[instance.language],
-      'slideContent': instance.slideContent,
+      'input': instance.input,
       'createdAt': instance.createdAt.toIso8601String(),
       'csv': instance.csv,
       'cards': instance.cards,
@@ -131,3 +131,13 @@ const _$LanguageEnumMap = {
   Language.zu: 'zu',
   Language.unknown: 'unknown',
 };
+
+_$_Input _$$_InputFromJson(Map<String, dynamic> json) => _$_Input(
+      text: json['text'] as String,
+      type: json['type'] as String,
+    );
+
+Map<String, dynamic> _$$_InputToJson(_$_Input instance) => <String, dynamic>{
+      'text': instance.text,
+      'type': instance.type,
+    };

@@ -5,8 +5,11 @@ import 'package:ankigpt/src/infrastructure/session_repository.dart';
 import 'package:ankigpt/src/infrastructure/user_repository.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
+import 'package:ankigpt/src/models/input_type.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_dto.dart';
+import 'package:ankigpt/src/models/session_id.dart';
+import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
@@ -16,6 +19,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:uuid/uuid.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'generate_provider.g.dart';
@@ -33,6 +37,7 @@ class GenerateNotifier extends _$GenerateNotifier {
 
   StreamSubscription<DocumentSnapshot<SessionDto>>? _subscription;
   PlatformFile? _pickedFile;
+  bool get _hasPickedFile => _pickedFile != null;
 
   @override
   GenerateState build() {
@@ -67,14 +72,23 @@ class GenerateNotifier extends _$GenerateNotifier {
 
     state = const GenerateState.loading();
 
-    if (!_userRepository.isSignIn()) {
+    UserId? userId = _userRepository.getUserId();
+    if (!_userRepository.isSignedIn()) {
       _logger.d("User is not signed in, signing in...");
-      await _userRepository.signIn();
+      userId == await _userRepository.signIn();
     }
 
-    final sessionId = await _sessionRepository.startSession(
+    SessionId? sessionId;
+    if (_hasPickedFile) {
+      sessionId = const Uuid().v4();
+      await _uploadFile(sessionId: sessionId, userId: userId!);
+    }
+
+    sessionId = await _sessionRepository.startSession(
       slideContent: _textEditingController.text,
       numberOfCards: size.toInt(),
+      sessionId: sessionId,
+      type: _hasPickedFile ? InputType.file : InputType.text,
     );
 
     _subscription = _firestore
@@ -82,7 +96,7 @@ class GenerateNotifier extends _$GenerateNotifier {
         .doc(sessionId)
         .withConverter(
           fromFirestore: (doc, options) =>
-              SessionDto.fromJsonWithInjectedId(sessionId, doc.data()!),
+              SessionDto.fromJsonWithInjectedId(sessionId!, doc.data()!),
           toFirestore: (_, __) => throw UnimplementedError(),
         )
         .snapshots()
@@ -99,7 +113,7 @@ class GenerateNotifier extends _$GenerateNotifier {
         _stopSubscription();
         state = GenerateState.error(
           message: dto.error!,
-          sessionId: sessionId,
+          sessionId: sessionId!,
           language: dto.language,
         );
         return;
@@ -110,7 +124,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       if (isCompleted) {
         _stopSubscription();
         state = GenerateState.success(
-          sessionId: sessionId,
+          sessionId: sessionId!,
           generatedCards: cards,
           downloadUrl: dto.csv!.downloadUrl,
           language: dto.language,
@@ -124,6 +138,19 @@ class GenerateNotifier extends _$GenerateNotifier {
         language: dto.language,
       );
     });
+  }
+
+  Future<void> _uploadFile({
+    required SessionId sessionId,
+    required UserId userId,
+  }) async {
+    _logger.d('Starting to upload file');
+    await _sessionRepository.uploadFile(
+      sessionId: sessionId,
+      userId: userId,
+      file: _pickedFile!,
+    );
+    _logger.d('Uploaded file');
   }
 
   void _stopSubscription() {

@@ -13,6 +13,7 @@ class GenerateState with _$GenerateState {
     String? sessionId,
     @Default([]) List<AnkiCard> alreadyGeneratedCards,
     Language? language,
+    @Default(false) bool isUploadFile,
   }) = GenerationStateLoading;
   const factory GenerateState.error({
     required String message,

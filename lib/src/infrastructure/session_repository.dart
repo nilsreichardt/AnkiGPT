@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:ankigpt/src/models/input_type.dart';
+import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -21,7 +22,7 @@ class SessionRepository {
 
   Future<SessionId> startSession({
     required String? slideContent,
-    required InputType type,
+    required Input input,
     required int numberOfCards,
     required SessionId? sessionId,
   }) async {
@@ -30,10 +31,7 @@ class SessionRepository {
         .call<Map<String, dynamic>>({
       'destination': 'startSession',
       'payload': {
-        'input': {
-          'text': slideContent,
-          'type': type.name,
-        },
+        'input': input.toJson(),
         'sessionId': sessionId,
         'numberOfCards': '$numberOfCards',
       }

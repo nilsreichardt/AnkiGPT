@@ -312,7 +312,7 @@ class _PickedFileButton extends ConsumerWidget {
                     children: [
                       const Icon(Icons.upload_file),
                       const SizedBox(height: 13),
-                      Text(pickedFile!.name),
+                      Text(pickedFile?.name ?? 'File picked.'),
                       const SizedBox(height: 13),
                     ],
                   ),

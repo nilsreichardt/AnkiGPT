@@ -62,11 +62,12 @@ class GenerateNotifier extends _$GenerateNotifier {
       throw PlusMembershipRequiredException();
     }
 
-    if (_textEditingController.text.length < 200) {
+    final text = _textEditingController.text;
+    if (text.length < 200) {
       throw TooShortInputException();
     }
 
-    if (_textEditingController.text.length > 10000) {
+    if (text.length > 10000) {
       throw TooLongInputException();
     }
 
@@ -81,14 +82,22 @@ class GenerateNotifier extends _$GenerateNotifier {
     SessionId? sessionId;
     if (_hasPickedFile) {
       sessionId = const Uuid().v4();
-      await _uploadFile(sessionId: sessionId, userId: userId!);
+      final successful =
+          await _uploadFile(sessionId: sessionId, userId: userId!);
+      if (!successful) {
+        return;
+      }
     }
 
     sessionId = await _sessionRepository.startSession(
       slideContent: _textEditingController.text,
       numberOfCards: size.toInt(),
       sessionId: sessionId,
-      type: _hasPickedFile ? InputType.file : InputType.text,
+      input: Input(
+        text: text.isEmpty ? null : text,
+        type: _hasPickedFile ? InputType.file : InputType.text,
+        file: _hasPickedFile ? FileInput(name: _pickedFile!.name) : null,
+      ),
     );
 
     _subscription = _firestore
@@ -140,17 +149,27 @@ class GenerateNotifier extends _$GenerateNotifier {
     });
   }
 
-  Future<void> _uploadFile({
+  Future<bool> _uploadFile({
     required SessionId sessionId,
     required UserId userId,
   }) async {
     _logger.d('Starting to upload file');
-    await _sessionRepository.uploadFile(
-      sessionId: sessionId,
-      userId: userId,
-      file: _pickedFile!,
-    );
-    _logger.d('Uploaded file');
+    try {
+      await _sessionRepository.uploadFile(
+        sessionId: sessionId,
+        userId: userId,
+        file: _pickedFile!,
+      );
+      _logger.d('Uploaded file');
+      return true;
+    } catch (e) {
+      state = GenerateState.error(
+        message: 'Failed to upload file: $e',
+        sessionId: sessionId,
+      );
+      _logger.e('Failed to upload file', e);
+      return false;
+    }
   }
 
   void _stopSubscription() {

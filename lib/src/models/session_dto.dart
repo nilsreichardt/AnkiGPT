@@ -1,6 +1,7 @@
 import 'package:ankigpt/src/infrastructure/firestore_utils.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/csv_metadata.dart';
+import 'package:ankigpt/src/models/input_type.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -56,9 +57,20 @@ String? parseError(dynamic data) {
 @Freezed(fromJson: true)
 class Input with _$Input {
   const factory Input({
-    required String text,
-    required String type,
+    required String? text,
+    required InputType type,
+    required FileInput? file,
   }) = _Input;
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
+}
+
+@Freezed(fromJson: true)
+class FileInput with _$FileInput {
+  const factory FileInput({
+    required String name,
+  }) = _FileInput;
+
+  factory FileInput.fromJson(Map<String, dynamic> json) =>
+      _$FileInputFromJson(json);
 }

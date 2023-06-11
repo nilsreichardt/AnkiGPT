@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:ankigpt/src/models/history_deck.dart';
+import 'package:ankigpt/src/models/input_type.dart';
+import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/providers/stream_session_docs_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -16,8 +18,7 @@ Stream<List<HistoryDeck>> historyDeckList(HistoryDeckListRef ref) {
 
   return Stream.value(
     sessions.value?.map((dto) {
-          final name =
-              '${dto.input.text.substring(0, min(dto.input.text.length, 150))}...';
+          final name = _getName(dto.input);
           if (dto.error != null) {
             return HistoryDeck.error(
                 createdAt: dto.createdAt,
@@ -44,4 +45,14 @@ Stream<List<HistoryDeck>> historyDeckList(HistoryDeckListRef ref) {
         }).toList() ??
         [],
   );
+}
+
+String _getName(Input input) {
+  switch (input.type) {
+    case InputType.file:
+      return input.file?.name ?? 'File';
+    case InputType.text:
+      final t = (input.text ?? '').replaceAll('\n', ' ');
+      return '${t.substring(0, min(t.length, 150))}...';
+  }
 }

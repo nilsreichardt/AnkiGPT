@@ -387,8 +387,9 @@ Input _$InputFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Input {
-  String get text => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  String? get text => throw _privateConstructorUsedError;
+  InputType get type => throw _privateConstructorUsedError;
+  FileInput? get file => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -400,7 +401,9 @@ abstract class $InputCopyWith<$Res> {
   factory $InputCopyWith(Input value, $Res Function(Input) then) =
       _$InputCopyWithImpl<$Res, Input>;
   @useResult
-  $Res call({String text, String type});
+  $Res call({String? text, InputType type, FileInput? file});
+
+  $FileInputCopyWith<$Res>? get file;
 }
 
 /// @nodoc
@@ -416,19 +419,36 @@ class _$InputCopyWithImpl<$Res, $Val extends Input>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? text = null,
+    Object? text = freezed,
     Object? type = null,
+    Object? file = freezed,
   }) {
     return _then(_value.copyWith(
-      text: null == text
+      text: freezed == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as InputType,
+      file: freezed == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as FileInput?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FileInputCopyWith<$Res>? get file {
+    if (_value.file == null) {
+      return null;
+    }
+
+    return $FileInputCopyWith<$Res>(_value.file!, (value) {
+      return _then(_value.copyWith(file: value) as $Val);
+    });
   }
 }
 
@@ -438,7 +458,10 @@ abstract class _$$_InputCopyWith<$Res> implements $InputCopyWith<$Res> {
       __$$_InputCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String text, String type});
+  $Res call({String? text, InputType type, FileInput? file});
+
+  @override
+  $FileInputCopyWith<$Res>? get file;
 }
 
 /// @nodoc
@@ -450,18 +473,23 @@ class __$$_InputCopyWithImpl<$Res> extends _$InputCopyWithImpl<$Res, _$_Input>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? text = null,
+    Object? text = freezed,
     Object? type = null,
+    Object? file = freezed,
   }) {
     return _then(_$_Input(
-      text: null == text
+      text: freezed == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as InputType,
+      file: freezed == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as FileInput?,
     ));
   }
 }
@@ -469,19 +497,21 @@ class __$$_InputCopyWithImpl<$Res> extends _$InputCopyWithImpl<$Res, _$_Input>
 /// @nodoc
 @JsonSerializable()
 class _$_Input implements _Input {
-  const _$_Input({required this.text, required this.type});
+  const _$_Input({required this.text, required this.type, required this.file});
 
   factory _$_Input.fromJson(Map<String, dynamic> json) =>
       _$$_InputFromJson(json);
 
   @override
-  final String text;
+  final String? text;
   @override
-  final String type;
+  final InputType type;
+  @override
+  final FileInput? file;
 
   @override
   String toString() {
-    return 'Input(text: $text, type: $type)';
+    return 'Input(text: $text, type: $type, file: $file)';
   }
 
   @override
@@ -490,12 +520,13 @@ class _$_Input implements _Input {
         (other.runtimeType == runtimeType &&
             other is _$_Input &&
             (identical(other.text, text) || other.text == text) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.file, file) || other.file == file));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, text, type);
+  int get hashCode => Object.hash(runtimeType, text, type, file);
 
   @JsonKey(ignore: true)
   @override
@@ -513,16 +544,154 @@ class _$_Input implements _Input {
 
 abstract class _Input implements Input {
   const factory _Input(
-      {required final String text, required final String type}) = _$_Input;
+      {required final String? text,
+      required final InputType type,
+      required final FileInput? file}) = _$_Input;
 
   factory _Input.fromJson(Map<String, dynamic> json) = _$_Input.fromJson;
 
   @override
-  String get text;
+  String? get text;
   @override
-  String get type;
+  InputType get type;
+  @override
+  FileInput? get file;
   @override
   @JsonKey(ignore: true)
   _$$_InputCopyWith<_$_Input> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+FileInput _$FileInputFromJson(Map<String, dynamic> json) {
+  return _FileInput.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FileInput {
+  String get name => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FileInputCopyWith<FileInput> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FileInputCopyWith<$Res> {
+  factory $FileInputCopyWith(FileInput value, $Res Function(FileInput) then) =
+      _$FileInputCopyWithImpl<$Res, FileInput>;
+  @useResult
+  $Res call({String name});
+}
+
+/// @nodoc
+class _$FileInputCopyWithImpl<$Res, $Val extends FileInput>
+    implements $FileInputCopyWith<$Res> {
+  _$FileInputCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_FileInputCopyWith<$Res> implements $FileInputCopyWith<$Res> {
+  factory _$$_FileInputCopyWith(
+          _$_FileInput value, $Res Function(_$_FileInput) then) =
+      __$$_FileInputCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String name});
+}
+
+/// @nodoc
+class __$$_FileInputCopyWithImpl<$Res>
+    extends _$FileInputCopyWithImpl<$Res, _$_FileInput>
+    implements _$$_FileInputCopyWith<$Res> {
+  __$$_FileInputCopyWithImpl(
+      _$_FileInput _value, $Res Function(_$_FileInput) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+  }) {
+    return _then(_$_FileInput(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_FileInput implements _FileInput {
+  const _$_FileInput({required this.name});
+
+  factory _$_FileInput.fromJson(Map<String, dynamic> json) =>
+      _$$_FileInputFromJson(json);
+
+  @override
+  final String name;
+
+  @override
+  String toString() {
+    return 'FileInput(name: $name)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_FileInput &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_FileInputCopyWith<_$_FileInput> get copyWith =>
+      __$$_FileInputCopyWithImpl<_$_FileInput>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_FileInputToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FileInput implements FileInput {
+  const factory _FileInput({required final String name}) = _$_FileInput;
+
+  factory _FileInput.fromJson(Map<String, dynamic> json) =
+      _$_FileInput.fromJson;
+
+  @override
+  String get name;
+  @override
+  @JsonKey(ignore: true)
+  _$$_FileInputCopyWith<_$_FileInput> get copyWith =>
       throw _privateConstructorUsedError;
 }

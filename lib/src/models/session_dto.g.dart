@@ -133,11 +133,29 @@ const _$LanguageEnumMap = {
 };
 
 _$_Input _$$_InputFromJson(Map<String, dynamic> json) => _$_Input(
-      text: json['text'] as String,
-      type: json['type'] as String,
+      text: json['text'] as String?,
+      type: $enumDecode(_$InputTypeEnumMap, json['type']),
+      file: json['file'] == null
+          ? null
+          : FileInput.fromJson(json['file'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_InputToJson(_$_Input instance) => <String, dynamic>{
       'text': instance.text,
-      'type': instance.type,
+      'type': _$InputTypeEnumMap[instance.type]!,
+      'file': instance.file,
+    };
+
+const _$InputTypeEnumMap = {
+  InputType.text: 'text',
+  InputType.file: 'file',
+};
+
+_$_FileInput _$$_FileInputFromJson(Map<String, dynamic> json) => _$_FileInput(
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$$_FileInputToJson(_$_FileInput instance) =>
+    <String, dynamic>{
+      'name': instance.name,
     };

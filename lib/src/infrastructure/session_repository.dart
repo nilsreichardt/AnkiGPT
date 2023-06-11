@@ -32,7 +32,7 @@ class SessionRepository {
       'payload': {
         'input': input.toJson(),
         'sessionId': sessionId,
-        'numberOfCards': '$numberOfCards',
+        'numberOfCards': numberOfCards,
       }
     });
     return result.data['id'];

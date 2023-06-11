@@ -25,10 +25,10 @@ Map<String, dynamic> _$$_SessionDtoToJson(_$_SessionDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'language': _$LanguageEnumMap[instance.language],
-      'input': instance.input,
+      'input': instance.input.toJson(),
       'createdAt': instance.createdAt.toIso8601String(),
-      'csv': instance.csv,
-      'cards': instance.cards,
+      'csv': instance.csv?.toJson(),
+      'cards': instance.cards?.map((k, e) => MapEntry(k, e.toJson())),
       'isCompleted': instance.isCompleted,
       'error': instance.error,
       'numberOfCards': instance.numberOfCards,
@@ -143,7 +143,7 @@ _$_Input _$$_InputFromJson(Map<String, dynamic> json) => _$_Input(
 Map<String, dynamic> _$$_InputToJson(_$_Input instance) => <String, dynamic>{
       'text': instance.text,
       'type': _$InputTypeEnumMap[instance.type]!,
-      'file': instance.file,
+      'file': instance.file?.toJson(),
     };
 
 const _$InputTypeEnumMap = {

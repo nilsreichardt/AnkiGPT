@@ -75,7 +75,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     UserId? userId = _userRepository.getUserId();
     if (!_userRepository.isSignedIn()) {
       _logger.d("User is not signed in, signing in...");
-      userId == await _userRepository.signIn();
+      userId = await _userRepository.signIn();
     }
 
     SessionId? sessionId;

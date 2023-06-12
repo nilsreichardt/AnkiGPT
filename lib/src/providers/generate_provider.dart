@@ -124,8 +124,7 @@ class GenerateNotifier extends _$GenerateNotifier {
 
       _logger.d("Received session dto with ${dto.cards?.length} cards");
 
-      final hasError = dto.error != null;
-      if (hasError) {
+      if (dto.status == SessionStatus.error) {
         _stopSubscription();
         state = GenerateState.error(
           message: dto.error!,
@@ -144,6 +143,12 @@ class GenerateNotifier extends _$GenerateNotifier {
           downloadUrl: dto.csv!.downloadUrl,
           language: dto.language,
         );
+        return;
+      }
+
+      if (dto.status == SessionStatus.stopped) {
+        _stopSubscription();
+        state = const GenerateState.initial();
         return;
       }
 

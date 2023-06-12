@@ -16,7 +16,7 @@ _$_SessionDto _$$_SessionDtoFromJson(Map<String, dynamic> json) =>
           ? null
           : CsvMetadata.fromJson(json['csv'] as Map<String, dynamic>),
       cards: parseCards(json['cards'] as Map<String, dynamic>?),
-      isCompleted: json['isCompleted'] as bool? ?? false,
+      status: $enumDecode(_$SessionStatusEnumMap, json['status']),
       error: parseError(json['error']),
       numberOfCards: json['numberOfCards'] as int,
     );
@@ -29,7 +29,7 @@ Map<String, dynamic> _$$_SessionDtoToJson(_$_SessionDto instance) =>
       'createdAt': instance.createdAt.toIso8601String(),
       'csv': instance.csv?.toJson(),
       'cards': instance.cards?.map((k, e) => MapEntry(k, e.toJson())),
-      'isCompleted': instance.isCompleted,
+      'status': _$SessionStatusEnumMap[instance.status]!,
       'error': instance.error,
       'numberOfCards': instance.numberOfCards,
     };
@@ -130,6 +130,13 @@ const _$LanguageEnumMap = {
   Language.yo: 'yo',
   Language.zu: 'zu',
   Language.unknown: 'unknown',
+};
+
+const _$SessionStatusEnumMap = {
+  SessionStatus.running: 'running',
+  SessionStatus.error: 'error',
+  SessionStatus.completed: 'completed',
+  SessionStatus.stopped: 'stopped',
 };
 
 _$_Input _$$_InputFromJson(Map<String, dynamic> json) => _$_Input(

@@ -28,7 +28,7 @@ mixin _$SessionDto {
   CsvMetadata? get csv => throw _privateConstructorUsedError;
   @JsonKey(fromJson: parseCards)
   Map<String, AnkiCard>? get cards => throw _privateConstructorUsedError;
-  bool get isCompleted => throw _privateConstructorUsedError;
+  SessionStatus get status => throw _privateConstructorUsedError;
   @JsonKey(fromJson: parseError)
   String? get error => throw _privateConstructorUsedError;
   int get numberOfCards => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $SessionDtoCopyWith<$Res> {
       @JsonKey(fromJson: parseTimestamp) DateTime createdAt,
       CsvMetadata? csv,
       @JsonKey(fromJson: parseCards) Map<String, AnkiCard>? cards,
-      bool isCompleted,
+      SessionStatus status,
       @JsonKey(fromJson: parseError) String? error,
       int numberOfCards});
 
@@ -79,7 +79,7 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
     Object? createdAt = null,
     Object? csv = freezed,
     Object? cards = freezed,
-    Object? isCompleted = null,
+    Object? status = null,
     Object? error = freezed,
     Object? numberOfCards = null,
   }) {
@@ -108,10 +108,10 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
           ? _value.cards
           : cards // ignore: cast_nullable_to_non_nullable
               as Map<String, AnkiCard>?,
-      isCompleted: null == isCompleted
-          ? _value.isCompleted
-          : isCompleted // ignore: cast_nullable_to_non_nullable
-              as bool,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as SessionStatus,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -159,7 +159,7 @@ abstract class _$$_SessionDtoCopyWith<$Res>
       @JsonKey(fromJson: parseTimestamp) DateTime createdAt,
       CsvMetadata? csv,
       @JsonKey(fromJson: parseCards) Map<String, AnkiCard>? cards,
-      bool isCompleted,
+      SessionStatus status,
       @JsonKey(fromJson: parseError) String? error,
       int numberOfCards});
 
@@ -186,7 +186,7 @@ class __$$_SessionDtoCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? csv = freezed,
     Object? cards = freezed,
-    Object? isCompleted = null,
+    Object? status = null,
     Object? error = freezed,
     Object? numberOfCards = null,
   }) {
@@ -215,10 +215,10 @@ class __$$_SessionDtoCopyWithImpl<$Res>
           ? _value._cards
           : cards // ignore: cast_nullable_to_non_nullable
               as Map<String, AnkiCard>?,
-      isCompleted: null == isCompleted
-          ? _value.isCompleted
-          : isCompleted // ignore: cast_nullable_to_non_nullable
-              as bool,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as SessionStatus,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -243,7 +243,7 @@ class _$_SessionDto implements _SessionDto {
       required this.csv,
       @JsonKey(fromJson: parseCards)
           required final Map<String, AnkiCard>? cards,
-      this.isCompleted = false,
+      required this.status,
       @JsonKey(fromJson: parseError)
           this.error,
       required this.numberOfCards})
@@ -275,8 +275,7 @@ class _$_SessionDto implements _SessionDto {
   }
 
   @override
-  @JsonKey()
-  final bool isCompleted;
+  final SessionStatus status;
   @override
   @JsonKey(fromJson: parseError)
   final String? error;
@@ -285,7 +284,7 @@ class _$_SessionDto implements _SessionDto {
 
   @override
   String toString() {
-    return 'SessionDto(id: $id, language: $language, input: $input, createdAt: $createdAt, csv: $csv, cards: $cards, isCompleted: $isCompleted, error: $error, numberOfCards: $numberOfCards)';
+    return 'SessionDto(id: $id, language: $language, input: $input, createdAt: $createdAt, csv: $csv, cards: $cards, status: $status, error: $error, numberOfCards: $numberOfCards)';
   }
 
   @override
@@ -301,8 +300,7 @@ class _$_SessionDto implements _SessionDto {
                 other.createdAt == createdAt) &&
             (identical(other.csv, csv) || other.csv == csv) &&
             const DeepCollectionEquality().equals(other._cards, _cards) &&
-            (identical(other.isCompleted, isCompleted) ||
-                other.isCompleted == isCompleted) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.numberOfCards, numberOfCards) ||
                 other.numberOfCards == numberOfCards));
@@ -318,7 +316,7 @@ class _$_SessionDto implements _SessionDto {
       createdAt,
       csv,
       const DeepCollectionEquality().hash(_cards),
-      isCompleted,
+      status,
       error,
       numberOfCards);
 
@@ -346,7 +344,7 @@ abstract class _SessionDto implements SessionDto {
       required final CsvMetadata? csv,
       @JsonKey(fromJson: parseCards)
           required final Map<String, AnkiCard>? cards,
-      final bool isCompleted,
+      required final SessionStatus status,
       @JsonKey(fromJson: parseError)
           final String? error,
       required final int numberOfCards}) = _$_SessionDto;
@@ -369,7 +367,7 @@ abstract class _SessionDto implements SessionDto {
   @JsonKey(fromJson: parseCards)
   Map<String, AnkiCard>? get cards;
   @override
-  bool get isCompleted;
+  SessionStatus get status;
   @override
   @JsonKey(fromJson: parseError)
   String? get error;

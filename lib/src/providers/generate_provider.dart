@@ -135,8 +135,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       }
 
       final cards = dto.cards?.values.toList() ?? [];
-      final isCompleted = dto.isCompleted;
-      if (isCompleted) {
+      if (dto.status == SessionStatus.completed) {
         _stopSubscription();
         state = GenerateState.success(
           sessionId: sessionId!,

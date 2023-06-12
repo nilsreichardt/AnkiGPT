@@ -19,7 +19,7 @@ class SessionDto with _$SessionDto {
     @JsonKey(fromJson: parseTimestamp) required DateTime createdAt,
     required CsvMetadata? csv,
     @JsonKey(fromJson: parseCards) required Map<String, AnkiCard>? cards,
-    @Default(false) bool isCompleted,
+    required SessionStatus status,
     @JsonKey(fromJson: parseError) String? error,
     required int numberOfCards,
   }) = _SessionDto;
@@ -52,6 +52,13 @@ String? parseError(dynamic data) {
   }
 
   return data;
+}
+
+enum SessionStatus {
+  running,
+  error,
+  completed,
+  stopped,
 }
 
 @Freezed(fromJson: true)

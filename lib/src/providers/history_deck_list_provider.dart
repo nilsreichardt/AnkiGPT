@@ -27,7 +27,7 @@ Stream<List<HistoryDeck>> historyDeckList(HistoryDeckListRef ref) {
                 numberOfCards: dto.numberOfCards);
           }
 
-          if (!dto.isCompleted) {
+          if (dto.status == SessionStatus.running) {
             return HistoryDeck.loading(
               createdAt: dto.createdAt,
               name: name,

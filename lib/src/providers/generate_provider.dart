@@ -230,7 +230,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     // Maybe increase the size, when the current size is the default one. Slides are usually longer so we can assume
     // that the user wants to generate more cards.
     final size = ref.read(generationSizeProvider);
-    if (size == CardGenrationSize.five) {
+    if (!size.isAvailableForFiles()) {
       ref.read(generationSizeProvider.notifier).set(CardGenrationSize.fifty);
     }
   }

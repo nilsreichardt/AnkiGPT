@@ -924,8 +924,7 @@ enum CardGenrationSize {
   fifty,
   hundred,
   twoHundred,
-  threeHundred,
-  fiveHundred;
+  threeHundred;
 
   int toInt() {
     switch (this) {
@@ -943,8 +942,6 @@ enum CardGenrationSize {
         return 200;
       case CardGenrationSize.threeHundred:
         return 300;
-      case CardGenrationSize.fiveHundred:
-        return 500;
     }
   }
 
@@ -968,8 +965,6 @@ enum CardGenrationSize {
         return '~ 15 min';
       case CardGenrationSize.threeHundred:
         return '~ 15 min';
-      case CardGenrationSize.fiveHundred:
-        return '~ 15 min';
     }
   }
 
@@ -979,7 +974,19 @@ enum CardGenrationSize {
       case CardGenrationSize.hundred:
       case CardGenrationSize.twoHundred:
       case CardGenrationSize.threeHundred:
-      case CardGenrationSize.fiveHundred:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  bool isAvailableForFiles() {
+    switch (this) {
+      case CardGenrationSize.twenty:
+      case CardGenrationSize.fifty:
+      case CardGenrationSize.hundred:
+      case CardGenrationSize.twoHundred:
+      case CardGenrationSize.threeHundred:
         return true;
       default:
         return false;
@@ -993,12 +1000,18 @@ class Select extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasPlus = ref.watch(hasPlusProvider);
+    final hasPickedFile = ref.watch(pickedFileProvider) != null;
+
+    final avaliableSizes = CardGenrationSize.values
+        .where((c) => hasPickedFile ? c.isAvailableForFiles() : true)
+        .toList();
+
     return SizedBox(
       width: 152,
       child: DropdownButtonFormField<CardGenrationSize>(
         value: ref.watch(generationSizeProvider),
         items: [
-          ...CardGenrationSize.values.map(
+          ...avaliableSizes.map(
             (c) => DropdownMenuItem(
               value: c,
               child: Row(

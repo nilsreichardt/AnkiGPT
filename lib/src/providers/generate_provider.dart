@@ -10,6 +10,7 @@ import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
+import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
@@ -19,8 +20,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:uuid/uuid.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 part 'generate_provider.g.dart';
 
@@ -225,6 +226,13 @@ class GenerateNotifier extends _$GenerateNotifier {
     if (result == null || result.files.isEmpty) return;
     _pickedFile = result.files.first;
     ref.read(pickedFileProvider.notifier).set(_pickedFile);
+
+    // Maybe increase the size, when the current size is the default one. Slides are usually longer so we can assume
+    // that the user wants to generate more cards.
+    final size = ref.read(generationSizeProvider);
+    if (size == CardGenrationSize.five) {
+      ref.read(generationSizeProvider.notifier).set(CardGenrationSize.fifty);
+    }
   }
 
   void clearPickedFile() {

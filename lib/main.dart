@@ -345,22 +345,6 @@ class _PickedFileButton extends ConsumerWidget {
   }
 }
 
-class _RemoveFileButton extends StatelessWidget {
-  const _RemoveFileButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.red,
-      borderRadius: BorderRadius.circular(12),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        child: Text('Remove file'),
-      ),
-    );
-  }
-}
-
 class PlusBadge extends StatelessWidget {
   const PlusBadge({
     super.key,
@@ -1012,7 +996,7 @@ class Select extends ConsumerWidget {
     return SizedBox(
       width: 152,
       child: DropdownButtonFormField<CardGenrationSize>(
-        value: ref.watch(cardGenrationSizeProvider),
+        value: ref.watch(generationSizeProvider),
         items: [
           ...CardGenrationSize.values.map(
             (c) => DropdownMenuItem(
@@ -1045,7 +1029,7 @@ class Select extends ConsumerWidget {
               );
             }
 
-            ref.read(cardGenrationSizeProvider.notifier).state = v;
+            ref.read(generationSizeProvider.notifier).set(v);
           }
         },
       ),
@@ -1063,7 +1047,7 @@ class GenerateButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final size = ref.watch(cardGenrationSizeProvider);
+    final size = ref.watch(generationSizeProvider);
     return Align(
       alignment: Alignment.centerRight,
       child: Tooltip(
@@ -1075,7 +1059,7 @@ class GenerateButton extends ConsumerWidget {
           onPressed: isEnabled
               ? () async {
                   try {
-                    final size = ref.read(cardGenrationSizeProvider);
+                    final size = ref.read(generationSizeProvider);
                     await ref
                         .read(generateNotifierProvider.notifier)
                         .submit(size: size);

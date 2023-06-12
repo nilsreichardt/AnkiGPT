@@ -1,5 +1,16 @@
 import 'package:ankigpt/main.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final cardGenrationSizeProvider =
-    StateProvider<CardGenrationSize>((ref) => CardGenrationSize.five);
+part 'card_generation_size_provider.g.dart';
+
+@riverpod
+class GenerationSize extends _$GenerationSize {
+  @override
+  CardGenrationSize build() {
+    return CardGenrationSize.five;
+  }
+
+  void set(CardGenrationSize size) {
+    state = size;
+  }
+}

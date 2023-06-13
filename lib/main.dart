@@ -1007,7 +1007,7 @@ class Select extends ConsumerWidget {
         .toList();
 
     return SizedBox(
-      width: 152,
+      width: 154,
       child: DropdownButtonFormField<CardGenrationSize>(
         value: ref.watch(generationSizeProvider),
         items: [

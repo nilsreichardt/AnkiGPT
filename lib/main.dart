@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:ankigpt/firebase_options_prod.dart' as prod;
 import 'package:ankigpt/firebase_options_dev.dart' as dev;
+import 'package:ankigpt/firebase_options_prod.dart' as prod;
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/card_feedback.dart';
 import 'package:ankigpt/src/models/card_id.dart';
@@ -23,10 +23,10 @@ import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
 import 'package:ankigpt/src/providers/dislike_provider.dart';
-import 'package:ankigpt/src/providers/firebase_auth_provider.dart';
 import 'package:ankigpt/src/providers/flavor_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:ankigpt/src/providers/like_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
@@ -190,62 +190,153 @@ class _Logo extends ConsumerWidget {
   }
 }
 
-class InputBox extends StatelessWidget {
+class InputBox extends ConsumerWidget {
   const InputBox({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final isSmartphone = MediaQuery.of(context).size.width < 550;
-    if (isSmartphone) {
-      return Column(
-        children: [
-          const SlideContextField(),
-          const SizedBox(height: 12),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: const _UploadFileButton(),
-          ),
-        ],
-      );
-    }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pickedFile = ref.watch(pickedFileProvider);
+    final hasPickedFile = pickedFile != null;
 
-    return const Row(
-      children: [
-        Expanded(
-          child: SlideContextField(),
-        ),
-        SizedBox(width: 12),
-        _UploadFileButton(),
-      ],
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 275),
+      child: Container(
+        key: ValueKey(hasPickedFile),
+        child: hasPickedFile
+            ? const _PickedFileButton()
+            : () {
+                final isSmartphone = MediaQuery.of(context).size.width < 550;
+                if (isSmartphone) {
+                  return Column(
+                    children: [
+                      const SlideContextField(),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: const _UploadFileButton(),
+                      ),
+                    ],
+                  );
+                }
+
+                return const Row(
+                  children: [
+                    Expanded(
+                      child: SlideContextField(),
+                    ),
+                    SizedBox(width: 12),
+                    _UploadFileButton(),
+                  ],
+                );
+              }(),
+      ),
     );
   }
 }
 
-class _UploadFileButton extends StatelessWidget {
+class _UploadFileButton extends ConsumerWidget {
   const _UploadFileButton();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     const borderRadius = BorderRadius.all(Radius.circular(12));
+    final hasPlus = ref.watch(hasPlusProvider);
     return InkWell(
       borderRadius: borderRadius,
-      onTap: () => showDialog(
-        context: context,
-        builder: (context) => const _PlusDialog(),
-      ),
+      onTap: () {
+        final hasPlus = ref.read(hasPlusProvider);
+        if (!hasPlus) {
+          showDialog(
+            context: context,
+            builder: (context) => const _PlusDialog(),
+          );
+          return;
+        }
+
+        ref.read(generateNotifierProvider.notifier).pickFile();
+      },
       child: Material(
         borderRadius: borderRadius,
         color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-        child: const Padding(
-          padding: EdgeInsets.all(40),
+        child: Padding(
+          padding: const EdgeInsets.all(40),
           child: Column(
             children: [
-              Icon(Icons.upload_file),
-              Text('Upload PDF file'),
-              SizedBox(height: 8),
-              PlusBadge(),
+              const Icon(Icons.upload_file),
+              SizedBox(height: hasPlus ? 13 : 0),
+              const Text('Upload PDF file'),
+              SizedBox(height: hasPlus ? 13 : 8),
+              if (!hasPlus) const PlusBadge(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PickedFileButton extends ConsumerWidget {
+  const _PickedFileButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const borderRadius = BorderRadius.all(Radius.circular(12));
+    final pickedFile = ref.watch(pickedFileProvider);
+    final isLoading =
+        ref.watch(generateNotifierProvider) is GenerationStateLoading;
+    return SizedBox(
+      width: double.infinity,
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: isLoading
+            ? null
+            : () {
+                final hasPlus = ref.read(hasPlusProvider);
+                if (!hasPlus) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const _PlusDialog(),
+                  );
+                  return;
+                }
+
+                ref.read(generateNotifierProvider.notifier).pickFile();
+              },
+        child: Material(
+          borderRadius: borderRadius,
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 40, 12, 40),
+                child: Column(
+                  children: [
+                    const Icon(Icons.upload_file),
+                    const SizedBox(height: 13),
+                    Text(pickedFile?.name ?? 'File picked.'),
+                    const SizedBox(height: 13),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 12,
+                right: 12,
+                child: IconButton(
+                  tooltip:
+                      'Remove file${isLoading ? ' (disabled while loading)' : ''}',
+                  onPressed: isLoading
+                      ? null
+                      : () {
+                          ref
+                              .read(generateNotifierProvider.notifier)
+                              .clearPickedFile();
+                        },
+                  icon: const Icon(Icons.delete),
+                ),
+              ),
             ],
           ),
         ),
@@ -376,7 +467,7 @@ class Results extends ConsumerWidget {
       duration: const Duration(milliseconds: 300),
       child: state.maybeWhen(
         initial: (_) {
-          final isSignedIn = ref.read(firebaseAuthProvider).currentUser != null;
+          final isSignedIn = ref.watch(isSignedInProvider);
           if (isSignedIn) {
             return const HistorySection();
           }
@@ -391,16 +482,20 @@ class Results extends ConsumerWidget {
                   _LanguageText(language: language),
               success: (_, __, ___, language) =>
                   _LanguageText(language: language),
-              loading: (_, ___, language) => _LanguageText(language: language),
+              loading: (_, ___, language, ____) =>
+                  _LanguageText(language: language),
               orElse: () => const SizedBox.shrink(),
             ),
             state.maybeWhen(
-              loading: (sessionId, cards, language) => cards.isEmpty
-                  ? const _LoadingCards()
-                  : _ResultList(
-                      sessionId: sessionId,
-                      cards: cards,
-                    ),
+              loading: (sessionId, cards, language, isUploadingFile) =>
+                  cards.isEmpty
+                      ? _LoadingCards(
+                          isUploadFile: isUploadingFile,
+                        )
+                      : _ResultList(
+                          sessionId: sessionId,
+                          cards: cards,
+                        ),
               error: (sessionId, error, cards, language) => Column(
                 children: [
                   ErrorText(text: error),
@@ -425,34 +520,47 @@ class Results extends ConsumerWidget {
 }
 
 class _LoadingCards extends StatelessWidget {
-  const _LoadingCards();
+  const _LoadingCards({
+    required this.isUploadFile,
+  });
+
+  final bool isUploadFile;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 12),
-            const CircularProgressIndicator(),
-            const SizedBox(height: 12),
-            const Text(
-              'Generating cards... This may take a few minutes.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: Column(
+            key: ValueKey(isUploadFile),
+            children: [
+              const SizedBox(height: 12),
+              const CircularProgressIndicator(),
+              const SizedBox(height: 12),
+              Text(
+                isUploadFile
+                    ? 'Uploading file...'
+                    : 'Generating cards... This may take a few minutes.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            Text(
-              'You can close the browser tab and come back later.',
-              style: TextStyle(
-                color: Colors.grey[500]!,
-                fontSize: 14,
-              ),
-            )
-          ],
+              Opacity(
+                opacity: isUploadFile ? 0 : 1,
+                child: Text(
+                  'You can close the browser tab and come back later.',
+                  style: TextStyle(
+                    color: Colors.grey[500]!,
+                    fontSize: 14,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -721,12 +829,14 @@ class Tutorial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(top: 20),
-      child: TutorialVideoPlayer(
-        aspectRatio: 16 / 9,
-        videoUrl:
-            'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Ftutorial.mp4?alt=media&token=efcd7c72-ed7f-45b1-8e51-1913ac03cb26',
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.only(top: 20),
+        child: TutorialVideoPlayer(
+          aspectRatio: 16 / 9,
+          videoUrl:
+              'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Ftutorial.mp4?alt=media&token=efcd7c72-ed7f-45b1-8e51-1913ac03cb26',
+        ),
       ),
     );
   }
@@ -813,7 +923,8 @@ enum CardGenrationSize {
   twenty,
   fifty,
   hundred,
-  hundredFifty;
+  twoHundred,
+  threeHundred;
 
   int toInt() {
     switch (this) {
@@ -827,8 +938,10 @@ enum CardGenrationSize {
         return 50;
       case CardGenrationSize.hundred:
         return 100;
-      case CardGenrationSize.hundredFifty:
-        return 150;
+      case CardGenrationSize.twoHundred:
+        return 200;
+      case CardGenrationSize.threeHundred:
+        return 300;
     }
   }
 
@@ -848,7 +961,9 @@ enum CardGenrationSize {
         return '~ 5 - 10 min';
       case CardGenrationSize.hundred:
         return '~ 10 min';
-      case CardGenrationSize.hundredFifty:
+      case CardGenrationSize.twoHundred:
+        return '~ 15 min';
+      case CardGenrationSize.threeHundred:
         return '~ 15 min';
     }
   }
@@ -857,7 +972,21 @@ enum CardGenrationSize {
     switch (this) {
       case CardGenrationSize.fifty:
       case CardGenrationSize.hundred:
-      case CardGenrationSize.hundredFifty:
+      case CardGenrationSize.twoHundred:
+      case CardGenrationSize.threeHundred:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  bool isAvailableForFiles() {
+    switch (this) {
+      case CardGenrationSize.twenty:
+      case CardGenrationSize.fifty:
+      case CardGenrationSize.hundred:
+      case CardGenrationSize.twoHundred:
+      case CardGenrationSize.threeHundred:
         return true;
       default:
         return false;
@@ -871,12 +1000,18 @@ class Select extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasPlus = ref.watch(hasPlusProvider);
+    final hasPickedFile = ref.watch(pickedFileProvider) != null;
+
+    final avaliableSizes = CardGenrationSize.values
+        .where((c) => hasPickedFile ? c.isAvailableForFiles() : true)
+        .toList();
+
     return SizedBox(
-      width: 152,
+      width: 154,
       child: DropdownButtonFormField<CardGenrationSize>(
-        value: ref.watch(cardGenrationSizeProvider),
+        value: ref.watch(generationSizeProvider),
         items: [
-          ...CardGenrationSize.values.map(
+          ...avaliableSizes.map(
             (c) => DropdownMenuItem(
               value: c,
               child: Row(
@@ -907,7 +1042,7 @@ class Select extends ConsumerWidget {
               );
             }
 
-            ref.read(cardGenrationSizeProvider.notifier).state = v;
+            ref.read(generationSizeProvider.notifier).set(v);
           }
         },
       ),
@@ -925,7 +1060,7 @@ class GenerateButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final size = ref.watch(cardGenrationSizeProvider);
+    final size = ref.watch(generationSizeProvider);
     return Align(
       alignment: Alignment.centerRight,
       child: Tooltip(
@@ -937,7 +1072,7 @@ class GenerateButton extends ConsumerWidget {
           onPressed: isEnabled
               ? () async {
                   try {
-                    final size = ref.read(cardGenrationSizeProvider);
+                    final size = ref.read(generationSizeProvider);
                     await ref
                         .read(generateNotifierProvider.notifier)
                         .submit(size: size);
@@ -1050,8 +1185,7 @@ class DownloadButton extends ConsumerWidget {
         child: Tooltip(
           key: ValueKey(isFinished),
           message: state.maybeWhen(
-            loading: (_, __, ___) =>
-                'Still generating... Please wait a few seconds.',
+            loading: (_, __, ___, ____) => 'Still generating... Please wait.',
             success: (_, __, ___, ____) => 'Download as .csv file to import it',
             orElse: () => '',
           ),

@@ -22,13 +22,13 @@ SessionDto _$SessionDtoFromJson(Map<String, dynamic> json) {
 mixin _$SessionDto {
   String get id => throw _privateConstructorUsedError;
   Language? get language => throw _privateConstructorUsedError;
-  String get slideContent => throw _privateConstructorUsedError;
+  Input get input => throw _privateConstructorUsedError;
   @JsonKey(fromJson: parseTimestamp)
   DateTime get createdAt => throw _privateConstructorUsedError;
   CsvMetadata? get csv => throw _privateConstructorUsedError;
   @JsonKey(fromJson: parseCards)
   Map<String, AnkiCard>? get cards => throw _privateConstructorUsedError;
-  bool get isCompleted => throw _privateConstructorUsedError;
+  SessionStatus get status => throw _privateConstructorUsedError;
   @JsonKey(fromJson: parseError)
   String? get error => throw _privateConstructorUsedError;
   int get numberOfCards => throw _privateConstructorUsedError;
@@ -48,14 +48,15 @@ abstract class $SessionDtoCopyWith<$Res> {
   $Res call(
       {String id,
       Language? language,
-      String slideContent,
+      Input input,
       @JsonKey(fromJson: parseTimestamp) DateTime createdAt,
       CsvMetadata? csv,
       @JsonKey(fromJson: parseCards) Map<String, AnkiCard>? cards,
-      bool isCompleted,
+      SessionStatus status,
       @JsonKey(fromJson: parseError) String? error,
       int numberOfCards});
 
+  $InputCopyWith<$Res> get input;
   $CsvMetadataCopyWith<$Res>? get csv;
 }
 
@@ -74,11 +75,11 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
   $Res call({
     Object? id = null,
     Object? language = freezed,
-    Object? slideContent = null,
+    Object? input = null,
     Object? createdAt = null,
     Object? csv = freezed,
     Object? cards = freezed,
-    Object? isCompleted = null,
+    Object? status = null,
     Object? error = freezed,
     Object? numberOfCards = null,
   }) {
@@ -91,10 +92,10 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
               as Language?,
-      slideContent: null == slideContent
-          ? _value.slideContent
-          : slideContent // ignore: cast_nullable_to_non_nullable
-              as String,
+      input: null == input
+          ? _value.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as Input,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -107,10 +108,10 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
           ? _value.cards
           : cards // ignore: cast_nullable_to_non_nullable
               as Map<String, AnkiCard>?,
-      isCompleted: null == isCompleted
-          ? _value.isCompleted
-          : isCompleted // ignore: cast_nullable_to_non_nullable
-              as bool,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as SessionStatus,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -120,6 +121,14 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
           : numberOfCards // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $InputCopyWith<$Res> get input {
+    return $InputCopyWith<$Res>(_value.input, (value) {
+      return _then(_value.copyWith(input: value) as $Val);
+    });
   }
 
   @override
@@ -146,14 +155,16 @@ abstract class _$$_SessionDtoCopyWith<$Res>
   $Res call(
       {String id,
       Language? language,
-      String slideContent,
+      Input input,
       @JsonKey(fromJson: parseTimestamp) DateTime createdAt,
       CsvMetadata? csv,
       @JsonKey(fromJson: parseCards) Map<String, AnkiCard>? cards,
-      bool isCompleted,
+      SessionStatus status,
       @JsonKey(fromJson: parseError) String? error,
       int numberOfCards});
 
+  @override
+  $InputCopyWith<$Res> get input;
   @override
   $CsvMetadataCopyWith<$Res>? get csv;
 }
@@ -171,11 +182,11 @@ class __$$_SessionDtoCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? language = freezed,
-    Object? slideContent = null,
+    Object? input = null,
     Object? createdAt = null,
     Object? csv = freezed,
     Object? cards = freezed,
-    Object? isCompleted = null,
+    Object? status = null,
     Object? error = freezed,
     Object? numberOfCards = null,
   }) {
@@ -188,10 +199,10 @@ class __$$_SessionDtoCopyWithImpl<$Res>
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
               as Language?,
-      slideContent: null == slideContent
-          ? _value.slideContent
-          : slideContent // ignore: cast_nullable_to_non_nullable
-              as String,
+      input: null == input
+          ? _value.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as Input,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -204,10 +215,10 @@ class __$$_SessionDtoCopyWithImpl<$Res>
           ? _value._cards
           : cards // ignore: cast_nullable_to_non_nullable
               as Map<String, AnkiCard>?,
-      isCompleted: null == isCompleted
-          ? _value.isCompleted
-          : isCompleted // ignore: cast_nullable_to_non_nullable
-              as bool,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as SessionStatus,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -226,13 +237,13 @@ class _$_SessionDto implements _SessionDto {
   const _$_SessionDto(
       {required this.id,
       required this.language,
-      required this.slideContent,
+      required this.input,
       @JsonKey(fromJson: parseTimestamp)
           required this.createdAt,
       required this.csv,
       @JsonKey(fromJson: parseCards)
           required final Map<String, AnkiCard>? cards,
-      this.isCompleted = false,
+      required this.status,
       @JsonKey(fromJson: parseError)
           this.error,
       required this.numberOfCards})
@@ -246,7 +257,7 @@ class _$_SessionDto implements _SessionDto {
   @override
   final Language? language;
   @override
-  final String slideContent;
+  final Input input;
   @override
   @JsonKey(fromJson: parseTimestamp)
   final DateTime createdAt;
@@ -264,8 +275,7 @@ class _$_SessionDto implements _SessionDto {
   }
 
   @override
-  @JsonKey()
-  final bool isCompleted;
+  final SessionStatus status;
   @override
   @JsonKey(fromJson: parseError)
   final String? error;
@@ -274,7 +284,7 @@ class _$_SessionDto implements _SessionDto {
 
   @override
   String toString() {
-    return 'SessionDto(id: $id, language: $language, slideContent: $slideContent, createdAt: $createdAt, csv: $csv, cards: $cards, isCompleted: $isCompleted, error: $error, numberOfCards: $numberOfCards)';
+    return 'SessionDto(id: $id, language: $language, input: $input, createdAt: $createdAt, csv: $csv, cards: $cards, status: $status, error: $error, numberOfCards: $numberOfCards)';
   }
 
   @override
@@ -285,14 +295,12 @@ class _$_SessionDto implements _SessionDto {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.language, language) ||
                 other.language == language) &&
-            (identical(other.slideContent, slideContent) ||
-                other.slideContent == slideContent) &&
+            (identical(other.input, input) || other.input == input) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.csv, csv) || other.csv == csv) &&
             const DeepCollectionEquality().equals(other._cards, _cards) &&
-            (identical(other.isCompleted, isCompleted) ||
-                other.isCompleted == isCompleted) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.numberOfCards, numberOfCards) ||
                 other.numberOfCards == numberOfCards));
@@ -304,11 +312,11 @@ class _$_SessionDto implements _SessionDto {
       runtimeType,
       id,
       language,
-      slideContent,
+      input,
       createdAt,
       csv,
       const DeepCollectionEquality().hash(_cards),
-      isCompleted,
+      status,
       error,
       numberOfCards);
 
@@ -330,13 +338,13 @@ abstract class _SessionDto implements SessionDto {
   const factory _SessionDto(
       {required final String id,
       required final Language? language,
-      required final String slideContent,
+      required final Input input,
       @JsonKey(fromJson: parseTimestamp)
           required final DateTime createdAt,
       required final CsvMetadata? csv,
       @JsonKey(fromJson: parseCards)
           required final Map<String, AnkiCard>? cards,
-      final bool isCompleted,
+      required final SessionStatus status,
       @JsonKey(fromJson: parseError)
           final String? error,
       required final int numberOfCards}) = _$_SessionDto;
@@ -349,7 +357,7 @@ abstract class _SessionDto implements SessionDto {
   @override
   Language? get language;
   @override
-  String get slideContent;
+  Input get input;
   @override
   @JsonKey(fromJson: parseTimestamp)
   DateTime get createdAt;
@@ -359,7 +367,7 @@ abstract class _SessionDto implements SessionDto {
   @JsonKey(fromJson: parseCards)
   Map<String, AnkiCard>? get cards;
   @override
-  bool get isCompleted;
+  SessionStatus get status;
   @override
   @JsonKey(fromJson: parseError)
   String? get error;
@@ -368,5 +376,320 @@ abstract class _SessionDto implements SessionDto {
   @override
   @JsonKey(ignore: true)
   _$$_SessionDtoCopyWith<_$_SessionDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Input _$InputFromJson(Map<String, dynamic> json) {
+  return _Input.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Input {
+  String? get text => throw _privateConstructorUsedError;
+  InputType get type => throw _privateConstructorUsedError;
+  FileInput? get file => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $InputCopyWith<Input> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $InputCopyWith<$Res> {
+  factory $InputCopyWith(Input value, $Res Function(Input) then) =
+      _$InputCopyWithImpl<$Res, Input>;
+  @useResult
+  $Res call({String? text, InputType type, FileInput? file});
+
+  $FileInputCopyWith<$Res>? get file;
+}
+
+/// @nodoc
+class _$InputCopyWithImpl<$Res, $Val extends Input>
+    implements $InputCopyWith<$Res> {
+  _$InputCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? text = freezed,
+    Object? type = null,
+    Object? file = freezed,
+  }) {
+    return _then(_value.copyWith(
+      text: freezed == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as InputType,
+      file: freezed == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as FileInput?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FileInputCopyWith<$Res>? get file {
+    if (_value.file == null) {
+      return null;
+    }
+
+    return $FileInputCopyWith<$Res>(_value.file!, (value) {
+      return _then(_value.copyWith(file: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$_InputCopyWith<$Res> implements $InputCopyWith<$Res> {
+  factory _$$_InputCopyWith(_$_Input value, $Res Function(_$_Input) then) =
+      __$$_InputCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? text, InputType type, FileInput? file});
+
+  @override
+  $FileInputCopyWith<$Res>? get file;
+}
+
+/// @nodoc
+class __$$_InputCopyWithImpl<$Res> extends _$InputCopyWithImpl<$Res, _$_Input>
+    implements _$$_InputCopyWith<$Res> {
+  __$$_InputCopyWithImpl(_$_Input _value, $Res Function(_$_Input) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? text = freezed,
+    Object? type = null,
+    Object? file = freezed,
+  }) {
+    return _then(_$_Input(
+      text: freezed == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as InputType,
+      file: freezed == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as FileInput?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Input implements _Input {
+  const _$_Input({required this.text, required this.type, required this.file});
+
+  factory _$_Input.fromJson(Map<String, dynamic> json) =>
+      _$$_InputFromJson(json);
+
+  @override
+  final String? text;
+  @override
+  final InputType type;
+  @override
+  final FileInput? file;
+
+  @override
+  String toString() {
+    return 'Input(text: $text, type: $type, file: $file)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Input &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.file, file) || other.file == file));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, text, type, file);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_InputCopyWith<_$_Input> get copyWith =>
+      __$$_InputCopyWithImpl<_$_Input>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_InputToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Input implements Input {
+  const factory _Input(
+      {required final String? text,
+      required final InputType type,
+      required final FileInput? file}) = _$_Input;
+
+  factory _Input.fromJson(Map<String, dynamic> json) = _$_Input.fromJson;
+
+  @override
+  String? get text;
+  @override
+  InputType get type;
+  @override
+  FileInput? get file;
+  @override
+  @JsonKey(ignore: true)
+  _$$_InputCopyWith<_$_Input> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+FileInput _$FileInputFromJson(Map<String, dynamic> json) {
+  return _FileInput.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FileInput {
+  String get name => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FileInputCopyWith<FileInput> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FileInputCopyWith<$Res> {
+  factory $FileInputCopyWith(FileInput value, $Res Function(FileInput) then) =
+      _$FileInputCopyWithImpl<$Res, FileInput>;
+  @useResult
+  $Res call({String name});
+}
+
+/// @nodoc
+class _$FileInputCopyWithImpl<$Res, $Val extends FileInput>
+    implements $FileInputCopyWith<$Res> {
+  _$FileInputCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_FileInputCopyWith<$Res> implements $FileInputCopyWith<$Res> {
+  factory _$$_FileInputCopyWith(
+          _$_FileInput value, $Res Function(_$_FileInput) then) =
+      __$$_FileInputCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String name});
+}
+
+/// @nodoc
+class __$$_FileInputCopyWithImpl<$Res>
+    extends _$FileInputCopyWithImpl<$Res, _$_FileInput>
+    implements _$$_FileInputCopyWith<$Res> {
+  __$$_FileInputCopyWithImpl(
+      _$_FileInput _value, $Res Function(_$_FileInput) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+  }) {
+    return _then(_$_FileInput(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_FileInput implements _FileInput {
+  const _$_FileInput({required this.name});
+
+  factory _$_FileInput.fromJson(Map<String, dynamic> json) =>
+      _$$_FileInputFromJson(json);
+
+  @override
+  final String name;
+
+  @override
+  String toString() {
+    return 'FileInput(name: $name)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_FileInput &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_FileInputCopyWith<_$_FileInput> get copyWith =>
+      __$$_FileInputCopyWithImpl<_$_FileInput>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_FileInputToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FileInput implements FileInput {
+  const factory _FileInput({required final String name}) = _$_FileInput;
+
+  factory _FileInput.fromJson(Map<String, dynamic> json) =
+      _$_FileInput.fromJson;
+
+  @override
+  String get name;
+  @override
+  @JsonKey(ignore: true)
+  _$$_FileInputCopyWith<_$_FileInput> get copyWith =>
       throw _privateConstructorUsedError;
 }

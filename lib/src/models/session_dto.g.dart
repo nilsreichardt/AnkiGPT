@@ -10,13 +10,13 @@ _$_SessionDto _$$_SessionDtoFromJson(Map<String, dynamic> json) =>
     _$_SessionDto(
       id: json['id'] as String,
       language: $enumDecodeNullable(_$LanguageEnumMap, json['language']),
-      slideContent: json['slideContent'] as String,
+      input: Input.fromJson(json['input'] as Map<String, dynamic>),
       createdAt: parseTimestamp(json['createdAt'] as Timestamp),
       csv: json['csv'] == null
           ? null
           : CsvMetadata.fromJson(json['csv'] as Map<String, dynamic>),
       cards: parseCards(json['cards'] as Map<String, dynamic>?),
-      isCompleted: json['isCompleted'] as bool? ?? false,
+      status: $enumDecode(_$SessionStatusEnumMap, json['status']),
       error: parseError(json['error']),
       numberOfCards: json['numberOfCards'] as int,
     );
@@ -25,11 +25,11 @@ Map<String, dynamic> _$$_SessionDtoToJson(_$_SessionDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'language': _$LanguageEnumMap[instance.language],
-      'slideContent': instance.slideContent,
+      'input': instance.input.toJson(),
       'createdAt': instance.createdAt.toIso8601String(),
-      'csv': instance.csv,
-      'cards': instance.cards,
-      'isCompleted': instance.isCompleted,
+      'csv': instance.csv?.toJson(),
+      'cards': instance.cards?.map((k, e) => MapEntry(k, e.toJson())),
+      'status': _$SessionStatusEnumMap[instance.status]!,
       'error': instance.error,
       'numberOfCards': instance.numberOfCards,
     };
@@ -131,3 +131,38 @@ const _$LanguageEnumMap = {
   Language.zu: 'zu',
   Language.unknown: 'unknown',
 };
+
+const _$SessionStatusEnumMap = {
+  SessionStatus.running: 'running',
+  SessionStatus.error: 'error',
+  SessionStatus.completed: 'completed',
+  SessionStatus.stopped: 'stopped',
+};
+
+_$_Input _$$_InputFromJson(Map<String, dynamic> json) => _$_Input(
+      text: json['text'] as String?,
+      type: $enumDecode(_$InputTypeEnumMap, json['type']),
+      file: json['file'] == null
+          ? null
+          : FileInput.fromJson(json['file'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$_InputToJson(_$_Input instance) => <String, dynamic>{
+      'text': instance.text,
+      'type': _$InputTypeEnumMap[instance.type]!,
+      'file': instance.file?.toJson(),
+    };
+
+const _$InputTypeEnumMap = {
+  InputType.text: 'text',
+  InputType.file: 'file',
+};
+
+_$_FileInput _$$_FileInputFromJson(Map<String, dynamic> json) => _$_FileInput(
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$$_FileInputToJson(_$_FileInput instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };

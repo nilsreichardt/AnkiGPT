@@ -6,7 +6,7 @@ part of 'history_deck_list_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$historyDeckListHash() => r'9032d721b9b1a6f70dc1f943cd9698078323143f';
+String _$historyDeckListHash() => r'4c1665543f680077a0a6268183ef1d6e3fdeec54';
 
 /// See also [historyDeckList].
 @ProviderFor(historyDeckList)

@@ -19,8 +19,11 @@ mixin _$GenerateState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String slide) initial,
-    required TResult Function(String? sessionId,
-            List<AnkiCard> alreadyGeneratedCards, Language? language)
+    required TResult Function(
+            String? sessionId,
+            List<AnkiCard> alreadyGeneratedCards,
+            Language? language,
+            bool isUploadFile)
         loading,
     required TResult Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)
@@ -34,7 +37,7 @@ mixin _$GenerateState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String slide)? initial,
     TResult? Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language)?
+            Language? language, bool isUploadFile)?
         loading,
     TResult? Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)?
@@ -48,7 +51,7 @@ mixin _$GenerateState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String slide)? initial,
     TResult Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language)?
+            Language? language, bool isUploadFile)?
         loading,
     TResult Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)?
@@ -171,8 +174,11 @@ class _$GenerationStateInitial implements GenerationStateInitial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String slide) initial,
-    required TResult Function(String? sessionId,
-            List<AnkiCard> alreadyGeneratedCards, Language? language)
+    required TResult Function(
+            String? sessionId,
+            List<AnkiCard> alreadyGeneratedCards,
+            Language? language,
+            bool isUploadFile)
         loading,
     required TResult Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)
@@ -189,7 +195,7 @@ class _$GenerationStateInitial implements GenerationStateInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String slide)? initial,
     TResult? Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language)?
+            Language? language, bool isUploadFile)?
         loading,
     TResult? Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)?
@@ -206,7 +212,7 @@ class _$GenerationStateInitial implements GenerationStateInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String slide)? initial,
     TResult Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language)?
+            Language? language, bool isUploadFile)?
         loading,
     TResult Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)?
@@ -279,7 +285,8 @@ abstract class _$$GenerationStateLoadingCopyWith<$Res> {
   $Res call(
       {String? sessionId,
       List<AnkiCard> alreadyGeneratedCards,
-      Language? language});
+      Language? language,
+      bool isUploadFile});
 }
 
 /// @nodoc
@@ -296,6 +303,7 @@ class __$$GenerationStateLoadingCopyWithImpl<$Res>
     Object? sessionId = freezed,
     Object? alreadyGeneratedCards = null,
     Object? language = freezed,
+    Object? isUploadFile = null,
   }) {
     return _then(_$GenerationStateLoading(
       sessionId: freezed == sessionId
@@ -310,6 +318,10 @@ class __$$GenerationStateLoadingCopyWithImpl<$Res>
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
               as Language?,
+      isUploadFile: null == isUploadFile
+          ? _value.isUploadFile
+          : isUploadFile // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -320,7 +332,8 @@ class _$GenerationStateLoading implements GenerationStateLoading {
   const _$GenerationStateLoading(
       {this.sessionId,
       final List<AnkiCard> alreadyGeneratedCards = const [],
-      this.language})
+      this.language,
+      this.isUploadFile = false})
       : _alreadyGeneratedCards = alreadyGeneratedCards;
 
   @override
@@ -337,10 +350,13 @@ class _$GenerationStateLoading implements GenerationStateLoading {
 
   @override
   final Language? language;
+  @override
+  @JsonKey()
+  final bool isUploadFile;
 
   @override
   String toString() {
-    return 'GenerateState.loading(sessionId: $sessionId, alreadyGeneratedCards: $alreadyGeneratedCards, language: $language)';
+    return 'GenerateState.loading(sessionId: $sessionId, alreadyGeneratedCards: $alreadyGeneratedCards, language: $language, isUploadFile: $isUploadFile)';
   }
 
   @override
@@ -353,12 +369,18 @@ class _$GenerationStateLoading implements GenerationStateLoading {
             const DeepCollectionEquality()
                 .equals(other._alreadyGeneratedCards, _alreadyGeneratedCards) &&
             (identical(other.language, language) ||
-                other.language == language));
+                other.language == language) &&
+            (identical(other.isUploadFile, isUploadFile) ||
+                other.isUploadFile == isUploadFile));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, sessionId,
-      const DeepCollectionEquality().hash(_alreadyGeneratedCards), language);
+  int get hashCode => Object.hash(
+      runtimeType,
+      sessionId,
+      const DeepCollectionEquality().hash(_alreadyGeneratedCards),
+      language,
+      isUploadFile);
 
   @JsonKey(ignore: true)
   @override
@@ -371,8 +393,11 @@ class _$GenerationStateLoading implements GenerationStateLoading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String slide) initial,
-    required TResult Function(String? sessionId,
-            List<AnkiCard> alreadyGeneratedCards, Language? language)
+    required TResult Function(
+            String? sessionId,
+            List<AnkiCard> alreadyGeneratedCards,
+            Language? language,
+            bool isUploadFile)
         loading,
     required TResult Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)
@@ -381,7 +406,7 @@ class _$GenerationStateLoading implements GenerationStateLoading {
             String? downloadUrl, Language? language)
         success,
   }) {
-    return loading(sessionId, alreadyGeneratedCards, language);
+    return loading(sessionId, alreadyGeneratedCards, language, isUploadFile);
   }
 
   @override
@@ -389,7 +414,7 @@ class _$GenerationStateLoading implements GenerationStateLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String slide)? initial,
     TResult? Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language)?
+            Language? language, bool isUploadFile)?
         loading,
     TResult? Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)?
@@ -398,7 +423,8 @@ class _$GenerationStateLoading implements GenerationStateLoading {
             String? downloadUrl, Language? language)?
         success,
   }) {
-    return loading?.call(sessionId, alreadyGeneratedCards, language);
+    return loading?.call(
+        sessionId, alreadyGeneratedCards, language, isUploadFile);
   }
 
   @override
@@ -406,7 +432,7 @@ class _$GenerationStateLoading implements GenerationStateLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String slide)? initial,
     TResult Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language)?
+            Language? language, bool isUploadFile)?
         loading,
     TResult Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)?
@@ -417,7 +443,7 @@ class _$GenerationStateLoading implements GenerationStateLoading {
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading(sessionId, alreadyGeneratedCards, language);
+      return loading(sessionId, alreadyGeneratedCards, language, isUploadFile);
     }
     return orElse();
   }
@@ -464,11 +490,13 @@ abstract class GenerationStateLoading implements GenerateState {
   const factory GenerationStateLoading(
       {final String? sessionId,
       final List<AnkiCard> alreadyGeneratedCards,
-      final Language? language}) = _$GenerationStateLoading;
+      final Language? language,
+      final bool isUploadFile}) = _$GenerationStateLoading;
 
   String? get sessionId;
   List<AnkiCard> get alreadyGeneratedCards;
   Language? get language;
+  bool get isUploadFile;
   @JsonKey(ignore: true)
   _$$GenerationStateLoadingCopyWith<_$GenerationStateLoading> get copyWith =>
       throw _privateConstructorUsedError;
@@ -584,8 +612,11 @@ class _$GenerationStateError implements GenerationStateError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String slide) initial,
-    required TResult Function(String? sessionId,
-            List<AnkiCard> alreadyGeneratedCards, Language? language)
+    required TResult Function(
+            String? sessionId,
+            List<AnkiCard> alreadyGeneratedCards,
+            Language? language,
+            bool isUploadFile)
         loading,
     required TResult Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)
@@ -602,7 +633,7 @@ class _$GenerationStateError implements GenerationStateError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String slide)? initial,
     TResult? Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language)?
+            Language? language, bool isUploadFile)?
         loading,
     TResult? Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)?
@@ -619,7 +650,7 @@ class _$GenerationStateError implements GenerationStateError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String slide)? initial,
     TResult Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language)?
+            Language? language, bool isUploadFile)?
         loading,
     TResult Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)?
@@ -803,8 +834,11 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String slide) initial,
-    required TResult Function(String? sessionId,
-            List<AnkiCard> alreadyGeneratedCards, Language? language)
+    required TResult Function(
+            String? sessionId,
+            List<AnkiCard> alreadyGeneratedCards,
+            Language? language,
+            bool isUploadFile)
         loading,
     required TResult Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)
@@ -821,7 +855,7 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String slide)? initial,
     TResult? Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language)?
+            Language? language, bool isUploadFile)?
         loading,
     TResult? Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)?
@@ -838,7 +872,7 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String slide)? initial,
     TResult Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language)?
+            Language? language, bool isUploadFile)?
         loading,
     TResult Function(String message, String sessionId,
             List<AnkiCard> generatedCards, Language? language)?

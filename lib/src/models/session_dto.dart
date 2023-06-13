@@ -1,6 +1,7 @@
 import 'package:ankigpt/src/infrastructure/firestore_utils.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/csv_metadata.dart';
+import 'package:ankigpt/src/models/input_type.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,11 +15,11 @@ class SessionDto with _$SessionDto {
   const factory SessionDto({
     required String id,
     required Language? language,
-    required String slideContent,
+    required Input input,
     @JsonKey(fromJson: parseTimestamp) required DateTime createdAt,
     required CsvMetadata? csv,
     @JsonKey(fromJson: parseCards) required Map<String, AnkiCard>? cards,
-    @Default(false) bool isCompleted,
+    required SessionStatus status,
     @JsonKey(fromJson: parseError) String? error,
     required int numberOfCards,
   }) = _SessionDto;
@@ -51,4 +52,32 @@ String? parseError(dynamic data) {
   }
 
   return data;
+}
+
+enum SessionStatus {
+  running,
+  error,
+  completed,
+  stopped,
+}
+
+@Freezed(fromJson: true)
+class Input with _$Input {
+  const factory Input({
+    required String? text,
+    required InputType type,
+    required FileInput? file,
+  }) = _Input;
+
+  factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
+}
+
+@Freezed(fromJson: true)
+class FileInput with _$FileInput {
+  const factory FileInput({
+    required String name,
+  }) = _FileInput;
+
+  factory FileInput.fromJson(Map<String, dynamic> json) =>
+      _$FileInputFromJson(json);
 }

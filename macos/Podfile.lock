@@ -21,6 +21,9 @@ PODS:
   - Firebase/Functions (10.9.0):
     - Firebase/CoreOnly
     - FirebaseFunctions (~> 10.9.0)
+  - Firebase/Storage (10.9.0):
+    - Firebase/CoreOnly
+    - FirebaseStorage (~> 10.9.0)
   - firebase_auth (4.6.1):
     - Firebase/Auth (~> 10.9.0)
     - Firebase/CoreOnly (~> 10.9.0)
@@ -28,6 +31,11 @@ PODS:
     - FlutterMacOS
   - firebase_core (2.13.1):
     - Firebase/CoreOnly (~> 10.9.0)
+    - FlutterMacOS
+  - firebase_storage (11.2.2):
+    - Firebase/CoreOnly (~> 10.9.0)
+    - Firebase/Storage (~> 10.9.0)
+    - firebase_core
     - FlutterMacOS
   - FirebaseAppCheckInterop (10.9.0)
   - FirebaseAuth (10.9.0):
@@ -63,6 +71,12 @@ PODS:
     - GTMSessionFetcher/Core (< 4.0, >= 2.1)
   - FirebaseMessagingInterop (10.9.0)
   - FirebaseSharedSwift (10.9.0)
+  - FirebaseStorage (10.9.0):
+    - FirebaseAppCheckInterop (~> 10.0)
+    - FirebaseAuthInterop (~> 10.0)
+    - FirebaseCore (~> 10.0)
+    - FirebaseCoreExtension (~> 10.0)
+    - GTMSessionFetcher/Core (< 4.0, >= 2.1)
   - FlutterMacOS (1.0.0)
   - GoogleUtilities/AppDelegateSwizzler (7.11.1):
     - GoogleUtilities/Environment
@@ -98,6 +112,7 @@ DEPENDENCIES:
   - cloud_functions (from `Flutter/ephemeral/.symlinks/plugins/cloud_functions/macos`)
   - firebase_auth (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos`)
   - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
+  - firebase_storage (from `Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.9.0`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
@@ -116,6 +131,7 @@ SPEC REPOS:
     - FirebaseFunctions
     - FirebaseMessagingInterop
     - FirebaseSharedSwift
+    - FirebaseStorage
     - GoogleUtilities
     - GTMSessionFetcher
     - nanopb
@@ -130,6 +146,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos
   firebase_core:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_core/macos
+  firebase_storage:
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos
   FirebaseFirestore:
     :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
     :tag: 10.9.0
@@ -153,6 +171,7 @@ SPEC CHECKSUMS:
   Firebase: bd152f0f3d278c4060c5c71359db08ebcfd5a3e2
   firebase_auth: 6fc0967d98c2ff489d3e2977c9e9f52a5b69eb22
   firebase_core: bef54c6955ffe824bb73ec34090f4013b6921bc1
+  firebase_storage: d2594ae4405de722b0d36089e056599656a55e0a
   FirebaseAppCheckInterop: e69dde5cd51b88ee1b4339d6766b691272256f9b
   FirebaseAuth: 21d5e902fcea44d0d961540fc4742966ae6118cc
   FirebaseAuthInterop: e53c08e60a02de17d1ab77c5032db8ae22d3a799
@@ -163,6 +182,7 @@ SPEC CHECKSUMS:
   FirebaseFunctions: e8da9bbc42bd6e2089cb5f563dddf6501c68b6f0
   FirebaseMessagingInterop: aa44064ab90ec4e51bc0fdf7918b6b093459e1d1
   FirebaseSharedSwift: c707c543624c3fa6622af2180fa41192084c3914
+  FirebaseStorage: 075a0c10ec43f24193018c539d65e991db65d9ef
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72

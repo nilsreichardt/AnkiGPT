@@ -956,15 +956,15 @@ enum CardGenrationSize {
       case CardGenrationSize.ten:
         return '~ 1 - 2 min';
       case CardGenrationSize.twenty:
-        return '~ 3 - 5 min';
+        return '~ 1 - 2 min';
       case CardGenrationSize.fifty:
-        return '~ 5 - 10 min';
+        return '~ 1 - 2 min';
       case CardGenrationSize.hundred:
-        return '~ 10 min';
+        return '~ 1 - 2 min';
       case CardGenrationSize.twoHundred:
-        return '~ 15 min';
+        return '~ 1 - 2 min';
       case CardGenrationSize.threeHundred:
-        return '~ 15 min';
+        return '~ 1 - 2 min';
     }
   }
 

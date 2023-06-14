@@ -55,7 +55,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '41416187582',
     projectId: 'ankigpt-prod',
     authDomain: 'ankigpt-prod.firebaseapp.com',
-    databaseURL: 'https://ankigpt-prod-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://ankigpt-prod-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'ankigpt-prod.appspot.com',
     measurementId: 'G-M6JJKD0LQZ',
   );
@@ -65,9 +66,11 @@ class DefaultFirebaseOptions {
     appId: '1:41416187582:ios:f038b84961446788d8c8ef',
     messagingSenderId: '41416187582',
     projectId: 'ankigpt-prod',
-    databaseURL: 'https://ankigpt-prod-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://ankigpt-prod-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'ankigpt-prod.appspot.com',
-    iosClientId: '41416187582-2lk91npkopai1a750vl4f4mpnppoi1qb.apps.googleusercontent.com',
+    iosClientId:
+        '41416187582-2lk91npkopai1a750vl4f4mpnppoi1qb.apps.googleusercontent.com',
     iosBundleId: 'wtf.ankigpt.app',
   );
 }

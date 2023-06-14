@@ -65,7 +65,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '531541464051',
     projectId: 'ankigpt-dev',
     storageBucket: 'ankigpt-dev.appspot.com',
-    iosClientId: '531541464051-vbpstmiu4m4undrcprs8e190lk0da7jp.apps.googleusercontent.com',
+    iosClientId:
+        '531541464051-vbpstmiu4m4undrcprs8e190lk0da7jp.apps.googleusercontent.com',
     iosBundleId: 'wtf.ankigpt.app',
   );
 }

@@ -18,7 +18,8 @@ class AnkiGptCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: defaultAnkiGptBorderRadius,
-      color: (color ?? Theme.of(context).colorScheme.primary).withOpacity(0.1),
+      color: (color ?? Theme.of(context).colorScheme.inversePrimary)
+          .withOpacity(0.1),
       child: Padding(
         padding: padding,
         child: child,

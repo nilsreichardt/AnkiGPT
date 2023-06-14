@@ -9,8 +9,10 @@ import 'package:ankigpt/src/models/flavor.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
+import 'package:ankigpt/src/pages/account_page.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
+import 'package:ankigpt/src/pages/widgets/app_bar_widgets.dart';
 import 'package:ankigpt/src/pages/widgets/card_feedback_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/history_section.dart';
@@ -37,7 +39,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:flutter_svg/svg.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:logger/logger.dart';
@@ -103,8 +104,10 @@ class MyApp extends StatelessWidget {
       title: 'AnkiGPT',
       theme: ankigptTheme,
       home: const MyHomePage(),
+      debugShowCheckedModeBanner: false,
       routes: {
         '/imprint': (context) => const ImprintPage(),
+        '/account': (context) => const AccountPage(),
       },
     );
   }
@@ -119,11 +122,11 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         leading: const Padding(
           padding: EdgeInsets.all(12),
-          child: _Logo(),
+          child: Logo(),
         ),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const _Title(),
+        title: const AppBarTitle(),
         actions: const [
+          AccountPageIconButton(),
           OthersOptions(),
         ],
       ),
@@ -153,37 +156,6 @@ class MyHomePage extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _Title extends ConsumerWidget {
-  const _Title();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final hasPlus = ref.watch(hasPlusProvider);
-    return Text('AnkiGPT${hasPlus ? ' Plus' : ''}');
-  }
-}
-
-class _Logo extends ConsumerWidget {
-  const _Logo();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Tooltip(
-      message: 'Home',
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: () {
-          ref.read(generateNotifierProvider.notifier).reset();
-        },
-        onDoubleTap: () => ref.read(hasPlusProvider.notifier).toggle(),
-        child: SvgPicture.asset(
-          'assets/logo/raw_logo.svg',
         ),
       ),
     );

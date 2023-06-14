@@ -121,7 +121,7 @@ class _LegalText extends StatelessWidget {
   Widget build(BuildContext context) {
     return MarkdownBody(
       data:
-          'By signing in, you confirm that you read the [Terms of Service](https://ankigpt.wtf/terms) and [Privacy Policy](https://ankigpt.wtf/privacy).',
+          'By signing in, you confirm that you read the [Terms of Service](https://ankigpt.wtf/terms) and [Privacy Policy](https://ankigpt.wtf/privacy-policy).',
       styleSheet: MarkdownStyleSheet(
         p: Theme.of(context).textTheme.bodySmall!.copyWith(
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),

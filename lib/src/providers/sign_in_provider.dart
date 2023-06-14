@@ -12,29 +12,34 @@ Future<void> signIn(SignInRef ref, {required AuthProvider authProvider}) async {
   final user = ref.read(authUserProvider).value;
   final logger = ref.read(loggerProvider);
 
-  if (user != null && !user.isAnonymous) {
-    logger.d('User is already signed in with Google or Apple');
-    return;
-  }
-
-  final userRepository = ref.read(userRepositoryProvider);
-  final isSignedIn = user != null;
-  if (!isSignedIn) {
-    logger.d('User is not signed in. Signing in with ${authProvider.name}');
-    await userRepository.signInWith(authProvider);
-    return;
-  }
-
-  logger.d(
-      'User is already signed in with Anonymous. Try to link this account with ${authProvider.name}');
   try {
-    await userRepository.linkWith(authProvider);
-  } on ProviderAlreadyInUse catch (_) {
-    logger.d(
-        'Provider is already in use. No need, to link the current account. Signing out and signing in again');
-    await userRepository.signOut();
-    await userRepository.signInWith(authProvider);
-  }
+    if (user != null && !user.isAnonymous) {
+      logger.d('User is already signed in with Google or Apple');
+      return;
+    }
 
-  logger.d('User is not signed in. Signing in with ${authProvider.name}');
+    final userRepository = ref.read(userRepositoryProvider);
+    final isSignedIn = user != null;
+    if (!isSignedIn) {
+      logger.d('User is not signed in. Signing in with ${authProvider.name}');
+      await userRepository.signInWith(authProvider);
+      return;
+    }
+
+    logger.d(
+        'User is already signed in with Anonymous. Try to link this account with ${authProvider.name}');
+    try {
+      await userRepository.linkWith(authProvider);
+    } on ProviderAlreadyInUse catch (_) {
+      logger.d(
+          'Provider is already in use. No need, to link the current account. Signing out and signing in again');
+      await userRepository.signOut();
+      await userRepository.signInWith(authProvider);
+    }
+
+    logger.d('User is not signed in. Signing in with ${authProvider.name}');
+  } catch (e, s) {
+    logger.e('Error while signing in with ${authProvider.name}', e, s);
+    rethrow;
+  }
 }

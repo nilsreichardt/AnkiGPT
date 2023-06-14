@@ -5,6 +5,7 @@ import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
 import 'package:ankigpt/src/providers/account_view_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/sign_in_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,7 +35,7 @@ class AccountPage extends ConsumerWidget {
               child: Container(
                 key: ValueKey(view.hashCode),
                 child: view.map(
-                  signedIn: (_) => const _SignInSection(),
+                  signedIn: (_) => const _SignedInSection(),
                   signedOut: (_) => const _SignInSection(),
                 ),
               ),
@@ -114,7 +115,6 @@ class _AppleSignIn extends StatelessWidget {
     return _SignInButton(
       icon: SvgPicture.asset('assets/logo/apple-logo.svg'),
       authProvider: AuthProvider.apple,
-      onTap: () {},
     );
   }
 }
@@ -126,31 +126,42 @@ class _GoogleSignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return _SignInButton(
       icon: SvgPicture.asset('assets/logo/google-logo.svg'),
-      onTap: () {},
       authProvider: AuthProvider.google,
     );
   }
 }
 
-class _SignInButton extends StatelessWidget {
+class _SignInButton extends ConsumerWidget {
   const _SignInButton({
     Key? key,
     required this.icon,
-    required this.onTap,
     required this.authProvider,
   }) : super(key: key);
 
   final Widget icon;
-  final VoidCallback onTap;
   final AuthProvider authProvider;
 
+  void _showSnackBar(BuildContext context, Exception e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error: $e'),
+      ),
+    );
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaxWidthConstrainedBox(
       maxWidth: 500,
       child: InkWell(
         borderRadius: defaultAnkiGptBorderRadius,
-        onTap: onTap,
+        onTap: () async {
+          try {
+            await ref.read(signInProvider(authProvider: authProvider).future);
+          } on Exception catch (e) {
+            _showSnackBar(context, e);
+          }
+        },
         child: AnkiGptCard(
           padding: const EdgeInsets.all(16),
           child: SizedBox(

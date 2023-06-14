@@ -16,11 +16,44 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AccountView {
-  String? get email => throw _privateConstructorUsedError;
-  AuthProvider get authProvider => throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $AccountViewCopyWith<AccountView> get copyWith =>
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String? email, AuthProvider authProvider)
+        signedIn,
+    required TResult Function() signedOut,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String? email, AuthProvider authProvider)? signedIn,
+    TResult? Function()? signedOut,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? email, AuthProvider authProvider)? signedIn,
+    TResult Function()? signedOut,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AccountViewSignedIn value) signedIn,
+    required TResult Function(AccountViewSignedOut value) signedOut,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountViewSignedIn value)? signedIn,
+    TResult? Function(AccountViewSignedOut value)? signedOut,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountViewSignedIn value)? signedIn,
+    TResult Function(AccountViewSignedOut value)? signedOut,
+    required TResult orElse(),
+  }) =>
       throw _privateConstructorUsedError;
 }
 
@@ -29,8 +62,6 @@ abstract class $AccountViewCopyWith<$Res> {
   factory $AccountViewCopyWith(
           AccountView value, $Res Function(AccountView) then) =
       _$AccountViewCopyWithImpl<$Res, AccountView>;
-  @useResult
-  $Res call({String? email, AuthProvider authProvider});
 }
 
 /// @nodoc
@@ -42,43 +73,23 @@ class _$AccountViewCopyWithImpl<$Res, $Val extends AccountView>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? email = freezed,
-    Object? authProvider = null,
-  }) {
-    return _then(_value.copyWith(
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      authProvider: null == authProvider
-          ? _value.authProvider
-          : authProvider // ignore: cast_nullable_to_non_nullable
-              as AuthProvider,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$_AccountViewCopyWith<$Res>
-    implements $AccountViewCopyWith<$Res> {
-  factory _$$_AccountViewCopyWith(
-          _$_AccountView value, $Res Function(_$_AccountView) then) =
-      __$$_AccountViewCopyWithImpl<$Res>;
-  @override
+abstract class _$$AccountViewSignedInCopyWith<$Res> {
+  factory _$$AccountViewSignedInCopyWith(_$AccountViewSignedIn value,
+          $Res Function(_$AccountViewSignedIn) then) =
+      __$$AccountViewSignedInCopyWithImpl<$Res>;
   @useResult
   $Res call({String? email, AuthProvider authProvider});
 }
 
 /// @nodoc
-class __$$_AccountViewCopyWithImpl<$Res>
-    extends _$AccountViewCopyWithImpl<$Res, _$_AccountView>
-    implements _$$_AccountViewCopyWith<$Res> {
-  __$$_AccountViewCopyWithImpl(
-      _$_AccountView _value, $Res Function(_$_AccountView) _then)
+class __$$AccountViewSignedInCopyWithImpl<$Res>
+    extends _$AccountViewCopyWithImpl<$Res, _$AccountViewSignedIn>
+    implements _$$AccountViewSignedInCopyWith<$Res> {
+  __$$AccountViewSignedInCopyWithImpl(
+      _$AccountViewSignedIn _value, $Res Function(_$AccountViewSignedIn) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +98,7 @@ class __$$_AccountViewCopyWithImpl<$Res>
     Object? email = freezed,
     Object? authProvider = null,
   }) {
-    return _then(_$_AccountView(
+    return _then(_$AccountViewSignedIn(
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -102,8 +113,8 @@ class __$$_AccountViewCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AccountView implements _AccountView {
-  const _$_AccountView({this.email, required this.authProvider});
+class _$AccountViewSignedIn implements AccountViewSignedIn {
+  const _$AccountViewSignedIn({this.email, required this.authProvider});
 
   @override
   final String? email;
@@ -112,14 +123,14 @@ class _$_AccountView implements _AccountView {
 
   @override
   String toString() {
-    return 'AccountView(email: $email, authProvider: $authProvider)';
+    return 'AccountView.signedIn(email: $email, authProvider: $authProvider)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AccountView &&
+            other is _$AccountViewSignedIn &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.authProvider, authProvider) ||
                 other.authProvider == authProvider));
@@ -131,21 +142,185 @@ class _$_AccountView implements _AccountView {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AccountViewCopyWith<_$_AccountView> get copyWith =>
-      __$$_AccountViewCopyWithImpl<_$_AccountView>(this, _$identity);
+  _$$AccountViewSignedInCopyWith<_$AccountViewSignedIn> get copyWith =>
+      __$$AccountViewSignedInCopyWithImpl<_$AccountViewSignedIn>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String? email, AuthProvider authProvider)
+        signedIn,
+    required TResult Function() signedOut,
+  }) {
+    return signedIn(email, authProvider);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String? email, AuthProvider authProvider)? signedIn,
+    TResult? Function()? signedOut,
+  }) {
+    return signedIn?.call(email, authProvider);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? email, AuthProvider authProvider)? signedIn,
+    TResult Function()? signedOut,
+    required TResult orElse(),
+  }) {
+    if (signedIn != null) {
+      return signedIn(email, authProvider);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AccountViewSignedIn value) signedIn,
+    required TResult Function(AccountViewSignedOut value) signedOut,
+  }) {
+    return signedIn(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountViewSignedIn value)? signedIn,
+    TResult? Function(AccountViewSignedOut value)? signedOut,
+  }) {
+    return signedIn?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountViewSignedIn value)? signedIn,
+    TResult Function(AccountViewSignedOut value)? signedOut,
+    required TResult orElse(),
+  }) {
+    if (signedIn != null) {
+      return signedIn(this);
+    }
+    return orElse();
+  }
 }
 
-abstract class _AccountView implements AccountView {
-  const factory _AccountView(
+abstract class AccountViewSignedIn implements AccountView {
+  const factory AccountViewSignedIn(
       {final String? email,
-      required final AuthProvider authProvider}) = _$_AccountView;
+      required final AuthProvider authProvider}) = _$AccountViewSignedIn;
+
+  String? get email;
+  AuthProvider get authProvider;
+  @JsonKey(ignore: true)
+  _$$AccountViewSignedInCopyWith<_$AccountViewSignedIn> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$AccountViewSignedOutCopyWith<$Res> {
+  factory _$$AccountViewSignedOutCopyWith(_$AccountViewSignedOut value,
+          $Res Function(_$AccountViewSignedOut) then) =
+      __$$AccountViewSignedOutCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$AccountViewSignedOutCopyWithImpl<$Res>
+    extends _$AccountViewCopyWithImpl<$Res, _$AccountViewSignedOut>
+    implements _$$AccountViewSignedOutCopyWith<$Res> {
+  __$$AccountViewSignedOutCopyWithImpl(_$AccountViewSignedOut _value,
+      $Res Function(_$AccountViewSignedOut) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$AccountViewSignedOut implements AccountViewSignedOut {
+  const _$AccountViewSignedOut();
 
   @override
-  String? get email;
+  String toString() {
+    return 'AccountView.signedOut()';
+  }
+
   @override
-  AuthProvider get authProvider;
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$AccountViewSignedOut);
+  }
+
   @override
-  @JsonKey(ignore: true)
-  _$$_AccountViewCopyWith<_$_AccountView> get copyWith =>
-      throw _privateConstructorUsedError;
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String? email, AuthProvider authProvider)
+        signedIn,
+    required TResult Function() signedOut,
+  }) {
+    return signedOut();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String? email, AuthProvider authProvider)? signedIn,
+    TResult? Function()? signedOut,
+  }) {
+    return signedOut?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? email, AuthProvider authProvider)? signedIn,
+    TResult Function()? signedOut,
+    required TResult orElse(),
+  }) {
+    if (signedOut != null) {
+      return signedOut();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AccountViewSignedIn value) signedIn,
+    required TResult Function(AccountViewSignedOut value) signedOut,
+  }) {
+    return signedOut(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountViewSignedIn value)? signedIn,
+    TResult? Function(AccountViewSignedOut value)? signedOut,
+  }) {
+    return signedOut?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountViewSignedIn value)? signedIn,
+    TResult Function(AccountViewSignedOut value)? signedOut,
+    required TResult orElse(),
+  }) {
+    if (signedOut != null) {
+      return signedOut(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class AccountViewSignedOut implements AccountView {
+  const factory AccountViewSignedOut() = _$AccountViewSignedOut;
 }

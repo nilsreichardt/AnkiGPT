@@ -1,13 +1,14 @@
+import 'package:ankigpt/src/models/auth_provider.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
 import 'package:ankigpt/src/providers/account_view_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
-import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AccountPage extends ConsumerWidget {
@@ -15,7 +16,7 @@ class AccountPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSignedIn = ref.watch(isSignedInProvider);
+    final view = ref.watch(accountViewProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Account'),
@@ -24,18 +25,17 @@ class AccountPage extends ConsumerWidget {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: MaxWidthConstrainedBox(
-            maxWidth: 900,
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: Container(
-                  key: ValueKey(isSignedIn),
-                  child: isSignedIn
-                      ? const _SignedInSection()
-                      : const _SignInSection(),
+        child: MaxWidthConstrainedBox(
+          maxWidth: 900,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: Container(
+                key: ValueKey(view.hashCode),
+                child: view.map(
+                  signedIn: (_) => const _SignInSection(),
+                  signedOut: (_) => const _SignInSection(),
                 ),
               ),
             ),
@@ -52,12 +52,14 @@ class _SignedInSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasPlus = ref.watch(hasPlusProvider);
-    return StaggeredList(
-      children: [
-        const _AvatarCard(),
-        hasPlus ? const _ContactSupportCard() : const _BuyPlusCard(),
-        const _DangerZoneCard(),
-      ],
+    return SingleChildScrollView(
+      child: StaggeredList(
+        children: [
+          const _AvatarCard(),
+          hasPlus ? const _ContactSupportCard() : const _BuyPlusCard(),
+          const _DangerZoneCard(),
+        ],
+      ),
     );
   }
 }
@@ -90,8 +92,87 @@ class _SignInSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StaggeredList(
-      children: [],
+    return const Center(
+      child: SingleChildScrollView(
+        child: StaggeredList(
+          children: [
+            _GoogleSignIn(),
+            SizedBox(height: 12),
+            _AppleSignIn(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AppleSignIn extends StatelessWidget {
+  const _AppleSignIn({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _SignInButton(
+      icon: SvgPicture.asset('assets/logo/apple-logo.svg'),
+      authProvider: AuthProvider.apple,
+      onTap: () {},
+    );
+  }
+}
+
+class _GoogleSignIn extends StatelessWidget {
+  const _GoogleSignIn({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _SignInButton(
+      icon: SvgPicture.asset('assets/logo/google-logo.svg'),
+      onTap: () {},
+      authProvider: AuthProvider.google,
+    );
+  }
+}
+
+class _SignInButton extends StatelessWidget {
+  const _SignInButton({
+    Key? key,
+    required this.icon,
+    required this.onTap,
+    required this.authProvider,
+  }) : super(key: key);
+
+  final Widget icon;
+  final VoidCallback onTap;
+  final AuthProvider authProvider;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstrainedBox(
+      maxWidth: 500,
+      child: InkWell(
+        borderRadius: defaultAnkiGptBorderRadius,
+        onTap: onTap,
+        child: AnkiGptCard(
+          padding: const EdgeInsets.all(16),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 26,
+                  height: 26,
+                  child: icon,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'Sign in with ${authProvider.name}',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -236,7 +317,7 @@ class _AvatarCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final view = ref.watch(accountViewProvider);
-    if (view == null) {
+    if ((view is! AccountViewSignedIn)) {
       return const SizedBox();
     }
 

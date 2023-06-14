@@ -1,3 +1,4 @@
+import 'package:ankigpt/src/models/auth_provider.dart';
 import 'package:ankigpt/src/models/user_id.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -22,4 +23,10 @@ class UserRepository {
   Future<void> signOut() async {
     await firebaseAuth.signOut();
   }
+
+  Future<void> signInWithGoogle() async {}
+
+  Future<void> signInWithApple() async {}
+
+  Future<void> linkWith(AuthProvider provider) async {}
 }

@@ -7,13 +7,13 @@ part 'account_view_provider.freezed.dart';
 part 'account_view_provider.g.dart';
 
 @riverpod
-AccountView? accountView(AccountViewRef ref) {
+AccountView accountView(AccountViewRef ref) {
   final authUser = ref.watch(authUserProvider).value;
   if (authUser == null) {
-    return null;
+    return const AccountView.signedOut();
   }
 
-  return AccountView(
+  return AccountView.signedIn(
     email: authUser.email,
     authProvider: AuthProvider.fromFirebaseAuthUser(authUser),
   );
@@ -21,8 +21,10 @@ AccountView? accountView(AccountViewRef ref) {
 
 @freezed
 class AccountView with _$AccountView {
-  const factory AccountView({
+  const factory AccountView.signedIn({
     String? email,
     required AuthProvider authProvider,
-  }) = _AccountView;
+  }) = AccountViewSignedIn;
+
+  const factory AccountView.signedOut() = AccountViewSignedOut;
 }

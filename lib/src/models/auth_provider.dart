@@ -8,11 +8,11 @@ enum AuthProvider {
   String toUiString() {
     switch (this) {
       case AuthProvider.google:
-        return 'Google Sign In';
+        return 'Google';
       case AuthProvider.anonymous:
         return 'Anonymous';
       case AuthProvider.apple:
-        return 'Apple Sign In';
+        return 'Apple';
     }
   }
 

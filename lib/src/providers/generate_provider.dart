@@ -51,9 +51,6 @@ class GenerateNotifier extends _$GenerateNotifier {
   }) async {
     _logger.d("Generating cards...");
 
-    await _userRepository.signIn();
-    return;
-
     // state = GenerateState.success(
     //   sessionId: '123',
     //   generatedCards: localCards,

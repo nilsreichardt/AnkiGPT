@@ -176,7 +176,7 @@ class _SignInButton extends ConsumerWidget {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Sign in with ${authProvider.name}',
+                  'Sign in with ${authProvider.toUiString()}',
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],

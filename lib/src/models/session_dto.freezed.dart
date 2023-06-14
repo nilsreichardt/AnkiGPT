@@ -238,12 +238,14 @@ class _$_SessionDto implements _SessionDto {
       {required this.id,
       required this.language,
       required this.input,
-      @JsonKey(fromJson: parseTimestamp) required this.createdAt,
+      @JsonKey(fromJson: parseTimestamp)
+          required this.createdAt,
       required this.csv,
       @JsonKey(fromJson: parseCards)
-      required final Map<String, AnkiCard>? cards,
+          required final Map<String, AnkiCard>? cards,
       required this.status,
-      @JsonKey(fromJson: parseError) this.error,
+      @JsonKey(fromJson: parseError)
+          this.error,
       required this.numberOfCards})
       : _cards = cards;
 
@@ -337,12 +339,14 @@ abstract class _SessionDto implements SessionDto {
       {required final String id,
       required final Language? language,
       required final Input input,
-      @JsonKey(fromJson: parseTimestamp) required final DateTime createdAt,
+      @JsonKey(fromJson: parseTimestamp)
+          required final DateTime createdAt,
       required final CsvMetadata? csv,
       @JsonKey(fromJson: parseCards)
-      required final Map<String, AnkiCard>? cards,
+          required final Map<String, AnkiCard>? cards,
       required final SessionStatus status,
-      @JsonKey(fromJson: parseError) final String? error,
+      @JsonKey(fromJson: parseError)
+          final String? error,
       required final int numberOfCards}) = _$_SessionDto;
 
   factory _SessionDto.fromJson(Map<String, dynamic> json) =

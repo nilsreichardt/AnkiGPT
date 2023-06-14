@@ -9,7 +9,7 @@ part 'account_view_provider.g.dart';
 @riverpod
 AccountView accountView(AccountViewRef ref) {
   final authUser = ref.watch(authUserProvider).value;
-  if (authUser == null) {
+  if (authUser == null || authUser.isAnonymous) {
     return const AccountView.signedOut();
   }
 

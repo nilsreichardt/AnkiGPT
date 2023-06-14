@@ -70,14 +70,15 @@ class UserRepository {
     try {
       switch (provider) {
         case AuthProvider.google:
-          return _linkWithGoogle();
+          return await _linkWithGoogle();
         case AuthProvider.apple:
-          return _linkWithApple();
+          return await _linkWithApple();
         case AuthProvider.anonymous:
           return;
       }
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'credential-already-in-use') {
+      if (e.code == 'credential-already-in-use' ||
+          (e.message ?? '').contains('auth/credential-already-in-use')) {
         throw ProviderAlreadyInUse();
       }
       rethrow;

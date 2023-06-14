@@ -6,5 +6,5 @@ part 'auth_user_provider.g.dart';
 
 @riverpod
 Stream<User?> authUser(AuthUserRef ref) {
-  return ref.watch(firebaseAuthProvider).authStateChanges();
+  return ref.watch(firebaseAuthProvider).userChanges();
 }

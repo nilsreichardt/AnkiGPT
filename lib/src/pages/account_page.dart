@@ -1,3 +1,4 @@
+import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/models/auth_provider.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
@@ -75,7 +76,10 @@ class _BuyPlusCard extends StatelessWidget {
       padding: const EdgeInsets.only(top: 12),
       child: InkWell(
         borderRadius: defaultAnkiGptBorderRadius,
-        onTap: () {},
+        onTap: () => showDialog(
+          context: context,
+          builder: (_) => const PlusDialog(),
+        ),
         child: const AnkiGptCard(
           padding: EdgeInsets.all(8),
           child: ListTile(

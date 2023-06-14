@@ -222,7 +222,7 @@ class _UploadFileButton extends ConsumerWidget {
         if (!hasPlus) {
           showDialog(
             context: context,
-            builder: (context) => const _PlusDialog(),
+            builder: (context) => const PlusDialog(),
           );
           return;
         }
@@ -269,7 +269,7 @@ class _PickedFileButton extends ConsumerWidget {
                 if (!hasPlus) {
                   showDialog(
                     context: context,
-                    builder: (context) => const _PlusDialog(),
+                    builder: (context) => const PlusDialog(),
                   );
                   return;
                 }
@@ -361,16 +361,16 @@ class PlusBadge extends StatelessWidget {
   }
 }
 
-class _PlusDialog extends ConsumerWidget {
-  const _PlusDialog();
+class PlusDialog extends ConsumerWidget {
+  const PlusDialog({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: const Text("AnkiGPT Plus"),
       content: const Text('''Advantages:
-* Generate 50, 100 or 150 cards at once
 * Upload lecture slides and automatically generate flashcards
+* Generate 50, 100, 200 or 300 cards at once
 * Premium support
 
 Lifetime: €9.99 (no subscription)'''),
@@ -382,9 +382,9 @@ Lifetime: €9.99 (no subscription)'''),
         TextButton(
           onPressed: () {
             final parameters = <String, String>{
-              'subject': '💎 AnkiGPT Premium',
+              'subject': '💎 AnkiGPT Plus',
               'body':
-                  'Hey!\n\nI would like to buy AnkiGPT for €9.99.\n\nBest regards'
+                  'Hey!\n\nI would like to buy AnkiGPT Plus for €9.99.\n\nBest regards'
             };
             final mailto = Uri(
               scheme: 'mailto',
@@ -1010,7 +1010,7 @@ class Select extends ConsumerWidget {
             if (!hasPlus && v.isPlus()) {
               showDialog(
                 context: context,
-                builder: (_) => const _PlusDialog(),
+                builder: (_) => const PlusDialog(),
               );
             }
 
@@ -1052,7 +1052,7 @@ class GenerateButton extends ConsumerWidget {
                     if (e is PlusMembershipRequiredException) {
                       showDialog(
                         context: context,
-                        builder: (_) => const _PlusDialog(),
+                        builder: (_) => const PlusDialog(),
                       );
                       return;
                     }

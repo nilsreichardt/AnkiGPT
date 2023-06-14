@@ -61,10 +61,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyATb60gTXbbIVJrax3L4B1nTGIu5FtoGqU',
-    appId: '1:531541464051:ios:7931837a0642d10d29f886',
+    appId: '1:531541464051:ios:806a57abca8f91b729f886',
     messagingSenderId: '531541464051',
     projectId: 'ankigpt-dev',
     storageBucket: 'ankigpt-dev.appspot.com',
-    iosBundleId: 'de.ankigpt.ankigpt',
+    iosClientId: '531541464051-vbpstmiu4m4undrcprs8e190lk0da7jp.apps.googleusercontent.com',
+    iosBundleId: 'wtf.ankigpt.app',
   );
 }

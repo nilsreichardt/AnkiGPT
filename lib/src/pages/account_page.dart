@@ -8,6 +8,7 @@ import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -100,9 +101,32 @@ class _SignInSection extends StatelessWidget {
             _GoogleSignIn(),
             SizedBox(height: 12),
             _AppleSignIn(),
+            SizedBox(height: 12),
+            _LegalText(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _LegalText extends StatelessWidget {
+  const _LegalText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MarkdownBody(
+      data:
+          'By signing in, you confirm that you read the [Terms of Service](https://ankigpt.wtf/terms) and [Privacy Policy](https://ankigpt.wtf/privacy).',
+      styleSheet: MarkdownStyleSheet(
+        p: Theme.of(context).textTheme.bodySmall!.copyWith(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            ),
+      ),
+      onTapLink: (text, href, title) async {
+        if (href == null) return;
+        launchUrl(Uri.parse(href));
+      },
     );
   }
 }

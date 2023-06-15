@@ -1068,7 +1068,7 @@ class SlideContextField extends ConsumerWidget {
       maxLines: 10,
       decoration: const InputDecoration(
         hintText:
-            'Copy the text of 2 - 10 slides of the lecture and paste it here. Supports nearly all langauges (e.g. English, French, Spanish, German, etc.).',
+            'Copy the text of 2 - 10 slides of the lecture and paste it here. Supports all langauges (e.g. English, French, Spanish, German, etc.).',
         border: OutlineInputBorder(),
       ),
     );

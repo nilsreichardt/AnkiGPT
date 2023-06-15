@@ -9,6 +9,7 @@ import 'package:ankigpt/src/providers/account_view_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/open_stripe_portal_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
+import 'package:ankigpt/src/providers/user_id_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -243,15 +244,33 @@ class _DangerZoneCard extends StatelessWidget {
   }
 }
 
-class _DeleteAccountTile extends StatelessWidget {
+class _DeleteAccountTile extends ConsumerWidget {
   const _DeleteAccountTile();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return _DangerZoneTile(
       icon: const Icon(Icons.delete_forever),
       title: const Text('Delete account'),
-      onTap: () {},
+      onTap: () {
+        final userId = ref.read(userIdProvider);
+
+        final parameters = <String, String>{
+          'subject': '🗑️ AnkiGPT: Delete Account Request',
+          'body':
+              'Hey!\n\nI would like to delete my account.\nUser ID: $userId\n\nBest regards'
+        };
+        final mailto = Uri(
+          scheme: 'mailto',
+          path: 'support@ankigpt.wtf',
+          query: parameters.entries
+              .map((e) =>
+                  '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+              .join('&'),
+        );
+
+        launchUrl(mailto);
+      },
     );
   }
 }

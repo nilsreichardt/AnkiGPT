@@ -6,6 +6,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'buy_provider.g.dart';
 
+const _testPriceId = 'price_1NJ0vbBWpb6oLyvXoE4QUewc';
+
 @riverpod
 Future<String> buy(BuyRef ref) async {
   final cloudFunctions = ref.read(cloudFunctionsProvider);
@@ -22,7 +24,7 @@ Future<String> buy(BuyRef ref) async {
       .call<Map<String, dynamic>>({
     'destination': 'createCheckoutSession',
     'payload': {
-      'priceId': isDeveloperMode ? 'price_1NJ0vbBWpb6oLyvXoE4QUewc' : null,
+      'priceId': isDeveloperMode ? _testPriceId : null,
     }
   });
 

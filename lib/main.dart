@@ -23,7 +23,6 @@ import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/theme.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
-import 'package:ankigpt/src/providers/buy_provider.dart';
 import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';

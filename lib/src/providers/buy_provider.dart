@@ -3,16 +3,19 @@ import 'package:ankigpt/src/providers/developer_mode_provider.dart';
 import 'package:ankigpt/src/providers/functions_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 part 'buy_provider.g.dart';
 
 @riverpod
-Future<void> buy(BuyRef ref) async {
+Future<String> buy(BuyRef ref) async {
   final cloudFunctions = ref.read(cloudFunctionsProvider);
   final routeUrl = ref.read(routeFunctionsUrlProvider);
-  final logger = ref.read(loggerProvider);
   final isDeveloperMode = ref.read(hasDeveloperModeProvider);
+  final logger = ref.read(loggerProvider);
+
+  if (isDeveloperMode) {
+    logger.d('Generating Stripe Checkout URL for developer mode');
+  }
 
   final respsonse = await cloudFunctions
       .httpsCallableFromUrl(routeUrl)
@@ -23,13 +26,7 @@ Future<void> buy(BuyRef ref) async {
     }
   });
 
-  final url = respsonse.data['url'] as String?;
-  if (url == null) {
-    logger.e('Checkout session URL is null');
-    return;
-  }
-
-  launchUrl(Uri.parse(url));
+  return respsonse.data['url'] as String;
 }
 
 class UnauthenticatedException implements Exception {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:ankigpt/firebase_options_dev.dart' as dev;
@@ -21,6 +22,7 @@ import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/theme.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
+import 'package:ankigpt/src/providers/buy_button_analytics.dart';
 import 'package:ankigpt/src/providers/buy_provider.dart';
 import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
@@ -36,6 +38,7 @@ import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
+import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
 import 'package:confetti/confetti.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -506,6 +509,17 @@ class _BuyButtonState extends ConsumerState<_BuyButton> {
   bool isLoading = false;
 
   @override
+  void initState() {
+    super.initState();
+
+    final isSignedIn = ref.read(isSignedInProvider);
+    if (isSignedIn) {
+      // Generating URL in the background
+      unawaited(ref.read(stripeCheckoutProvider.notifier).generateUrl());
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final hasAccount = ref.watch(hasAccountProvider).value;
     return Stack(
@@ -521,8 +535,11 @@ class _BuyButtonState extends ConsumerState<_BuyButton> {
                 });
 
                 try {
+                  // Analytics
+                  unawaited(ref.read(clickedBuyProvider.future));
+
                   if (hasAccount == true) {
-                    await ref.read(buyProvider.future);
+                    await ref.read(stripeCheckoutProvider.notifier).open();
                   } else {
                     ref.read(wantsToBuyProvider.notifier).toggle();
                     Navigator.pushNamed(context, '/account');
@@ -542,10 +559,13 @@ class _BuyButtonState extends ConsumerState<_BuyButton> {
         ),
         Opacity(
           opacity: isLoading ? 1 : 0,
-          child: const SizedBox(
-            height: 25,
-            width: 25,
-            child: CircularProgressIndicator(),
+          child: IgnorePointer(
+            ignoring: !isLoading,
+            child: const SizedBox(
+              height: 25,
+              width: 25,
+              child: CircularProgressIndicator(),
+            ),
           ),
         )
       ],

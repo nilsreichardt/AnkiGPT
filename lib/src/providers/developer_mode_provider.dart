@@ -2,7 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'developer_mode_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class HasDeveloperMode extends _$HasDeveloperMode {
   @override
   bool build() {

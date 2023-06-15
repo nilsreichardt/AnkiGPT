@@ -3,6 +3,7 @@ import 'package:ankigpt/src/models/auth_provider.dart';
 import 'package:ankigpt/src/providers/auth_user_provider.dart';
 import 'package:ankigpt/src/providers/buy_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
+import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,17 +26,12 @@ Future<void> signIn(SignInRef ref, {required AuthProvider authProvider}) async {
 
     final wantToBuyPlus = ref.read(wantsToBuyProvider);
     if (wantToBuyPlus) {
-      await _openCheckoutSession(ref);
+      await ref.read(stripeCheckoutProvider.notifier).open();
     }
   } catch (e, s) {
     logger.e('Error while signing in with ${authProvider.name}', e, s);
     rethrow;
   }
-}
-
-Future<void> _openCheckoutSession(SignInRef ref) async {
-  ref.read(wantsToBuyProvider.notifier).toggle();
-  await ref.read(buyProvider.future);
 }
 
 Future<void> _makeSignIn(

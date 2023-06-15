@@ -38,9 +38,16 @@ class SessionDto with _$SessionDto {
 
 Map<String, AnkiCard>? parseCards(Map<String, dynamic>? json) {
   if (json == null) return null;
-  return json.map(
-    (k, e) =>
-        MapEntry(k, AnkiCard.fromJsonInjectedId(k, e as Map<String, dynamic>)),
+  return (json
+        ..removeWhere((key, value) {
+          final data = value as Map<String, dynamic>;
+          return data['isDeleted'] == true;
+        }))
+      .map(
+    (k, e) => MapEntry(
+      k,
+      AnkiCard.fromJsonInjectedId(k, e as Map<String, dynamic>),
+    ),
   );
 }
 

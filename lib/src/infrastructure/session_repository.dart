@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:ankigpt/src/models/card_id.dart';
 import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
@@ -50,5 +51,33 @@ class SessionRepository {
             'userId': userId,
           }),
         );
+  }
+
+  Future<void> deleteCard({
+    required SessionId sessionId,
+    required CardId cardId,
+  }) async {
+    await functions.httpsCallableFromUrl(routeFunctionsUrl).call({
+      'destination': 'deleteCard',
+      'payload': {
+        'sessionId': sessionId,
+        'cardId': cardId,
+      }
+    });
+  }
+
+  Future<void> undoDeleteCard({
+    required SessionId sessionId,
+    required CardId cardId,
+  }) async {
+    await functions
+        .httpsCallableFromUrl(routeFunctionsUrl)
+        .call<Map<String, dynamic>>({
+      'destination': 'undoDeleteCard',
+      'payload': {
+        'sessionId': sessionId,
+        'cardId': cardId,
+      }
+    });
   }
 }

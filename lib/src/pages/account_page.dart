@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/models/auth_provider.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
@@ -7,8 +9,8 @@ import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
 import 'package:ankigpt/src/providers/account_view_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
-import 'package:ankigpt/src/providers/open_stripe_portal_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
+import 'package:ankigpt/src/providers/stripe_portal_provider.dart';
 import 'package:ankigpt/src/providers/user_id_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:flutter/material.dart';
@@ -413,21 +415,36 @@ class _PlusSection extends StatelessWidget {
   }
 }
 
-class _ManageBills extends ConsumerWidget {
+class _ManageBills extends ConsumerStatefulWidget {
   const _ManageBills();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_ManageBills> createState() => _ManageBillsState();
+}
+
+class _ManageBillsState extends ConsumerState<_ManageBills> {
+  @override
+  void initState() {
+    super.initState();
+
+    // We generate the url in advance because when we would generate it when the user clicks on the tile, the browser
+    // could block the popup because it was not triggered by a user action.
+    unawaited(ref.read(stripePortalProvider.notifier).generateUrl());
+  }
+
+  @override
+  void dispose() {
+    // Reset the state because the url has an expiration date.
+    ref.read(stripePortalProvider.notifier).reset();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return _Tile(
       onTap: () async {
-        context.showTextSnackBar(
-          'Creating link...',
-          withLoadingCircle: true,
-        );
-
         try {
-          final url = await ref.read(openStripePortalProvider.future);
-          launchUrl(Uri.parse(url));
+          await ref.read(stripePortalProvider.notifier).open();
         } on Exception catch (e) {
           context.showTextSnackBar('$e');
         }

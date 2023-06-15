@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'AnkiGPT',
       theme: ankigptTheme,
-      home: const MyHomePage(),
+      home: const HomePage(),
       debugShowCheckedModeBanner: false,
       routes: {
         '/imprint': (context) => const ImprintPage(),
@@ -113,8 +113,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -131,28 +131,37 @@ class MyHomePage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: const Footer(),
-      body: SingleChildScrollView(
-        child: MaxWidthConstrainedBox(
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: AnimationLimiter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: AnimationConfiguration.toStaggeredList(
-                  duration: const Duration(milliseconds: 500),
-                  childAnimationBuilder: (widget) => SlideAnimation(
-                    verticalOffset: 20,
-                    child: FadeInAnimation(child: widget),
-                  ),
-                  children: const [
-                    SizedBox(height: 12),
-                    InputBox(),
-                    SizedBox(height: 12),
-                    Controls(),
-                    SizedBox(height: 12),
-                    Results(),
-                  ],
+      body: const _Body(),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  const _Body();
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: MaxWidthConstrainedBox(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: AnimationLimiter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: AnimationConfiguration.toStaggeredList(
+                duration: const Duration(milliseconds: 500),
+                childAnimationBuilder: (widget) => SlideAnimation(
+                  verticalOffset: 20,
+                  child: FadeInAnimation(child: widget),
                 ),
+                children: const [
+                  SizedBox(height: 12),
+                  InputBox(),
+                  SizedBox(height: 12),
+                  Controls(),
+                  SizedBox(height: 12),
+                  Results(),
+                ],
               ),
             ),
           ),

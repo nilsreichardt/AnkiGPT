@@ -6,11 +6,11 @@ part of 'buy_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$buyHash() => r'2e48eca8ded837f0b49010fd7a922323c6a59a61';
+String _$buyHash() => r'4d272130403b6b1a053607f4d9b0d0742ce68322';
 
 /// See also [buy].
 @ProviderFor(buy)
-final buyProvider = AutoDisposeFutureProvider<void>.internal(
+final buyProvider = AutoDisposeFutureProvider<String>.internal(
   buy,
   name: r'buyProvider',
   debugGetCreateSourceHash:
@@ -19,5 +19,5 @@ final buyProvider = AutoDisposeFutureProvider<void>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef BuyRef = AutoDisposeFutureProviderRef<void>;
+typedef BuyRef = AutoDisposeFutureProviderRef<String>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

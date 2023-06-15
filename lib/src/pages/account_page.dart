@@ -1,11 +1,13 @@
 import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/models/auth_provider.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
+import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
 import 'package:ankigpt/src/providers/account_view_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/open_stripe_portal_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +61,7 @@ class _SignedInSection extends ConsumerWidget {
       child: StaggeredList(
         children: [
           const _AvatarCard(),
-          hasPlus ? const _ContactSupportCard() : const _BuyPlusCard(),
+          hasPlus ? const _PlusSection() : const _BuyPlusCard(),
           const _DangerZoneCard(),
         ],
       ),
@@ -290,16 +292,44 @@ class _DangerZoneTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return _Tile(
+      icon: icon,
+      title: title,
+      onTap: onTap,
+      color: Theme.of(context).colorScheme.error,
+    );
+  }
+}
+
+class _Tile extends StatelessWidget {
+  const _Tile({
+    Key? key,
+    required this.onTap,
+    required this.icon,
+    required this.title,
+    this.color,
+    this.subtitle,
+  }) : super(key: key);
+
+  final VoidCallback onTap;
+  final Icon icon;
+  final Widget title;
+  final Color? color;
+  final Widget? subtitle;
+
+  @override
+  Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       leading: IconTheme(
         data: Theme.of(context).iconTheme.copyWith(
-              color: Theme.of(context).colorScheme.error,
+              color: color ?? Theme.of(context).colorScheme.primary,
             ),
         child: icon,
       ),
       title: title,
       onTap: onTap,
+      subtitle: subtitle,
     );
   }
 }
@@ -326,26 +356,65 @@ class _SignOutConfirmationDialog extends StatelessWidget {
   }
 }
 
-class _ContactSupportCard extends StatelessWidget {
-  const _ContactSupportCard({Key? key}) : super(key: key);
+class _ContactSupportTile extends StatelessWidget {
+  const _ContactSupportTile({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _Tile(
+      onTap: () => launchUrl(Uri.parse('https://wa.me/4915229504121')),
+      icon: const Icon(Icons.support_agent),
+      title: const Text('Contact premium support'),
+      subtitle: const Text('Get a response within a few hours'),
+    );
+  }
+}
+
+class _PlusSection extends StatelessWidget {
+  const _PlusSection();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 12),
-      child: InkWell(
+      child: ClipRRect(
         borderRadius: defaultAnkiGptBorderRadius,
-        onTap: () => launchUrl(Uri.parse('https://wa.me/4915229504121')),
         child: const AnkiGptCard(
-          padding: EdgeInsets.all(8),
-          child: ListTile(
-            mouseCursor: SystemMouseCursors.click,
-            leading: Icon(Icons.support_agent),
-            title: Text('Contact premium support'),
-            subtitle: Text('Get a response within a few hours'),
+          padding: EdgeInsets.all(0),
+          child: Column(
+            children: [
+              _ContactSupportTile(),
+              Divider(height: 0),
+              _ManageBills(),
+            ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ManageBills extends ConsumerWidget {
+  const _ManageBills();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return _Tile(
+      onTap: () async {
+        context.showTextSnackBar(
+          'Creating link...',
+          withLoadingCircle: true,
+        );
+
+        try {
+          final url = await ref.read(openStripePortalProvider.future);
+          launchUrl(Uri.parse(url));
+        } on Exception catch (e) {
+          context.showTextSnackBar('$e');
+        }
+      },
+      icon: const Icon(Icons.payment),
+      title: const Text('Payment history'),
     );
   }
 }

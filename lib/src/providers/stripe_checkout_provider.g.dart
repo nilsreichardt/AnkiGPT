@@ -1,23 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'has_plus_provider.dart';
+part of 'stripe_checkout_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$hasPlusHash() => r'd47b0b2dfcec886256f25b3b35717749446d349b';
+String _$stripeCheckoutHash() => r'22cb7cc56c862d98f759a2eff9097bb1e14f877f';
 
-/// See also [hasPlus].
-@ProviderFor(hasPlus)
-final hasPlusProvider = AutoDisposeProvider<bool>.internal(
-  hasPlus,
-  name: r'hasPlusProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$hasPlusHash,
+/// See also [StripeCheckout].
+@ProviderFor(StripeCheckout)
+final stripeCheckoutProvider =
+    NotifierProvider<StripeCheckout, String?>.internal(
+  StripeCheckout.new,
+  name: r'stripeCheckoutProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$stripeCheckoutHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef HasPlusRef = AutoDisposeProviderRef<bool>;
+typedef _$StripeCheckout = Notifier<String?>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

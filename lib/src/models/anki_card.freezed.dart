@@ -237,7 +237,7 @@ abstract class _AnkiCard implements AnkiCard {
       required final String question,
       required final String answer,
       @JsonKey(fromJson: parseTimestampOrIsoString)
-      required final DateTime createdAt,
+          required final DateTime createdAt,
       final bool hasLiked,
       final bool hasDisliked}) = _$_AnkiCard;
 

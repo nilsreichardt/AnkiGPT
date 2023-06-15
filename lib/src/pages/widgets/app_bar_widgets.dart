@@ -1,3 +1,5 @@
+import 'package:ankigpt/src/pages/widgets/extensions.dart';
+import 'package:ankigpt/src/providers/developer_mode_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,6 @@ class Logo extends ConsumerWidget {
           Navigator.maybePop(context);
           ref.read(generateNotifierProvider.notifier).reset();
         },
-        onDoubleTap: () => ref.read(hasPlusProvider.notifier).toggle(),
         child: SvgPicture.asset(
           'assets/logo/raw_logo.svg',
         ),
@@ -32,7 +33,15 @@ class AppBarTitle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasPlus = ref.watch(hasPlusProvider);
-    return Text('AnkiGPT${hasPlus ? ' Plus' : ''}');
+    return GestureDetector(
+      onLongPress: () {
+        ref.read(hasDeveloperModeProvider.notifier).toggle();
+        final isDeveloperMode = ref.read(hasDeveloperModeProvider);
+        context.showTextSnackBar(
+            'Developer mode is now ${isDeveloperMode ? 'enabled' : 'disabled'}');
+      },
+      child: Text('AnkiGPT${hasPlus ? ' Plus' : ''}'),
+    );
   }
 }
 

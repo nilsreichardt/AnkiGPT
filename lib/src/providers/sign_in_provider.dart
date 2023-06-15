@@ -1,7 +1,6 @@
 import 'package:ankigpt/src/infrastructure/user_repository.dart';
 import 'package:ankigpt/src/models/auth_provider.dart';
 import 'package:ankigpt/src/providers/auth_user_provider.dart';
-import 'package:ankigpt/src/providers/buy_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';

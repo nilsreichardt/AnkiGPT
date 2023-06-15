@@ -229,19 +229,23 @@ class _UploadFileButton extends ConsumerWidget {
 
         ref.read(generateNotifierProvider.notifier).pickFile();
       },
-      child: Material(
-        borderRadius: borderRadius,
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-        child: Padding(
-          padding: const EdgeInsets.all(40),
-          child: Column(
-            children: [
-              const Icon(Icons.upload_file),
-              SizedBox(height: hasPlus ? 13 : 0),
-              const Text('Upload PDF file'),
-              SizedBox(height: hasPlus ? 13 : 8),
-              if (!hasPlus) const PlusBadge(),
-            ],
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 275),
+        child: Material(
+          key: ValueKey(hasPlus),
+          borderRadius: borderRadius,
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+          child: Padding(
+            padding: const EdgeInsets.all(40),
+            child: Column(
+              children: [
+                const Icon(Icons.upload_file),
+                SizedBox(height: hasPlus ? 13 : 0),
+                const Text('Upload PDF file'),
+                SizedBox(height: hasPlus ? 13 : 8),
+                if (!hasPlus) const PlusBadge(),
+              ],
+            ),
           ),
         ),
       ),

@@ -17,7 +17,6 @@ class Logo extends ConsumerWidget {
           Navigator.maybePop(context);
           ref.read(generateNotifierProvider.notifier).reset();
         },
-        onDoubleTap: () => ref.read(hasPlusProvider.notifier).toggle(),
         child: SvgPicture.asset(
           'assets/logo/raw_logo.svg',
         ),

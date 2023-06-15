@@ -2,10 +2,10 @@ import 'package:ankigpt/src/providers/functions_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'open_stripe_portal_provider.g.dart';
+part 'get_stripe_portal_url_provider.g.dart';
 
 @riverpod
-Future<String> openStripePortal(OpenStripePortalRef ref) async {
+Future<String> getStripePortalUrl(GetStripePortalUrlRef ref) async {
   try {
     final cloudFunctions = ref.read(cloudFunctionsProvider);
 

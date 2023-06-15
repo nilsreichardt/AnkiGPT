@@ -8,7 +8,11 @@ part of 'delete_card_provider.dart';
 
 String _$deleteQueueHash() => r'3b8fe8938f05d607e8917ffbcb55a2c6b0618266';
 
-/// See also [deleteQueue].
+/// A provider that returns a [Queue] that contains [Future]s to delete cards.
+///
+/// The [Queue] is used to avoid race conditions when deleting cards.
+///
+/// Copied from [deleteQueue].
 @ProviderFor(deleteQueue)
 final deleteQueueProvider = Provider<Queue>.internal(
   deleteQueue,
@@ -133,7 +137,7 @@ class DeleteCardProvider extends AutoDisposeProvider<void> {
   }
 }
 
-String _$undoDeleteCardHash() => r'c5ef35f0553b0ea174d0e7b42e3845bc07cb7955';
+String _$undoDeleteCardHash() => r'7790e1a3a3d0302a10ad356146cb2b3cea4064d7';
 typedef UndoDeleteCardRef = AutoDisposeProviderRef<void>;
 
 /// See also [undoDeleteCard].

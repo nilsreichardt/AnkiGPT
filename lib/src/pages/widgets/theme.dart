@@ -8,6 +8,9 @@ final ankigptTheme = ThemeData(
     centerTitle: true,
     backgroundColor: _colorScheme.inversePrimary,
   ),
+  snackBarTheme: const SnackBarThemeData(
+    behavior: SnackBarBehavior.floating,
+  ),
   pageTransitionsTheme: PageTransitionsTheme(
     builders: TargetPlatform.values.asMap().map(
           (key, value) => MapEntry(

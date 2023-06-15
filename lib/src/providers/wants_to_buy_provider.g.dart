@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'buy_provider.dart';
+part of 'wants_to_buy_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$buyHash() => r'd54f53a0d13734596aa22254426c6c98fc2fd119';
+String _$wantsToBuyHash() => r'd10a5a974e2a326db9f4c0070ff8972c162189ab';
 
-/// See also [buy].
-@ProviderFor(buy)
-final buyProvider = AutoDisposeFutureProvider<void>.internal(
-  buy,
-  name: r'buyProvider',
+/// See also [WantsToBuy].
+@ProviderFor(WantsToBuy)
+final wantsToBuyProvider = NotifierProvider<WantsToBuy, bool>.internal(
+  WantsToBuy.new,
+  name: r'wantsToBuyProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$buyHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$wantsToBuyHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef BuyRef = AutoDisposeFutureProviderRef<void>;
+typedef _$WantsToBuy = Notifier<bool>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

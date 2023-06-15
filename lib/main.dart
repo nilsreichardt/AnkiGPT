@@ -14,6 +14,7 @@ import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/app_bar_widgets.dart';
 import 'package:ankigpt/src/pages/widgets/card_feedback_dialog.dart';
+import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/history_section.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
@@ -27,6 +28,7 @@ import 'package:ankigpt/src/providers/controls_view_provider.dart';
 import 'package:ankigpt/src/providers/dislike_provider.dart';
 import 'package:ankigpt/src/providers/flavor_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
+import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:ankigpt/src/providers/like_provider.dart';
@@ -34,11 +36,14 @@ import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
+import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
+import 'package:confetti/confetti.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:logger/logger.dart';
@@ -108,13 +113,39 @@ class MyApp extends StatelessWidget {
       routes: {
         '/imprint': (context) => const ImprintPage(),
         '/account': (context) => const AccountPage(),
+        '/sucessful-plus-payment': (context) =>
+            const HomePage(hasSuccessfulPlusPayment: true),
       },
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({
+    super.key,
+    this.hasSuccessfulPlusPayment = false,
+  });
+
+  final bool hasSuccessfulPlusPayment;
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.hasSuccessfulPlusPayment) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (context) => const SuccessfulPlusPaymentDialog(),
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +163,72 @@ class HomePage extends StatelessWidget {
       ),
       bottomNavigationBar: const Footer(),
       body: const _Body(),
+    );
+  }
+}
+
+class SuccessfulPlusPaymentDialog extends StatefulWidget {
+  const SuccessfulPlusPaymentDialog({super.key});
+
+  @override
+  State<SuccessfulPlusPaymentDialog> createState() =>
+      _SuccessfulPlusPaymentDialogState();
+}
+
+class _SuccessfulPlusPaymentDialogState
+    extends State<SuccessfulPlusPaymentDialog> {
+  late ConfettiController confettiController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    confettiController = ConfettiController(
+      duration: const Duration(seconds: 6),
+    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      confettiController.play();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(
+                'assets/icons/diamond.svg',
+                height: 160,
+              ),
+              Text(
+                'Payment successful <3',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Thank you for your support!\n\nYou can now generate cards by just uploading a PDF file and generate up to 300 cards at once.\n\nAdditionally, you have now access to the premium support where you get answers to your questions within a few hours.',
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          ConfettiWidget(
+            confettiController: confettiController,
+            blastDirection: pi / 2,
+            blastDirectionality: BlastDirectionality.explosive,
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }
@@ -392,16 +489,65 @@ Lifetime: €9.99 (no subscription)'''),
           onPressed: () => Navigator.pop(context),
           child: const Text('CANCEL'),
         ),
-        TextButton(
-          onPressed: () async {
-            try {
-              await ref.read(buyProvider.future);
-            } on Exception catch (e, s) {
-              ref.read(loggerProvider).e('Could not buy Plus', e, s);
-            }
-          },
-          child: const Text('BUY'),
+        const _BuyButton(),
+      ],
+    );
+  }
+}
+
+class _BuyButton extends ConsumerStatefulWidget {
+  const _BuyButton();
+
+  @override
+  ConsumerState<_BuyButton> createState() => _BuyButtonState();
+}
+
+class _BuyButtonState extends ConsumerState<_BuyButton> {
+  bool isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasAccount = ref.watch(hasAccountProvider).value;
+    return Stack(
+      children: [
+        Opacity(
+          opacity: isLoading ? 0 : 1,
+          child: IgnorePointer(
+            ignoring: isLoading,
+            child: TextButton(
+              onPressed: () async {
+                setState(() {
+                  isLoading = true;
+                });
+
+                try {
+                  if (hasAccount == true) {
+                    await ref.read(buyProvider.future);
+                  } else {
+                    ref.read(wantsToBuyProvider.notifier).toggle();
+                    Navigator.pushNamed(context, '/account');
+                  }
+                } on Exception catch (e) {
+                  context.showTextSnackBar('Error while buying Plus: $e');
+                  Navigator.pop(context);
+                } finally {
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
+              },
+              child: const Text('BUY'),
+            ),
+          ),
         ),
+        Opacity(
+          opacity: isLoading ? 1 : 0,
+          child: const SizedBox(
+            height: 25,
+            width: 25,
+            child: CircularProgressIndicator(),
+          ),
+        )
       ],
     );
   }

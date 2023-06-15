@@ -837,78 +837,139 @@ class _Controls extends ConsumerWidget {
     final status = ref.watch(cardFeedbackStatusControllerProvider(cardId));
     final hasLiked = status == CardFeedbackStatus.liked;
     final hasDisliked = status == CardFeedbackStatus.disliked;
-    return Row(
-      children: [
-        if (hasLiked)
-          _UndoLikeButton(
-            cardId: cardId,
-            sessionId: sessionId,
+    return IconTheme(
+      data: Theme.of(context).iconTheme.copyWith(
+            size: 15,
           ),
-        if (hasDisliked)
-          _UndoDislikeButton(
+      child: Row(
+        children: [
+          _DeleteButton(
             cardId: cardId,
-            sessionId: sessionId,
+            isVisibile: isHovering,
+            randomNumber: randomNumber,
           ),
-        if (!hasDisliked && !hasLiked)
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 250),
-            child: Opacity(
-              key: ValueKey('$randomNumber + $isHovering'),
-              opacity: isHovering ? 1 : 0,
-              child: IgnorePointer(
-                ignoring: !isHovering,
-                child: Row(
-                  children: [
-                    IconButton(
-                      tooltip: 'Dislike, if this is a bad card.',
-                      iconSize: 15,
-                      onPressed: () {
-                        ref
-                            .read(cardFeedbackStatusControllerProvider(cardId)
-                                .notifier)
-                            .setStatus(CardFeedbackStatus.disliked);
-                        ref.read(
-                          dislikeCardProvider(
+          if (hasLiked)
+            _UndoLikeButton(
+              cardId: cardId,
+              sessionId: sessionId,
+            ),
+          if (hasDisliked)
+            _UndoDislikeButton(
+              cardId: cardId,
+              sessionId: sessionId,
+            ),
+          if (!hasDisliked && !hasLiked)
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              child: Opacity(
+                key: ValueKey('$randomNumber + $isHovering'),
+                opacity: isHovering ? 1 : 0,
+                child: IgnorePointer(
+                  ignoring: !isHovering,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        tooltip: 'Dislike, if this is a bad card.',
+                        onPressed: () {
+                          ref
+                              .read(cardFeedbackStatusControllerProvider(cardId)
+                                  .notifier)
+                              .setStatus(CardFeedbackStatus.disliked);
+                          ref.read(
+                            dislikeCardProvider(
+                              cardId: cardId,
+                              sessionId: sessionId,
+                            ),
+                          );
+                          showCardDislikeDialog(
+                            context,
                             cardId: cardId,
                             sessionId: sessionId,
-                          ),
-                        );
-                        showCardDislikeDialog(
-                          context,
-                          cardId: cardId,
-                          sessionId: sessionId,
-                        );
-                      },
-                      icon: const Icon(Icons.thumb_down),
-                    ),
-                    IconButton(
-                      tooltip: 'Like, if this is a good card.',
-                      iconSize: 15,
-                      onPressed: () {
-                        ref
-                            .read(cardFeedbackStatusControllerProvider(cardId)
-                                .notifier)
-                            .setStatus(CardFeedbackStatus.liked);
-                        ref.read(
-                          likeCardProvider(
-                            cardId: cardId,
+                          );
+                        },
+                        icon: const Icon(Icons.thumb_down),
+                      ),
+                      IconButton(
+                        tooltip: 'Like, if this is a good card.',
+                        onPressed: () {
+                          ref
+                              .read(cardFeedbackStatusControllerProvider(cardId)
+                                  .notifier)
+                              .setStatus(CardFeedbackStatus.liked);
+                          ref.read(
+                            likeCardProvider(
+                              cardId: cardId,
+                              sessionId: sessionId,
+                            ),
+                          );
+                          showCardLikeDialog(
+                            context,
                             sessionId: sessionId,
-                          ),
-                        );
-                        showCardLikeDialog(
-                          context,
-                          sessionId: sessionId,
-                          cardId: cardId,
-                        );
-                      },
-                      icon: const Icon(Icons.thumb_up),
-                    ),
-                  ],
+                            cardId: cardId,
+                          );
+                        },
+                        icon: const Icon(Icons.thumb_up),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          )
-      ],
+        ],
+      ),
+    );
+  }
+}
+
+class _DeleteButton extends ConsumerWidget {
+  const _DeleteButton({
+    required this.cardId,
+    required this.isVisibile,
+    required this.randomNumber,
+  });
+
+  final CardId cardId;
+  final bool isVisibile;
+  final int randomNumber;
+
+  void showSnackBar(BuildContext context, WidgetRef ref, AnkiCard? card) {
+    context.hideSnackBar();
+    context.showTextSnackBar(
+      'Card deleted.',
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          context.hideSnackBar();
+          ref
+              .read(generateNotifierProvider.notifier)
+              .restoreCard(cardId, card: card);
+          context.showTextSnackBar('Card restored.');
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 250),
+      child: Opacity(
+        key: ValueKey('$isVisibile + $randomNumber'),
+        opacity: isVisibile ? 1 : 0,
+        child: IgnorePointer(
+          ignoring: !isVisibile,
+          child: IconButton(
+            tooltip: 'Delete',
+            onPressed: () {
+              final card = ref
+                  .read(generateNotifierProvider.notifier)
+                  .deleteCard(cardId);
+              showSnackBar(context, ref, card);
+            },
+            icon: const Icon(Icons.delete),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -926,7 +987,6 @@ class _UndoLikeButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return IconButton(
       tooltip: 'Undo like',
-      iconSize: 15,
       onPressed: () {
         ref
             .read(cardFeedbackStatusControllerProvider(cardId).notifier)
@@ -951,7 +1011,6 @@ class _UndoDislikeButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return IconButton(
       tooltip: 'Undo dislike',
-      iconSize: 15,
       onPressed: () {
         ref
             .read(cardFeedbackStatusControllerProvider(cardId).notifier)

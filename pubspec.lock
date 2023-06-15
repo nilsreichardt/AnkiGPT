@@ -824,6 +824,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  queue:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: a535dcc522d7104c2719cc6f9c4d198c6501c443
+      resolved-ref: a535dcc522d7104c2719cc6f9c4d198c6501c443
+      url: "https://github.com/nilsreichardt/dart_queue"
+    source: git
+    version: "3.2.0"
   quiver:
     dependency: transitive
     description:

@@ -4,6 +4,7 @@ import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/infrastructure/session_repository.dart';
 import 'package:ankigpt/src/infrastructure/user_repository.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
+import 'package:ankigpt/src/models/card_id.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/models/input_type.dart';
 import 'package:ankigpt/src/models/language.dart';
@@ -11,6 +12,7 @@ import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
+import 'package:ankigpt/src/providers/delete_card_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
@@ -49,6 +51,9 @@ class GenerateNotifier extends _$GenerateNotifier {
   Future<void> submit({
     required CardGenrationSize size,
   }) async {
+    // Stopping subscription because it could be running when watch() has been called before.
+    _stopSubscription();
+
     _logger.d("Generating cards...");
 
     // state = GenerateState.success(
@@ -134,7 +139,7 @@ class GenerateNotifier extends _$GenerateNotifier {
         return;
       }
 
-      final cards = dto.cards?.values.toList() ?? [];
+      final cards = (dto.cards?.values.toList() ?? [])..sortByCreatedAt();
       if (dto.status == SessionStatus.completed) {
         _stopSubscription();
         state = GenerateState.success(
@@ -199,9 +204,127 @@ class GenerateNotifier extends _$GenerateNotifier {
     return id;
   }
 
+  AnkiCard? deleteCard(CardId cardId) {
+    _logger.d("Delete card with id: $cardId");
+
+    final sessionId = state.maybeMap(
+      success: (s) => s.sessionId,
+      loading: (s) => s.sessionId,
+      orElse: () => null,
+    );
+    if (sessionId == null) {
+      throw Exception("Session id is null");
+    }
+
+    final cardToDelete = state.maybeMap(
+      success: (s) => s.generatedCards.firstWhere((c) => c.id == cardId),
+      orElse: () => null,
+    );
+    state = GenerateState.loading(
+      sessionId: sessionId,
+      alreadyGeneratedCards: state.maybeMap(
+        success: (s) => s.generatedCards.where((c) => c.id != cardId).toList(),
+        orElse: () => [],
+      ),
+    );
+    ref.read(deleteCardProvider(cardId: cardId, sessionId: sessionId));
+    return cardToDelete;
+  }
+
+  void restoreCard(CardId cardId, {AnkiCard? card}) {
+    _logger.d("Restoring card with id: $cardId");
+
+    final sessionId = state.maybeMap(
+      success: (s) => s.sessionId,
+      loading: (s) => s.sessionId,
+      orElse: () => null,
+    );
+    if (sessionId == null) {
+      return;
+    }
+
+    final cards = state.maybeMap(
+      success: (s) => s.generatedCards,
+      loading: (s) => s.alreadyGeneratedCards,
+      orElse: () => <AnkiCard>[],
+    );
+    state = GenerateState.loading(
+      sessionId: sessionId,
+      alreadyGeneratedCards: [
+        ...cards,
+        if (card != null) card,
+      ]..sortByCreatedAt(),
+    );
+    ref.read(undoDeleteCardProvider(cardId: cardId, sessionId: sessionId));
+  }
+
   void _stopSubscription() {
-    _logger.d("Stopping subscription for generating cards...");
-    _subscription?.cancel();
+    if (_subscription != null) {
+      _logger.d("Stopping subscription for generating cards...");
+      _subscription?.cancel();
+    }
+  }
+
+  void watch({
+    required String sessionId,
+    WatchData? data,
+  }) {
+    if (data == null) {
+      state = const GenerateState.loading();
+      return;
+    } else {
+      state = GenerateState.success(
+        sessionId: sessionId,
+        generatedCards: data.cards,
+        downloadUrl: data.downloadUrl,
+        language: data.language,
+      );
+    }
+
+    _subscription = _firestore
+        .collection('Sessions')
+        .doc(sessionId)
+        .withConverter(
+          fromFirestore: (doc, options) =>
+              SessionDto.fromJsonWithInjectedId(sessionId, doc.data()!),
+          toFirestore: (_, __) => throw UnimplementedError(),
+        )
+        .snapshots()
+        .listen((event) {
+      final dto = event.data();
+      if (dto == null) {
+        return;
+      }
+
+      _logger.d("Received session dto with ${dto.cards?.length} cards");
+
+      final cards = (dto.cards?.values.toList() ?? [])..sortByCreatedAt();
+      if (dto.csv == null) {
+        state = GenerateState.loading(
+          sessionId: sessionId,
+          alreadyGeneratedCards: cards,
+          language: dto.language,
+        );
+        return;
+      }
+
+      if (dto.status == SessionStatus.error) {
+        _stopSubscription();
+        state = GenerateState.error(
+          message: dto.error!,
+          sessionId: sessionId,
+          language: dto.language,
+        );
+        return;
+      }
+
+      state = GenerateState.success(
+        sessionId: sessionId,
+        generatedCards: cards,
+        downloadUrl: dto.csv!.downloadUrl,
+        language: dto.language,
+      );
+    });
   }
 
   void setSuccess({
@@ -246,6 +369,18 @@ class GenerateNotifier extends _$GenerateNotifier {
   }
 }
 
+class WatchData {
+  final List<AnkiCard> cards;
+  final String downloadUrl;
+  final Language language;
+
+  const WatchData({
+    required this.cards,
+    required this.downloadUrl,
+    required this.language,
+  });
+}
+
 class TooShortInputException implements Exception {}
 
 class TooLongInputException implements Exception {}
@@ -261,5 +396,18 @@ class PickedFile extends _$PickedFile {
 
   void set(PlatformFile? value) {
     state = value;
+  }
+}
+
+extension on List<AnkiCard> {
+  void sortByCreatedAt() {
+    // Sort first by createdAt than by id. This way we can ensure that the order is always the same.
+    sort((a, b) {
+      final createdAtComparison = a.createdAt.compareTo(b.createdAt);
+      if (createdAtComparison != 0) {
+        return createdAtComparison;
+      }
+      return a.id.compareTo(b.id);
+    });
   }
 }

@@ -414,7 +414,7 @@ class _ManageBills extends ConsumerWidget {
         }
       },
       icon: const Icon(Icons.payment),
-      title: const Text('Payment History'),
+      title: const Text('Payment history'),
     );
   }
 }

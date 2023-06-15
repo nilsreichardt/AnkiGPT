@@ -31,6 +31,6 @@ class StripeCheckout extends _$StripeCheckout {
     final uri = Uri.parse(url);
 
     reset();
-    await launchUrl(uri);
+    await launchUrl(uri, webOnlyWindowName: '_self');
   }
 }

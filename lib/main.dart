@@ -380,23 +380,12 @@ Lifetime: €9.99 (no subscription)'''),
           child: const Text('CANCEL'),
         ),
         TextButton(
-          onPressed: () {
-            final parameters = <String, String>{
-              'subject': '💎 AnkiGPT Plus',
-              'body':
-                  'Hey!\n\nI would like to buy AnkiGPT Plus for €9.99.\n\nBest regards'
-            };
-            final mailto = Uri(
-              scheme: 'mailto',
-              path: 'support@ankigpt.wtf',
-              query: parameters.entries
-                  .map((e) =>
-                      '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-                  .join('&'),
-            );
-            launchUrl(mailto);
-
-            ref.read(buyProvider);
+          onPressed: () async {
+            try {
+              await ref.read(buyProvider.future);
+            } on Exception catch (e, s) {
+              ref.read(loggerProvider).e('Could not buy Plus', e, s);
+            }
           },
           child: const Text('BUY'),
         ),

@@ -19,6 +19,11 @@
         "type": 302
       },
       {
+        "source": "/terms",
+        "destination": "https://firebasestorage.googleapis.com/v0/b/storage.ankigpt.wtf/o/assets%2Fterms_of_service_en.pdf?alt=media&token=0662172c-34e8-4c90-a0e7-402d1edca458",
+        "type": 302
+      },
+      {
         "source": "/support",
         "destination": "https://wa.me/4915229504121",
         "type": 302

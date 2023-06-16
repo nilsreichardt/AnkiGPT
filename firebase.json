@@ -27,6 +27,11 @@
         "source": "/support",
         "destination": "https://wa.me/4915229504121",
         "type": 302
+      },
+      {
+        "source": "/whatsapp-newsletter",
+        "destination": "https://wa.me/4915229504121?text=Hey%21%0A%0AI%20would%20like%20to%20sign%20up%20for%20the%20AnkiGPT%20newsletter%20to%20stay%20informed%20about%20new%20updates%20%3A%29%0AI%27m%20aware%20that%20I%20can%20stop%20receiving%20the%20newsletter%20by%20sending%20the%20message%20%22STOP%22.%0A%0ABest%20regards%2C",
+        "type": 302
       }
     ]
   }

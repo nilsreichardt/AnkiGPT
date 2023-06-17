@@ -787,6 +787,11 @@ class _SearchBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(generateNotifierProvider);
+    if (state is GenerationStateError) {
+      return const SizedBox.shrink();
+    }
+
     return AnkiGptCard(
       color: Colors.grey,
       padding: const EdgeInsets.fromLTRB(16, 6, 12, 6),

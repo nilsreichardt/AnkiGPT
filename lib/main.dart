@@ -631,12 +631,18 @@ class Results extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             state.maybeWhen(
-              error: (_, __, ___, language) =>
-                  _LanguageText(language: language),
-              success: (_, __, ___, language) =>
-                  _LanguageText(language: language),
-              loading: (_, ___, language, ____) =>
-                  _LanguageText(language: language),
+              error: (_, __, cards, language) => _Subtitle(
+                language: language,
+                numberOfCards: cards.length,
+              ),
+              success: (_, cards, ___, language) => _Subtitle(
+                language: language,
+                numberOfCards: cards.length,
+              ),
+              loading: (_, cards, language, ____) => _Subtitle(
+                language: language,
+                numberOfCards: cards.length,
+              ),
               orElse: () => const SizedBox.shrink(),
             ),
             state.maybeWhen(
@@ -1108,17 +1114,23 @@ class Tutorial extends StatelessWidget {
   }
 }
 
-class _LanguageText extends StatelessWidget {
-  const _LanguageText({required this.language});
+class _Subtitle extends StatelessWidget {
+  const _Subtitle({
+    required this.language,
+    required this.numberOfCards,
+  });
 
   final Language? language;
+
+  /// The number of cards that have been generated.
+  final int numberOfCards;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Text(
-        'Detected language: ${language == null ? '...' : language!.getDisplayName()}',
+        'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $numberOfCards cards generated',
         style: TextStyle(color: Colors.grey[500]),
       ),
     );

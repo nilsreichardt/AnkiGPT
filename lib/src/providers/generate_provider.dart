@@ -14,7 +14,7 @@ import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/delete_card_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
-import 'package:ankigpt/src/providers/is_searching_provider.dart';
+import 'package:ankigpt/src/providers/is_search_loading_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/search_text_field_controller.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
@@ -41,6 +41,8 @@ class GenerateNotifier extends _$GenerateNotifier {
       ref.read(sessionRepositoryProvider);
   bool get _hasPlus => ref.read(hasPlusProvider);
   FirebaseFirestore get _firestore => FirebaseFirestore.instance;
+  bool get _isSearching =>
+      ref.read(searchTextFieldControllerProvider).text.isNotEmpty;
 
   StreamSubscription<DocumentSnapshot<SessionDto>>? _subscription;
   PlatformFile? _pickedFile;
@@ -148,7 +150,10 @@ class GenerateNotifier extends _$GenerateNotifier {
       _localCards = cards;
 
       if (dto.status == SessionStatus.completed) {
-        _stopSubscription();
+        if (_isSearching) {
+          return;
+        }
+
         state = GenerateState.success(
           sessionId: sessionId!,
           generatedCards: cards,
@@ -188,17 +193,12 @@ class GenerateNotifier extends _$GenerateNotifier {
       return;
     }
 
-    ref.read(isSearchingProvider.notifier).set(true);
+    ref.read(isSearchLoadingProvider.notifier).set(true);
     const debounceDuration = Duration(milliseconds: 1000);
     EasyDebounce.debounce('search', debounceDuration, () async {
-      final cards = state.maybeMap(
-        success: (state) => state.generatedCards,
-        orElse: () => null,
-      )!;
-
       _logger.d("Searching for: $query");
 
-      final filteredCards = await compute(_makeSearch, (cards, query));
+      final filteredCards = await compute(_makeSearch, (_localCards, query));
 
       final sessionId = state.maybeMap(
         success: (state) => state.sessionId,
@@ -219,7 +219,7 @@ class GenerateNotifier extends _$GenerateNotifier {
         language: language,
         downloadUrl: downloadUrl,
       );
-      ref.read(isSearchingProvider.notifier).set(false);
+      ref.read(isSearchLoadingProvider.notifier).set(false);
     });
   }
 
@@ -247,7 +247,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     );
 
     ref.read(searchTextFieldControllerProvider).text = '';
-    ref.read(isSearchingProvider.notifier).set(false);
+    ref.read(isSearchLoadingProvider.notifier).set(false);
     EasyDebounce.cancel('search');
   }
 
@@ -375,6 +375,10 @@ class GenerateNotifier extends _$GenerateNotifier {
 
       final cards = (dto.cards?.values.toList() ?? [])..sortByCreatedAt();
       _localCards = cards;
+
+      if (_isSearching) {
+        return;
+      }
 
       if (dto.csv == null) {
         state = GenerateState.loading(

@@ -1,9 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'is_searching_provider.g.dart';
+part 'is_search_loading_provider.g.dart';
 
 @riverpod
-class IsSearching extends _$IsSearching {
+class IsSearchLoading extends _$IsSearchLoading {
   @override
   bool build() {
     return false;

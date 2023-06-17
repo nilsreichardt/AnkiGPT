@@ -1,7 +1,7 @@
 import 'package:ankigpt/src/models/controls_view.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
-import 'package:ankigpt/src/providers/is_searching_provider.dart';
+import 'package:ankigpt/src/providers/is_search_loading_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'controls_view_provider.g.dart';
@@ -9,7 +9,7 @@ part 'controls_view_provider.g.dart';
 @riverpod
 ControlsView controlsView(ControlsViewRef ref) {
   final generateState = ref.watch(generateNotifierProvider);
-  final isSearching = ref.watch(isSearchingProvider);
+  final isSearching = ref.watch(isSearchLoadingProvider);
   return generateState.maybeMap<ControlsView>(
     success: (_) => ControlsView(
       isGeneratedButtonEnabled: true,

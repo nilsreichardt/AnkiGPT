@@ -102,12 +102,13 @@ class _CreatedHistoryDeck extends ConsumerWidget {
       name: name,
       onTap: () {
         ref.read(generateNotifierProvider.notifier).watch(
-            sessionId: dto.id,
-            data: WatchData(
-              cards: dto.cards?.values.toList() ?? [],
-              downloadUrl: dto.csv!.downloadUrl,
-              language: dto.language!,
-            ));
+              sessionId: dto.id,
+              data: WatchData(
+                cards: dto.cards?.values.toList() ?? [],
+                downloadUrl: dto.csv!.downloadUrl,
+                language: dto.language!,
+              ),
+            );
       },
       createdAt: createdAt,
       body: Column(

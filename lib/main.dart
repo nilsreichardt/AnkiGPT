@@ -12,6 +12,7 @@ import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/account_page.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
+import 'package:ankigpt/src/pages/session_page.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/app_bar_widgets.dart';
 import 'package:ankigpt/src/pages/widgets/card_feedback_dialog.dart';
@@ -112,6 +113,16 @@ class MyApp extends StatelessWidget {
       theme: ankigptTheme,
       home: const HomePage(),
       debugShowCheckedModeBanner: false,
+      onGenerateRoute: (settings) {
+        if (settings.name?.startsWith('/session/') ?? false) {
+          final sessionId = settings.name!.split('/').last;
+          return MaterialPageRoute(
+            builder: (context) => SessionPage(sessionId: sessionId),
+          );
+        }
+
+        return null;
+      },
       routes: {
         '/imprint': (context) => const ImprintPage(),
         '/account': (context) => const AccountPage(),
@@ -581,7 +592,7 @@ class ErrorText extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MarkdownBody(
       data:
-          'Error while generating ("$text"). Please retry or contact [support](https://wa.me/4915229504121).',
+          'Error: ("$text"). Please retry or contact [support](https://wa.me/4915229504121).',
       styleSheet: MarkdownStyleSheet(
         p: TextStyle(color: Theme.of(context).colorScheme.error),
       ),
@@ -635,7 +646,7 @@ class Results extends ConsumerWidget {
                           sessionId: sessionId,
                           cards: cards,
                         ),
-              error: (sessionId, error, cards, language) => Column(
+              error: (error, sessionId, cards, language) => Column(
                 children: [
                   ErrorText(text: error),
                   const SizedBox(height: 12),

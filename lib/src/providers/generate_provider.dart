@@ -271,7 +271,6 @@ class GenerateNotifier extends _$GenerateNotifier {
   }) {
     if (data == null) {
       state = const GenerateState.loading();
-      return;
     } else {
       state = GenerateState.success(
         sessionId: sessionId,
@@ -323,6 +322,13 @@ class GenerateNotifier extends _$GenerateNotifier {
         generatedCards: cards,
         downloadUrl: dto.csv!.downloadUrl,
         language: dto.language,
+      );
+    }, onError: (e) {
+      _stopSubscription();
+      _logger.e("Error while listening to session", e);
+      state = GenerateState.error(
+        message: 'Error while listening to session: $e',
+        sessionId: sessionId,
       );
     });
   }

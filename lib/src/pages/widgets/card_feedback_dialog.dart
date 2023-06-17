@@ -17,7 +17,7 @@ Future<void> showCardLikeDialog(
       cardId: cardId,
       sessionId: sessionId,
     ),
-    routeSettings: const RouteSettings(name: 'card-like-dialog'),
+    routeSettings: const RouteSettings(name: '/card-like-dialog'),
   );
 }
 
@@ -32,7 +32,7 @@ Future<void> showCardDislikeDialog(
       cardId: cardId,
       sessionId: sessionId,
     ),
-    routeSettings: const RouteSettings(name: 'card-dislike-dialog'),
+    routeSettings: const RouteSettings(name: '/card-dislike-dialog'),
   );
 }
 

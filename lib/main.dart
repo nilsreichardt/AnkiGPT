@@ -340,10 +340,7 @@ class _UploadFileButton extends ConsumerWidget {
       onTap: () {
         final hasPlus = ref.read(hasPlusProvider);
         if (!hasPlus) {
-          showDialog(
-            context: context,
-            builder: (context) => const PlusDialog(),
-          );
+          showPlusDialog(context);
           return;
         }
 
@@ -391,10 +388,7 @@ class _PickedFileButton extends ConsumerWidget {
             : () {
                 final hasPlus = ref.read(hasPlusProvider);
                 if (!hasPlus) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => const PlusDialog(),
-                  );
+                  showPlusDialog(context);
                   return;
                 }
 
@@ -483,6 +477,14 @@ class PlusBadge extends StatelessWidget {
       ),
     );
   }
+}
+
+void showPlusDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => const PlusDialog(),
+    routeSettings: const RouteSettings(name: '/plus'),
+  );
 }
 
 class PlusDialog extends ConsumerWidget {
@@ -1300,10 +1302,7 @@ class Select extends ConsumerWidget {
         onChanged: (v) {
           if (v != null) {
             if (!hasPlus && v.isPlus()) {
-              showDialog(
-                context: context,
-                builder: (_) => const PlusDialog(),
-              );
+              showPlusDialog(context);
             }
 
             ref.read(generationSizeProvider.notifier).set(v);
@@ -1342,10 +1341,7 @@ class GenerateButton extends ConsumerWidget {
                         .submit(size: size);
                   } catch (e) {
                     if (e is PlusMembershipRequiredException) {
-                      showDialog(
-                        context: context,
-                        builder: (_) => const PlusDialog(),
-                      );
+                      showPlusDialog(context);
                       return;
                     }
 

@@ -81,10 +81,7 @@ class _BuyPlusCard extends StatelessWidget {
       padding: const EdgeInsets.only(top: 12),
       child: InkWell(
         borderRadius: defaultAnkiGptBorderRadius,
-        onTap: () => showDialog(
-          context: context,
-          builder: (_) => const PlusDialog(),
-        ),
+        onTap: () => showPlusDialog(context),
         child: const AnkiGptCard(
           padding: EdgeInsets.all(8),
           child: ListTile(

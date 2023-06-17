@@ -37,6 +37,7 @@ import 'package:ankigpt/src/providers/like_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
+import 'package:ankigpt/src/providers/search_text_field_controller.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
@@ -717,7 +718,40 @@ class _LoadingCards extends StatelessWidget {
   }
 }
 
-class _ResultList extends StatelessWidget {
+class _SearchBar extends ConsumerWidget {
+  const _SearchBar();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AnkiGptCard(
+      color: Colors.grey,
+      padding: const EdgeInsets.fromLTRB(16, 6, 12, 6),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: ref.read(searchTextFieldControllerProvider),
+              onChanged: ref.read(generateNotifierProvider.notifier).search,
+              decoration: const InputDecoration(
+                hintText:
+                    "Search to ensure AI hasn't overlooked key topics in your flashcards",
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          IconButton(
+            onPressed: () =>
+                ref.read(generateNotifierProvider.notifier).clearSearch(),
+            icon: const Icon(Icons.close),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ResultList extends ConsumerWidget {
   const _ResultList({
     Key? key,
     required this.cards,
@@ -727,33 +761,67 @@ class _ResultList extends StatelessWidget {
   final SessionId? sessionId;
   final List<AnkiCard> cards;
 
+  void showDeleteSnackBar(
+      BuildContext context, WidgetRef ref, CardId cardId, AnkiCard? card) {
+    context.hideSnackBar();
+    context.showTextSnackBar(
+      'Card deleted.',
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          ref
+              .read(generateNotifierProvider.notifier)
+              .restoreCard(cardId, card: card);
+          context.hideSnackBar();
+          context.showTextSnackBar('Card restored.');
+        },
+      ),
+    );
+  }
+
+  void deleteCard(BuildContext context, WidgetRef ref, CardId cardId) {
+    final card = ref.read(generateNotifierProvider.notifier).deleteCard(cardId);
+    showDeleteSnackBar(context, ref, cardId, card);
+  }
+
   @override
-  Widget build(BuildContext context) {
-    return SelectionArea(
-      child: AnimationLimiter(
-        // We don't use cards.length as key because we don't want to animate all
-        // cards when the list changes.
-        key: ValueKey(cards.isEmpty),
-        child: Column(
-          children: AnimationConfiguration.toStaggeredList(
-            duration: const Duration(milliseconds: 375),
-            childAnimationBuilder: (widget) => SlideAnimation(
-              verticalOffset: 20,
-              child: FadeInAnimation(child: widget),
-            ),
-            children: [
-              for (final card in cards)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: ResultCard(
-                    card: card,
-                    sessionId: sessionId!,
-                  ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        const _SearchBar(),
+        const SizedBox(height: 12),
+        SelectionArea(
+          child: AnimationLimiter(
+            // We don't use cards.length as key because we don't want to animate all
+            // cards when the list changes.
+            key: ValueKey(cards.isEmpty),
+            child: Column(
+              children: AnimationConfiguration.toStaggeredList(
+                duration: const Duration(milliseconds: 375),
+                childAnimationBuilder: (widget) => SlideAnimation(
+                  verticalOffset: 20,
+                  child: FadeInAnimation(child: widget),
                 ),
-            ],
+                children: [
+                  for (final card in cards)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: ResultCard(
+                        card: card,
+                        sessionId: sessionId!,
+                        onDeleted: (cardId) {
+                          // We need to make the delete call at this position in the widget tree because a call in the
+                          // card would lead to an error when the presses the undo button.
+                          deleteCard(context, ref, cardId);
+                        },
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -763,10 +831,12 @@ class ResultCard extends ConsumerStatefulWidget {
     Key? key,
     required this.card,
     required this.sessionId,
+    required this.onDeleted,
   }) : super(key: key);
 
   final AnkiCard card;
   final SessionId sessionId;
+  final ValueChanged<CardId> onDeleted;
 
   @override
   ConsumerState<ResultCard> createState() => _ResultCardState();
@@ -815,6 +885,7 @@ class _ResultCardState extends ConsumerState<ResultCard> {
                     cardId: widget.card.id,
                     randomNumber: randomNumber,
                     sessionId: widget.sessionId,
+                    onDeleted: widget.onDeleted,
                   )
                 ],
               ),
@@ -836,16 +907,19 @@ class _Controls extends ConsumerWidget {
     required this.cardId,
     required this.randomNumber,
     required this.sessionId,
+    required this.onDeleted,
   });
 
   final bool isHovering;
   final CardId cardId;
   final SessionId sessionId;
   final int randomNumber;
+  final ValueChanged<CardId> onDeleted;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final status = ref.watch(cardFeedbackStatusControllerProvider(cardId));
+    final status = ref.watch(cardFeedbackStatusControllerProvider)[cardId] ??
+        CardFeedbackStatus.notReviewed;
     final hasLiked = status == CardFeedbackStatus.liked;
     final hasDisliked = status == CardFeedbackStatus.disliked;
     return IconTheme(
@@ -858,6 +932,7 @@ class _Controls extends ConsumerWidget {
             cardId: cardId,
             isVisibile: isHovering,
             randomNumber: randomNumber,
+            onDeleted: onDeleted,
           ),
           if (hasLiked)
             _UndoLikeButton(
@@ -883,9 +958,9 @@ class _Controls extends ConsumerWidget {
                         tooltip: 'Dislike, if this is a bad card.',
                         onPressed: () {
                           ref
-                              .read(cardFeedbackStatusControllerProvider(cardId)
-                                  .notifier)
-                              .setStatus(CardFeedbackStatus.disliked);
+                              .read(
+                                  cardFeedbackStatusControllerProvider.notifier)
+                              .setStatus(cardId, CardFeedbackStatus.disliked);
                           ref.read(
                             dislikeCardProvider(
                               cardId: cardId,
@@ -904,9 +979,9 @@ class _Controls extends ConsumerWidget {
                         tooltip: 'Like, if this is a good card.',
                         onPressed: () {
                           ref
-                              .read(cardFeedbackStatusControllerProvider(cardId)
-                                  .notifier)
-                              .setStatus(CardFeedbackStatus.liked);
+                              .read(
+                                  cardFeedbackStatusControllerProvider.notifier)
+                              .setStatus(cardId, CardFeedbackStatus.liked);
                           ref.read(
                             likeCardProvider(
                               cardId: cardId,
@@ -937,28 +1012,13 @@ class _DeleteButton extends ConsumerWidget {
     required this.cardId,
     required this.isVisibile,
     required this.randomNumber,
+    required this.onDeleted,
   });
 
   final CardId cardId;
   final bool isVisibile;
   final int randomNumber;
-
-  void showSnackBar(BuildContext context, WidgetRef ref, AnkiCard? card) {
-    context.hideSnackBar();
-    context.showTextSnackBar(
-      'Card deleted.',
-      action: SnackBarAction(
-        label: 'Undo',
-        onPressed: () {
-          context.hideSnackBar();
-          ref
-              .read(generateNotifierProvider.notifier)
-              .restoreCard(cardId, card: card);
-          context.showTextSnackBar('Card restored.');
-        },
-      ),
-    );
-  }
+  final ValueChanged<CardId> onDeleted;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -971,12 +1031,7 @@ class _DeleteButton extends ConsumerWidget {
           ignoring: !isVisibile,
           child: IconButton(
             tooltip: 'Delete',
-            onPressed: () {
-              final card = ref
-                  .read(generateNotifierProvider.notifier)
-                  .deleteCard(cardId);
-              showSnackBar(context, ref, card);
-            },
+            onPressed: () => onDeleted(cardId),
             icon: const Icon(Icons.delete),
           ),
         ),
@@ -1000,8 +1055,8 @@ class _UndoLikeButton extends ConsumerWidget {
       tooltip: 'Undo like',
       onPressed: () {
         ref
-            .read(cardFeedbackStatusControllerProvider(cardId).notifier)
-            .setStatus(CardFeedbackStatus.notReviewed);
+            .read(cardFeedbackStatusControllerProvider.notifier)
+            .setStatus(cardId, CardFeedbackStatus.notReviewed);
         ref.read(undoLikeCardProvider(cardId: cardId, sessionId: sessionId));
       },
       icon: const Icon(Icons.thumb_up),
@@ -1024,8 +1079,8 @@ class _UndoDislikeButton extends ConsumerWidget {
       tooltip: 'Undo dislike',
       onPressed: () {
         ref
-            .read(cardFeedbackStatusControllerProvider(cardId).notifier)
-            .setStatus(CardFeedbackStatus.notReviewed);
+            .read(cardFeedbackStatusControllerProvider.notifier)
+            .setStatus(cardId, CardFeedbackStatus.notReviewed);
         ref.read(undoDislikeCardProvider(cardId: cardId, sessionId: sessionId));
       },
       icon: const Icon(Icons.thumb_down),

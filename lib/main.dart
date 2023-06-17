@@ -120,6 +120,8 @@ class MyApp extends StatelessWidget {
             builder: (context) => SessionPage(sessionId: sessionId),
           );
         }
+
+        return null;
       },
       routes: {
         '/imprint': (context) => const ImprintPage(),

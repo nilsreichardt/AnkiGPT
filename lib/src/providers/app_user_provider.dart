@@ -8,7 +8,7 @@ part 'app_user_provider.g.dart';
 @riverpod
 Stream<AppUser?> appUser(AppUserRef ref) {
   final userId = ref.watch(userIdProvider);
-  if (userId == null) return const Stream.empty();
+  if (userId == null) return Stream.value(null);
 
   final firestore = ref.watch(cloudFirestoreProvider);
   return firestore.doc('Users/$userId').snapshots().map((snapshot) {

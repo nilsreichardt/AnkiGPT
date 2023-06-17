@@ -1189,6 +1189,7 @@ enum CardGenrationSize {
   twenty,
   fifty,
   hundred,
+  hunderFifty,
   twoHundred,
   threeHundred;
 
@@ -1204,6 +1205,8 @@ enum CardGenrationSize {
         return 50;
       case CardGenrationSize.hundred:
         return 100;
+      case CardGenrationSize.hunderFifty:
+        return 150;
       case CardGenrationSize.twoHundred:
         return 200;
       case CardGenrationSize.threeHundred:
@@ -1224,13 +1227,15 @@ enum CardGenrationSize {
       case CardGenrationSize.twenty:
         return '~ 1 - 2 min';
       case CardGenrationSize.fifty:
-        return '~ 1 - 2 min';
+        return '~ 2 min';
       case CardGenrationSize.hundred:
-        return '~ 1 - 2 min';
+        return '~ 2 min';
+      case CardGenrationSize.hunderFifty:
+        return '~ 2 min';
       case CardGenrationSize.twoHundred:
-        return '~ 1 - 2 min';
+        return '~ 2 min';
       case CardGenrationSize.threeHundred:
-        return '~ 1 - 2 min';
+        return '~ 2 min';
     }
   }
 
@@ -1238,6 +1243,7 @@ enum CardGenrationSize {
     switch (this) {
       case CardGenrationSize.fifty:
       case CardGenrationSize.hundred:
+      case CardGenrationSize.hunderFifty:
       case CardGenrationSize.twoHundred:
       case CardGenrationSize.threeHundred:
         return true;
@@ -1251,6 +1257,7 @@ enum CardGenrationSize {
       case CardGenrationSize.twenty:
       case CardGenrationSize.fifty:
       case CardGenrationSize.hundred:
+      case CardGenrationSize.hunderFifty:
       case CardGenrationSize.twoHundred:
       case CardGenrationSize.threeHundred:
         return true;

@@ -37,6 +37,7 @@ import 'package:ankigpt/src/providers/like_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
+import 'package:ankigpt/src/providers/search_text_field_controller.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
@@ -717,6 +718,39 @@ class _LoadingCards extends StatelessWidget {
   }
 }
 
+class _SearchBar extends ConsumerWidget {
+  const _SearchBar();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AnkiGptCard(
+      color: Colors.grey,
+      padding: const EdgeInsets.fromLTRB(16, 6, 12, 6),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: ref.read(searchTextFieldControllerProvider),
+              onChanged: ref.read(generateNotifierProvider.notifier).search,
+              decoration: const InputDecoration(
+                hintText:
+                    "Search to ensure AI hasn't overlooked key topics in your flashcards",
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          IconButton(
+            onPressed: () =>
+                ref.read(generateNotifierProvider.notifier).resetSearch(),
+            icon: const Icon(Icons.close),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _ResultList extends StatelessWidget {
   const _ResultList({
     Key? key,
@@ -729,31 +763,38 @@ class _ResultList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SelectionArea(
-      child: AnimationLimiter(
-        // We don't use cards.length as key because we don't want to animate all
-        // cards when the list changes.
-        key: ValueKey(cards.isEmpty),
-        child: Column(
-          children: AnimationConfiguration.toStaggeredList(
-            duration: const Duration(milliseconds: 375),
-            childAnimationBuilder: (widget) => SlideAnimation(
-              verticalOffset: 20,
-              child: FadeInAnimation(child: widget),
-            ),
-            children: [
-              for (final card in cards)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: ResultCard(
-                    card: card,
-                    sessionId: sessionId!,
-                  ),
+    return Column(
+      children: [
+        const _SearchBar(),
+        const SizedBox(height: 12),
+        SelectionArea(
+          key: ValueKey(cards.hashCode),
+          child: AnimationLimiter(
+            // We don't use cards.length as key because we don't want to animate all
+            // cards when the list changes.
+            key: ValueKey(cards.isEmpty),
+            child: Column(
+              children: AnimationConfiguration.toStaggeredList(
+                duration: const Duration(milliseconds: 375),
+                childAnimationBuilder: (widget) => SlideAnimation(
+                  verticalOffset: 20,
+                  child: FadeInAnimation(child: widget),
                 ),
-            ],
+                children: [
+                  for (final card in cards)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: ResultCard(
+                        card: card,
+                        sessionId: sessionId!,
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

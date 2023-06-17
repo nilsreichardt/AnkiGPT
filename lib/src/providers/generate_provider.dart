@@ -14,12 +14,16 @@ import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/delete_card_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/is_searching_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
+import 'package:ankigpt/src/providers/search_text_field_controller.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -41,6 +45,7 @@ class GenerateNotifier extends _$GenerateNotifier {
   StreamSubscription<DocumentSnapshot<SessionDto>>? _subscription;
   PlatformFile? _pickedFile;
   bool get _hasPickedFile => _pickedFile != null;
+  List<AnkiCard> _localCards = [];
 
   @override
   GenerateState build() {
@@ -140,6 +145,8 @@ class GenerateNotifier extends _$GenerateNotifier {
       }
 
       final cards = (dto.cards?.values.toList() ?? [])..sortByCreatedAt();
+      _localCards = cards;
+
       if (dto.status == SessionStatus.completed) {
         _stopSubscription();
         state = GenerateState.success(
@@ -173,6 +180,75 @@ class GenerateNotifier extends _$GenerateNotifier {
     if (text.length > 10000) {
       throw TooLongInputException();
     }
+  }
+
+  void search(String query) {
+    if (query.isEmpty) {
+      resetSearch();
+      return;
+    }
+
+    ref.read(isSearchingProvider.notifier).set(true);
+    const debounceDuration = Duration(milliseconds: 1000);
+    EasyDebounce.debounce('search', debounceDuration, () async {
+      final cards = state.maybeMap(
+        success: (state) => state.generatedCards,
+        orElse: () => null,
+      )!;
+
+      _logger.d("Searching for: $query");
+
+      final filteredCards = await compute(_makeSearch, (cards, query));
+
+      final sessionId = state.maybeMap(
+        success: (state) => state.sessionId,
+        orElse: () => null,
+      )!;
+      final language = state.maybeMap(
+        success: (state) => state.language,
+        orElse: () => null,
+      );
+      final downloadUrl = state.maybeMap(
+        success: (state) => state.downloadUrl,
+        orElse: () => null,
+      );
+
+      state = GenerateState.success(
+        sessionId: sessionId,
+        generatedCards: filteredCards,
+        language: language,
+        downloadUrl: downloadUrl,
+      );
+      ref.read(isSearchingProvider.notifier).set(false);
+    });
+  }
+
+  void resetSearch() {
+    _logger.d("Resetting search");
+
+    final sessionId = state.maybeMap(
+      success: (state) => state.sessionId,
+      orElse: () => null,
+    )!;
+    final language = state.maybeMap(
+      success: (state) => state.language,
+      orElse: () => null,
+    );
+    final downloadUrl = state.maybeMap(
+      success: (state) => state.downloadUrl,
+      orElse: () => null,
+    );
+
+    state = GenerateState.success(
+      sessionId: sessionId,
+      generatedCards: _localCards,
+      language: language,
+      downloadUrl: downloadUrl,
+    );
+
+    ref.read(searchTextFieldControllerProvider).text = '';
+    ref.read(isSearchingProvider.notifier).set(false);
+    EasyDebounce.cancel('search');
   }
 
   Future<bool> _uploadFile({
@@ -216,17 +292,17 @@ class GenerateNotifier extends _$GenerateNotifier {
       throw Exception("Session id is null");
     }
 
-    final cardToDelete = state.maybeMap(
-      success: (s) => s.generatedCards.firstWhere((c) => c.id == cardId),
-      orElse: () => null,
+    final cards = state.maybeMap(
+      success: (s) => s.generatedCards,
+      orElse: () => <AnkiCard>[],
     );
+    final cardToDelete = cards.firstWhere((c) => c.id == cardId);
+    final newCardsList = cards.where((c) => c.id != cardId).toList();
     state = GenerateState.loading(
       sessionId: sessionId,
-      alreadyGeneratedCards: state.maybeMap(
-        success: (s) => s.generatedCards.where((c) => c.id != cardId).toList(),
-        orElse: () => [],
-      ),
+      alreadyGeneratedCards: newCardsList,
     );
+    _localCards = newCardsList;
     ref.read(deleteCardProvider(cardId: cardId, sessionId: sessionId));
     return cardToDelete;
   }
@@ -298,6 +374,8 @@ class GenerateNotifier extends _$GenerateNotifier {
       _logger.d("Received session dto with ${dto.cards?.length} cards");
 
       final cards = (dto.cards?.values.toList() ?? [])..sortByCreatedAt();
+      _localCards = cards;
+
       if (dto.csv == null) {
         state = GenerateState.loading(
           sessionId: sessionId,
@@ -373,6 +451,16 @@ class GenerateNotifier extends _$GenerateNotifier {
     _pickedFile = null;
     ref.read(pickedFileProvider.notifier).set(_pickedFile);
   }
+}
+
+List<AnkiCard> _makeSearch((List<AnkiCard> cards, String query) params) {
+  final filteredCards = params.$1.where((card) {
+    final q = card.question.toLowerCase();
+    final a = card.answer.toLowerCase();
+    final queryLowerCase = params.$2.toLowerCase();
+    return q.contains(queryLowerCase) || a.contains(queryLowerCase);
+  }).toList();
+  return filteredCards;
 }
 
 class WatchData {

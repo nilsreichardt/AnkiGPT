@@ -886,7 +886,8 @@ class _Controls extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final status = ref.watch(cardFeedbackStatusControllerProvider(cardId));
+    final status = ref.watch(cardFeedbackStatusControllerProvider)[cardId] ??
+        CardFeedbackStatus.notReviewed;
     final hasLiked = status == CardFeedbackStatus.liked;
     final hasDisliked = status == CardFeedbackStatus.disliked;
     return IconTheme(
@@ -924,9 +925,9 @@ class _Controls extends ConsumerWidget {
                         tooltip: 'Dislike, if this is a bad card.',
                         onPressed: () {
                           ref
-                              .read(cardFeedbackStatusControllerProvider(cardId)
-                                  .notifier)
-                              .setStatus(CardFeedbackStatus.disliked);
+                              .read(
+                                  cardFeedbackStatusControllerProvider.notifier)
+                              .setStatus(cardId, CardFeedbackStatus.disliked);
                           ref.read(
                             dislikeCardProvider(
                               cardId: cardId,
@@ -945,9 +946,9 @@ class _Controls extends ConsumerWidget {
                         tooltip: 'Like, if this is a good card.',
                         onPressed: () {
                           ref
-                              .read(cardFeedbackStatusControllerProvider(cardId)
-                                  .notifier)
-                              .setStatus(CardFeedbackStatus.liked);
+                              .read(
+                                  cardFeedbackStatusControllerProvider.notifier)
+                              .setStatus(cardId, CardFeedbackStatus.liked);
                           ref.read(
                             likeCardProvider(
                               cardId: cardId,
@@ -1041,8 +1042,8 @@ class _UndoLikeButton extends ConsumerWidget {
       tooltip: 'Undo like',
       onPressed: () {
         ref
-            .read(cardFeedbackStatusControllerProvider(cardId).notifier)
-            .setStatus(CardFeedbackStatus.notReviewed);
+            .read(cardFeedbackStatusControllerProvider.notifier)
+            .setStatus(cardId, CardFeedbackStatus.notReviewed);
         ref.read(undoLikeCardProvider(cardId: cardId, sessionId: sessionId));
       },
       icon: const Icon(Icons.thumb_up),
@@ -1065,8 +1066,8 @@ class _UndoDislikeButton extends ConsumerWidget {
       tooltip: 'Undo dislike',
       onPressed: () {
         ref
-            .read(cardFeedbackStatusControllerProvider(cardId).notifier)
-            .setStatus(CardFeedbackStatus.notReviewed);
+            .read(cardFeedbackStatusControllerProvider.notifier)
+            .setStatus(cardId, CardFeedbackStatus.notReviewed);
         ref.read(undoDislikeCardProvider(cardId: cardId, sessionId: sessionId));
       },
       icon: const Icon(Icons.thumb_down),

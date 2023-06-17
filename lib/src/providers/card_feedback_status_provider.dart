@@ -6,12 +6,17 @@ part 'card_feedback_status_provider.g.dart';
 
 @riverpod
 class CardFeedbackStatusController extends _$CardFeedbackStatusController {
+  final Map<CardId, CardFeedbackStatus> _cardFeedbackStatusMap = {};
+
   @override
-  CardFeedbackStatus build(CardId cardId) {
-    return CardFeedbackStatus.notReviewed;
+  Map<CardId, CardFeedbackStatus> build() {
+    return _cardFeedbackStatusMap;
   }
 
-  void setStatus(CardFeedbackStatus status) {
-    state = status;
+  void setStatus(CardId cardId, CardFeedbackStatus status) {
+    state = {
+      ..._cardFeedbackStatusMap,
+      cardId: status,
+    };
   }
 }

@@ -13,6 +13,7 @@ dependencies:
   confetti: ^0.7.0
   cross_file: ^0.3.3+4
   cupertino_icons: ^1.0.5
+  easy_debounce: ^2.0.3
   file_picker: ^5.2.10
   firebase_auth: ^4.6.1
   firebase_core: ^2.13.0

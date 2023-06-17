@@ -13,6 +13,7 @@ import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/account_page.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/session_page.dart';
+import 'package:ankigpt/src/pages/widgets/animated_swap.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/app_bar_widgets.dart';
 import 'package:ankigpt/src/pages/widgets/card_feedback_dialog.dart';
@@ -787,11 +788,19 @@ class _LoadingCards extends StatelessWidget {
   }
 }
 
-class _SearchBar extends ConsumerWidget {
+class _SearchBar extends ConsumerStatefulWidget {
   const _SearchBar();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends ConsumerState<_SearchBar> {
+  String query = '';
+  bool get isSearching => query.isNotEmpty;
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(generateNotifierProvider);
     if (state is GenerationStateError) {
       return const SizedBox.shrink();
@@ -805,7 +814,13 @@ class _SearchBar extends ConsumerWidget {
           Expanded(
             child: TextField(
               controller: ref.read(searchTextFieldControllerProvider),
-              onChanged: ref.read(generateNotifierProvider.notifier).search,
+              onChanged: (q) {
+                ref.read(generateNotifierProvider.notifier).search(q);
+
+                setState(() {
+                  query = q;
+                });
+              },
               decoration: const InputDecoration(
                 hintText:
                     "Search to ensure AI hasn't overlooked key topics in your flashcards",
@@ -814,10 +829,22 @@ class _SearchBar extends ConsumerWidget {
             ),
           ),
           const SizedBox(width: 12),
-          IconButton(
-            onPressed: () =>
-                ref.read(generateNotifierProvider.notifier).clearSearch(),
-            icon: const Icon(Icons.close),
+          AnimatedSwap(
+            duration: const Duration(milliseconds: 300),
+            child: isSearching
+                ? IconButton(
+                    key: ValueKey(isSearching),
+                    onPressed: () => ref
+                        .read(generateNotifierProvider.notifier)
+                        .clearSearch(),
+                    icon: const Icon(Icons.close),
+                  )
+                : IconButton(
+                    key: ValueKey(isSearching),
+                    onPressed: null,
+                    icon: const Icon(Icons.search),
+                    disabledColor: Theme.of(context).iconTheme.color,
+                  ),
           ),
         ],
       ),

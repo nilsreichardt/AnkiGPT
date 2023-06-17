@@ -152,15 +152,12 @@ class GenerateNotifier extends _$GenerateNotifier {
 
       final cards = (dto.cards?.values.toList() ?? [])..sortByCreatedAt();
       _localCards = cards;
+      final searchQuery = ref.read(searchTextFieldControllerProvider).text;
 
       if (dto.status == SessionStatus.completed) {
-        if (_isSearching) {
-          return;
-        }
-
         state = GenerateState.success(
           sessionId: sessionId!,
-          generatedCards: cards,
+          generatedCards: _makeSearch((cards, searchQuery)),
           downloadUrl: dto.csv!.downloadUrl,
           language: dto.language,
         );
@@ -175,7 +172,7 @@ class GenerateNotifier extends _$GenerateNotifier {
 
       state = GenerateState.loading(
         sessionId: sessionId,
-        alreadyGeneratedCards: cards,
+        alreadyGeneratedCards: _makeSearch((cards, searchQuery)),
         language: dto.language,
       );
     });
@@ -421,15 +418,12 @@ class GenerateNotifier extends _$GenerateNotifier {
 
       final cards = (dto.cards?.values.toList() ?? [])..sortByCreatedAt();
       _localCards = cards;
-
-      if (_isSearching) {
-        return;
-      }
+      final searchQuery = ref.read(searchTextFieldControllerProvider).text;
 
       if (dto.csv == null) {
         state = GenerateState.loading(
           sessionId: sessionId,
-          alreadyGeneratedCards: cards,
+          alreadyGeneratedCards: _makeSearch((cards, searchQuery)),
           language: dto.language,
         );
         return;
@@ -447,7 +441,7 @@ class GenerateNotifier extends _$GenerateNotifier {
 
       state = GenerateState.success(
         sessionId: sessionId,
-        generatedCards: cards,
+        generatedCards: _makeSearch((cards, searchQuery)),
         downloadUrl: dto.csv!.downloadUrl,
         language: dto.language,
       );
@@ -503,6 +497,7 @@ class GenerateNotifier extends _$GenerateNotifier {
   }
 
   List<AnkiCard> _makeSearch((List<AnkiCard> cards, String query) params) {
+    if (params.$2.isEmpty) return params.$1;
     final filteredCards = params.$1.where((card) {
       final q = card.question.toLowerCase();
       final a = card.answer.toLowerCase();

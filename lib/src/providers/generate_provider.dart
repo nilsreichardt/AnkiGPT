@@ -47,6 +47,10 @@ class GenerateNotifier extends _$GenerateNotifier {
   StreamSubscription<DocumentSnapshot<SessionDto>>? _subscription;
   PlatformFile? _pickedFile;
   bool get _hasPickedFile => _pickedFile != null;
+
+  /// A local copy of cards that have been generated.
+  ///
+  /// Is being used to show all cards when user is cancelling the search.
   List<AnkiCard> _localCards = [];
 
   @override
@@ -189,7 +193,7 @@ class GenerateNotifier extends _$GenerateNotifier {
 
   void search(String query) {
     if (query.isEmpty) {
-      resetSearch();
+      clearSearch();
       return;
     }
 
@@ -223,7 +227,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     });
   }
 
-  void resetSearch() {
+  Future<void> clearSearch() async {
     _logger.d("Resetting search");
 
     final sessionId = state.maybeMap(
@@ -239,16 +243,19 @@ class GenerateNotifier extends _$GenerateNotifier {
       orElse: () => null,
     );
 
+    ref.read(searchTextFieldControllerProvider).text = '';
+    ref.read(isSearchLoadingProvider.notifier).set(false);
+    EasyDebounce.cancel('search');
+
+    // Wait a short moment to first render the UI with the empty search text field.
+    await Future.delayed(const Duration(milliseconds: 16));
+
     state = GenerateState.success(
       sessionId: sessionId,
       generatedCards: _localCards,
       language: language,
       downloadUrl: downloadUrl,
     );
-
-    ref.read(searchTextFieldControllerProvider).text = '';
-    ref.read(isSearchLoadingProvider.notifier).set(false);
-    EasyDebounce.cancel('search');
   }
 
   Future<bool> _uploadFile({
@@ -292,16 +299,30 @@ class GenerateNotifier extends _$GenerateNotifier {
       throw Exception("Session id is null");
     }
 
-    final cards = state.maybeMap(
-      success: (s) => s.generatedCards,
-      orElse: () => <AnkiCard>[],
-    );
-    final cardToDelete = cards.firstWhere((c) => c.id == cardId);
-    final newCardsList = cards.where((c) => c.id != cardId).toList();
-    state = GenerateState.loading(
-      sessionId: sessionId,
-      alreadyGeneratedCards: newCardsList,
-    );
+    final cardToDelete = _localCards.firstWhere((c) => c.id == cardId);
+    final newCardsList = _localCards.where((c) => c.id != cardId).toList();
+
+    if (_isSearching) {
+      final searchQuery = ref.read(searchTextFieldControllerProvider).text;
+      state = GenerateState.success(
+        sessionId: sessionId,
+        language: state.maybeMap(
+          success: (s) => s.language,
+          orElse: () => null,
+        ),
+        generatedCards: _makeSearch((newCardsList, searchQuery)),
+        downloadUrl: state.maybeMap(
+          success: (s) => s.downloadUrl,
+          orElse: () => null,
+        ),
+      );
+    } else {
+      state = GenerateState.loading(
+        sessionId: sessionId,
+        alreadyGeneratedCards: newCardsList,
+      );
+    }
+
     _localCards = newCardsList;
     ref.read(deleteCardProvider(cardId: cardId, sessionId: sessionId));
     return cardToDelete;
@@ -324,13 +345,38 @@ class GenerateNotifier extends _$GenerateNotifier {
       loading: (s) => s.alreadyGeneratedCards,
       orElse: () => <AnkiCard>[],
     );
-    state = GenerateState.loading(
-      sessionId: sessionId,
-      alreadyGeneratedCards: [
-        ...cards,
-        if (card != null) card,
-      ]..sortByCreatedAt(),
+    final restoredList = [
+      ...cards,
+      if (card != null) card,
+    ];
+    final language = state.maybeMap(
+      success: (s) => s.language,
+      orElse: () => null,
     );
+    if (_isSearching) {
+      final searchQuery = ref.read(searchTextFieldControllerProvider).text;
+      state = GenerateState.success(
+        sessionId: sessionId,
+        language: state.maybeMap(
+          success: (s) => s.language,
+          orElse: () => null,
+        ),
+        generatedCards: _makeSearch((restoredList, searchQuery)),
+        downloadUrl: state.maybeMap(
+          success: (s) => s.downloadUrl,
+          orElse: () => null,
+        ),
+      );
+    } else {
+      state = GenerateState.loading(
+        sessionId: sessionId,
+        language: language,
+        alreadyGeneratedCards: restoredList..sortByCreatedAt(),
+      );
+    }
+    if (card != null) {
+      _localCards.add(card);
+    }
     ref.read(undoDeleteCardProvider(cardId: cardId, sessionId: sessionId));
   }
 
@@ -455,16 +501,16 @@ class GenerateNotifier extends _$GenerateNotifier {
     _pickedFile = null;
     ref.read(pickedFileProvider.notifier).set(_pickedFile);
   }
-}
 
-List<AnkiCard> _makeSearch((List<AnkiCard> cards, String query) params) {
-  final filteredCards = params.$1.where((card) {
-    final q = card.question.toLowerCase();
-    final a = card.answer.toLowerCase();
-    final queryLowerCase = params.$2.toLowerCase();
-    return q.contains(queryLowerCase) || a.contains(queryLowerCase);
-  }).toList();
-  return filteredCards;
+  List<AnkiCard> _makeSearch((List<AnkiCard> cards, String query) params) {
+    final filteredCards = params.$1.where((card) {
+      final q = card.question.toLowerCase();
+      final a = card.answer.toLowerCase();
+      final queryLowerCase = params.$2.toLowerCase();
+      return q.contains(queryLowerCase) || a.contains(queryLowerCase);
+    }).toList();
+    return filteredCards..sortByCreatedAt();
+  }
 }
 
 class WatchData {

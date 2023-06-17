@@ -742,7 +742,7 @@ class _SearchBar extends ConsumerWidget {
           const SizedBox(width: 12),
           IconButton(
             onPressed: () =>
-                ref.read(generateNotifierProvider.notifier).resetSearch(),
+                ref.read(generateNotifierProvider.notifier).clearSearch(),
             icon: const Icon(Icons.close),
           ),
         ],
@@ -751,7 +751,7 @@ class _SearchBar extends ConsumerWidget {
   }
 }
 
-class _ResultList extends StatelessWidget {
+class _ResultList extends ConsumerWidget {
   const _ResultList({
     Key? key,
     required this.cards,
@@ -761,14 +761,36 @@ class _ResultList extends StatelessWidget {
   final SessionId? sessionId;
   final List<AnkiCard> cards;
 
+  void showDeleteSnackBar(
+      BuildContext context, WidgetRef ref, CardId cardId, AnkiCard? card) {
+    context.hideSnackBar();
+    context.showTextSnackBar(
+      'Card deleted.',
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          ref
+              .read(generateNotifierProvider.notifier)
+              .restoreCard(cardId, card: card);
+          context.hideSnackBar();
+          context.showTextSnackBar('Card restored.');
+        },
+      ),
+    );
+  }
+
+  void deleteCard(BuildContext context, WidgetRef ref, CardId cardId) {
+    final card = ref.read(generateNotifierProvider.notifier).deleteCard(cardId);
+    showDeleteSnackBar(context, ref, cardId, card);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         const _SearchBar(),
         const SizedBox(height: 12),
         SelectionArea(
-          key: ValueKey(cards.hashCode),
           child: AnimationLimiter(
             // We don't use cards.length as key because we don't want to animate all
             // cards when the list changes.
@@ -787,6 +809,11 @@ class _ResultList extends StatelessWidget {
                       child: ResultCard(
                         card: card,
                         sessionId: sessionId!,
+                        onDeleted: (cardId) {
+                          // We need to make the delete call at this position in the widget tree because a call in the
+                          // card would lead to an error when the presses the undo button.
+                          deleteCard(context, ref, cardId);
+                        },
                       ),
                     ),
                 ],
@@ -804,10 +831,12 @@ class ResultCard extends ConsumerStatefulWidget {
     Key? key,
     required this.card,
     required this.sessionId,
+    required this.onDeleted,
   }) : super(key: key);
 
   final AnkiCard card;
   final SessionId sessionId;
+  final ValueChanged<CardId> onDeleted;
 
   @override
   ConsumerState<ResultCard> createState() => _ResultCardState();
@@ -856,6 +885,7 @@ class _ResultCardState extends ConsumerState<ResultCard> {
                     cardId: widget.card.id,
                     randomNumber: randomNumber,
                     sessionId: widget.sessionId,
+                    onDeleted: widget.onDeleted,
                   )
                 ],
               ),
@@ -877,12 +907,14 @@ class _Controls extends ConsumerWidget {
     required this.cardId,
     required this.randomNumber,
     required this.sessionId,
+    required this.onDeleted,
   });
 
   final bool isHovering;
   final CardId cardId;
   final SessionId sessionId;
   final int randomNumber;
+  final ValueChanged<CardId> onDeleted;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -900,6 +932,7 @@ class _Controls extends ConsumerWidget {
             cardId: cardId,
             isVisibile: isHovering,
             randomNumber: randomNumber,
+            onDeleted: onDeleted,
           ),
           if (hasLiked)
             _UndoLikeButton(
@@ -979,28 +1012,13 @@ class _DeleteButton extends ConsumerWidget {
     required this.cardId,
     required this.isVisibile,
     required this.randomNumber,
+    required this.onDeleted,
   });
 
   final CardId cardId;
   final bool isVisibile;
   final int randomNumber;
-
-  void showSnackBar(BuildContext context, WidgetRef ref, AnkiCard? card) {
-    context.hideSnackBar();
-    context.showTextSnackBar(
-      'Card deleted.',
-      action: SnackBarAction(
-        label: 'Undo',
-        onPressed: () {
-          context.hideSnackBar();
-          ref
-              .read(generateNotifierProvider.notifier)
-              .restoreCard(cardId, card: card);
-          context.showTextSnackBar('Card restored.');
-        },
-      ),
-    );
-  }
+  final ValueChanged<CardId> onDeleted;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -1013,12 +1031,7 @@ class _DeleteButton extends ConsumerWidget {
           ignoring: !isVisibile,
           child: IconButton(
             tooltip: 'Delete',
-            onPressed: () {
-              final card = ref
-                  .read(generateNotifierProvider.notifier)
-                  .deleteCard(cardId);
-              showSnackBar(context, ref, card);
-            },
+            onPressed: () => onDeleted(cardId),
             icon: const Icon(Icons.delete),
           ),
         ),

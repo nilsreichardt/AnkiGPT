@@ -59,9 +59,9 @@ class GenerateNotifier extends _$GenerateNotifier {
     return const GenerateState.initial();
   }
 
-  Future<void> submit({
-    required CardGenrationSize size,
-  }) async {
+  Future<void> submit() async {
+    final size = ref.read(generationSizeProvider);
+
     // Stopping subscription because it could be running when watch() has been called before.
     _stopSubscription();
 

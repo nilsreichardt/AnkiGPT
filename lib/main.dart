@@ -44,7 +44,6 @@ import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
 import 'package:confetti/confetti.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -586,18 +585,75 @@ class _BuyButtonState extends ConsumerState<_BuyButton> {
   }
 }
 
-class ErrorText extends ConsumerWidget {
-  const ErrorText({super.key, required this.text});
+class _ErrorCard extends ConsumerWidget {
+  const _ErrorCard({required this.text});
 
   final String text;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MarkdownBody(
-      data:
-          'Error: ("$text"). Please retry or contact [support](https://wa.me/4915229504121).',
-      styleSheet: MarkdownStyleSheet(
-        p: TextStyle(color: Theme.of(context).colorScheme.error),
+    return AnkiGptCard(
+      color: Theme.of(context).colorScheme.error,
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Icon(
+            Icons.error,
+            size: 40,
+            color: Theme.of(context).colorScheme.error,
+          ),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Error!',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      text,
+                      style:
+                          TextStyle(color: Theme.of(context).colorScheme.error),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      ref.read(generateNotifierProvider.notifier).submit();
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor: Theme.of(context).colorScheme.error,
+                    ),
+                    child: const Text('RETRY'),
+                  ),
+                  const SizedBox(width: 12),
+                  TextButton(
+                    onPressed: () =>
+                        launchUrl(Uri.parse('https://ankigpt.wtf/support')),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Theme.of(context).colorScheme.error,
+                    ),
+                    child: const Text('CONTACT SUPPORT'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -657,7 +713,7 @@ class Results extends ConsumerWidget {
                         ),
               error: (error, sessionId, cards, language) => Column(
                 children: [
-                  ErrorText(text: error),
+                  _ErrorCard(text: error),
                   const SizedBox(height: 12),
                   _ResultList(
                     cards: cards,
@@ -1354,10 +1410,7 @@ class GenerateButton extends ConsumerWidget {
           onPressed: isEnabled
               ? () async {
                   try {
-                    final size = ref.read(generationSizeProvider);
-                    await ref
-                        .read(generateNotifierProvider.notifier)
-                        .submit(size: size);
+                    await ref.read(generateNotifierProvider.notifier).submit();
                   } catch (e) {
                     if (e is PlusMembershipRequiredException) {
                       showPlusDialog(context);

@@ -38,6 +38,8 @@ import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
 import 'package:ankigpt/src/providers/search_text_field_controller.dart';
+import 'package:ankigpt/src/providers/shared_preferences_provider.dart';
+import 'package:ankigpt/src/providers/show_warning_card.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
@@ -103,11 +105,14 @@ Future<FirebaseApp> _initFirebase(Flavor flavor) async {
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Call shared preferences to initialize it.
+    ref.read(sharedPreferencesAccesserProvider);
+
     return MaterialApp(
       title: 'AnkiGPT',
       theme: ankigptTheme,
@@ -857,6 +862,7 @@ class _ResultList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
+        const _WarningCard(),
         const _SearchBar(),
         const SizedBox(height: 12),
         SelectionArea(
@@ -1577,6 +1583,58 @@ class LoadingButton extends StatelessWidget {
               ),
             )
           : const SizedBox(),
+    );
+  }
+}
+
+class _WarningCard extends ConsumerWidget {
+  const _WarningCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final shouldShow = ref.watch(showWarningCardProvider);
+    const color = Colors.orangeAccent;
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 275),
+      child: shouldShow
+          ? Padding(
+              key: ValueKey(shouldShow),
+              padding: const EdgeInsets.only(bottom: 12),
+              child: AnkiGptCard(
+                color: color,
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    const Icon(Icons.warning, color: color, size: 40),
+                    const SizedBox(width: 12),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "AnkiGPT is your co-pilot, not the captain! Remember, even AI stumbles sometimes, so be sure to double-check those cards. Don't forget, nothing beats the magic of your own creative touch in the flashcard mix!",
+                            style: TextStyle(
+                              color: color,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      tooltip: 'Hide this warning',
+                      onPressed: () =>
+                          ref.read(showWarningCardProvider.notifier).hide(),
+                      icon: const Icon(Icons.close, color: color),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : SizedBox.shrink(
+              key: ValueKey(shouldShow),
+            ),
     );
   }
 }

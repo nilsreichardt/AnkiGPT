@@ -826,6 +826,8 @@ class _SearchBarState extends ConsumerState<_SearchBar> {
                     "Search to ensure AI hasn't overlooked key topics in your flashcards",
                 border: InputBorder.none,
               ),
+              onEditingComplete: () =>
+                  ref.read(generateNotifierProvider.notifier).fireSearch(),
             ),
           ),
           const SizedBox(width: 12),

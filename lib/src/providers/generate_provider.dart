@@ -25,7 +25,6 @@ import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -255,6 +254,10 @@ class GenerateNotifier extends _$GenerateNotifier {
       language: language,
       downloadUrl: downloadUrl,
     );
+  }
+
+  void fireSearch() {
+    EasyDebounce.fire('search');
   }
 
   Future<bool> _uploadFile({

@@ -4,8 +4,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'anki_card.freezed.dart';
 part 'anki_card.g.dart';
 
-@Freezed(fromJson: true)
+@Freezed(fromJson: true, toStringOverride: false)
 class AnkiCard with _$AnkiCard {
+  const AnkiCard._();
+
   const factory AnkiCard({
     required String id,
     required String question,
@@ -18,8 +20,28 @@ class AnkiCard with _$AnkiCard {
   factory AnkiCard.fromJson(Map<String, dynamic> json) =>
       _$AnkiCardFromJson(json);
 
-  factory AnkiCard.fromJsonInjectedId(String id, Map<String, dynamic> json) {
+  factory AnkiCard.fromJsonInjection(String id, Map<String, dynamic> json) {
     json['id'] = id;
+
+    if (json['editedAnswer'] != null) {
+      json['answer'] = json['editedAnswer'];
+    }
+
+    if (json['editedQuestion'] != null) {
+      json['question'] = json['editedQuestion'];
+    }
+
     return AnkiCard.fromJson(json);
+  }
+
+  @override
+  String toString() {
+    final shortQuestion =
+        question.length > 20 ? '${question.substring(0, 20)}...' : question;
+
+    final shortAnswer =
+        answer.length > 20 ? '${answer.substring(0, 20)}...' : answer;
+
+    return 'AnkiCard(id: $id, question: $shortQuestion, answer: $shortAnswer, createdAt: $createdAt, hasLiked: $hasLiked, hasDisliked: $hasDisliked)';
   }
 }

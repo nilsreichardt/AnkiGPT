@@ -224,14 +224,14 @@ class _HistoryDeckBase extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child: SizedBox(
-        width: double.infinity,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: defaultAnkiGptBorderRadius,
-          child: AnkiGptCard(
-            color: color,
-            padding: const EdgeInsets.all(22),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: defaultAnkiGptBorderRadius,
+        child: AnkiGptCard(
+          color: color,
+          padding: const EdgeInsets.all(22),
+          child: SizedBox(
+            width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ankigpt/src/infrastructure/firestore_utils.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/csv_metadata.dart';
@@ -46,7 +48,7 @@ Map<String, AnkiCard>? parseCards(Map<String, dynamic>? json) {
       .map(
     (k, e) => MapEntry(
       k,
-      AnkiCard.fromJsonInjectedId(k, e as Map<String, dynamic>),
+      AnkiCard.fromJsonInjection(k, e as Map<String, dynamic>),
     ),
   );
 }
@@ -68,8 +70,10 @@ enum SessionStatus {
   stopped,
 }
 
-@Freezed(fromJson: true)
+@Freezed(fromJson: true, toStringOverride: false)
 class Input with _$Input {
+  const Input._();
+
   const factory Input({
     required String? text,
     required InputType type,
@@ -77,6 +81,13 @@ class Input with _$Input {
   }) = _Input;
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
+
+  @override
+  String toString() {
+    final shortText =
+        text == null ? null : '${text!.substring(0, min(20, text!.length))}...';
+    return 'Input(text: $shortText, type: $type, file: $file)';
+  }
 }
 
 @Freezed(fromJson: true)

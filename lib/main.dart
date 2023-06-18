@@ -826,6 +826,8 @@ class _SearchBarState extends ConsumerState<_SearchBar> {
                     "Search to ensure AI hasn't overlooked key topics in your flashcards",
                 border: InputBorder.none,
               ),
+              onEditingComplete: () =>
+                  ref.read(generateNotifierProvider.notifier).fireSearch(),
             ),
           ),
           const SizedBox(width: 12),
@@ -909,6 +911,7 @@ class _ResultList extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
                       child: ResultCard(
+                        key: ValueKey(card.id),
                         card: card,
                         sessionId: sessionId!,
                         onDeleted: (cardId) {
@@ -967,20 +970,15 @@ class _ResultCardState extends ConsumerState<ResultCard> {
       onExit: (_) => switchHovering(),
       child: AnkiGptCard(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(14, 6, 14, 16),
+          padding: const EdgeInsets.fromLTRB(0, 6, 14, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  Expanded(
-                    child: Text(
-                      widget.card.question,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                  _CardQuestion(
+                    question: widget.card.question,
+                    cardId: widget.card.id,
                   ),
                   _Controls(
                     isHovering: hovering,
@@ -991,12 +989,121 @@ class _ResultCardState extends ConsumerState<ResultCard> {
                   )
                 ],
               ),
-              Text(
-                widget.card.answer,
-                style: TextStyle(color: Colors.grey[700]),
+              const SizedBox(height: 4),
+              _CardAnswer(
+                answer: widget.card.answer,
+                cardId: widget.card.id,
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CardTextField extends StatefulWidget {
+  const _CardTextField({
+    required this.text,
+    required this.onChanged,
+    required this.style,
+  });
+
+  final ValueChanged<String> onChanged;
+  final String text;
+  final TextStyle style;
+
+  @override
+  State<_CardTextField> createState() => _CardTextFieldState();
+}
+
+class _CardTextFieldState extends State<_CardTextField> {
+  bool hovering = false;
+  int randomNumber = 0;
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController(text: widget.text);
+  }
+
+  void switchHovering() {
+    setState(() {
+      hovering = !hovering;
+
+      // We need to add a random number to the key to prevent having two widgets
+      // with the same key when the user hovers over the card multiple times. If
+      // the user hovers over the same card multiple times, the widget with the
+      // old key will still be in the tree because of the animation.
+      randomNumber = Random().nextInt(1000000);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => switchHovering(),
+      onExit: (_) => switchHovering(),
+      child: AnkiGptCard(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        color: hovering ? Colors.grey : Colors.transparent,
+        child: TextField(
+          controller: controller,
+          maxLines: null,
+          onChanged: widget.onChanged,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+          ),
+          style: widget.style,
+        ),
+      ),
+    );
+  }
+}
+
+class _CardAnswer extends ConsumerWidget {
+  const _CardAnswer({
+    required this.cardId,
+    required this.answer,
+  });
+
+  final CardId cardId;
+  final String answer;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return _CardTextField(
+      onChanged: (value) =>
+          ref.read(generateNotifierProvider.notifier).editAnswer(cardId, value),
+      text: answer,
+      style: TextStyle(
+        color: Colors.grey[700],
+        fontSize: 14,
+      ),
+    );
+  }
+}
+
+class _CardQuestion extends ConsumerWidget {
+  const _CardQuestion({
+    required this.cardId,
+    required this.question,
+  });
+
+  final CardId cardId;
+  final String question;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Expanded(
+      child: _CardTextField(
+        text: question,
+        onChanged: (text) => ref
+            .read(generateNotifierProvider.notifier)
+            .editQuestion(cardId, text),
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
@@ -1030,6 +1137,10 @@ class _Controls extends ConsumerWidget {
           ),
       child: Row(
         children: [
+          _EditButton(
+            isVisibile: isHovering,
+            randomNumber: randomNumber,
+          ),
           _DeleteButton(
             cardId: cardId,
             isVisibile: isHovering,
@@ -1104,6 +1215,64 @@ class _Controls extends ConsumerWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class _EditButton extends StatelessWidget {
+  const _EditButton({
+    required this.isVisibile,
+    required this.randomNumber,
+  });
+
+  final bool isVisibile;
+  final int randomNumber;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 250),
+      child: Opacity(
+        key: ValueKey('$randomNumber + $isVisibile'),
+        opacity: isVisibile ? 1 : 0,
+        child: IgnorePointer(
+          ignoring: !isVisibile,
+          child: IconButton(
+            tooltip: 'Edit',
+            icon: const Icon(Icons.edit),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Tutorial: Edit card'),
+                  content: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: 400,
+                        child: TutorialVideoPlayer(
+                          aspectRatio: 16 / 9,
+                          videoUrl:
+                              'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fedit-card-tutorial.mp4?alt=media&token=4473f746-93b9-4fb3-a5c1-4489854f1779',
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                          'Just click on the card to edit it. Auto-save is enabled.'),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }

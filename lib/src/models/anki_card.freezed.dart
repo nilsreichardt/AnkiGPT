@@ -162,14 +162,15 @@ class __$$_AnkiCardCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AnkiCard implements _AnkiCard {
+class _$_AnkiCard extends _AnkiCard {
   const _$_AnkiCard(
       {required this.id,
       required this.question,
       required this.answer,
       @JsonKey(fromJson: parseTimestampOrIsoString) required this.createdAt,
       this.hasLiked = false,
-      this.hasDisliked = false});
+      this.hasDisliked = false})
+      : super._();
 
   factory _$_AnkiCard.fromJson(Map<String, dynamic> json) =>
       _$$_AnkiCardFromJson(json);
@@ -189,11 +190,6 @@ class _$_AnkiCard implements _AnkiCard {
   @override
   @JsonKey()
   final bool hasDisliked;
-
-  @override
-  String toString() {
-    return 'AnkiCard(id: $id, question: $question, answer: $answer, createdAt: $createdAt, hasLiked: $hasLiked, hasDisliked: $hasDisliked)';
-  }
 
   @override
   bool operator ==(dynamic other) {
@@ -231,7 +227,7 @@ class _$_AnkiCard implements _AnkiCard {
   }
 }
 
-abstract class _AnkiCard implements AnkiCard {
+abstract class _AnkiCard extends AnkiCard {
   const factory _AnkiCard(
       {required final String id,
       required final String question,
@@ -240,6 +236,7 @@ abstract class _AnkiCard implements AnkiCard {
           required final DateTime createdAt,
       final bool hasLiked,
       final bool hasDisliked}) = _$_AnkiCard;
+  const _AnkiCard._() : super._();
 
   factory _AnkiCard.fromJson(Map<String, dynamic> json) = _$_AnkiCard.fromJson;
 

@@ -80,4 +80,34 @@ class SessionRepository {
       }
     });
   }
+
+  Future<void> editAnswer({
+    required SessionId sessionId,
+    required CardId cardId,
+    required String answer,
+  }) async {
+    await functions.httpsCallableFromUrl(routeFunctionsUrl).call({
+      'destination': 'editAnswer',
+      'payload': {
+        'sessionId': sessionId,
+        'cardId': cardId,
+        'answer': answer,
+      }
+    });
+  }
+
+  Future<void> editQuestion({
+    required SessionId sessionId,
+    required CardId cardId,
+    required String question,
+  }) async {
+    await functions.httpsCallableFromUrl(routeFunctionsUrl).call({
+      'destination': 'editQuestion',
+      'payload': {
+        'sessionId': sessionId,
+        'cardId': cardId,
+        'question': question,
+      }
+    });
+  }
 }

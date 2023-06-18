@@ -6,11 +6,11 @@ part of 'controls_view_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlsViewHash() => r'00a30124158a1cdde881a9ac3226e6cbc2f7f693';
+String _$controlsViewHash() => r'8158556d30fc124c63f07580b95fb99e6efb5849';
 
 /// See also [controlsView].
 @ProviderFor(controlsView)
-final controlsViewProvider = AutoDisposeProvider<ControlsView>.internal(
+final controlsViewProvider = Provider<ControlsView>.internal(
   controlsView,
   name: r'controlsViewProvider',
   debugGetCreateSourceHash:
@@ -19,5 +19,5 @@ final controlsViewProvider = AutoDisposeProvider<ControlsView>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef ControlsViewRef = AutoDisposeProviderRef<ControlsView>;
+typedef ControlsViewRef = ProviderRef<ControlsView>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

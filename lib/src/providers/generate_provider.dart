@@ -13,7 +13,9 @@ import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/delete_card_provider.dart';
+import 'package:ankigpt/src/providers/edit_card_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/is_editing_card_loading.dart';
 import 'package:ankigpt/src/providers/is_search_loading_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/search_text_field_controller.dart';
@@ -199,7 +201,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     EasyDebounce.debounce('search', debounceDuration, () async {
       _logger.d("Searching for: $query");
 
-      final filteredCards = await compute(_makeSearch, (_localCards, query));
+      final filteredCards = _makeSearch((_localCards, query));
 
       final sessionId = state.maybeMap(
         success: (state) => state.sessionId,
@@ -325,9 +327,82 @@ class GenerateNotifier extends _$GenerateNotifier {
     return cardToDelete;
   }
 
-  void editAnswer(CardId cardId, String text) {}
+  void editAnswer(CardId cardId, String text) {
+    ref.read(isEditingCardLoadingProvider.notifier).set(true);
+    EasyDebounce.debounce('answer', const Duration(seconds: 1), () async {
+      _logger.d("Editing answer of card with id: $cardId");
+      final sessionId = state.maybeMap(
+        success: (s) => s.sessionId,
+        loading: (s) => s.sessionId,
+        orElse: () => null,
+      );
+      if (sessionId == null) {
+        return;
+      }
 
-  void editQuestion(CardId cardId, String text) {}
+      final cards = state.maybeMap(
+        success: (s) => s.generatedCards,
+        loading: (s) => s.alreadyGeneratedCards,
+        orElse: () => <AnkiCard>[],
+      );
+      final newCardsList = cards.map((c) {
+        if (c.id == cardId) {
+          return c.copyWith(answer: text);
+        }
+        return c;
+      }).toList();
+
+      _localCards = newCardsList;
+
+      await ref.read(
+        editAnswerProvider(
+          answer: text,
+          cardId: cardId,
+          sessionId: sessionId,
+        ).future,
+      );
+      _logger.w('Edited answer of card with id: $cardId');
+      ref.read(isEditingCardLoadingProvider.notifier).set(false);
+    });
+  }
+
+  void editQuestion(CardId cardId, String text) {
+    ref.read(isEditingCardLoadingProvider.notifier).set(true);
+    EasyDebounce.debounce('question', const Duration(seconds: 1), () async {
+      _logger.d("Editing question of card with id: $cardId");
+      final sessionId = state.maybeMap(
+        success: (s) => s.sessionId,
+        loading: (s) => s.sessionId,
+        orElse: () => null,
+      );
+      if (sessionId == null) {
+        return;
+      }
+
+      final cards = state.maybeMap(
+        success: (s) => s.generatedCards,
+        loading: (s) => s.alreadyGeneratedCards,
+        orElse: () => <AnkiCard>[],
+      );
+      final newCardsList = cards.map((c) {
+        if (c.id == cardId) {
+          return c.copyWith(question: text);
+        }
+        return c;
+      }).toList();
+
+      _localCards = newCardsList;
+
+      await ref.read(
+        editQuestionProvider(
+          question: text,
+          cardId: cardId,
+          sessionId: sessionId,
+        ).future,
+      );
+      ref.read(isEditingCardLoadingProvider.notifier).set(false);
+    });
+  }
 
   void restoreCard(CardId cardId, {AnkiCard? card}) {
     _logger.d("Restoring card with id: $cardId");

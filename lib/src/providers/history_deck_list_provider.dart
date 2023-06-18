@@ -35,11 +35,14 @@ Stream<List<HistoryDeck>> historyDeckList(HistoryDeckListRef ref) {
             );
           }
 
+          final questions =
+              (dto.cards?.values.map((c) => c.question).toList() ?? [])..sort();
           return HistoryDeck.created(
             createdAt: dto.createdAt,
             name: name,
             numberOfCards: dto.numberOfCards,
-            questions: dto.cards?.values.map((c) => c.question).toList() ?? [],
+            questions:
+                questions.length < 5 ? questions : questions.sublist(0, 5),
             sessionDto: dto,
           );
         }).toList() ??

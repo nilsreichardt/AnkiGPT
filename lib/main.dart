@@ -909,6 +909,7 @@ class _ResultList extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
                       child: ResultCard(
+                        key: ValueKey(card.id),
                         card: card,
                         sessionId: sessionId!,
                         onDeleted: (cardId) {

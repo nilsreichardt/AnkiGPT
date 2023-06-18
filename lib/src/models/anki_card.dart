@@ -18,8 +18,17 @@ class AnkiCard with _$AnkiCard {
   factory AnkiCard.fromJson(Map<String, dynamic> json) =>
       _$AnkiCardFromJson(json);
 
-  factory AnkiCard.fromJsonInjectedId(String id, Map<String, dynamic> json) {
+  factory AnkiCard.fromJsonInjection(String id, Map<String, dynamic> json) {
     json['id'] = id;
+
+    if (json['editedAnswer'] != null) {
+      json['answer'] = json['editedAnswer'];
+    }
+
+    if (json['editedQuestion'] != null) {
+      json['question'] = json['editedQuestion'];
+    }
+
     return AnkiCard.fromJson(json);
   }
 }

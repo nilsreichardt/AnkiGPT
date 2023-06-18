@@ -46,7 +46,7 @@ Map<String, AnkiCard>? parseCards(Map<String, dynamic>? json) {
       .map(
     (k, e) => MapEntry(
       k,
-      AnkiCard.fromJsonInjectedId(k, e as Map<String, dynamic>),
+      AnkiCard.fromJsonInjection(k, e as Map<String, dynamic>),
     ),
   );
 }

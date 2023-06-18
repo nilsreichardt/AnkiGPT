@@ -494,8 +494,9 @@ class __$$_InputCopyWithImpl<$Res> extends _$InputCopyWithImpl<$Res, _$_Input>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Input implements _Input {
-  const _$_Input({required this.text, required this.type, required this.file});
+class _$_Input extends _Input {
+  const _$_Input({required this.text, required this.type, required this.file})
+      : super._();
 
   factory _$_Input.fromJson(Map<String, dynamic> json) =>
       _$$_InputFromJson(json);
@@ -506,11 +507,6 @@ class _$_Input implements _Input {
   final InputType type;
   @override
   final FileInput? file;
-
-  @override
-  String toString() {
-    return 'Input(text: $text, type: $type, file: $file)';
-  }
 
   @override
   bool operator ==(dynamic other) {
@@ -540,11 +536,12 @@ class _$_Input implements _Input {
   }
 }
 
-abstract class _Input implements Input {
+abstract class _Input extends Input {
   const factory _Input(
       {required final String? text,
       required final InputType type,
       required final FileInput? file}) = _$_Input;
+  const _Input._() : super._();
 
   factory _Input.fromJson(Map<String, dynamic> json) = _$_Input.fromJson;
 

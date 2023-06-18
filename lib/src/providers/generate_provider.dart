@@ -325,6 +325,10 @@ class GenerateNotifier extends _$GenerateNotifier {
     return cardToDelete;
   }
 
+  void editAnswer(CardId cardId, String text) {}
+
+  void editQuestion(CardId cardId, String text) {}
+
   void restoreCard(CardId cardId, {AnkiCard? card}) {
     _logger.d("Restoring card with id: $cardId");
 

@@ -51,6 +51,7 @@ class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
           autoInitialize: true,
           autoPlay: true,
           looping: true,
+          showControlsOnInitialize: false,
         );
       });
     } catch (e) {

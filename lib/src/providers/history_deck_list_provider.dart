@@ -40,7 +40,7 @@ Stream<List<HistoryDeck>> historyDeckList(HistoryDeckListRef ref) {
           return HistoryDeck.created(
             createdAt: dto.createdAt,
             name: name,
-            numberOfCards: dto.numberOfCards,
+            numberOfCards: dto.cards!.length,
             questions:
                 questions.length < 5 ? questions : questions.sublist(0, 5),
             sessionDto: dto,

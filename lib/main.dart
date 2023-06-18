@@ -1393,7 +1393,7 @@ class _Subtitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Text(
-        'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $numberOfCards cards generated',
+        'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $numberOfCards cards',
         style: TextStyle(color: Colors.grey[500]),
       ),
     );

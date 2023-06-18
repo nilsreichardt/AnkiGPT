@@ -11,20 +11,28 @@ class GenerateState with _$GenerateState {
       GenerationStateInitial;
   const factory GenerateState.loading({
     String? sessionId,
-    @Default([]) List<AnkiCard> alreadyGeneratedCards,
     Language? language,
     @Default(false) bool isUploadFile,
   }) = GenerationStateLoading;
   const factory GenerateState.error({
     required String message,
     required SessionId sessionId,
-    @Default([]) List<AnkiCard> generatedCards,
     Language? language,
   }) = GenerationStateError;
   const factory GenerateState.success({
     required SessionId sessionId,
-    required List<AnkiCard> generatedCards,
     required String? downloadUrl,
     Language? language,
   }) = GenerationStateSuccess;
+}
+
+@freezed
+class CardsListView with _$CardsListView {
+  const factory CardsListView({
+    required List<AnkiCard> cards,
+    required int currentPage,
+    required int totalPages,
+    required bool canPressNext,
+    required bool canPressPrevious,
+  }) = _CardsListView;
 }

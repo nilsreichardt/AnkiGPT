@@ -27,6 +27,7 @@ import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
 import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
+import 'package:ankigpt/src/providers/cards_list_controller.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
 import 'package:ankigpt/src/providers/dislike_provider.dart';
 import 'package:ankigpt/src/providers/flavor_provider.dart';
@@ -889,6 +890,7 @@ class _ResultList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cards = ref.watch(cardsListControllerProvider).cards;
     return Column(
       children: [
         const _WarningCard(),

@@ -12,12 +12,14 @@ import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
+import 'package:ankigpt/src/providers/cards_list_provider.dart';
 import 'package:ankigpt/src/providers/delete_card_provider.dart';
 import 'package:ankigpt/src/providers/edit_card_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/is_editing_card_loading.dart';
 import 'package:ankigpt/src/providers/is_search_loading_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
+import 'package:ankigpt/src/providers/search_query_provider.dart';
 import 'package:ankigpt/src/providers/search_text_field_controller.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
@@ -153,12 +155,11 @@ class GenerateNotifier extends _$GenerateNotifier {
 
       final cards = (dto.cards?.values.toList() ?? [])..sortByCreatedAt();
       _localCards = cards;
-      final searchQuery = ref.read(searchTextFieldControllerProvider).text;
+      ref.read(cardsListProvider.notifier).set(cards);
 
       if (dto.status == SessionStatus.completed) {
         state = GenerateState.success(
           sessionId: sessionId!,
-          generatedCards: _makeSearch((cards, searchQuery)),
           downloadUrl: dto.csv!.downloadUrl,
           language: dto.language,
         );
@@ -173,7 +174,6 @@ class GenerateNotifier extends _$GenerateNotifier {
 
       state = GenerateState.loading(
         sessionId: sessionId,
-        alreadyGeneratedCards: _makeSearch((cards, searchQuery)),
         language: dto.language,
       );
     });
@@ -200,27 +200,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     EasyDebounce.debounce('search', debounceDuration, () async {
       _logger.d("Searching for: $query");
 
-      final filteredCards = _makeSearch((_localCards, query));
-
-      final sessionId = state.maybeMap(
-        success: (state) => state.sessionId,
-        orElse: () => null,
-      )!;
-      final language = state.maybeMap(
-        success: (state) => state.language,
-        orElse: () => null,
-      );
-      final downloadUrl = state.maybeMap(
-        success: (state) => state.downloadUrl,
-        orElse: () => null,
-      );
-
-      state = GenerateState.success(
-        sessionId: sessionId,
-        generatedCards: filteredCards,
-        language: language,
-        downloadUrl: downloadUrl,
-      );
+      ref.read(searchQueryProvider.notifier).set(query);
       ref.read(isSearchLoadingProvider.notifier).set(false);
     });
   }
@@ -250,7 +230,6 @@ class GenerateNotifier extends _$GenerateNotifier {
 
     state = GenerateState.success(
       sessionId: sessionId,
-      generatedCards: _localCards,
       language: language,
       downloadUrl: downloadUrl,
     );
@@ -521,6 +500,7 @@ class GenerateNotifier extends _$GenerateNotifier {
         return;
       }
 
+      ref.read(cardsListProvider.notifier).set(cards);
       state = GenerateState.success(
         sessionId: sessionId,
         generatedCards: _makeSearch((cards, searchQuery)),

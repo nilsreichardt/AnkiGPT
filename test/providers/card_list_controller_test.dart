@@ -1,7 +1,7 @@
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
-import 'package:ankigpt/src/providers/search_query_provider.dart';
+import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 

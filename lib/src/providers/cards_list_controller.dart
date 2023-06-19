@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
-import 'package:ankigpt/src/providers/search_query_provider.dart';
+import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cards_list_controller.g.dart';
@@ -21,7 +21,7 @@ class CardsListController extends _$CardsListController {
   CardsListView build() {
     List<AnkiCard> cards = ref.watch(cardsListProvider);
 
-    final query = ref.watch(searchQueryProvider);
+    final query = ref.watch(searchQueryProvider).query;
     cards = _maybeFilterCards(cards, query);
 
     return _buildView(cards, currentPage: _currentPage);
@@ -41,6 +41,10 @@ class CardsListController extends _$CardsListController {
   }
 
   CardsListView _buildView(List<AnkiCard> cards, {required currentPage}) {
+    if (cards.isEmpty) {
+      return CardsListView.empty();
+    }
+
     final totalPages = cards.length ~/ cardsPerPage;
 
     int startIndex = _calcStartIndex(currentPage);
@@ -50,8 +54,7 @@ class CardsListController extends _$CardsListController {
     }
 
     final endIndex = min(startIndex + cardsPerPage, cards.length);
-    final visibleCards =
-        cards.isEmpty ? cards : cards.sublist(startIndex, endIndex);
+    final visibleCards = cards.sublist(startIndex, endIndex);
 
     _currentPage = currentPage;
     return CardsListView(

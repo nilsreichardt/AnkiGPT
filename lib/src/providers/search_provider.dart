@@ -47,9 +47,25 @@ part 'search_provider.g.dart';
 /// disposed to prevent any unintended side effects.
 @Riverpod(keepAlive: true)
 class SearchQuery extends _$SearchQuery {
+  /// The key used to debounce the search query.
+  ///
+  /// This property is used to debounce the search query entered by the user in
+  /// the search bar. It is used by the [debounce] and [fire] methods to
+  /// debounce the query and prevent the search results from updating too
+  /// frequently.
   static const _debounceKey = 'search';
+
+  /// The duration used to debounce the search query.
+  ///
+  /// This property is used to debounce the search query entered by the user in
+  /// the search bar. It is used by the [debounce] method to debounce the query
+  /// and prevent the search results from updating too frequently.
   Duration _debounceDuration = const Duration(milliseconds: 1000);
 
+  /// Returns the current search query as a [String].
+  ///
+  /// This method overrides the [build] method in the generated [_$SearchQuery]
+  /// class. It returns the current search query as a `String`.
   @override
   String build() {
     ref.onDispose(() {
@@ -152,11 +168,24 @@ class SearchQuery extends _$SearchQuery {
 /// completed.
 @Riverpod(keepAlive: true)
 class IsSearchLoading extends _$IsSearchLoading {
+  /// Returns a boolean value indicating whether the search is loading.
+  ///
+  /// This method overrides the `build` method in the generated
+  /// [_$IsSearchLoading] class. It returns a boolean value indicating whether
+  /// the search is currently loading.
+  ///
+  /// If the value is `true`, the search is currently loading. If the value is
+  /// `false`, the search is not currently loading.
   @override
   bool build() {
     return false;
   }
 
+  /// Sets the loading state of the search.
+  ///
+  /// This method sets the loading state of the search to the given `value`. If
+  /// the value is `true`, the search is currently loading. If the value is
+  /// `false`, the search is not currently loading.
   void set(bool value) {
     state = value;
   }

@@ -106,6 +106,14 @@ class SearchQuery extends _$SearchQuery {
     EasyDebounce.cancel(_debounceKey);
   }
 
+  /// Sets the debounce duration for testing purposes.
+  ///
+  /// This method is used to set the debounce duration for testing purposes. It
+  /// takes a [Duration] parameter representing the new debounce duration.
+  ///
+  /// This method is used to test the debounce functionality of the search bar
+  /// by setting a custom debounce duration and verifying that the debounce
+  /// timer works as expected.
   @visibleForTesting
   void setDebounceDuration(Duration duration) {
     _debounceDuration = duration;

@@ -73,11 +73,37 @@ void main() {
           const query = 'test';
 
           container.read(searchQueryProvider.notifier).debounce(query);
-          container.read(searchQueryProvider.notifier).fire(query);
+          container.read(searchQueryProvider.notifier).fire();
 
           // Without await, the query should be set immediately.
           expect(container.read(searchQueryProvider), query);
         });
+      });
+    });
+
+    group('IsSearchingProvider', () {
+      late ProviderContainer container;
+
+      setUp(() {
+        container = ProviderContainer();
+      });
+
+      tearDown(() {
+        container.dispose();
+      });
+
+      test('initial state is false', () {
+        final state = container.read(isSearchLoadingProvider);
+
+        expect(state, isFalse);
+      });
+
+      test('.set() sets the state', () {
+        container.read(isSearchLoadingProvider.notifier).set(true);
+
+        final state = container.read(isSearchLoadingProvider);
+
+        expect(state, isTrue);
       });
     });
   });

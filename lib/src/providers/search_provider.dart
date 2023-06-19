@@ -65,7 +65,8 @@ class SearchQuery extends _$SearchQuery {
   /// Returns the current search query as a [String].
   ///
   /// This method overrides the [build] method in the generated [_$SearchQuery]
-  /// class. It returns the current search query as a `String`.
+  /// class. It returns by default an empty string, but can be overridden to
+  /// return the current search query.
   @override
   String build() {
     ref.onDispose(() {

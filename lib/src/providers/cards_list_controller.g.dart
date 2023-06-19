@@ -7,7 +7,7 @@ part of 'cards_list_controller.dart';
 // **************************************************************************
 
 String _$cardsListControllerHash() =>
-    r'c2d8451c0574fef12359291edb32940509ccac4d';
+    r'295f03583bb565032369b7fe0a84d010b032c5b8';
 
 /// See also [CardsListController].
 @ProviderFor(CardsListController)

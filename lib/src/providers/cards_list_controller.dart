@@ -11,7 +11,11 @@ part 'cards_list_controller.g.dart';
 @Riverpod(keepAlive: true)
 class CardsListController extends _$CardsListController {
   static const int cardsPerPage = 20;
-  bool _hasBeenInitialized = false;
+
+  // We need keep a copy of the current page because we can't access state.currentPage during the build method.
+  //
+  // See https://github.com/rrousselGit/riverpod/issues/2663
+  int _currentPage = 1;
 
   @override
   CardsListView build() {
@@ -20,13 +24,7 @@ class CardsListController extends _$CardsListController {
     final query = ref.watch(searchQueryProvider);
     cards = _maybeFilterCards(cards, query);
 
-    final view = _buildView(cards);
-
-    if (!_hasBeenInitialized) {
-      _hasBeenInitialized = true;
-    }
-
-    return view;
+    return _buildView(cards, currentPage: _currentPage);
   }
 
   List<AnkiCard> _maybeFilterCards(List<AnkiCard> cards, String query) {
@@ -42,13 +40,11 @@ class CardsListController extends _$CardsListController {
     }).toList();
   }
 
-  CardsListView _buildView(List<AnkiCard> cards, {int? currentPage}) {
-    currentPage ??= _hasBeenInitialized ? state.currentPage : 1;
-
+  CardsListView _buildView(List<AnkiCard> cards, {required currentPage}) {
     final totalPages = cards.length ~/ cardsPerPage;
 
     int startIndex = _calcStartIndex(currentPage);
-    while (startIndex > cards.length) {
+    while (startIndex >= cards.length) {
       currentPage = currentPage! - 1;
       startIndex = _calcStartIndex(currentPage);
     }
@@ -57,6 +53,7 @@ class CardsListController extends _$CardsListController {
     final visibleCards =
         cards.isEmpty ? cards : cards.sublist(startIndex, endIndex);
 
+    _currentPage = currentPage;
     return CardsListView(
       cards: visibleCards,
       currentPage: currentPage!,

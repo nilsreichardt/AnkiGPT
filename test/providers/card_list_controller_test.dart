@@ -140,7 +140,6 @@ void main() {
         final view2 = container.read(cardsListControllerProvider);
         expect(view2.currentPage, 2);
       },
-      skip: 'https://github.com/rrousselGit/riverpod/issues/2663',
     );
   });
 }

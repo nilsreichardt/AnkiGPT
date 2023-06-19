@@ -86,7 +86,7 @@ void main() {
     });
 
     test('should filter based on search query ', () {
-      container.read(searchQueryProvider.notifier).set('question 10');
+      container.read(searchProvider.notifier).set('question 10');
 
       final view = container.read(cardsListControllerProvider);
 
@@ -97,7 +97,7 @@ void main() {
     });
 
     test('should return empty list if there are no results', () {
-      container.read(searchQueryProvider.notifier).set('no-results');
+      container.read(searchProvider.notifier).set('no-results');
 
       final view = container.read(cardsListControllerProvider);
 
@@ -139,6 +139,23 @@ void main() {
             .set(cards.sublist(0, CardsListController.cardsPerPage * 2));
         final view2 = container.read(cardsListControllerProvider);
         expect(view2.currentPage, 2);
+      },
+    );
+
+    test(
+      'should jump back to first page when all cards disappear',
+      () {
+        final cards =
+            _generateAnkiCards((CardsListController.cardsPerPage * 2) + 1);
+        container.read(cardsListProvider.notifier).set(cards);
+
+        container.read(cardsListControllerProvider.notifier).setPage(3);
+        final view1 = container.read(cardsListControllerProvider);
+        expect(view1.currentPage, 3);
+
+        container.read(cardsListProvider.notifier).set([]);
+        final view2 = container.read(cardsListControllerProvider);
+        expect(view2.currentPage, 1);
       },
     );
   });

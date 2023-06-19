@@ -513,7 +513,7 @@ class PlusDialog extends ConsumerWidget {
           const SizedBox(height: 16),
           const Text('''Advantages:
 * Upload PDF files and automatically generate flashcards
-* Generate 50, 100, 150 200 or 300 cards at once
+* Generate 50, 100, 150 200 or 250 cards at once
 * Premium support
 
 Lifetime: €9.99 (no subscription)'''),
@@ -1480,7 +1480,7 @@ enum CardGenrationSize {
   hundred,
   hunderFifty,
   twoHundred,
-  threeHundred;
+  twoHundredsFifty;
 
   int toInt() {
     switch (this) {
@@ -1498,8 +1498,8 @@ enum CardGenrationSize {
         return 150;
       case CardGenrationSize.twoHundred:
         return 200;
-      case CardGenrationSize.threeHundred:
-        return 300;
+      case CardGenrationSize.twoHundredsFifty:
+        return 250;
     }
   }
 
@@ -1523,8 +1523,8 @@ enum CardGenrationSize {
         return '~ 2 min';
       case CardGenrationSize.twoHundred:
         return '~ 2 min';
-      case CardGenrationSize.threeHundred:
-        return '~ 2 min';
+      case CardGenrationSize.twoHundredsFifty:
+        return '~ 5 min';
     }
   }
 
@@ -1534,7 +1534,7 @@ enum CardGenrationSize {
       case CardGenrationSize.hundred:
       case CardGenrationSize.hunderFifty:
       case CardGenrationSize.twoHundred:
-      case CardGenrationSize.threeHundred:
+      case CardGenrationSize.twoHundredsFifty:
         return true;
       default:
         return false;
@@ -1548,7 +1548,7 @@ enum CardGenrationSize {
       case CardGenrationSize.hundred:
       case CardGenrationSize.hunderFifty:
       case CardGenrationSize.twoHundred:
-      case CardGenrationSize.threeHundred:
+      case CardGenrationSize.twoHundredsFifty:
         return true;
       default:
         return false;

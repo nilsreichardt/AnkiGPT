@@ -499,12 +499,26 @@ class PlusDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: const Text("AnkiGPT Plus"),
-      content: const Text('''Advantages:
-* Upload lecture slides and automatically generate flashcards
-* Generate 50, 100, 200 or 300 cards at once
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: min(MediaQuery.of(context).size.height * 2, 300),
+            child: const TutorialVideoPlayer(
+              aspectRatio: 16 / 12,
+              videoUrl:
+                  'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fpdf-upload-tutorial.mp4?alt=media&token=a67cd7c1-ff89-41e8-a1f0-9daebe1caaed',
+            ),
+          ),
+          const SizedBox(height: 16),
+          const Text('''Advantages:
+* Upload PDF files and automatically generate flashcards
+* Generate 50, 100, 150 200 or 300 cards at once
 * Premium support
 
 Lifetime: €9.99 (no subscription)'''),
+        ],
+      ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),

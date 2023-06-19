@@ -945,14 +945,15 @@ class __$$_CardsListViewCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CardsListView implements _CardsListView {
+class _$_CardsListView extends _CardsListView {
   const _$_CardsListView(
       {required final List<AnkiCard> cards,
       required this.currentPage,
       required this.totalPages,
       required this.canPressNext,
       required this.canPressPrevious})
-      : _cards = cards;
+      : _cards = cards,
+        super._();
 
   final List<AnkiCard> _cards;
   @override
@@ -1008,13 +1009,14 @@ class _$_CardsListView implements _CardsListView {
       __$$_CardsListViewCopyWithImpl<_$_CardsListView>(this, _$identity);
 }
 
-abstract class _CardsListView implements CardsListView {
+abstract class _CardsListView extends CardsListView {
   const factory _CardsListView(
       {required final List<AnkiCard> cards,
       required final int currentPage,
       required final int totalPages,
       required final bool canPressNext,
       required final bool canPressPrevious}) = _$_CardsListView;
+  const _CardsListView._() : super._();
 
   @override
   List<AnkiCard> get cards;

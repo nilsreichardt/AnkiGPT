@@ -28,6 +28,8 @@ class GenerateState with _$GenerateState {
 
 @freezed
 class CardsListView with _$CardsListView {
+  const CardsListView._();
+
   const factory CardsListView({
     required List<AnkiCard> cards,
     required int currentPage,
@@ -35,4 +37,14 @@ class CardsListView with _$CardsListView {
     required bool canPressNext,
     required bool canPressPrevious,
   }) = _CardsListView;
+
+  factory CardsListView.empty() {
+    return const CardsListView(
+      cards: [],
+      currentPage: 1,
+      totalPages: 1,
+      canPressNext: false,
+      canPressPrevious: false,
+    );
+  }
 }

@@ -19,7 +19,7 @@ import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/is_editing_card_loading.dart';
 import 'package:ankigpt/src/providers/is_search_loading_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
-import 'package:ankigpt/src/providers/search_query_provider.dart';
+import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:ankigpt/src/providers/search_text_field_controller.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';

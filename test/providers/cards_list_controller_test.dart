@@ -86,7 +86,8 @@ void main() {
     });
 
     test('should filter based on search query ', () {
-      container.read(searchProvider.notifier).set('question 10');
+      container.read(searchQueryProvider.notifier).debounce('question 10');
+      container.read(searchQueryProvider.notifier).fire();
 
       final view = container.read(cardsListControllerProvider);
 
@@ -97,7 +98,8 @@ void main() {
     });
 
     test('should return empty list if there are no results', () {
-      container.read(searchProvider.notifier).set('no-results');
+      container.read(searchQueryProvider.notifier).debounce('no-results');
+      container.read(searchQueryProvider.notifier).fire();
 
       final view = container.read(cardsListControllerProvider);
 

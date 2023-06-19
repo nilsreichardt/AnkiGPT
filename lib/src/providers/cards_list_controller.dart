@@ -21,7 +21,7 @@ class CardsListController extends _$CardsListController {
   CardsListView build() {
     List<AnkiCard> cards = ref.watch(cardsListProvider);
 
-    final query = ref.watch(searchProvider).query;
+    final query = ref.watch(searchQueryProvider);
     cards = _maybeFilterCards(cards, query);
 
     return _buildView(cards, currentPage: _currentPage);

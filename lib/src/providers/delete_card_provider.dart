@@ -9,12 +9,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'delete_card_provider.g.dart';
 
-/// A provider that returns a [Queue] that contains [Future]s to delete cards.
-///
-/// The [Queue] is used to avoid race conditions when deleting cards.
-@Riverpod(keepAlive: true)
-Queue deleteQueue(DeleteQueueRef ref) => Queue();
-
 /// `DeleteCardController` provides a mechanism to manage card deletions in an
 /// Anki session.
 ///
@@ -100,32 +94,5 @@ class DeleteCardController extends _$DeleteCardController {
 
     ref.read(cardsListProvider.notifier).add(_lastDeletedCard!);
     return true;
-  }
-}
-
-@riverpod
-void deleteCard(
-  DeleteCardRef ref, {
-  required CardId cardId,
-  required SessionId sessionId,
-}) {
-  ref.read(deleteQueueProvider).add(() async => await ref
-      .read(sessionRepositoryProvider)
-      .deleteCard(sessionId: sessionId, cardId: cardId));
-}
-
-@riverpod
-void undoDeleteCard(
-  UndoDeleteCardRef ref, {
-  required CardId cardId,
-  required SessionId sessionId,
-}) {
-  final queue = ref.read(deleteQueueProvider);
-  if (queue.contains(cardId)) {
-    queue.remove(cardId);
-  } else {
-    queue.add(() async => await ref
-        .read(sessionRepositoryProvider)
-        .undoDeleteCard(sessionId: sessionId, cardId: cardId));
   }
 }

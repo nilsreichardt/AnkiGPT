@@ -1,3 +1,4 @@
+import 'package:ankigpt/src/providers/search_text_field_controller.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -127,6 +128,7 @@ class SearchQuery extends _$SearchQuery {
     state = '';
     EasyDebounce.cancel(_debounceKey);
     ref.read(isSearchLoadingProvider.notifier).set(false);
+    ref.read(searchTextFieldControllerProvider).clear();
   }
 
   /// Sets the debounce duration for testing purposes.

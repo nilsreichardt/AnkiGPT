@@ -6,7 +6,7 @@ part of 'edit_question_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$editQuestionHash() => r'cef5cd74e2f3a12eafb004f81a9d63bc13afaad3';
+String _$editQuestionHash() => r'c812f6763d88c2727fbf1622a70894247b890ff8';
 
 /// See also [EditQuestion].
 @ProviderFor(EditQuestion)

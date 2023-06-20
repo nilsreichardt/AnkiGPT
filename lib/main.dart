@@ -811,8 +811,13 @@ class _SearchBar extends ConsumerStatefulWidget {
 }
 
 class _SearchBarState extends ConsumerState<_SearchBar> {
-  String query = '';
-  bool get isSearching => query.isNotEmpty;
+  late bool isSearching;
+
+  @override
+  void initState() {
+    super.initState();
+    isSearching = ref.read(searchTextFieldControllerProvider).text.isNotEmpty;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -833,7 +838,7 @@ class _SearchBarState extends ConsumerState<_SearchBar> {
                 ref.read(searchQueryProvider.notifier).debounce(query);
 
                 setState(() {
-                  query = query;
+                  isSearching = query.isNotEmpty;
                 });
               },
               decoration: const InputDecoration(
@@ -850,13 +855,14 @@ class _SearchBarState extends ConsumerState<_SearchBar> {
             duration: const Duration(milliseconds: 300),
             child: isSearching
                 ? IconButton(
-                    key: ValueKey(isSearching),
+                    key: const ValueKey(true),
+                    tooltip: 'Clear',
                     onPressed: () =>
                         ref.read(searchQueryProvider.notifier).clear(),
                     icon: const Icon(Icons.close),
                   )
                 : IconButton(
-                    key: ValueKey(isSearching),
+                    key: const ValueKey(false),
                     onPressed: null,
                     icon: const Icon(Icons.search),
                     disabledColor: Theme.of(context).iconTheme.color,

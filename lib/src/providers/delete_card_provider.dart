@@ -55,7 +55,12 @@ class DeleteCardController extends _$DeleteCardController {
           cardId: cardId,
         );
       },
-    );
+    ).catchError((e) {
+      if (e is QueueCancelledException) {
+        // We ignore this error because it is thrown when the user signs out.
+        return;
+      }
+    });
   }
 
   /// Undoes the last card deletion.
@@ -94,5 +99,13 @@ class DeleteCardController extends _$DeleteCardController {
 
     ref.read(cardsListProvider.notifier).add(_lastDeletedCard!);
     return true;
+  }
+
+  /// Clears the internal queue.
+  ///
+  /// This method clears the internal queue of pending deletion requests. It
+  /// should be called when the session is closed.
+  void clear() {
+    _queue.cancel();
   }
 }

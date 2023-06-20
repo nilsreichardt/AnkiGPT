@@ -34,4 +34,8 @@ class CardsList extends _$CardsList {
   void add(AnkiCard card) {
     state = [...state, card];
   }
+
+  void clear() {
+    state = [];
+  }
 }

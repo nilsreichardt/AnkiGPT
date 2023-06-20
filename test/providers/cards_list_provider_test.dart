@@ -71,5 +71,16 @@ void main() {
         expect(card, isNull);
       });
     });
+
+    group('.clear()', () {
+      test('should clear the list', () {
+        final cards = generateAnkiCards(10);
+        container.read(cardsListProvider.notifier).set(cards);
+
+        container.read(cardsListProvider.notifier).clear();
+
+        expect(container.read(cardsListProvider), isEmpty);
+      });
+    });
   });
 }

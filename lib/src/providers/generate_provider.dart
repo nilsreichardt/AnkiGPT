@@ -12,6 +12,7 @@ import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
+import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
@@ -287,6 +288,7 @@ class GenerateNotifier extends _$GenerateNotifier {
 
   void reset() {
     state = const GenerateState.initial();
+    ref.read(clearSessionStateProvider.notifier).clear();
   }
 
   Future<void> pickFile() async {

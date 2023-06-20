@@ -195,5 +195,40 @@ void main() {
         ));
       });
     });
+
+    group('.clear()', () {
+      test('should cancels all queued calls', () {
+        final card1 = generateCard();
+        final card2 = generateCard(id: 'cardId2');
+        container.read(cardsListProvider.notifier).set([card1, card2]);
+
+        when(mockSessionRepository.deleteCard(
+          sessionId: sessionId,
+          cardId: card1.id,
+        )).thenAnswer((_) async {
+          // Wait a bit to simulate a slow database.
+          await Future.delayed(const Duration(milliseconds: 150));
+        });
+
+        // Delete card1
+        container.read(deleteCardControllerProvider.notifier).delete(
+              cardId: card1.id,
+              sessionId: sessionId,
+            );
+
+        // Delete card2
+        container.read(deleteCardControllerProvider.notifier).delete(
+              cardId: card2.id,
+              sessionId: sessionId,
+            );
+
+        container.read(deleteCardControllerProvider.notifier).clear();
+
+        verifyNever(mockSessionRepository.deleteCard(
+          sessionId: sessionId,
+          cardId: card2.id,
+        ));
+      });
+    });
   });
 }

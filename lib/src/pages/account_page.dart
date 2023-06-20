@@ -10,9 +10,9 @@ import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
 import 'package:ankigpt/src/providers/account_view_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
+import 'package:ankigpt/src/providers/sign_out_provider.dart';
 import 'package:ankigpt/src/providers/stripe_portal_provider.dart';
 import 'package:ankigpt/src/providers/user_id_provider.dart';
-import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -289,7 +289,12 @@ class _SignOutTile extends ConsumerWidget {
         );
 
         if (shouldSignOut == true) {
-          ref.read(userRepositoryProvider).signOut();
+          try {
+            await ref.read(signOutProvider.future);
+          } on Exception catch (e) {
+            // ignore: use_build_context_synchronously
+            context.showTextSnackBar('Error: $e');
+          }
         }
       },
     );

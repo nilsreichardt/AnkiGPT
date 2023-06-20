@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cards_list_provider.dart';
+part of 'sign_out_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cardsListHash() => r'0b69eec6876c76fcd5389424c4d9d634d0442d09';
+String _$signOutHash() => r'186ac4686b9ef591624fff6d1eaa9e43e035fc17';
 
-/// See also [CardsList].
-@ProviderFor(CardsList)
-final cardsListProvider = NotifierProvider<CardsList, List<AnkiCard>>.internal(
-  CardsList.new,
-  name: r'cardsListProvider',
+/// See also [signOut].
+@ProviderFor(signOut)
+final signOutProvider = AutoDisposeFutureProvider<void>.internal(
+  signOut,
+  name: r'signOutProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$cardsListHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$signOutHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CardsList = Notifier<List<AnkiCard>>;
+typedef SignOutRef = AutoDisposeFutureProviderRef<void>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

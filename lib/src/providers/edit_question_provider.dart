@@ -34,6 +34,11 @@ class EditQuestion extends _$EditQuestion {
           cardId: cardId,
           question: question,
         );
+      }).catchError((e) {
+        if (e is QueueCancelledException) {
+          // We ignore this error because it is thrown when the user signs out.
+          return;
+        }
       });
     });
   }

@@ -29,7 +29,10 @@ import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
 import 'package:ankigpt/src/providers/controls_view_provider.dart';
+import 'package:ankigpt/src/providers/delete_card_provider.dart';
 import 'package:ankigpt/src/providers/dislike_provider.dart';
+import 'package:ankigpt/src/providers/edit_answer_provider.dart';
+import 'package:ankigpt/src/providers/edit_question_provider.dart';
 import 'package:ankigpt/src/providers/flavor_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
@@ -39,11 +42,13 @@ import 'package:ankigpt/src/providers/like_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
+import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:ankigpt/src/providers/search_text_field_controller.dart';
 import 'package:ankigpt/src/providers/shared_preferences_provider.dart';
 import 'package:ankigpt/src/providers/show_warning_card.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
+import 'package:ankigpt/src/providers/total_cards_counter_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
 import 'package:confetti/confetti.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -708,43 +713,35 @@ class Results extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             state.maybeWhen(
-              error: (_, __, cards, language) => _Subtitle(
+              error: (_, __, language) => _Subtitle(
                 language: language,
-                numberOfCards: cards.length,
               ),
-              success: (_, cards, ___, language) => _Subtitle(
+              success: (_, __, language) => _Subtitle(
                 language: language,
-                numberOfCards: cards.length,
               ),
-              loading: (_, cards, language, ____) => _Subtitle(
+              loading: (_, language, __) => _Subtitle(
                 language: language,
-                numberOfCards: cards.length,
               ),
               orElse: () => const SizedBox.shrink(),
             ),
             state.maybeWhen(
-              loading: (sessionId, cards, language, isUploadingFile) =>
-                  cards.isEmpty
-                      ? _LoadingCards(
-                          isUploadFile: isUploadingFile,
-                        )
-                      : _ResultList(
-                          sessionId: sessionId,
-                          cards: cards,
-                        ),
-              error: (error, sessionId, cards, language) => Column(
+              loading: (sessionId, language, isUploadingFile) => _ResultList(
+                isUploadingFile: isUploadingFile,
+                sessionId: sessionId,
+              ),
+              error: (error, sessionId, language) => Column(
                 children: [
                   _ErrorCard(text: error),
                   const SizedBox(height: 12),
                   _ResultList(
-                    cards: cards,
                     sessionId: sessionId,
+                    isUploadingFile: false,
                   )
                 ],
               ),
-              success: (sessionId, cards, url, language) => _ResultList(
+              success: (sessionId, url, language) => _ResultList(
                 sessionId: sessionId,
-                cards: cards,
+                isUploadingFile: false,
               ),
               orElse: () => const SizedBox(),
             ),
@@ -829,11 +826,11 @@ class _SearchBarState extends ConsumerState<_SearchBar> {
           Expanded(
             child: TextField(
               controller: ref.read(searchTextFieldControllerProvider),
-              onChanged: (q) {
-                ref.read(generateNotifierProvider.notifier).search(q);
+              onChanged: (query) {
+                ref.read(searchQueryProvider.notifier).debounce(query);
 
                 setState(() {
-                  query = q;
+                  query = query;
                 });
               },
               decoration: const InputDecoration(
@@ -842,7 +839,7 @@ class _SearchBarState extends ConsumerState<_SearchBar> {
                 border: InputBorder.none,
               ),
               onEditingComplete: () =>
-                  ref.read(generateNotifierProvider.notifier).fireSearch(),
+                  ref.read(searchQueryProvider.notifier).fire(),
             ),
           ),
           const SizedBox(width: 12),
@@ -851,9 +848,8 @@ class _SearchBarState extends ConsumerState<_SearchBar> {
             child: isSearching
                 ? IconButton(
                     key: ValueKey(isSearching),
-                    onPressed: () => ref
-                        .read(generateNotifierProvider.notifier)
-                        .clearSearch(),
+                    onPressed: () =>
+                        ref.read(searchQueryProvider.notifier).clear(),
                     icon: const Icon(Icons.close),
                   )
                 : IconButton(
@@ -872,15 +868,18 @@ class _SearchBarState extends ConsumerState<_SearchBar> {
 class _ResultList extends ConsumerWidget {
   const _ResultList({
     Key? key,
-    required this.cards,
     required this.sessionId,
+    required this.isUploadingFile,
   }) : super(key: key);
 
   final SessionId? sessionId;
-  final List<AnkiCard> cards;
+  final bool isUploadingFile;
 
   void showDeleteSnackBar(
-      BuildContext context, WidgetRef ref, CardId cardId, AnkiCard? card) {
+    BuildContext context,
+    WidgetRef ref,
+    CardId cardId,
+  ) {
     context.hideSnackBar();
     context.showTextSnackBar(
       'Card deleted.',
@@ -888,8 +887,8 @@ class _ResultList extends ConsumerWidget {
         label: 'Undo',
         onPressed: () {
           ref
-              .read(generateNotifierProvider.notifier)
-              .restoreCard(cardId, card: card);
+              .read(deleteCardControllerProvider.notifier)
+              .undo(sessionId: sessionId!);
           context.hideSnackBar();
           context.showTextSnackBar('Card restored.');
         },
@@ -898,13 +897,22 @@ class _ResultList extends ConsumerWidget {
   }
 
   void deleteCard(BuildContext context, WidgetRef ref, CardId cardId) {
-    final card = ref.read(generateNotifierProvider.notifier).deleteCard(cardId);
-    showDeleteSnackBar(context, ref, cardId, card);
+    ref.read(deleteCardControllerProvider.notifier).delete(
+          cardId: cardId,
+          sessionId: sessionId!,
+        );
+    showDeleteSnackBar(context, ref, cardId);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cards = ref.watch(cardsListControllerProvider).cards;
+    if (cards.isEmpty) {
+      _LoadingCards(
+        isUploadFile: isUploadingFile,
+      );
+    }
+
     return Column(
       children: [
         const _WarningCard(),
@@ -995,6 +1003,7 @@ class _ResultCardState extends ConsumerState<ResultCard> {
                   _CardQuestion(
                     question: widget.card.question,
                     cardId: widget.card.id,
+                    sessionId: widget.sessionId,
                   ),
                   _Controls(
                     isHovering: hovering,
@@ -1009,6 +1018,7 @@ class _ResultCardState extends ConsumerState<ResultCard> {
               _CardAnswer(
                 answer: widget.card.answer,
                 cardId: widget.card.id,
+                sessionId: widget.sessionId,
               ),
             ],
           ),
@@ -1082,16 +1092,21 @@ class _CardAnswer extends ConsumerWidget {
   const _CardAnswer({
     required this.cardId,
     required this.answer,
+    required this.sessionId,
   });
 
   final CardId cardId;
   final String answer;
+  final SessionId sessionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return _CardTextField(
-      onChanged: (value) =>
-          ref.read(generateNotifierProvider.notifier).editAnswer(cardId, value),
+      onChanged: (text) => ref.read(editAnswerProvider.notifier).debounce(
+            cardId: cardId,
+            answer: text,
+            sessionId: sessionId,
+          ),
       text: answer,
       style: TextStyle(
         color: Colors.grey[700],
@@ -1105,19 +1120,23 @@ class _CardQuestion extends ConsumerWidget {
   const _CardQuestion({
     required this.cardId,
     required this.question,
+    required this.sessionId,
   });
 
   final CardId cardId;
   final String question;
+  final SessionId sessionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
       child: _CardTextField(
         text: question,
-        onChanged: (text) => ref
-            .read(generateNotifierProvider.notifier)
-            .editQuestion(cardId, text),
+        onChanged: (text) => ref.read(editQuestionProvider.notifier).debounce(
+              cardId: cardId,
+              question: text,
+              sessionId: sessionId,
+            ),
         style: const TextStyle(
           fontWeight: FontWeight.w600,
         ),
@@ -1393,23 +1412,20 @@ class Tutorial extends StatelessWidget {
   }
 }
 
-class _Subtitle extends StatelessWidget {
+class _Subtitle extends ConsumerWidget {
   const _Subtitle({
     required this.language,
-    required this.numberOfCards,
   });
 
   final Language? language;
 
-  /// The number of cards that have been generated.
-  final int numberOfCards;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final totalCardsCount = ref.watch(totalCardsCountProvider);
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Text(
-        'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $numberOfCards cards',
+        'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $totalCardsCount cards',
         style: TextStyle(color: Colors.grey[500]),
       ),
     );

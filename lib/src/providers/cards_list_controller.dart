@@ -10,7 +10,7 @@ part 'cards_list_controller.g.dart';
 
 @Riverpod(keepAlive: true)
 class CardsListController extends _$CardsListController {
-  static const int cardsPerPage = 20;
+  static const int cardsPerPage = 25;
 
   // We need keep a copy of the current page because we can't access state.currentPage during the build method.
   //

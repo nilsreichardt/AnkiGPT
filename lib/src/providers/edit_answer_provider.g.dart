@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'controls_view_provider.dart';
+part of 'edit_answer_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlsViewHash() => r'4b7ad875e0b1ff53fa793c03365109f0a835f597';
+String _$editAnswerHash() => r'd29b44a5b3f4b9fe5105f70dc60920952176aded';
 
-/// See also [controlsView].
-@ProviderFor(controlsView)
-final controlsViewProvider = Provider<ControlsView>.internal(
-  controlsView,
-  name: r'controlsViewProvider',
+/// See also [EditAnswer].
+@ProviderFor(EditAnswer)
+final editAnswerProvider = NotifierProvider<EditAnswer, void>.internal(
+  EditAnswer.new,
+  name: r'editAnswerProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$controlsViewHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$editAnswerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef ControlsViewRef = ProviderRef<ControlsView>;
+typedef _$EditAnswer = Notifier<void>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

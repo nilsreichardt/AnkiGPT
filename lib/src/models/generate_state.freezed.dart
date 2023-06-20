@@ -20,44 +20,36 @@ mixin _$GenerateState {
   TResult when<TResult extends Object?>({
     required TResult Function(String slide) initial,
     required TResult Function(
-            String? sessionId,
-            List<AnkiCard> alreadyGeneratedCards,
-            Language? language,
-            bool isUploadFile)
+            String? sessionId, Language? language, bool isUploadFile)
         loading,
-    required TResult Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)
+    required TResult Function(
+            String message, String sessionId, Language? language)
         error,
-    required TResult Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)
+    required TResult Function(
+            String sessionId, String? downloadUrl, Language? language)
         success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String slide)? initial,
-    TResult? Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language, bool isUploadFile)?
+    TResult? Function(String? sessionId, Language? language, bool isUploadFile)?
         loading,
-    TResult? Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)?
+    TResult? Function(String message, String sessionId, Language? language)?
         error,
-    TResult? Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)?
+    TResult? Function(
+            String sessionId, String? downloadUrl, Language? language)?
         success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String slide)? initial,
-    TResult Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language, bool isUploadFile)?
+    TResult Function(String? sessionId, Language? language, bool isUploadFile)?
         loading,
-    TResult Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)?
+    TResult Function(String message, String sessionId, Language? language)?
         error,
-    TResult Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)?
+    TResult Function(String sessionId, String? downloadUrl, Language? language)?
         success,
     required TResult orElse(),
   }) =>
@@ -175,16 +167,13 @@ class _$GenerationStateInitial implements GenerationStateInitial {
   TResult when<TResult extends Object?>({
     required TResult Function(String slide) initial,
     required TResult Function(
-            String? sessionId,
-            List<AnkiCard> alreadyGeneratedCards,
-            Language? language,
-            bool isUploadFile)
+            String? sessionId, Language? language, bool isUploadFile)
         loading,
-    required TResult Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)
+    required TResult Function(
+            String message, String sessionId, Language? language)
         error,
-    required TResult Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)
+    required TResult Function(
+            String sessionId, String? downloadUrl, Language? language)
         success,
   }) {
     return initial(slide);
@@ -194,14 +183,12 @@ class _$GenerationStateInitial implements GenerationStateInitial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String slide)? initial,
-    TResult? Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language, bool isUploadFile)?
+    TResult? Function(String? sessionId, Language? language, bool isUploadFile)?
         loading,
-    TResult? Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)?
+    TResult? Function(String message, String sessionId, Language? language)?
         error,
-    TResult? Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)?
+    TResult? Function(
+            String sessionId, String? downloadUrl, Language? language)?
         success,
   }) {
     return initial?.call(slide);
@@ -211,14 +198,11 @@ class _$GenerationStateInitial implements GenerationStateInitial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String slide)? initial,
-    TResult Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language, bool isUploadFile)?
+    TResult Function(String? sessionId, Language? language, bool isUploadFile)?
         loading,
-    TResult Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)?
+    TResult Function(String message, String sessionId, Language? language)?
         error,
-    TResult Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)?
+    TResult Function(String sessionId, String? downloadUrl, Language? language)?
         success,
     required TResult orElse(),
   }) {
@@ -282,11 +266,7 @@ abstract class _$$GenerationStateLoadingCopyWith<$Res> {
           $Res Function(_$GenerationStateLoading) then) =
       __$$GenerationStateLoadingCopyWithImpl<$Res>;
   @useResult
-  $Res call(
-      {String? sessionId,
-      List<AnkiCard> alreadyGeneratedCards,
-      Language? language,
-      bool isUploadFile});
+  $Res call({String? sessionId, Language? language, bool isUploadFile});
 }
 
 /// @nodoc
@@ -301,7 +281,6 @@ class __$$GenerationStateLoadingCopyWithImpl<$Res>
   @override
   $Res call({
     Object? sessionId = freezed,
-    Object? alreadyGeneratedCards = null,
     Object? language = freezed,
     Object? isUploadFile = null,
   }) {
@@ -310,10 +289,6 @@ class __$$GenerationStateLoadingCopyWithImpl<$Res>
           ? _value.sessionId
           : sessionId // ignore: cast_nullable_to_non_nullable
               as String?,
-      alreadyGeneratedCards: null == alreadyGeneratedCards
-          ? _value._alreadyGeneratedCards
-          : alreadyGeneratedCards // ignore: cast_nullable_to_non_nullable
-              as List<AnkiCard>,
       language: freezed == language
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
@@ -330,24 +305,10 @@ class __$$GenerationStateLoadingCopyWithImpl<$Res>
 
 class _$GenerationStateLoading implements GenerationStateLoading {
   const _$GenerationStateLoading(
-      {this.sessionId,
-      final List<AnkiCard> alreadyGeneratedCards = const [],
-      this.language,
-      this.isUploadFile = false})
-      : _alreadyGeneratedCards = alreadyGeneratedCards;
+      {this.sessionId, this.language, this.isUploadFile = false});
 
   @override
   final String? sessionId;
-  final List<AnkiCard> _alreadyGeneratedCards;
-  @override
-  @JsonKey()
-  List<AnkiCard> get alreadyGeneratedCards {
-    if (_alreadyGeneratedCards is EqualUnmodifiableListView)
-      return _alreadyGeneratedCards;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_alreadyGeneratedCards);
-  }
-
   @override
   final Language? language;
   @override
@@ -356,7 +317,7 @@ class _$GenerationStateLoading implements GenerationStateLoading {
 
   @override
   String toString() {
-    return 'GenerateState.loading(sessionId: $sessionId, alreadyGeneratedCards: $alreadyGeneratedCards, language: $language, isUploadFile: $isUploadFile)';
+    return 'GenerateState.loading(sessionId: $sessionId, language: $language, isUploadFile: $isUploadFile)';
   }
 
   @override
@@ -366,8 +327,6 @@ class _$GenerationStateLoading implements GenerationStateLoading {
             other is _$GenerationStateLoading &&
             (identical(other.sessionId, sessionId) ||
                 other.sessionId == sessionId) &&
-            const DeepCollectionEquality()
-                .equals(other._alreadyGeneratedCards, _alreadyGeneratedCards) &&
             (identical(other.language, language) ||
                 other.language == language) &&
             (identical(other.isUploadFile, isUploadFile) ||
@@ -375,12 +334,8 @@ class _$GenerationStateLoading implements GenerationStateLoading {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      sessionId,
-      const DeepCollectionEquality().hash(_alreadyGeneratedCards),
-      language,
-      isUploadFile);
+  int get hashCode =>
+      Object.hash(runtimeType, sessionId, language, isUploadFile);
 
   @JsonKey(ignore: true)
   @override
@@ -394,56 +349,47 @@ class _$GenerationStateLoading implements GenerationStateLoading {
   TResult when<TResult extends Object?>({
     required TResult Function(String slide) initial,
     required TResult Function(
-            String? sessionId,
-            List<AnkiCard> alreadyGeneratedCards,
-            Language? language,
-            bool isUploadFile)
+            String? sessionId, Language? language, bool isUploadFile)
         loading,
-    required TResult Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)
+    required TResult Function(
+            String message, String sessionId, Language? language)
         error,
-    required TResult Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)
+    required TResult Function(
+            String sessionId, String? downloadUrl, Language? language)
         success,
   }) {
-    return loading(sessionId, alreadyGeneratedCards, language, isUploadFile);
+    return loading(sessionId, language, isUploadFile);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String slide)? initial,
-    TResult? Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language, bool isUploadFile)?
+    TResult? Function(String? sessionId, Language? language, bool isUploadFile)?
         loading,
-    TResult? Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)?
+    TResult? Function(String message, String sessionId, Language? language)?
         error,
-    TResult? Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)?
+    TResult? Function(
+            String sessionId, String? downloadUrl, Language? language)?
         success,
   }) {
-    return loading?.call(
-        sessionId, alreadyGeneratedCards, language, isUploadFile);
+    return loading?.call(sessionId, language, isUploadFile);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String slide)? initial,
-    TResult Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language, bool isUploadFile)?
+    TResult Function(String? sessionId, Language? language, bool isUploadFile)?
         loading,
-    TResult Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)?
+    TResult Function(String message, String sessionId, Language? language)?
         error,
-    TResult Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)?
+    TResult Function(String sessionId, String? downloadUrl, Language? language)?
         success,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading(sessionId, alreadyGeneratedCards, language, isUploadFile);
+      return loading(sessionId, language, isUploadFile);
     }
     return orElse();
   }
@@ -489,12 +435,10 @@ class _$GenerationStateLoading implements GenerationStateLoading {
 abstract class GenerationStateLoading implements GenerateState {
   const factory GenerationStateLoading(
       {final String? sessionId,
-      final List<AnkiCard> alreadyGeneratedCards,
       final Language? language,
       final bool isUploadFile}) = _$GenerationStateLoading;
 
   String? get sessionId;
-  List<AnkiCard> get alreadyGeneratedCards;
   Language? get language;
   bool get isUploadFile;
   @JsonKey(ignore: true)
@@ -508,11 +452,7 @@ abstract class _$$GenerationStateErrorCopyWith<$Res> {
           $Res Function(_$GenerationStateError) then) =
       __$$GenerationStateErrorCopyWithImpl<$Res>;
   @useResult
-  $Res call(
-      {String message,
-      String sessionId,
-      List<AnkiCard> generatedCards,
-      Language? language});
+  $Res call({String message, String sessionId, Language? language});
 }
 
 /// @nodoc
@@ -528,7 +468,6 @@ class __$$GenerationStateErrorCopyWithImpl<$Res>
   $Res call({
     Object? message = null,
     Object? sessionId = null,
-    Object? generatedCards = null,
     Object? language = freezed,
   }) {
     return _then(_$GenerationStateError(
@@ -540,10 +479,6 @@ class __$$GenerationStateErrorCopyWithImpl<$Res>
           ? _value.sessionId
           : sessionId // ignore: cast_nullable_to_non_nullable
               as String,
-      generatedCards: null == generatedCards
-          ? _value._generatedCards
-          : generatedCards // ignore: cast_nullable_to_non_nullable
-              as List<AnkiCard>,
       language: freezed == language
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
@@ -556,31 +491,18 @@ class __$$GenerationStateErrorCopyWithImpl<$Res>
 
 class _$GenerationStateError implements GenerationStateError {
   const _$GenerationStateError(
-      {required this.message,
-      required this.sessionId,
-      final List<AnkiCard> generatedCards = const [],
-      this.language})
-      : _generatedCards = generatedCards;
+      {required this.message, required this.sessionId, this.language});
 
   @override
   final String message;
   @override
   final String sessionId;
-  final List<AnkiCard> _generatedCards;
-  @override
-  @JsonKey()
-  List<AnkiCard> get generatedCards {
-    if (_generatedCards is EqualUnmodifiableListView) return _generatedCards;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_generatedCards);
-  }
-
   @override
   final Language? language;
 
   @override
   String toString() {
-    return 'GenerateState.error(message: $message, sessionId: $sessionId, generatedCards: $generatedCards, language: $language)';
+    return 'GenerateState.error(message: $message, sessionId: $sessionId, language: $language)';
   }
 
   @override
@@ -591,15 +513,12 @@ class _$GenerationStateError implements GenerationStateError {
             (identical(other.message, message) || other.message == message) &&
             (identical(other.sessionId, sessionId) ||
                 other.sessionId == sessionId) &&
-            const DeepCollectionEquality()
-                .equals(other._generatedCards, _generatedCards) &&
             (identical(other.language, language) ||
                 other.language == language));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, message, sessionId,
-      const DeepCollectionEquality().hash(_generatedCards), language);
+  int get hashCode => Object.hash(runtimeType, message, sessionId, language);
 
   @JsonKey(ignore: true)
   @override
@@ -613,55 +532,47 @@ class _$GenerationStateError implements GenerationStateError {
   TResult when<TResult extends Object?>({
     required TResult Function(String slide) initial,
     required TResult Function(
-            String? sessionId,
-            List<AnkiCard> alreadyGeneratedCards,
-            Language? language,
-            bool isUploadFile)
+            String? sessionId, Language? language, bool isUploadFile)
         loading,
-    required TResult Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)
+    required TResult Function(
+            String message, String sessionId, Language? language)
         error,
-    required TResult Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)
+    required TResult Function(
+            String sessionId, String? downloadUrl, Language? language)
         success,
   }) {
-    return error(message, sessionId, generatedCards, language);
+    return error(message, sessionId, language);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String slide)? initial,
-    TResult? Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language, bool isUploadFile)?
+    TResult? Function(String? sessionId, Language? language, bool isUploadFile)?
         loading,
-    TResult? Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)?
+    TResult? Function(String message, String sessionId, Language? language)?
         error,
-    TResult? Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)?
+    TResult? Function(
+            String sessionId, String? downloadUrl, Language? language)?
         success,
   }) {
-    return error?.call(message, sessionId, generatedCards, language);
+    return error?.call(message, sessionId, language);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String slide)? initial,
-    TResult Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language, bool isUploadFile)?
+    TResult Function(String? sessionId, Language? language, bool isUploadFile)?
         loading,
-    TResult Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)?
+    TResult Function(String message, String sessionId, Language? language)?
         error,
-    TResult Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)?
+    TResult Function(String sessionId, String? downloadUrl, Language? language)?
         success,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(message, sessionId, generatedCards, language);
+      return error(message, sessionId, language);
     }
     return orElse();
   }
@@ -708,12 +619,10 @@ abstract class GenerationStateError implements GenerateState {
   const factory GenerationStateError(
       {required final String message,
       required final String sessionId,
-      final List<AnkiCard> generatedCards,
       final Language? language}) = _$GenerationStateError;
 
   String get message;
   String get sessionId;
-  List<AnkiCard> get generatedCards;
   Language? get language;
   @JsonKey(ignore: true)
   _$$GenerationStateErrorCopyWith<_$GenerationStateError> get copyWith =>
@@ -726,11 +635,7 @@ abstract class _$$GenerationStateSuccessCopyWith<$Res> {
           $Res Function(_$GenerationStateSuccess) then) =
       __$$GenerationStateSuccessCopyWithImpl<$Res>;
   @useResult
-  $Res call(
-      {String sessionId,
-      List<AnkiCard> generatedCards,
-      String? downloadUrl,
-      Language? language});
+  $Res call({String sessionId, String? downloadUrl, Language? language});
 }
 
 /// @nodoc
@@ -745,7 +650,6 @@ class __$$GenerationStateSuccessCopyWithImpl<$Res>
   @override
   $Res call({
     Object? sessionId = null,
-    Object? generatedCards = null,
     Object? downloadUrl = freezed,
     Object? language = freezed,
   }) {
@@ -754,10 +658,6 @@ class __$$GenerationStateSuccessCopyWithImpl<$Res>
           ? _value.sessionId
           : sessionId // ignore: cast_nullable_to_non_nullable
               as String,
-      generatedCards: null == generatedCards
-          ? _value._generatedCards
-          : generatedCards // ignore: cast_nullable_to_non_nullable
-              as List<AnkiCard>,
       downloadUrl: freezed == downloadUrl
           ? _value.downloadUrl
           : downloadUrl // ignore: cast_nullable_to_non_nullable
@@ -774,22 +674,10 @@ class __$$GenerationStateSuccessCopyWithImpl<$Res>
 
 class _$GenerationStateSuccess implements GenerationStateSuccess {
   const _$GenerationStateSuccess(
-      {required this.sessionId,
-      required final List<AnkiCard> generatedCards,
-      required this.downloadUrl,
-      this.language})
-      : _generatedCards = generatedCards;
+      {required this.sessionId, required this.downloadUrl, this.language});
 
   @override
   final String sessionId;
-  final List<AnkiCard> _generatedCards;
-  @override
-  List<AnkiCard> get generatedCards {
-    if (_generatedCards is EqualUnmodifiableListView) return _generatedCards;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_generatedCards);
-  }
-
   @override
   final String? downloadUrl;
   @override
@@ -797,7 +685,7 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
 
   @override
   String toString() {
-    return 'GenerateState.success(sessionId: $sessionId, generatedCards: $generatedCards, downloadUrl: $downloadUrl, language: $language)';
+    return 'GenerateState.success(sessionId: $sessionId, downloadUrl: $downloadUrl, language: $language)';
   }
 
   @override
@@ -807,8 +695,6 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
             other is _$GenerationStateSuccess &&
             (identical(other.sessionId, sessionId) ||
                 other.sessionId == sessionId) &&
-            const DeepCollectionEquality()
-                .equals(other._generatedCards, _generatedCards) &&
             (identical(other.downloadUrl, downloadUrl) ||
                 other.downloadUrl == downloadUrl) &&
             (identical(other.language, language) ||
@@ -816,12 +702,8 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      sessionId,
-      const DeepCollectionEquality().hash(_generatedCards),
-      downloadUrl,
-      language);
+  int get hashCode =>
+      Object.hash(runtimeType, sessionId, downloadUrl, language);
 
   @JsonKey(ignore: true)
   @override
@@ -835,55 +717,47 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function(String slide) initial,
     required TResult Function(
-            String? sessionId,
-            List<AnkiCard> alreadyGeneratedCards,
-            Language? language,
-            bool isUploadFile)
+            String? sessionId, Language? language, bool isUploadFile)
         loading,
-    required TResult Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)
+    required TResult Function(
+            String message, String sessionId, Language? language)
         error,
-    required TResult Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)
+    required TResult Function(
+            String sessionId, String? downloadUrl, Language? language)
         success,
   }) {
-    return success(sessionId, generatedCards, downloadUrl, language);
+    return success(sessionId, downloadUrl, language);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String slide)? initial,
-    TResult? Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language, bool isUploadFile)?
+    TResult? Function(String? sessionId, Language? language, bool isUploadFile)?
         loading,
-    TResult? Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)?
+    TResult? Function(String message, String sessionId, Language? language)?
         error,
-    TResult? Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)?
+    TResult? Function(
+            String sessionId, String? downloadUrl, Language? language)?
         success,
   }) {
-    return success?.call(sessionId, generatedCards, downloadUrl, language);
+    return success?.call(sessionId, downloadUrl, language);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String slide)? initial,
-    TResult Function(String? sessionId, List<AnkiCard> alreadyGeneratedCards,
-            Language? language, bool isUploadFile)?
+    TResult Function(String? sessionId, Language? language, bool isUploadFile)?
         loading,
-    TResult Function(String message, String sessionId,
-            List<AnkiCard> generatedCards, Language? language)?
+    TResult Function(String message, String sessionId, Language? language)?
         error,
-    TResult Function(String sessionId, List<AnkiCard> generatedCards,
-            String? downloadUrl, Language? language)?
+    TResult Function(String sessionId, String? downloadUrl, Language? language)?
         success,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(sessionId, generatedCards, downloadUrl, language);
+      return success(sessionId, downloadUrl, language);
     }
     return orElse();
   }
@@ -929,15 +803,233 @@ class _$GenerationStateSuccess implements GenerationStateSuccess {
 abstract class GenerationStateSuccess implements GenerateState {
   const factory GenerationStateSuccess(
       {required final String sessionId,
-      required final List<AnkiCard> generatedCards,
       required final String? downloadUrl,
       final Language? language}) = _$GenerationStateSuccess;
 
   String get sessionId;
-  List<AnkiCard> get generatedCards;
   String? get downloadUrl;
   Language? get language;
   @JsonKey(ignore: true)
   _$$GenerationStateSuccessCopyWith<_$GenerationStateSuccess> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$CardsListView {
+  List<AnkiCard> get cards => throw _privateConstructorUsedError;
+  int get currentPage => throw _privateConstructorUsedError;
+  int get totalPages => throw _privateConstructorUsedError;
+  bool get canPressNext => throw _privateConstructorUsedError;
+  bool get canPressPrevious => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $CardsListViewCopyWith<CardsListView> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CardsListViewCopyWith<$Res> {
+  factory $CardsListViewCopyWith(
+          CardsListView value, $Res Function(CardsListView) then) =
+      _$CardsListViewCopyWithImpl<$Res, CardsListView>;
+  @useResult
+  $Res call(
+      {List<AnkiCard> cards,
+      int currentPage,
+      int totalPages,
+      bool canPressNext,
+      bool canPressPrevious});
+}
+
+/// @nodoc
+class _$CardsListViewCopyWithImpl<$Res, $Val extends CardsListView>
+    implements $CardsListViewCopyWith<$Res> {
+  _$CardsListViewCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? cards = null,
+    Object? currentPage = null,
+    Object? totalPages = null,
+    Object? canPressNext = null,
+    Object? canPressPrevious = null,
+  }) {
+    return _then(_value.copyWith(
+      cards: null == cards
+          ? _value.cards
+          : cards // ignore: cast_nullable_to_non_nullable
+              as List<AnkiCard>,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+      canPressNext: null == canPressNext
+          ? _value.canPressNext
+          : canPressNext // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canPressPrevious: null == canPressPrevious
+          ? _value.canPressPrevious
+          : canPressPrevious // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_CardsListViewCopyWith<$Res>
+    implements $CardsListViewCopyWith<$Res> {
+  factory _$$_CardsListViewCopyWith(
+          _$_CardsListView value, $Res Function(_$_CardsListView) then) =
+      __$$_CardsListViewCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {List<AnkiCard> cards,
+      int currentPage,
+      int totalPages,
+      bool canPressNext,
+      bool canPressPrevious});
+}
+
+/// @nodoc
+class __$$_CardsListViewCopyWithImpl<$Res>
+    extends _$CardsListViewCopyWithImpl<$Res, _$_CardsListView>
+    implements _$$_CardsListViewCopyWith<$Res> {
+  __$$_CardsListViewCopyWithImpl(
+      _$_CardsListView _value, $Res Function(_$_CardsListView) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? cards = null,
+    Object? currentPage = null,
+    Object? totalPages = null,
+    Object? canPressNext = null,
+    Object? canPressPrevious = null,
+  }) {
+    return _then(_$_CardsListView(
+      cards: null == cards
+          ? _value._cards
+          : cards // ignore: cast_nullable_to_non_nullable
+              as List<AnkiCard>,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+      canPressNext: null == canPressNext
+          ? _value.canPressNext
+          : canPressNext // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canPressPrevious: null == canPressPrevious
+          ? _value.canPressPrevious
+          : canPressPrevious // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_CardsListView extends _CardsListView {
+  const _$_CardsListView(
+      {required final List<AnkiCard> cards,
+      required this.currentPage,
+      required this.totalPages,
+      required this.canPressNext,
+      required this.canPressPrevious})
+      : _cards = cards,
+        super._();
+
+  final List<AnkiCard> _cards;
+  @override
+  List<AnkiCard> get cards {
+    if (_cards is EqualUnmodifiableListView) return _cards;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_cards);
+  }
+
+  @override
+  final int currentPage;
+  @override
+  final int totalPages;
+  @override
+  final bool canPressNext;
+  @override
+  final bool canPressPrevious;
+
+  @override
+  String toString() {
+    return 'CardsListView(cards: $cards, currentPage: $currentPage, totalPages: $totalPages, canPressNext: $canPressNext, canPressPrevious: $canPressPrevious)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_CardsListView &&
+            const DeepCollectionEquality().equals(other._cards, _cards) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages) &&
+            (identical(other.canPressNext, canPressNext) ||
+                other.canPressNext == canPressNext) &&
+            (identical(other.canPressPrevious, canPressPrevious) ||
+                other.canPressPrevious == canPressPrevious));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_cards),
+      currentPage,
+      totalPages,
+      canPressNext,
+      canPressPrevious);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_CardsListViewCopyWith<_$_CardsListView> get copyWith =>
+      __$$_CardsListViewCopyWithImpl<_$_CardsListView>(this, _$identity);
+}
+
+abstract class _CardsListView extends CardsListView {
+  const factory _CardsListView(
+      {required final List<AnkiCard> cards,
+      required final int currentPage,
+      required final int totalPages,
+      required final bool canPressNext,
+      required final bool canPressPrevious}) = _$_CardsListView;
+  const _CardsListView._() : super._();
+
+  @override
+  List<AnkiCard> get cards;
+  @override
+  int get currentPage;
+  @override
+  int get totalPages;
+  @override
+  bool get canPressNext;
+  @override
+  bool get canPressPrevious;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CardsListViewCopyWith<_$_CardsListView> get copyWith =>
       throw _privateConstructorUsedError;
 }

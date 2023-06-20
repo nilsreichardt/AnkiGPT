@@ -7,7 +7,7 @@ part of 'card_feedback_status_provider.dart';
 // **************************************************************************
 
 String _$cardFeedbackStatusControllerHash() =>
-    r'c9be80caa8f0ff4dd0d57548a6785c1142a4d3d9';
+    r'fbb70fb9af7b767cc41eed2d609e5ccec2f3b97f';
 
 /// See also [CardFeedbackStatusController].
 @ProviderFor(CardFeedbackStatusController)

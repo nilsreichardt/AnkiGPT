@@ -16,8 +16,8 @@ class Logo extends ConsumerWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          Navigator.maybePop(context);
           ref.read(generateNotifierProvider.notifier).reset();
+          Navigator.maybePop(context);
         },
         child: SvgPicture.asset(
           'assets/logo/raw_logo.svg',

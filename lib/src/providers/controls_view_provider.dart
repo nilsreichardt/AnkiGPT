@@ -2,7 +2,8 @@ import 'package:ankigpt/src/models/controls_view.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/is_editing_card_loading.dart';
-import 'package:ankigpt/src/providers/is_search_loading_provider.dart';
+import 'package:ankigpt/src/providers/search_provider.dart';
+import 'package:ankigpt/src/providers/total_cards_counter_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'controls_view_provider.g.dart';
@@ -12,6 +13,7 @@ ControlsView controlsView(ControlsViewRef ref) {
   final generateState = ref.watch(generateNotifierProvider);
   final isSearching = ref.watch(isSearchLoadingProvider);
   final isEditing = ref.watch(isEditingCardLoadingProvider);
+  final totalCardsCount = ref.watch(totalCardsCountProvider);
   return generateState.maybeMap<ControlsView>(
     success: (_) => ControlsView(
       isGeneratedButtonEnabled: true,
@@ -25,8 +27,8 @@ ControlsView controlsView(ControlsViewRef ref) {
       isGenerating: true,
       isDownloadAvailable: false,
       isDownloadButtonVisible: true,
-      showLoadingIndicator: generateState is GenerationStateLoading &&
-          generateState.alreadyGeneratedCards.isNotEmpty,
+      showLoadingIndicator:
+          generateState is GenerationStateLoading && totalCardsCount != 0,
     ),
     orElse: () => const ControlsView(
       isGeneratedButtonEnabled: true,

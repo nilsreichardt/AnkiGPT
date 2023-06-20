@@ -15,6 +15,19 @@ part 'delete_card_provider.g.dart';
 @Riverpod(keepAlive: true)
 Queue deleteQueue(DeleteQueueRef ref) => Queue();
 
+/// `DeleteCardController` provides a mechanism to manage card deletions in an
+/// Anki session.
+///
+/// This controller maintains an internal queue of pending deletion requests to
+/// the database and provides methods to delete and undo delete operations on
+/// AnkiCards.
+///
+/// It immediately removes the card from the local cache (`cardsListProvider`)
+/// upon a deletion request, to give a responsive feel to the user. The actual
+/// deletion from the database is then queued and performed asynchronously.
+///
+/// The controller also remembers the last deleted card, allowing for an undo
+/// operation.
 @Riverpod(keepAlive: true)
 class DeleteCardController extends _$DeleteCardController {
   final _queue = Queue();
@@ -25,6 +38,12 @@ class DeleteCardController extends _$DeleteCardController {
     return;
   }
 
+  /// Deletes the card.
+  ///
+  /// This method immediately removes a card with the provided [cardId] from the
+  /// `cardsListProvider` from the [sessionId]. It also adds a deletion request
+  /// to the internal queue, which is responsible for communicating with the
+  /// database to permanently delete the card.
   void delete({
     required CardId cardId,
     required SessionId sessionId,
@@ -45,6 +64,15 @@ class DeleteCardController extends _$DeleteCardController {
     );
   }
 
+  /// Undoes the last card deletion.
+  ///
+  /// This method attempts to undo the most recent card deletion. If the
+  /// deletion request is still pending in the queue, it's removed. If not, it
+  /// issues an undo request to the database. The card is then readded to the
+  /// `cardsListProvider`.
+  ///
+  /// If there's no card to undo deletion for, it logs a warning and returns
+  /// `false`. Otherwise, it returns `true` to indicate success.
   bool undo({
     required SessionId sessionId,
   }) {

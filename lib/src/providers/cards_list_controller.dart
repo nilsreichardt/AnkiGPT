@@ -54,7 +54,7 @@ class CardsListController extends _$CardsListController {
     }
 
     final endIndex = min(startIndex + cardsPerPage, cards.length);
-    final visibleCards = cards.sublist(startIndex, endIndex);
+    final visibleCards = cards.sublist(startIndex, endIndex)..sortByCreatedAt();
 
     _currentPage = currentPage;
     return CardsListView(
@@ -85,5 +85,18 @@ class CardsListController extends _$CardsListController {
   void setPage(int page) {
     final cards = ref.read(cardsListProvider);
     state = _buildView(cards, currentPage: page);
+  }
+}
+
+extension on List<AnkiCard> {
+  void sortByCreatedAt() {
+    // Sort first by createdAt than by id. This way we can ensure that the order is always the same.
+    sort((a, b) {
+      final createdAtComparison = a.createdAt.compareTo(b.createdAt);
+      if (createdAtComparison != 0) {
+        return createdAtComparison;
+      }
+      return a.id.compareTo(b.id);
+    });
   }
 }

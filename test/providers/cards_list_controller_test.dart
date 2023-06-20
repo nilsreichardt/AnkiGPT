@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
@@ -31,6 +33,17 @@ void main() {
       );
       expect(view.canPressNext, true);
       expect(view.canPressPrevious, false);
+    });
+
+    test('should sort cards', () {
+      final cards = _generateAnkiCards(10);
+
+      final random = Random(42);
+      final shuffeledCards = List<AnkiCard>.from(cards)..shuffle(random);
+      container.read(cardsListProvider.notifier).set(shuffeledCards);
+
+      final view = container.read(cardsListControllerProvider);
+      expect(view.cards, cards);
     });
 
     test('should correctly switch to the next page', () {
@@ -163,13 +176,15 @@ void main() {
   });
 }
 
+/// Generates a list of [AnkiCard]s with the given [count] that are sorted by
+/// their [createdAt] date.
 List<AnkiCard> _generateAnkiCards(int count) {
   return List<AnkiCard>.generate(
     count,
     (index) => AnkiCard(
       answer: 'answer $index',
       question: 'question $index',
-      createdAt: DateTime.now(),
+      createdAt: DateTime.now().add(Duration(minutes: index)),
       id: '$index',
     ),
   );

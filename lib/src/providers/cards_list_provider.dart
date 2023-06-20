@@ -13,7 +13,9 @@ class CardsList extends _$CardsList {
   }
 
   void set(List<AnkiCard> cards) {
-    state = cards;
+    state = [
+      for (int i = 0; i < 40; i++) ...cards,
+    ];
   }
 
   AnkiCard? remove(CardId cardId) {

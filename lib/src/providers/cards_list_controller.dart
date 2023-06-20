@@ -45,7 +45,7 @@ class CardsListController extends _$CardsListController {
       return CardsListView.empty();
     }
 
-    final totalPages = cards.length ~/ cardsPerPage;
+    final totalPages = (cards.length / cardsPerPage).ceil();
 
     int startIndex = _calcStartIndex(currentPage);
     while (startIndex >= cards.length) {

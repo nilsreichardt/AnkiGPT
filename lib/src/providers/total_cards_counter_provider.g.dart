@@ -6,11 +6,11 @@ part of 'total_cards_counter_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$totalCardsCountHash() => r'39e8ec435fa62f600e1870919a9a45ced8879d87';
+String _$totalCardsCountHash() => r'fbabb4c3cf2e38657142aa6826da6b102f546cea';
 
 /// See also [totalCardsCount].
 @ProviderFor(totalCardsCount)
-final totalCardsCountProvider = AutoDisposeProvider<int>.internal(
+final totalCardsCountProvider = Provider<int>.internal(
   totalCardsCount,
   name: r'totalCardsCountProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,5 +20,5 @@ final totalCardsCountProvider = AutoDisposeProvider<int>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef TotalCardsCountRef = AutoDisposeProviderRef<int>;
+typedef TotalCardsCountRef = ProviderRef<int>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

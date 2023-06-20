@@ -35,6 +35,14 @@ void main() {
 
           expect(container.read(searchQueryProvider), isEmpty);
         });
+
+        test('sets is loading to false', () {
+          container.read(isSearchLoadingProvider.notifier).set(true);
+
+          container.read(searchQueryProvider.notifier).clear();
+
+          expect(container.read(isSearchLoadingProvider), isFalse);
+        });
       });
 
       group('.deounce()', () {
@@ -65,6 +73,16 @@ void main() {
           await Future.delayed(fastDebounceDuration);
 
           expect(container.read(isSearchLoadingProvider), isFalse);
+        });
+
+        test('clears immediately when query is empty', () {
+          container.read(searchQueryProvider.notifier).debounce('test');
+          container.read(searchQueryProvider.notifier).fire();
+
+          container.read(searchQueryProvider.notifier).debounce('');
+
+          // Without await, the query should be set immediately.
+          expect(container.read(searchQueryProvider), isEmpty);
         });
       });
 

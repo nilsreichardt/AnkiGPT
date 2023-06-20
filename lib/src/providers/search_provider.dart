@@ -88,6 +88,11 @@ class SearchQuery extends _$SearchQuery {
   /// This method is used to prevent the search results from updating too
   /// frequently as the user types in the search bar.
   void debounce(String query) {
+    if (query.isEmpty) {
+      clear();
+      return;
+    }
+
     ref.read(isSearchLoadingProvider.notifier).set(true);
     EasyDebounce.debounce(_debounceKey, _debounceDuration, () {
       // CardsListController will listen to this provider and rebuild the UI
@@ -121,6 +126,7 @@ class SearchQuery extends _$SearchQuery {
   void clear() {
     state = '';
     EasyDebounce.cancel(_debounceKey);
+    ref.read(isSearchLoadingProvider.notifier).set(false);
   }
 
   /// Sets the debounce duration for testing purposes.

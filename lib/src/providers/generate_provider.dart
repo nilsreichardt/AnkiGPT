@@ -12,9 +12,7 @@ import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
-import 'package:ankigpt/src/providers/edit_card_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
-import 'package:ankigpt/src/providers/is_search_loading_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
@@ -134,7 +132,7 @@ class GenerateNotifier extends _$GenerateNotifier {
         return;
       }
 
-      final cards = (dto.cards?.values.toList() ?? [])..sortByCreatedAt();
+      final cards = (dto.cards?.values.toList() ?? []);
       ref.read(cardsListProvider.notifier).set(cards);
 
       if (dto.status == SessionStatus.completed) {
@@ -236,7 +234,7 @@ class GenerateNotifier extends _$GenerateNotifier {
 
       _logger.d("Received session dto with ${dto.cards?.length} cards");
 
-      final cards = (dto.cards?.values.toList() ?? [])..sortByCreatedAt();
+      final cards = (dto.cards?.values.toList() ?? []);
       ref.read(cardsListProvider.notifier).set(cards);
 
       if (dto.csv == null) {

@@ -6,7 +6,7 @@ part of 'search_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$searchQueryHash() => r'b3c351d994b0cd34a8398ab20734f75da70d3d29';
+String _$searchQueryHash() => r'24f27e705d998a4c939964f32870d3b5e9204d83';
 
 /// [SearchQuery] is a Riverpod provider that handles a search input with
 /// debouncing functionality.

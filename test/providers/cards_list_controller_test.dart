@@ -27,12 +27,21 @@ void main() {
       final view = container.read(cardsListControllerProvider);
 
       expect(view.currentPage, 1);
+      expect(view.totalPages, 3);
       expect(
         view.cards,
         cards.sublist(0, CardsListController.cardsPerPage),
       );
       expect(view.canPressNext, true);
       expect(view.canPressPrevious, false);
+    });
+
+    test('sets total page to 1 when there is just one card', () {
+      container.read(cardsListProvider.notifier).set([cards.first]);
+
+      final view = container.read(cardsListControllerProvider);
+
+      expect(view.totalPages, 1);
     });
 
     test('should sort cards', () {

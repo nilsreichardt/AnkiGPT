@@ -22,6 +22,7 @@ import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/history_section.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
+import 'package:ankigpt/src/pages/widgets/pagination_control.dart';
 import 'package:ankigpt/src/pages/widgets/theme.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
@@ -950,6 +951,8 @@ class _ResultList extends ConsumerWidget {
             ),
           ),
         ),
+        const SizedBox(height: 12),
+        const PaginationControl(),
       ],
     );
   }
@@ -1421,11 +1424,21 @@ class _Subtitle extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final totalCardsCount = ref.watch(totalCardsCountProvider);
+    final query = ref.watch(searchQueryProvider);
+    final isSearching = query.isNotEmpty;
+
+    int cardsCount = 0;
+    if (isSearching) {
+      final view = ref.watch(cardsListControllerProvider);
+      cardsCount = view.cards.length;
+    } else {
+      cardsCount = ref.watch(totalCardsCountProvider);
+    }
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Text(
-        'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $totalCardsCount cards',
+        'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $cardsCount cards',
         style: TextStyle(color: Colors.grey[500]),
       ),
     );
@@ -1756,8 +1769,8 @@ class DownloadButton extends ConsumerWidget {
         child: Tooltip(
           key: ValueKey(isFinished),
           message: state.maybeWhen(
-            loading: (_, __, ___, ____) => 'Still generating... Please wait.',
-            success: (_, __, ___, ____) => 'Download as .csv file to import it',
+            loading: (_, __, ___) => 'Still generating... Please wait.',
+            success: (_, __, ___) => 'Download as .csv file to import it',
             orElse: () => '',
           ),
           child: ElevatedButton.icon(

@@ -11,12 +11,18 @@ class AnkiGptCard extends StatefulWidget {
     this.padding = const EdgeInsets.fromLTRB(14, 6, 14, 16),
     required this.child,
     this.hoverColor,
+    this.borderRadius,
   });
 
   final Color? color;
   final Color? hoverColor;
   final EdgeInsetsGeometry padding;
   final Widget child;
+
+  /// The border radius of the card.
+  ///
+  /// Defaults to [defaultAnkiGptBorderRadius].
+  final BorderRadiusGeometry? borderRadius;
 
   @override
   State<AnkiGptCard> createState() => _AnkiGptCardState();
@@ -63,7 +69,7 @@ class _AnkiGptCardState extends State<AnkiGptCard> {
       duration: const Duration(milliseconds: 275),
       child: Material(
         key: ValueKey(randomInt),
-        borderRadius: defaultAnkiGptBorderRadius,
+        borderRadius: widget.borderRadius ?? defaultAnkiGptBorderRadius,
         color: _getColor(context),
         child: Padding(
           padding: widget.padding,

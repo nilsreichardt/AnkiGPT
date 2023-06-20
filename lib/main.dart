@@ -500,12 +500,26 @@ class PlusDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: const Text("AnkiGPT Plus"),
-      content: const Text('''Advantages:
-* Upload lecture slides and automatically generate flashcards
-* Generate 50, 100, 200 or 300 cards at once
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: min(MediaQuery.of(context).size.height * 2, 300),
+            child: const TutorialVideoPlayer(
+              aspectRatio: 16 / 12,
+              videoUrl:
+                  'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fpdf-upload-tutorial.mp4?alt=media&token=a67cd7c1-ff89-41e8-a1f0-9daebe1caaed',
+            ),
+          ),
+          const SizedBox(height: 16),
+          const Text('''Advantages:
+* Upload PDF files and automatically generate flashcards
+* Generate 50, 100, 150 200 or 250 cards at once
 * Premium support
 
 Lifetime: €9.99 (no subscription)'''),
+        ],
+      ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
@@ -1395,7 +1409,7 @@ class _Subtitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Text(
-        'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $numberOfCards cards generated',
+        'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $numberOfCards cards',
         style: TextStyle(color: Colors.grey[500]),
       ),
     );
@@ -1468,7 +1482,7 @@ enum CardGenrationSize {
   hundred,
   hunderFifty,
   twoHundred,
-  threeHundred;
+  twoHundredsFifty;
 
   int toInt() {
     switch (this) {
@@ -1486,8 +1500,8 @@ enum CardGenrationSize {
         return 150;
       case CardGenrationSize.twoHundred:
         return 200;
-      case CardGenrationSize.threeHundred:
-        return 300;
+      case CardGenrationSize.twoHundredsFifty:
+        return 250;
     }
   }
 
@@ -1511,8 +1525,8 @@ enum CardGenrationSize {
         return '~ 2 min';
       case CardGenrationSize.twoHundred:
         return '~ 2 min';
-      case CardGenrationSize.threeHundred:
-        return '~ 2 min';
+      case CardGenrationSize.twoHundredsFifty:
+        return '~ 5 min';
     }
   }
 
@@ -1522,7 +1536,7 @@ enum CardGenrationSize {
       case CardGenrationSize.hundred:
       case CardGenrationSize.hunderFifty:
       case CardGenrationSize.twoHundred:
-      case CardGenrationSize.threeHundred:
+      case CardGenrationSize.twoHundredsFifty:
         return true;
       default:
         return false;
@@ -1536,7 +1550,7 @@ enum CardGenrationSize {
       case CardGenrationSize.hundred:
       case CardGenrationSize.hunderFifty:
       case CardGenrationSize.twoHundred:
-      case CardGenrationSize.threeHundred:
+      case CardGenrationSize.twoHundredsFifty:
         return true;
       default:
         return false;

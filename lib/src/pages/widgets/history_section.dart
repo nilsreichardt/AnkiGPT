@@ -98,7 +98,7 @@ class _CreatedHistoryDeck extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final hasMoreThanFiveQuestions = questions.length > 5;
     return _HistoryDeckBase(
-      numberOfCards: questions.isEmpty ? numberOfCards : questions.length,
+      numberOfCards: numberOfCards,
       name: name,
       onTap: () {
         ref.read(generateNotifierProvider.notifier).watch(

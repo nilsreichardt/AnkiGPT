@@ -43,6 +43,7 @@ import 'package:ankigpt/src/providers/like_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
+import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:ankigpt/src/providers/search_text_field_controller.dart';
 import 'package:ankigpt/src/providers/shared_preferences_provider.dart';
@@ -259,12 +260,13 @@ class _SuccessfulPlusPaymentDialogState
   }
 }
 
-class _Body extends StatelessWidget {
+class _Body extends ConsumerWidget {
   const _Body();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
+      controller: ref.watch(scrollControllerProvider),
       child: MaxWidthConstrainedBox(
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -907,12 +909,14 @@ class _ResultList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cards = ref.watch(cardsListControllerProvider).cards;
-    if (cards.isEmpty) {
-      _LoadingCards(
+    final totalCardsCount = ref.watch(totalCardsCountProvider);
+    if (totalCardsCount == 0) {
+      return _LoadingCards(
         isUploadFile: isUploadingFile,
       );
     }
+
+    final cards = ref.watch(cardsListControllerProvider).cards;
 
     return Column(
       children: [
@@ -932,6 +936,7 @@ class _ResultList extends ConsumerWidget {
                   child: FadeInAnimation(child: widget),
                 ),
                 children: [
+                  if (cards.isEmpty) const _EmptySearch(),
                   for (final card in cards)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
@@ -954,6 +959,43 @@ class _ResultList extends ConsumerWidget {
         const SizedBox(height: 12),
         const PaginationControl(),
       ],
+    );
+  }
+}
+
+class _EmptySearch extends StatelessWidget {
+  const _EmptySearch();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 40, top: 28),
+      child: SelectionContainer.disabled(
+        child: Column(
+          children: [
+            SvgPicture.asset(
+              'assets/icons/empty-folder.svg',
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.primary,
+                BlendMode.srcIn,
+              ),
+              height: 150,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Important flashcards are missing?',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.feedback),
+              onPressed: () =>
+                  launchUrl(Uri.parse('https://ankigpt.wtf/support')),
+              label: const Text('Send feedback'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

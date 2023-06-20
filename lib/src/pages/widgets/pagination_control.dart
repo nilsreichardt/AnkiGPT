@@ -1,15 +1,39 @@
 import 'dart:ui';
 
+import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
+import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PaginationControl extends ConsumerWidget {
-  const PaginationControl({super.key});
+  const PaginationControl({
+    super.key,
+  });
+
+  void onPageChanged(WidgetRef ref, CardsListView? prev, CardsListView next) {
+    final hasCurrentPageChanged = prev?.currentPage != next.currentPage;
+    if (hasCurrentPageChanged) {
+      _scrollToTop(ref);
+    }
+  }
+
+  void _scrollToTop(WidgetRef ref) {
+    ref.read(scrollControllerProvider).animateTo(
+          250,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOutExpo,
+        );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(
+      cardsListControllerProvider,
+      (prev, next) => onPageChanged(ref, prev, next),
+    );
+
     final view = ref.watch(cardsListControllerProvider);
     return IconTheme(
       data: Theme.of(context).iconTheme.copyWith(
@@ -61,12 +85,9 @@ class _PageNumber extends StatelessWidget {
     final isActive = pageNumber == currentPage;
     return Padding(
       padding: const EdgeInsets.only(right: 4),
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 275),
-        child: isActive
-            ? _PageNumberActive(pageNumber: pageNumber)
-            : _PageNumberInactive(pageNumber: pageNumber),
-      ),
+      child: isActive
+          ? _PageNumberActive(pageNumber: pageNumber)
+          : _PageNumberInactive(pageNumber: pageNumber),
     );
   }
 }

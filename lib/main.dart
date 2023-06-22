@@ -1456,7 +1456,7 @@ class Tutorial extends StatelessWidget {
         child: TutorialVideoPlayer(
           aspectRatio: 16 / 9,
           videoUrl:
-              'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Ftutorial.mp4?alt=media&token=efcd7c72-ed7f-45b1-8e51-1913ac03cb26',
+              'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fankigpt.mp4?alt=media&token=4ffb0db0-b24d-4bc5-87bc-f339725105d6',
         ),
       ),
     );

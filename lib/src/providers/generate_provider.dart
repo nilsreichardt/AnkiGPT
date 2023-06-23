@@ -159,7 +159,7 @@ class GenerateNotifier extends _$GenerateNotifier {
   }
 
   void _validateTextInput(String text) {
-    if (text.length < 200) {
+    if (text.length < 400) {
       throw TooShortInputException();
     }
 

@@ -163,7 +163,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       throw TooShortInputException();
     }
 
-    if (text.length > 10000) {
+    if (text.length > 5000 && !_hasPlus) {
       throw TooLongInputException();
     }
   }

@@ -1847,12 +1847,58 @@ class DownloadButton extends ConsumerWidget {
                     }
 
                     launchUrl(Uri.parse(url));
+                    showDialog(
+                      context: context,
+                      builder: (context) => const _ExportToAnkiDialog(),
+                      routeSettings:
+                          const RouteSettings(name: '/export-to-anki'),
+                    );
                   }
                 : null,
             icon: const Icon(Icons.download),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ExportToAnkiDialog extends StatelessWidget {
+  const _ExportToAnkiDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Tutorial: How import a .csv file into Anki'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: min(MediaQuery.of(context).size.height * 2, 300),
+              child: const TutorialVideoPlayer(
+                aspectRatio: 4 / 2.9,
+                videoUrl:
+                    'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fanki-import-tutorial.mp4?alt=media&token=87f434d0-8318-47d0-b0e1-4c86753b9eb3',
+              ),
+            ),
+            const SizedBox(height: 18),
+            const Text('''1. Open Anki and click on "Import" in the menu bar.
+2. Select the .csv file you just downloaded.
+3. Select "Comma" as Field Separator.
+4. Make sure to select the right deck.
+5. Click on "Import".'''),
+            const SizedBox(height: 12),
+            const _WarningAfterDownload(),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }
@@ -1883,6 +1929,37 @@ class LoadingButton extends StatelessWidget {
               ),
             )
           : const SizedBox(),
+    );
+  }
+}
+
+class _WarningAfterDownload extends ConsumerWidget {
+  const _WarningAfterDownload();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const color = Colors.orangeAccent;
+    return SizedBox(
+      width: min(MediaQuery.of(context).size.height * 2, 400),
+      child: const AnkiGptCard(
+        color: color,
+        padding: EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Icon(Icons.warning, color: color, size: 30),
+            SizedBox(width: 12),
+            Flexible(
+              child: Text(
+                "AnkiGPT is your co-pilot, not the captain! Remember, even AI stumbles sometimes, so be sure to double-check those cards!",
+                style: TextStyle(
+                  color: color,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

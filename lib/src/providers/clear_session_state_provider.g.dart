@@ -6,7 +6,7 @@ part of 'clear_session_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$clearSessionStateHash() => r'dc713288dcda7117a62c5a85d38ec74317b222a8';
+String _$clearSessionStateHash() => r'9a2f10a6d0efd68d171c19d4bef264b978a7900f';
 
 /// See also [ClearSessionState].
 @ProviderFor(ClearSessionState)

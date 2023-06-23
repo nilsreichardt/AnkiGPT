@@ -15,6 +15,7 @@ import 'package:ankigpt/src/providers/cards_list_provider.dart';
 import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
+import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
@@ -208,6 +209,8 @@ class GenerateNotifier extends _$GenerateNotifier {
     required String sessionId,
     WatchData? data,
   }) {
+    ref.read(scrollControllerProvider).jumpTo(0);
+
     if (data == null) {
       state = const GenerateState.loading();
     } else {
@@ -270,20 +273,6 @@ class GenerateNotifier extends _$GenerateNotifier {
         sessionId: sessionId,
       );
     });
-  }
-
-  void setSuccess({
-    required String sessionId,
-    required List<AnkiCard> generatedCards,
-    required String downloadUrl,
-    required Language language,
-  }) {
-    ref.read(cardsListProvider.notifier).set(generatedCards);
-    state = GenerateState.success(
-      sessionId: sessionId,
-      downloadUrl: downloadUrl,
-      language: language,
-    );
   }
 
   void reset() {

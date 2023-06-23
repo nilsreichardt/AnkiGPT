@@ -2,6 +2,7 @@ import 'package:ankigpt/src/providers/cards_list_provider.dart';
 import 'package:ankigpt/src/providers/delete_card_provider.dart';
 import 'package:ankigpt/src/providers/edit_answer_provider.dart';
 import 'package:ankigpt/src/providers/edit_question_provider.dart';
+import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -18,5 +19,6 @@ class ClearSessionState extends _$ClearSessionState {
     ref.read(editAnswerProvider.notifier).clear();
     ref.read(editQuestionProvider.notifier).clear();
     ref.read(deleteCardControllerProvider.notifier).clear();
+    ref.read(scrollControllerProvider).jumpTo(0);
   }
 }

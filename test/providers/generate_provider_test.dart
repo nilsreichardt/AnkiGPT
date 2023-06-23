@@ -3,9 +3,15 @@ import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logger/logger.dart';
+import 'package:mockito/annotations.dart';
+
+@GenerateNiceMocks([MockSpec<Logger>()])
+import 'generate_provider_test.mocks.dart';
 
 void main() {
   group('GenerateProvider', () {
@@ -14,6 +20,7 @@ void main() {
     setUp(() {
       container = ProviderContainer(overrides: [
         hasPlusProvider.overrideWithValue(false),
+        loggerProvider.overrideWithValue(MockLogger()),
       ]);
     });
 

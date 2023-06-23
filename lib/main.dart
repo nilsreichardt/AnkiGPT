@@ -522,6 +522,7 @@ class PlusDialog extends ConsumerWidget {
           const SizedBox(height: 16),
           const Text('''Advantages:
 * Upload PDF files and automatically generate flashcards
+* No character limit for the input text
 * Generate 50, 100, 150 200 or 250 cards at once
 * Premium support
 
@@ -1755,7 +1756,7 @@ class TooLessInputDialog extends StatelessWidget {
     return const _InvalidInputDialog(
       title: 'Too short!',
       content:
-          'Please add more text. If the text is too short, GPT cannot generate the flashcards.',
+          'Please add more text (min. 400 characters). If the text is too short, GPT cannot generate the flashcards.',
     );
   }
 }
@@ -1765,10 +1766,20 @@ class TooLongInputDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _InvalidInputDialog(
-      title: 'Too long!',
-      content:
-          'Your text is too long. If the text is too long, GPT cannot generate the flashcards. Use less than 10,000 characters.',
+    return MaxWidthConstrainedBox(
+      maxWidth: 500,
+      child: AlertDialog(
+        title: const Text('Too long!'),
+        content: const Text(
+            'Your text is too long. Free users have a limt of 5,000 characters.\n\nBuy AnkiGPT Plus for €9.99 (one-time purchase) to remove this limit.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('CANCEL'),
+          ),
+          const _BuyButton(),
+        ],
+      ),
     );
   }
 }

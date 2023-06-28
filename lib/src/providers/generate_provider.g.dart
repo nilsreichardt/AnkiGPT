@@ -6,7 +6,7 @@ part of 'generate_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$generateNotifierHash() => r'bf94703304971e86611c39e86b2eb1d8d4d1d54f';
+String _$generateNotifierHash() => r'9ae7f6ac8f1b5bd0582f22c8187dbe98371348b2';
 
 /// See also [GenerateNotifier].
 @ProviderFor(GenerateNotifier)
@@ -17,8 +17,11 @@ final generateNotifierProvider =
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$generateNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
+  dependencies: <ProviderOrFamily>[hasPlusProvider],
+  allTransitiveDependencies: <ProviderOrFamily>{
+    hasPlusProvider,
+    ...?hasPlusProvider.allTransitiveDependencies
+  },
 );
 
 typedef _$GenerateNotifier = Notifier<GenerateState>;

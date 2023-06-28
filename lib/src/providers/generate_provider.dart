@@ -28,7 +28,7 @@ import 'package:uuid/uuid.dart';
 
 part 'generate_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, dependencies: [hasPlus])
 class GenerateNotifier extends _$GenerateNotifier {
   Logger get _logger => ref.read(loggerProvider);
   TextEditingController get _textEditingController =>

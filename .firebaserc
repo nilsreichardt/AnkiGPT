@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "ankigpt-prod"
+  },
+  "targets": {
+    "ankigpt-prod": {
+      "hosting": {
+        "ankigpt-prod": [
+          "ankigpt-prod"
+        ],
+        "ankigpt-prod-help": [
+          "ankigpt-prod-help"
+        ]
+      }
+    }
   }
 }

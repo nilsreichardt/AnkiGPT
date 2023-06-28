@@ -1,38 +1,63 @@
 {
-  "hosting": {
-    "public": "build/web",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ],
-    "redirects": [
-      {
-        "source": "/privacy-policy",
-        "destination": "https://firebasestorage.googleapis.com/v0/b/storage.ankigpt.wtf/o/assets%2Fprivacy_policy_en.pdf?alt=media&token=f20b646d-f7fe-41fa-96d5-98b641cc7b56",
-        "type": 302
-      },
-      {
-        "source": "/terms",
-        "destination": "https://firebasestorage.googleapis.com/v0/b/storage.ankigpt.wtf/o/assets%2Fterms_of_service_en.pdf?alt=media&token=0662172c-34e8-4c90-a0e7-402d1edca458",
-        "type": 302
-      },
-      {
-        "source": "/support",
-        "destination": "https://wa.me/4915229504121",
-        "type": 302
-      },
-      {
-        "source": "/whatsapp-newsletter",
-        "destination": "https://wa.me/4915229504121?text=Hey%21%0A%0AI%20would%20like%20to%20sign%20up%20for%20the%20AnkiGPT%20newsletter%20to%20stay%20informed%20about%20new%20updates%20%3A%29%0AI%27m%20aware%20that%20I%20can%20stop%20receiving%20the%20newsletter%20by%20sending%20the%20message%20%22STOP%22.%0A%0ABest%20regards%2C",
-        "type": 302
-      }
-    ]
-  }
+  "hosting": [
+    {
+      "target": "ankigpt-prod",
+      "public": "build/web",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "redirects": [
+        {
+          "source": "/privacy-policy",
+          "destination": "https://firebasestorage.googleapis.com/v0/b/storage.ankigpt.wtf/o/assets%2Fprivacy_policy_en.pdf?alt=media&token=f20b646d-f7fe-41fa-96d5-98b641cc7b56",
+          "type": 302
+        },
+        {
+          "source": "/terms",
+          "destination": "https://firebasestorage.googleapis.com/v0/b/storage.ankigpt.wtf/o/assets%2Fterms_of_service_en.pdf?alt=media&token=0662172c-34e8-4c90-a0e7-402d1edca458",
+          "type": 302
+        },
+        {
+          "source": "/support",
+          "destination": "https://wa.me/4915229504121",
+          "type": 302
+        },
+        {
+          "source": "/whatsapp-newsletter",
+          "destination": "https://wa.me/4915229504121?text=Hey%21%0A%0AI%20would%20like%20to%20sign%20up%20for%20the%20AnkiGPT%20newsletter%20to%20stay%20informed%20about%20new%20updates%20%3A%29%0AI%27m%20aware%20that%20I%20can%20stop%20receiving%20the%20newsletter%20by%20sending%20the%20message%20%22STOP%22.%0A%0ABest%20regards%2C",
+          "type": 302
+        }
+      ]
+    },
+    {
+      "target": "ankigpt-prod-help",
+      "public": "public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "redirects": [
+        {
+          "source": "/",
+          "destination": "https://ankig.pt/PZXe",
+          "type": 302
+        }
+      ]
+    }
+  ]
 }

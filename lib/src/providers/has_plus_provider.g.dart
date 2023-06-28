@@ -6,7 +6,7 @@ part of 'has_plus_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$hasPlusHash() => r'd47b0b2dfcec886256f25b3b35717749446d349b';
+String _$hasPlusHash() => r'b57e0e9b5a524af58131dcbd8bec59f1ef69d52d';
 
 /// See also [hasPlus].
 @ProviderFor(hasPlus)
@@ -15,8 +15,8 @@ final hasPlusProvider = AutoDisposeProvider<bool>.internal(
   name: r'hasPlusProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$hasPlusHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
+  dependencies: const <ProviderOrFamily>[],
+  allTransitiveDependencies: const <ProviderOrFamily>{},
 );
 
 typedef HasPlusRef = AutoDisposeProviderRef<bool>;

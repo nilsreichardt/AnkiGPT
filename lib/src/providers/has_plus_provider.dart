@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'has_plus_provider.g.dart';
 
-@riverpod
+@Riverpod(dependencies: [])
 bool hasPlus(HasPlusRef ref) {
   final appUser = ref.watch(appUserProvider);
   return appUser.value?.hasPlus ?? false;

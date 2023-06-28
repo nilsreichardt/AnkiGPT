@@ -6,7 +6,7 @@ part of 'controls_view_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlsViewHash() => r'4b7ad875e0b1ff53fa793c03365109f0a835f597';
+String _$controlsViewHash() => r'93c1d764d55e99801494c328a0db08b9f4e52308';
 
 /// See also [controlsView].
 @ProviderFor(controlsView)
@@ -15,8 +15,11 @@ final controlsViewProvider = Provider<ControlsView>.internal(
   name: r'controlsViewProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$controlsViewHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
+  dependencies: <ProviderOrFamily>[generateNotifierProvider],
+  allTransitiveDependencies: <ProviderOrFamily>{
+    generateNotifierProvider,
+    ...?generateNotifierProvider.allTransitiveDependencies
+  },
 );
 
 typedef ControlsViewRef = ProviderRef<ControlsView>;

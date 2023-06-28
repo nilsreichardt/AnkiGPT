@@ -8,7 +8,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'controls_view_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, dependencies: [GenerateNotifier])
 ControlsView controlsView(ControlsViewRef ref) {
   final generateState = ref.watch(generateNotifierProvider);
   final isSearching = ref.watch(isSearchLoadingProvider);

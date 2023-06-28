@@ -21,7 +21,6 @@ import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/history_section.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
-import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/pagination_control.dart';
 import 'package:ankigpt/src/pages/widgets/theme.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
@@ -176,20 +175,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: const Padding(
-          padding: EdgeInsets.all(12),
-          child: Logo(),
-        ),
-        title: const AppBarTitle(),
-        actions: const [
-          AccountPageIconButton(),
-          OthersOptions(),
-        ],
-      ),
-      bottomNavigationBar: const Footer(),
-      body: const _Body(),
+    return const Scaffold(
+      appBar: HomePageAppBar(),
+      bottomNavigationBar: Footer(),
+      body: _Body(),
     );
   }
 }

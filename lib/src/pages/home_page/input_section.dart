@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:ankigpt/main.dart';
-import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';

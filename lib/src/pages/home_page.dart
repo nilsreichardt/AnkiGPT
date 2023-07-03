@@ -1,4 +1,5 @@
 import 'package:ankigpt/src/pages/home_page/app_bar.dart';
+import 'package:ankigpt/src/pages/home_page/demo_section.dart';
 import 'package:ankigpt/src/pages/home_page/input_section.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
@@ -20,6 +21,8 @@ class HomePage2 extends StatelessWidget {
               child: Column(
                 children: [
                   InputSection(),
+                  SizedBox(height: 100),
+                  DemoSection(),
                 ],
               ),
             ),

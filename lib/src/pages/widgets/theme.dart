@@ -4,6 +4,7 @@ final _colorScheme = ColorScheme.fromSeed(
   seedColor: const Color(0xFF00FF7F),
 );
 const darkGreen = Color(0xFF001D0E);
+const _fontFamily = 'Ubuntu';
 
 final ankigptTheme = ThemeData(
   colorScheme: _colorScheme,
@@ -15,10 +16,11 @@ final ankigptTheme = ThemeData(
   snackBarTheme: const SnackBarThemeData(
     behavior: SnackBarBehavior.floating,
   ),
-  fontFamily: 'Ubuntu',
+  fontFamily: _fontFamily,
   textTheme: ThemeData.light().textTheme.apply(
         bodyColor: darkGreen,
         displayColor: darkGreen,
+        fontFamily: _fontFamily,
       ),
   scaffoldBackgroundColor: const Color(0xFFE9FFF4),
   pageTransitionsTheme: PageTransitionsTheme(

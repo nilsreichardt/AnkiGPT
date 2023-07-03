@@ -1,5 +1,7 @@
 import 'package:ankigpt/src/pages/home_page/app_bar.dart';
+import 'package:ankigpt/src/pages/home_page/input_section.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
+import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:flutter/material.dart';
 
 class HomePage2 extends StatelessWidget {
@@ -10,8 +12,19 @@ class HomePage2 extends StatelessWidget {
     return Scaffold(
       appBar: const HomePageAppBar2(),
       drawer: context.isMobile ? const Drawer() : null,
-      body: const Center(
-        child: Text('Home Page'),
+      body: const SingleChildScrollView(
+        child: MaxWidthConstrainedBox(
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12),
+              child: Column(
+                children: [
+                  InputSection(),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

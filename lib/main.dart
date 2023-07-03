@@ -11,6 +11,7 @@ import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/account_page.dart';
+import 'package:ankigpt/src/pages/home_page.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/session_page.dart';
 import 'package:ankigpt/src/pages/widgets/animated_swap.dart';
@@ -91,7 +92,7 @@ Future<void> main() async {
       loggerProvider.overrideWithValue(logger),
       flavorProvider.overrideWithValue(flavor),
     ],
-    child: const MyApp(),
+    child: const AnkiGptApp(),
   ));
 }
 
@@ -113,8 +114,8 @@ Future<FirebaseApp> _initFirebase(Flavor flavor) async {
   }
 }
 
-class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+class AnkiGptApp extends ConsumerWidget {
+  const AnkiGptApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -124,7 +125,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       title: 'AnkiGPT',
       theme: ankigptTheme,
-      home: const HomePage(),
+      home: const HomePage2(),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: (settings) {
         if (settings.name?.startsWith('/session/') ?? false) {

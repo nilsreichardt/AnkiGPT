@@ -207,7 +207,8 @@ void main() {
       final view1 = container.read(cardsListControllerProvider);
 
       final updatedCards = List<AnkiCard>.from(cards);
-      updatedCards.shuffle();
+      final fixRandom = Random(42);
+      updatedCards.shuffle(fixRandom);
       container.read(cardsListProvider.notifier).set(updatedCards);
 
       final view2 = container.read(cardsListControllerProvider);

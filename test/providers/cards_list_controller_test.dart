@@ -182,18 +182,49 @@ void main() {
         expect(view2.currentPage, 1);
       },
     );
+
+    test('should keep the same order after updating the list (one page)', () {
+      final cards = _generateAnkiCards(CardsListController.cardsPerPage);
+      container.read(cardsListProvider.notifier).set(cards);
+
+      final view1 = container.read(cardsListControllerProvider);
+
+      final updatedCards = List<AnkiCard>.from(cards);
+      updatedCards.shuffle();
+      container.read(cardsListProvider.notifier).set(updatedCards);
+
+      final view2 = container.read(cardsListControllerProvider);
+      expect(view2.cards, view1.cards);
+    });
+
+    // Regression test for: https://github.com/nilsreichardt/ankigpt/issues/65
+    test('should keep the same order after updating the list (multiple pages)',
+        () {
+      final cards = _generateAnkiCards(CardsListController.cardsPerPage * 3);
+      container.read(cardsListProvider.notifier).set(cards);
+
+      final view1 = container.read(cardsListControllerProvider);
+
+      final updatedCards = List<AnkiCard>.from(cards);
+      updatedCards.shuffle();
+      container.read(cardsListProvider.notifier).set(updatedCards);
+
+      final view2 = container.read(cardsListControllerProvider);
+      expect(view2.cards, view1.cards);
+    });
   });
 }
 
 /// Generates a list of [AnkiCard]s with the given [count] that are sorted by
 /// their [createdAt] date.
 List<AnkiCard> _generateAnkiCards(int count) {
+  final fixDate = DateTime(2021, 1, 1);
   return List<AnkiCard>.generate(
     count,
     (index) => AnkiCard(
       answer: 'answer $index',
       question: 'question $index',
-      createdAt: DateTime.now().add(Duration(minutes: index)),
+      createdAt: fixDate.add(Duration(minutes: index)),
       id: '$index',
     ),
   );

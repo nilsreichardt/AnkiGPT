@@ -7,9 +7,6 @@
       "hosting": {
         "ankigpt-prod": [
           "ankigpt-prod"
-        ],
-        "ankigpt-prod-help": [
-          "ankigpt-prod-help"
         ]
       }
     }

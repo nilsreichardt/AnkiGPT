@@ -42,6 +42,7 @@ dependencies:
   url_launcher: ^6.1.11
   uuid: ^3.0.7
   video_player: ^2.6.1
+  wolt_responsive_layout_grid: ^0.0.3
 
 dev_dependencies:
   flutter_test:
@@ -61,3 +62,24 @@ flutter:
   assets:
     - assets/logo/
     - assets/icons/
+  fonts:
+    - family: Ubuntu
+      fonts:
+        - asset: fonts/ubuntu/Ubuntu-Light.ttf
+          weight: 300
+        - asset: fonts/ubuntu/Ubuntu-LightItalic.ttf
+          style: italic
+          weight: 300
+        - asset: fonts/ubuntu/Ubuntu-Regular.ttf
+        - asset: fonts/ubuntu/Ubuntu-Italic.ttf
+          style: italic
+        - asset: fonts/ubuntu/Ubuntu-Medium.ttf
+          weight: 500
+        - asset: fonts/ubuntu/Ubuntu-MediumItalic.ttf
+          style: italic
+          weight: 500
+        - asset: fonts/ubuntu/Ubuntu-Bold.ttf
+          weight: 700
+        - asset: fonts/ubuntu/Ubuntu-BoldItalic.ttf
+          style: italic
+          weight: 700

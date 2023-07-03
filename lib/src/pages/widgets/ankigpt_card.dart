@@ -8,16 +8,16 @@ class AnkiGptCard extends StatefulWidget {
   const AnkiGptCard({
     super.key,
     this.color,
-    this.padding = const EdgeInsets.fromLTRB(14, 6, 14, 16),
+    this.padding = const EdgeInsets.fromLTRB(14, 16, 14, 16),
     required this.child,
-    this.hoverColor,
     this.borderRadius,
+    this.border,
   });
 
   final Color? color;
-  final Color? hoverColor;
   final EdgeInsetsGeometry padding;
   final Widget child;
+  final BoxBorder? border;
 
   /// The border radius of the card.
   ///
@@ -40,7 +40,7 @@ class _AnkiGptCardState extends State<AnkiGptCard> {
       return widget.color;
     }
 
-    return widget.color!.withOpacity(0.1);
+    return widget.color;
   }
 
   @override
@@ -67,10 +67,13 @@ class _AnkiGptCardState extends State<AnkiGptCard> {
         curve: Curves.linear,
       ),
       duration: const Duration(milliseconds: 275),
-      child: Material(
+      child: Ink(
         key: ValueKey(randomInt),
-        borderRadius: widget.borderRadius ?? defaultAnkiGptBorderRadius,
-        color: _getColor(context),
+        decoration: BoxDecoration(
+          borderRadius: widget.borderRadius ?? defaultAnkiGptBorderRadius,
+          color: _getColor(context),
+          border: widget.border,
+        ),
         child: Padding(
           padding: widget.padding,
           child: widget.child,

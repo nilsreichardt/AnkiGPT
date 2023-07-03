@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:ankigpt/main.dart';
+import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
+import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
@@ -24,6 +26,8 @@ class InputSection extends StatelessWidget {
           const _InputField(),
           const SizedBox(height: 12),
           const _UploadFileButton(),
+          const SizedBox(height: 12),
+          const _Controls(),
         ],
       ),
     );
@@ -121,6 +125,72 @@ class _UploadFileButton extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Controls extends StatelessWidget {
+  const _Controls();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      children: [
+        _ExportToAnkiButton(),
+        Expanded(child: SizedBox()),
+        _OptionsButton(),
+        SizedBox(width: 12),
+        _GenerateButton(),
+      ],
+    );
+  }
+}
+
+class _OptionsButton extends StatelessWidget {
+  const _OptionsButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnkiGptElevatedButton.icon(
+      icon: const Icon(Icons.tune),
+      label: const Text('Options'),
+      border: Border.all(
+        color: Colors.grey[400]!,
+        width: 1.4,
+      ),
+      color: Colors.transparent,
+      onPressed: () {
+        print('Generate');
+      },
+    );
+  }
+}
+
+class _GenerateButton extends StatelessWidget {
+  const _GenerateButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnkiGptElevatedButton.icon(
+      icon: const Icon(Icons.play_arrow),
+      label: const Text('Generate'),
+      onPressed: () {
+        print('Generate');
+      },
+    );
+  }
+}
+
+class _ExportToAnkiButton extends StatelessWidget {
+  const _ExportToAnkiButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return AnkiGptElevatedButton.icon(
+      icon: const Icon(Icons.download),
+      label: const Text('Export to Anki'),
+      onPressed: () {},
+      isEnabled: false,
     );
   }
 }

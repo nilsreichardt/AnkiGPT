@@ -662,7 +662,7 @@ class _ErrorCard extends ConsumerWidget {
                   const SizedBox(width: 12),
                   TextButton(
                     onPressed: () =>
-                        launchUrl(Uri.parse('https://ankigpt.wtf/support')),
+                        launchUrl(Uri.parse('https://ankigpt.help/support')),
                     style: TextButton.styleFrom(
                       foregroundColor: Theme.of(context).colorScheme.error,
                     ),
@@ -986,7 +986,7 @@ class _EmptySearch extends StatelessWidget {
             ElevatedButton.icon(
               icon: const Icon(Icons.feedback),
               onPressed: () =>
-                  launchUrl(Uri.parse('https://ankigpt.wtf/support')),
+                  launchUrl(Uri.parse('https://ankigpt.help/support')),
               label: const Text('Send feedback'),
             ),
           ],

@@ -12,7 +12,7 @@ Future<String> getStripePortalUrl(GetStripePortalUrlRef ref) async {
     final response = await cloudFunctions
         .httpsCallable('ext-firestore-stripe-payments-createPortalLink')
         .call<Map<String, dynamic>>({
-      'returnUrl': 'https://ankigpt.wtf/account',
+      'returnUrl': 'https://ankigpt.help/account',
     });
 
     return response.data['url'];

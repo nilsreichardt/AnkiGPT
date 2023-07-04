@@ -27,7 +27,7 @@ Nils Reichardt
 
 ## Contact:
 Phone: +49 1522 9504121
-E-mail: support@ankigpt.wtf
+E-mail: support@ankigpt.help
 
 ## Sales tax ID:
 Sales tax identification number according to §27a Umsatzsteuergesetz: DE353720936

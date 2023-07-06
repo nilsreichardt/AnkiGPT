@@ -95,8 +95,12 @@ class _AnkiGptElevatedButtonWithIcon extends AnkiGptElevatedButton {
 }
 
 class _AnkiGptElevatedButtonWithIconChild extends StatelessWidget {
-  const _AnkiGptElevatedButtonWithIconChild(
-      {this.icon, this.label, this.isEnabled, this.disableForegroundColor});
+  const _AnkiGptElevatedButtonWithIconChild({
+    this.icon,
+    this.label,
+    this.isEnabled,
+    this.disableForegroundColor,
+  });
 
   final Widget? icon;
   final Widget? label;

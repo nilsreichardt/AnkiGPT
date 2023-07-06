@@ -35,6 +35,7 @@ class _FreeTier extends StatelessWidget {
       name: 'Free',
       price: '€0',
       points: const [
+        'Models: GPT-3.5',
         'Up to 20 cards per request',
         'Up to 5,000 input characters pre request',
         'Delete, edit & search cards'
@@ -57,9 +58,10 @@ class _PlusTier extends StatelessWidget {
       price: '€9.99',
       priceDescription: 'Lifetime',
       points: const [
+        'Models: GPT3.5, GPT-4',
+        'PDF files as input',
         'Up to 200 cards per request',
         'Unlimited input characters pre request',
-        'PDF files as input',
         'Premium support',
         'All free features',
       ],
@@ -92,7 +94,7 @@ class _TierBase extends StatelessWidget {
     return AnkiGptCard(
       child: SizedBox(
         width: 300,
-        height: 450,
+        height: 520,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

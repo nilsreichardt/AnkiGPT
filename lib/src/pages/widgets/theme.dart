@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 final _colorScheme = ColorScheme.fromSeed(
   seedColor: const Color(0xFF00FF7F),
 );
-const darkGreen = Color(0xFF001D0E);
+const blackGreen = Color(0xFF001D0E);
+const darkGreen = Color(0xFF004723);
 const _fontFamily = 'Ubuntu';
 
 final ankigptTheme = ThemeData(
@@ -18,8 +19,8 @@ final ankigptTheme = ThemeData(
   ),
   fontFamily: _fontFamily,
   textTheme: ThemeData.light().textTheme.apply(
-        bodyColor: darkGreen,
-        displayColor: darkGreen,
+        bodyColor: blackGreen,
+        displayColor: blackGreen,
         fontFamily: _fontFamily,
       ),
   scaffoldBackgroundColor: const Color(0xFFE9FFF4),

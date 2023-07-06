@@ -31,7 +31,7 @@ class _AppBarSmallScreen extends StatelessWidget {
         height: 1,
         child: DrawerButton(
           style: IconButton.styleFrom(
-            foregroundColor: darkGreen,
+            foregroundColor: blackGreen,
           ),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),

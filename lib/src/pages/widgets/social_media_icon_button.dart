@@ -8,6 +8,19 @@ enum SocialMediaPlatform {
   linkedin,
   instagram,
   twitter;
+
+  String getCapitalizedName() {
+    switch (this) {
+      case SocialMediaPlatform.github:
+        return 'GitHub';
+      case SocialMediaPlatform.linkedin:
+        return 'LinkedIn';
+      case SocialMediaPlatform.instagram:
+        return 'Instagram';
+      case SocialMediaPlatform.twitter:
+        return 'Twitter';
+    }
+  }
 }
 
 class SocialMediaIconButton extends StatelessWidget {
@@ -23,23 +36,26 @@ class SocialMediaIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final borderRadius = BorderRadius.circular(7.5);
-    return InkWell(
-      borderRadius: borderRadius,
-      onTap: () => launchUrl(Uri.parse(url)),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: borderRadius,
-          border: Border.all(
-            color: darkGreen,
-            width: 2,
+    return Tooltip(
+      message: platform.getCapitalizedName(),
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: () => launchUrl(Uri.parse(url)),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: borderRadius,
+            border: Border.all(
+              color: darkGreen,
+              width: 2,
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(4),
-          child: SvgPicture.asset(
-            'assets/logo/${platform.name}-logo.svg',
-            height: 30,
-            width: 30,
+          child: Padding(
+            padding: const EdgeInsets.all(4),
+            child: SvgPicture.asset(
+              'assets/logo/${platform.name}-logo.svg',
+              height: 30,
+              width: 30,
+            ),
           ),
         ),
       ),

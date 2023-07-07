@@ -5,6 +5,7 @@ final _colorScheme = ColorScheme.fromSeed(
 );
 const blackGreen = Color(0xFF001D0E);
 const darkGreen = Color(0xFF004723);
+const lightGreen = Color(0xFFA8FFD3);
 const _fontFamily = 'Ubuntu';
 
 final ankigptTheme = ThemeData(

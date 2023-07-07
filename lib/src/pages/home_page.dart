@@ -1,5 +1,6 @@
 import 'package:ankigpt/src/pages/home_page/app_bar.dart';
 import 'package:ankigpt/src/pages/home_page/demo_section.dart';
+import 'package:ankigpt/src/pages/home_page/faq_section.dart';
 import 'package:ankigpt/src/pages/home_page/input_section.dart';
 import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
 import 'package:ankigpt/src/pages/home_page/about_section.dart';
@@ -29,6 +30,8 @@ class HomePage2 extends StatelessWidget {
                   PricingSection(),
                   SizedBox(height: 100),
                   AboutSection(),
+                  SizedBox(height: 100),
+                  FaqSection(),
                 ],
               ),
             ),

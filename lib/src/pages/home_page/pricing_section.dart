@@ -35,7 +35,6 @@ class _FreeTier extends StatelessWidget {
       name: 'Free',
       price: '€0',
       points: const [
-        'Models: GPT-3.5',
         'Up to 20 cards per request',
         'Up to 5,000 input characters pre request',
         'Delete, edit & search cards'
@@ -58,7 +57,6 @@ class _PlusTier extends StatelessWidget {
       price: '€9.99',
       priceDescription: 'Lifetime',
       points: const [
-        'Models: GPT3.5, GPT-4',
         'PDF files as input',
         'Up to 200 cards per request',
         'Unlimited input characters pre request',

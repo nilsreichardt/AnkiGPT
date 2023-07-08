@@ -92,7 +92,7 @@ class _TierBase extends StatelessWidget {
     return AnkiGptCard(
       child: SizedBox(
         width: 300,
-        height: 520,
+        height: 480,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

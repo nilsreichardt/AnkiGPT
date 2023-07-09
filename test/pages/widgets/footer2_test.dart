@@ -22,10 +22,17 @@ void main() {
           child: MaterialApp(
             theme: ankigptTheme,
             home: const Scaffold(
-              body: Column(
-                children: [
-                  Footer2(),
-                ],
+              body: Align(
+                alignment: Alignment.bottomCenter,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Footer2(),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -109,7 +116,7 @@ void main() {
     testGoldens('renders as expected', (tester) async {
       await pumpFooter(tester);
 
-      await screenMatchesGolden(tester, 'footer');
+      await multiScreenGolden(tester, 'footer');
     });
   });
 }

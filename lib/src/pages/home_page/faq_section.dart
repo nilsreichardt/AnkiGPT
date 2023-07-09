@@ -26,6 +26,7 @@ class FaqSection extends StatelessWidget {
           _IsAnkiGptOpenSource(),
           _WhichLanguagesAreSupported(),
           _WhichModelIsUsed(),
+          _AreMyDataUsedForTraining(),
           _DoesItWorkWithOtherApps(),
           _CurrentLimits(),
           _CouldHaveFalseInformation(),
@@ -40,21 +41,11 @@ class _IsAnkiGptOpenSource extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _FaqCard(
-      question: const Text('Is the source code of AnkiGPT public?'),
-      answer: MarkdownBody(
-        data:
+    return const _FaqCard(
+      question: Text('Is the source code of AnkiGPT public?'),
+      answer: _MarkdownAnswer(
+        text:
             "Yes, the source code of the client for AnkiGPT is public and can be accessed by anyone interested. You can explore or even contribute to the project by visiting the GitHub repostiory ([nilsreichardt/ankigpt](https://github.com/nilsreichardt/ankigpt)). However, it's important to note that while the client's code is open, the backend (including the prompts) is closed source. We greatly value community input and appreciate all contributions to improve AnkiGPT.",
-        onTapLink: (_, href, __) {
-          if (href == null) return;
-          launchUrl(Uri.parse(href));
-        },
-        styleSheet: MarkdownStyleSheet(
-          a: _getAnswerTextStyle(context).copyWith(
-            decoration: TextDecoration.underline,
-          ),
-          p: _getAnswerTextStyle(context),
-        ),
       ),
     );
   }
@@ -81,7 +72,23 @@ class _WhichModelIsUsed extends StatelessWidget {
     return const _FaqCard(
       question: Text('Which model is used for AnkiGPT?'),
       answer: Text(
-        "By default, AnkiGPT utilizes the GPT-3.5 model by OpenAI for generating flashcards. AnkiGPT Plus users can enjoy the enhanced capabilities of the GPT-4 model (planned for August 2023). This gives them access to the latest advancements in AI language model technology, offering a more refined and high-quality experience. However, it's worth noting that using the GPT-4 model may lead to slightly longer response times due to its increased complexity and capabilities. Nevertheless, our commitment is to deliver the most effective and efficient user experience, regardless of the chosen model.",
+        "AnkiGPT uses as underlaying AI model GPT-3.5 by OpenAI. Support for GPT-4 is planned.",
+      ),
+    );
+  }
+}
+
+class _AreMyDataUsedForTraining extends StatelessWidget {
+  const _AreMyDataUsedForTraining();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _FaqCard(
+      question: Text(
+          'Is the content from my submitted lecture slides used for AI training?'),
+      answer: _MarkdownAnswer(
+        text:
+            "No, your submitted content is not used for AI training. AnkiGPT leverages GPT models from OpenAI, which have a strong commitment to user privacy. OpenAI do not use customer-submitted data via their API to train or improve their models (Source: [API data usage policies](https://openai.com/policies/api-data-usage-policies)). Your lecture slides content is only processed to create flashcards and is not used for any other purposes, ensuring your information remains private and secure.",
       ),
     );
   }
@@ -106,10 +113,10 @@ class _CurrentLimits extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _FaqCard(
-      question: const Text('What are the current limitations?'),
-      answer: MarkdownBody(
-        data:
+    return const _FaqCard(
+      question: Text('What are the current limitations?'),
+      answer: _MarkdownAnswer(
+        text:
             """While AnkiGPT is a powerful tool, it does have a few limitations to keep in mind:
 
 * Firstly, remember that AI, including AnkiGPT, is not infallible. There will be occasional errors in the generated flashcards, as with any AI technology. Always review your flashcards for accuracy.
@@ -119,9 +126,6 @@ class _CurrentLimits extends StatelessWidget {
 * Lastly, for AnkiGPT Plus users who utilize the PDF input feature, please note that it currently only processes text. Any images, including diagrams and pictures in the PDF, will be ignored.
 
 We're continually working on refining and expanding AnkiGPT's capabilities to improve your learning experience. Stay tuned for future updates and enhancements.""",
-        styleSheet: MarkdownStyleSheet(
-          p: _getAnswerTextStyle(context),
-        ),
       ),
     );
   }
@@ -144,7 +148,6 @@ class _CouldHaveFalseInformation extends StatelessWidget {
 /// expands the card.
 class _FaqCard extends StatefulWidget {
   const _FaqCard({
-    super.key,
     required this.question,
     required this.answer,
   });
@@ -166,6 +169,7 @@ class _FaqCardState extends State<_FaqCard> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: GestureDetector(
+          key: ValueKey(widget.question),
           onTap: () {
             setState(() => isExpanded = !isExpanded);
           },
@@ -256,6 +260,31 @@ class _HideAnswerIcon extends StatelessWidget {
       message: 'Hide answer',
       child: Icon(
         Icons.keyboard_arrow_up,
+      ),
+    );
+  }
+}
+
+class _MarkdownAnswer extends StatelessWidget {
+  const _MarkdownAnswer({
+    required this.text,
+  });
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return MarkdownBody(
+      data: text,
+      onTapLink: (_, href, __) {
+        if (href == null) return;
+        launchUrl(Uri.parse(href));
+      },
+      styleSheet: MarkdownStyleSheet(
+        a: _getAnswerTextStyle(context).copyWith(
+          decoration: TextDecoration.underline,
+        ),
+        p: _getAnswerTextStyle(context),
       ),
     );
   }

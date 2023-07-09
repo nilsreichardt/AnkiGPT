@@ -1,11 +1,10 @@
 import 'package:ankigpt/src/pages/widgets/footer2.dart';
-import 'package:ankigpt/src/pages/widgets/theme.dart';
 import 'package:ankigpt/src/providers/version_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
+import '../../utils/pump_ankigpt_app.dart';
 import '../../utils/test_link_util.dart';
 
 void main() {
@@ -14,26 +13,20 @@ void main() {
       WidgetTester tester, {
       String version = '1.0.0',
     }) async {
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            versionProvider.overrideWith((ref) => version),
-          ],
-          child: MaterialApp(
-            theme: ankigptTheme,
-            home: const Scaffold(
-              body: Align(
-                alignment: Alignment.bottomCenter,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Footer2(),
-                    ],
-                  ),
-                ),
-              ),
+      await pumpAnkiGptApp(
+        tester: tester,
+        overrides: [
+          versionProvider.overrideWith((ref) => version),
+        ],
+        body: const Align(
+          alignment: Alignment.bottomCenter,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Footer2(),
+              ],
             ),
           ),
         ),

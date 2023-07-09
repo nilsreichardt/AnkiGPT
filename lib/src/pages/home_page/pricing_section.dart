@@ -5,6 +5,7 @@ import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
+import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -69,9 +70,9 @@ class _FreeTier extends ConsumerWidget {
       name: 'Free',
       price: '€0',
       points: const [
-        'Up to 20 cards per request',
-        'Up to 5,000 input characters pre request',
-        'Delete, edit & search cards'
+        PointData('Up to 20 cards per request'),
+        PointData('Up to 5,000 input characters per request'),
+        PointData('Delete, edit & search cards'),
       ],
       onPressedCallToAction: () {
         final key = ref.read(homePageScollViewProvider).inputSectionKey;
@@ -100,11 +101,11 @@ class _PlusTier extends StatelessWidget {
       price: '€9.99',
       priceDescription: 'Lifetime',
       points: const [
-        'PDF files as input',
-        'Up to 200 cards per request',
-        'Unlimited input characters pre request',
-        'Premium support',
-        'All free features',
+        PointData('PDF files as input', trailing: _PdfPointHelpButton()),
+        PointData('Up to 200 cards per request'),
+        PointData('Unlimited input characters per request'),
+        PointData('Premium support'),
+        PointData('All free features'),
       ],
       onPressedCallToAction: () => showPlusDialog(context),
       callToActionText: 'Buy',
@@ -125,7 +126,7 @@ class _TierBase extends StatelessWidget {
   final String name;
   final String price;
   final String? priceDescription;
-  final List<String> points;
+  final List<PointData> points;
   final VoidCallback onPressedCallToAction;
   final String callToActionText;
 
@@ -160,7 +161,12 @@ class _TierBase extends StatelessWidget {
                 ],
               ),
             ),
-            ...points.map((point) => _SellingPoint(text: point)),
+            ...points.map(
+              (point) => _SellingPoint(
+                text: point.text,
+                trailing: point.trailing,
+              ),
+            ),
             const Expanded(child: SizedBox()),
             _CallToActionButton(
               onPressed: onPressedCallToAction,
@@ -200,29 +206,72 @@ class _CallToActionButton extends StatelessWidget {
 class _SellingPoint extends StatelessWidget {
   const _SellingPoint({
     required this.text,
+    this.trailing,
   });
 
   final String text;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(
+      leading: const Icon(
         Icons.check,
         color: Colors.green,
       ),
       title: Text(text),
+      trailing: trailing,
     );
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const Icon(
-          Icons.check,
-          color: Colors.green,
+  }
+}
+
+class _PdfPointHelpButton extends StatelessWidget {
+  const _PdfPointHelpButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: 'Details',
+      icon: const Icon(Icons.help_outline),
+      onPressed: () => showDialog(
+        context: context,
+        builder: (context) => const _PdfPointHelpDialog(),
+      ),
+    );
+  }
+}
+
+class _PdfPointHelpDialog extends StatelessWidget {
+  const _PdfPointHelpDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('PDF Input'),
+      content: SizedBox(
+        height: min(MediaQuery.of(context).size.height * 2, 350),
+        child: const TutorialVideoPlayer(
+          aspectRatio: 16 / 12,
+          videoUrl:
+              'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fpdf-upload-tutorial.mp4?alt=media&token=a67cd7c1-ff89-41e8-a1f0-9daebe1caaed',
         ),
-        const SizedBox(width: 12),
-        Expanded(child: Text(text)),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('CLOSE'),
+        ),
       ],
     );
   }
+}
+
+class PointData {
+  final String text;
+  final Widget? trailing;
+
+  const PointData(
+    this.text, {
+    this.trailing,
+  });
 }

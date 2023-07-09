@@ -6,7 +6,7 @@ part of 'version_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$versionHash() => r'4f6bb5fc5475d19287ee130b9985adb41a4d5525';
+String _$versionHash() => r'66812db23dd4b34e46d42c67f126c381b79ebb13';
 
 /// See also [version].
 @ProviderFor(version)
@@ -15,8 +15,8 @@ final versionProvider = AutoDisposeFutureProvider<String>.internal(
   name: r'versionProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$versionHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
+  dependencies: const <ProviderOrFamily>[],
+  allTransitiveDependencies: const <ProviderOrFamily>{},
 );
 
 typedef VersionRef = AutoDisposeFutureProviderRef<String>;

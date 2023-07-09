@@ -5,17 +5,19 @@ import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class InputSection extends StatelessWidget {
+class InputSection extends ConsumerWidget {
   const InputSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaxWidthConstrainedBox(
+      key: ref.read(homePageScollViewProvider).inputSectionKey,
       maxWidth: 700,
       child: Column(
         children: [

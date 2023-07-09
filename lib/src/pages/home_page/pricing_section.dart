@@ -1,36 +1,70 @@
+import 'dart:math';
+
 import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
+import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
+import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PricingSection extends StatelessWidget {
+bool _isMobileView(BuildContext context) =>
+    MediaQuery.of(context).size.width < 735;
+
+class PricingSection extends ConsumerWidget {
   const PricingSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Column(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      key: ref.read(homePageScollViewProvider).pricingSectionKey,
       children: [
-        SectionTitle(title: 'Pricing'),
-        SizedBox(height: 48),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _FreeTier(),
-            SizedBox(width: 48),
-            _PlusTier(),
-          ],
-        ),
+        const SectionTitle(title: 'Pricing'),
+        const SizedBox(height: 48),
+        _isMobileView(context) ? const _MobileView() : const _DesktopView()
       ],
     );
   }
 }
 
-class _FreeTier extends StatelessWidget {
-  const _FreeTier();
+class _MobileView extends StatelessWidget {
+  const _MobileView();
 
   @override
   Widget build(BuildContext context) {
+    return const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _FreeTier(),
+        SizedBox(height: 32),
+        _PlusTier(),
+      ],
+    );
+  }
+}
+
+class _DesktopView extends StatelessWidget {
+  const _DesktopView();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const _FreeTier(),
+        SizedBox(width: min(48, MediaQuery.of(context).size.width * 0.025)),
+        const _PlusTier(),
+      ],
+    );
+  }
+}
+
+class _FreeTier extends ConsumerWidget {
+  const _FreeTier();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return _TierBase(
       name: 'Free',
       price: '€0',
@@ -40,7 +74,16 @@ class _FreeTier extends StatelessWidget {
         'Delete, edit & search cards'
       ],
       onPressedCallToAction: () {
-        // Scroll to top
+        final key = ref.read(homePageScollViewProvider).inputSectionKey;
+        if (key.currentContext != null) {
+          Scrollable.ensureVisible(
+            key.currentContext!,
+            duration: const Duration(milliseconds: 1000),
+            curve: Curves.easeInOutQuart,
+          );
+        } else {
+          context.showTextSnackBar('Can not scroll.');
+        }
       },
       callToActionText: 'Get started',
     );
@@ -71,7 +114,6 @@ class _PlusTier extends StatelessWidget {
 
 class _TierBase extends StatelessWidget {
   const _TierBase({
-    super.key,
     required this.name,
     required this.price,
     required this.points,
@@ -91,7 +133,9 @@ class _TierBase extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnkiGptCard(
       child: SizedBox(
-        width: 300,
+        width: _isMobileView(context)
+            ? MediaQuery.of(context).size.width * 0.85
+            : 320,
         height: 480,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

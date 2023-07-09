@@ -176,8 +176,8 @@ class _FaqCardState extends State<_FaqCard> {
           child: MouseRegion(
             cursor: SystemMouseCursors.click,
             child: AnimatedSize(
-              duration: const Duration(milliseconds: 275),
-              curve: Curves.fastOutSlowIn,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOutQuart,
               alignment: Alignment.topCenter,
               child: Container(
                 decoration: BoxDecoration(

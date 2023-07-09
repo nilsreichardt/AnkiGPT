@@ -1,4 +1,5 @@
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
+import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/pages/widgets/social_media_icon_button.dart';
@@ -9,21 +10,24 @@ class AboutSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaxWidthConstrainedBox(
+    return const MaxWidthConstrainedBox(
       maxWidth: 850,
-      child: Column(
-        children: [
-          SectionTitle(title: 'About'),
-          SizedBox(height: 48),
-          _AboutCard(),
-        ],
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            SectionTitle(title: 'About'),
+            SizedBox(height: 48),
+            _AboutCard(),
+          ],
+        ),
       ),
     );
   }
 }
 
 class _AboutCard extends StatelessWidget {
-  const _AboutCard({super.key});
+  const _AboutCard();
 
   @override
   Widget build(BuildContext context) {
@@ -31,29 +35,57 @@ class _AboutCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(15),
       child: AnkiGptCard(
         padding: const EdgeInsets.all(0),
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                flex: 1,
-                child: _Left(),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                flex: 2,
-                child: _Right(),
-              ),
-            ],
-          ),
-        ),
+        child: context.isMobile ? const _MobileView() : const _DeskopView(),
       ),
     );
   }
 }
 
-class _Left extends StatelessWidget {
-  const _Left();
+class _MobileView extends StatelessWidget {
+  const _MobileView();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 275,
+          width: MediaQuery.of(context).size.width,
+          child: const _Picture(),
+        ),
+        const SizedBox(width: 12),
+        const _Content(),
+      ],
+    );
+  }
+}
+
+class _DeskopView extends StatelessWidget {
+  const _DeskopView();
+
+  @override
+  Widget build(BuildContext context) {
+    return const IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            flex: 1,
+            child: _Picture(),
+          ),
+          SizedBox(width: 12),
+          Expanded(
+            flex: 2,
+            child: _Content(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Picture extends StatelessWidget {
+  const _Picture();
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +99,8 @@ class _Left extends StatelessWidget {
   }
 }
 
-class _Right extends StatelessWidget {
-  const _Right({super.key});
+class _Content extends StatelessWidget {
+  const _Content();
 
   @override
   Widget build(BuildContext context) {

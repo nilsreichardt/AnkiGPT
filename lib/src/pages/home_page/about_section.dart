@@ -4,7 +4,7 @@ import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/pages/widgets/social_media_icon_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
@@ -106,33 +106,49 @@ class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const textStyle = TextStyle(fontSize: 16);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const _Title(),
-          const SizedBox(height: 12),
+          _Title(),
+          SizedBox(height: 12),
           Text(
             "I'm Nils, I study computer science at the Technical University Munich (TUM).",
             style: textStyle,
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
           Text(
             "The grind of crafting high end flashcards was real, draining hours of my week. So, I decided to shake things up and thus, AnkiGPT was born. It's the ultimate fusion of AI wizardry and savvy study hacks. Dive in, and let's turn learning into an epic win, together.",
             style: textStyle,
           ),
-          const SizedBox(height: 14),
-          Text(
-            'Thanks to Niklas for helping to spread the word about AnkiGPT  ❤️',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[600],
-            ),
-          ),
-          const SizedBox(height: 14),
-          const _SocialMedias(),
+          SizedBox(height: 14),
+          _ThanksToNiklas(),
+          SizedBox(height: 14),
+          _SocialMedias(),
         ],
+      ),
+    );
+  }
+}
+
+class _ThanksToNiklas extends StatelessWidget {
+  const _ThanksToNiklas();
+
+  @override
+  Widget build(BuildContext context) {
+    final baseTextStyle = TextStyle(
+      fontSize: 12,
+      color: Colors.grey[600],
+    );
+    return MarkdownBody(
+      data:
+          'Thanks to [Niklas](https://www.linkedin.com/in/niklas-hettich/) for helping to spread the word about AnkiGPT <3',
+      styleSheet: MarkdownStyleSheet(
+        p: baseTextStyle,
+        a: baseTextStyle.copyWith(
+          decoration: TextDecoration.underline,
+        ),
       ),
     );
   }
@@ -152,8 +168,9 @@ class _Title extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SvgPicture.asset(
-          'assets/icons/waving-hand.svg',
+        const SizedBox(width: 12),
+        Image.asset(
+          'assets/icons/waving-hand.png',
           height: 28,
         ),
       ],

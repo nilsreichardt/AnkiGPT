@@ -10,6 +10,7 @@ environment:
 dependencies:
   auto_size_text: ^3.0.0
   chewie: ^1.5.0
+  clock: ^1.1.1
   cloud_firestore: ^4.8.0
   cloud_functions: ^4.3.1
   collection: ^1.17.2

@@ -30,6 +30,8 @@ void main() {
     late String firstCheckoutUrl;
     late String secondCheckoutUrl;
 
+    final baseDateTime = DateTime(2023, 1, 1);
+
     setUp(() {
       mockUrlLauncher = MockUrlLauncher();
       UrlLauncherPlatform.instance = mockUrlLauncher;
@@ -47,6 +49,7 @@ void main() {
         ],
       );
 
+      when(mockClock.now()).thenReturn(baseDateTime);
       when(mockBuyRepository.createCheckoutSessionUrl())
           .thenAnswer((_) async => firstCheckoutUrl);
     });
@@ -83,7 +86,8 @@ void main() {
 
         when(mockBuyRepository.createCheckoutSessionUrl())
             .thenAnswer((_) async => secondCheckoutUrl);
-        checkout.setExpireDuration(Duration.zero);
+        when(mockClock.now())
+            .thenReturn(baseDateTime.add(const Duration(days: 1)));
         final url = await checkout.generateUrl();
 
         expect(url, secondCheckoutUrl);
@@ -141,8 +145,6 @@ void main() {
 
       test('generates new URL if current URL expired', () async {
         final checkout = container.read(stripeCheckoutProvider.notifier);
-        final baseDateTime = DateTime(2023, 1, 1);
-        when(mockClock.now()).thenReturn(baseDateTime);
 
         await checkout.generateUrl();
 

@@ -2,7 +2,6 @@ import 'package:ankigpt/src/infrastructure/buy_repository.dart';
 import 'package:ankigpt/src/providers/buy_repostiroy_provider.dart.dart';
 import 'package:ankigpt/src/providers/clock_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,7 +10,7 @@ part 'stripe_checkout_provider.g.dart';
 @Riverpod(keepAlive: true)
 class StripeCheckout extends _$StripeCheckout {
   /// The duration after which the Stripe Checkout URL will expire.
-  Duration _expireDuration = const Duration(hours: 23);
+  static const _expireDuration = Duration(hours: 23);
   DateTime? _lastGeneratedAt;
 
   BuyRepository get _buyRepository => ref.read(buyRepositoryProvider);
@@ -56,11 +55,6 @@ class StripeCheckout extends _$StripeCheckout {
 
     reset();
     await launchUrl(Uri.parse(url), webOnlyWindowName: '_self');
-  }
-
-  @visibleForTesting
-  void setExpireDuration(Duration duration) {
-    _expireDuration = duration;
   }
 
   Future<String> _getUrl() async {

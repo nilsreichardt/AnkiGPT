@@ -10,10 +10,14 @@ Future<void> testLink({
   required WidgetTester tester,
   required Finder find,
   required String uri,
+  String? webOnlyWindowName,
 }) async {
   final mock = MockUrlLauncher();
   UrlLauncherPlatform.instance = mock;
-  mock.setLaunchExpectations(url: uri);
+  mock.setLaunchExpectations(
+    url: uri,
+    webOnlyWindowName: webOnlyWindowName,
+  );
 
   await pumpWidget(tester);
 

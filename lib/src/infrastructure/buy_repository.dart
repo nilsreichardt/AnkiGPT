@@ -9,7 +9,7 @@ class BuyRepository {
     required this.routeUrl,
   });
 
-  Future<String> getCheckoutUrl() async {
+  Future<String> createCheckoutSessionUrl() async {
     final respsonse = await cloudFunctions
         .httpsCallableFromUrl(routeUrl)
         .call<Map<String, dynamic>>({

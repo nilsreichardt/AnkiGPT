@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
+import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,13 +34,15 @@ class _MobileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _FreeTier(),
-        SizedBox(height: 32),
-        _PlusTier(),
-      ],
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _FreeTier(),
+          SizedBox(height: 32),
+          _PlusTier(),
+        ],
+      ),
     );
   }
 }
@@ -91,8 +93,22 @@ class _FreeTier extends ConsumerWidget {
   }
 }
 
-class _PlusTier extends StatelessWidget {
+class _PlusTier extends ConsumerStatefulWidget {
   const _PlusTier();
+
+  @override
+  ConsumerState<_PlusTier> createState() => _PlusTierState();
+}
+
+class _PlusTierState extends ConsumerState<_PlusTier> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Generating URL in the background to avoid being blocked by Safari for not
+    // being triggered by a user action when the user clicks on the button.
+    ref.read(stripeCheckoutProvider.notifier).generateUrl();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +123,9 @@ class _PlusTier extends StatelessWidget {
         PointData('Premium support'),
         PointData('All free features'),
       ],
-      onPressedCallToAction: () => showPlusDialog(context),
+      onPressedCallToAction: () async {
+        await ref.read(stripeCheckoutProvider.notifier).open();
+      },
       callToActionText: 'Buy',
     );
   }

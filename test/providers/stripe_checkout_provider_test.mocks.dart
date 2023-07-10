@@ -76,9 +76,9 @@ class MockBuyRepository extends _i1.Mock implements _i3.BuyRepository {
         returnValueForMissingStub: '',
       ) as String);
   @override
-  _i4.Future<String> getCheckoutUrl() => (super.noSuchMethod(
+  _i4.Future<String> createCheckoutSessionUrl() => (super.noSuchMethod(
         Invocation.method(
-          #getCheckoutUrl,
+          #createCheckoutSessionUrl,
           [],
         ),
         returnValue: _i4.Future<String>.value(''),

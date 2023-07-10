@@ -35,7 +35,7 @@ class StripeCheckout extends _$StripeCheckout {
       return state!;
     }
 
-    final url = await _buyRepository.getCheckoutUrl();
+    final url = await _buyRepository.createCheckoutSessionUrl();
 
     _setLastGeneratedAtToNow();
     state = url;

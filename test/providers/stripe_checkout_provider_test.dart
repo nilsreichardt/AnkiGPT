@@ -47,7 +47,7 @@ void main() {
         ],
       );
 
-      when(mockBuyRepository.getCheckoutUrl())
+      when(mockBuyRepository.createCheckoutSessionUrl())
           .thenAnswer((_) async => firstCheckoutUrl);
     });
 
@@ -69,7 +69,7 @@ void main() {
 
         await checkout.generateUrl();
 
-        when(mockBuyRepository.getCheckoutUrl())
+        when(mockBuyRepository.createCheckoutSessionUrl())
             .thenAnswer((_) async => secondCheckoutUrl);
         final url = await checkout.generateUrl();
 
@@ -81,7 +81,7 @@ void main() {
 
         await checkout.generateUrl();
 
-        when(mockBuyRepository.getCheckoutUrl())
+        when(mockBuyRepository.createCheckoutSessionUrl())
             .thenAnswer((_) async => secondCheckoutUrl);
         checkout.setExpireDuration(Duration.zero);
         final url = await checkout.generateUrl();
@@ -112,7 +112,7 @@ void main() {
         );
         await checkout.open();
 
-        when(mockBuyRepository.getCheckoutUrl())
+        when(mockBuyRepository.createCheckoutSessionUrl())
             .thenAnswer((_) async => secondCheckoutUrl);
         mockUrlLauncher.setLaunchExpectations(
           // The URL should be the same as the first one even when the buy
@@ -136,7 +136,7 @@ void main() {
         );
         await checkout.open();
 
-        verify(mockBuyRepository.getCheckoutUrl()).called(1);
+        verify(mockBuyRepository.createCheckoutSessionUrl()).called(1);
       });
 
       test('generates new URL if current URL expired', () async {
@@ -146,7 +146,7 @@ void main() {
 
         await checkout.generateUrl();
 
-        when(mockBuyRepository.getCheckoutUrl())
+        when(mockBuyRepository.createCheckoutSessionUrl())
             .thenAnswer((_) async => secondCheckoutUrl);
         mockUrlLauncher.setLaunchExpectations(
           url: secondCheckoutUrl,
@@ -157,7 +157,7 @@ void main() {
             .thenReturn(baseDateTime.add(const Duration(days: 1)));
         await checkout.open();
 
-        verify(mockBuyRepository.getCheckoutUrl()).called(2);
+        verify(mockBuyRepository.createCheckoutSessionUrl()).called(2);
       });
     });
   });

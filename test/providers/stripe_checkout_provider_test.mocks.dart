@@ -84,6 +84,15 @@ class MockBuyRepository extends _i1.Mock implements _i3.BuyRepository {
         returnValue: _i4.Future<String>.value(''),
         returnValueForMissingStub: _i4.Future<String>.value(''),
       ) as _i4.Future<String>);
+  @override
+  _i4.Future<void> logClickedBuy() => (super.noSuchMethod(
+        Invocation.method(
+          #logClickedBuy,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }
 
 /// A class which mocks [Logger].

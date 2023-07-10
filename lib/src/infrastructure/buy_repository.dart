@@ -18,4 +18,10 @@ class BuyRepository {
 
     return respsonse.data['url'] as String;
   }
+
+  Future<void> logClickedBuy() async {
+    await cloudFunctions.httpsCallableFromUrl(routeUrl).call({
+      'destination': 'analyticsBuy',
+    });
+  }
 }

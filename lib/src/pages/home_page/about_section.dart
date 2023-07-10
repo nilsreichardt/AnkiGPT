@@ -4,6 +4,7 @@ import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/pages/widgets/social_media_icon_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
@@ -110,12 +111,7 @@ class _Content extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Do use SVG instead of emoji
-          const Text('Hey there 👋',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              )),
+          const _Title(),
           const SizedBox(height: 12),
           Text(
             "I'm Nils, I study computer science at the Technical University Munich (TUM).",
@@ -138,6 +134,29 @@ class _Content extends StatelessWidget {
           const _SocialMedias(),
         ],
       ),
+    );
+  }
+}
+
+class _Title extends StatelessWidget {
+  const _Title();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Text(
+          'Hey there',
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SvgPicture.asset(
+          'assets/icons/waving-hand.svg',
+          height: 28,
+        ),
+      ],
     );
   }
 }

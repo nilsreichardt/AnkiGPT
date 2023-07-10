@@ -20,4 +20,20 @@ final hasAccountProvider = AutoDisposeStreamProvider<bool>.internal(
 );
 
 typedef HasAccountRef = AutoDisposeStreamProviderRef<bool>;
+String _$hasAccount2Hash() => r'7407d4499b368bfe6274fd9b438fb89532fadb1b';
+
+/// Returns true if the user is logged in and not anonymous.
+///
+/// Copied from [hasAccount2].
+@ProviderFor(hasAccount2)
+final hasAccount2Provider = AutoDisposeProvider<bool>.internal(
+  hasAccount2,
+  name: r'hasAccount2Provider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$hasAccount2Hash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef HasAccount2Ref = AutoDisposeProviderRef<bool>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

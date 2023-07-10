@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
@@ -5,8 +6,11 @@ import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
+import 'package:ankigpt/src/providers/buy_button_analytics.dart';
+import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
+import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -110,6 +114,18 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
     ref.read(stripeCheckoutProvider.notifier).generateUrl();
   }
 
+  Future<void> buy() async {
+    final hasAccount = ref.read(hasAccount2Provider);
+    unawaited(ref.read(clickedBuyProvider.future));
+
+    if (hasAccount) {
+      await ref.read(stripeCheckoutProvider.notifier).open();
+    } else {
+      ref.read(wantsToBuyProvider.notifier).toggle();
+      Navigator.pushNamed(context, '/account');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return _TierBase(
@@ -123,9 +139,7 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
         PointData('Premium support'),
         PointData('All free features'),
       ],
-      onPressedCallToAction: () async {
-        await ref.read(stripeCheckoutProvider.notifier).open();
-      },
+      onPressedCallToAction: buy,
       callToActionText: 'Buy',
     );
   }

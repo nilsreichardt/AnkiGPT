@@ -22,7 +22,12 @@
         },
         {
           "source": "/terms",
-          "destination": "https://firebasestorage.googleapis.com/v0/b/storage.ankigpt.wtf/o/assets%2Fterms_of_service_en.pdf?alt=media&token=0662172c-34e8-4c90-a0e7-402d1edca458",
+          "destination": "https://firebasestorage.googleapis.com/v0/b/storage.ankigpt.wtf/o/assets%2Fterms_of_service_en.pdf?alt=media&token=ba86f8f4-9427-41b1-89dc-4a7bbdb1a65a",
+          "type": 302
+        },
+        {
+          "source": "/terms-of-service",
+          "destination": "https://firebasestorage.googleapis.com/v0/b/storage.ankigpt.wtf/o/assets%2Fterms_of_service_en.pdf?alt=media&token=ba86f8f4-9427-41b1-89dc-4a7bbdb1a65a",
           "type": 302
         },
         {

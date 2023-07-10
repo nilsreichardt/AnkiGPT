@@ -102,9 +102,12 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
   void initState() {
     super.initState();
 
-    // Generating URL in the background to avoid being blocked by Safari for not
-    // being triggered by a user action when the user clicks on the button.
-    ref.read(stripeCheckoutProvider.notifier).generateUrl();
+    final hasAccount = ref.read(hasAccount2Provider);
+    if (hasAccount) {
+      // Generating URL in the background to avoid being blocked by Safari for not
+      // being triggered by a user action when the user clicks on the button.
+      ref.read(stripeCheckoutProvider.notifier).generateUrl();
+    }
   }
 
   Future<void> buy() async {

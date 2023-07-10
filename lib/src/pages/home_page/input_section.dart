@@ -10,6 +10,7 @@ import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart'
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class InputSection extends ConsumerWidget {
   const InputSection({super.key});
@@ -19,17 +20,23 @@ class InputSection extends ConsumerWidget {
     return MaxWidthConstrainedBox(
       key: ref.read(homePageScollViewProvider).inputSectionKey,
       maxWidth: 700,
-      child: Column(
-        children: [
-          SizedBox(height: min(65, MediaQuery.of(context).size.width * 0.1)),
-          const _Headline(),
-          const SizedBox(height: 38),
-          const _InputField(),
-          const SizedBox(height: 12),
-          const _UploadFileButton(),
-          const SizedBox(height: 12),
-          const _Controls(),
-        ],
+      child: AnimationLimiter(
+        child: Column(
+          children: AnimationConfiguration.toStaggeredList(
+            duration: const Duration(milliseconds: 450),
+            childAnimationBuilder: (widget) => SlideAnimation(
+              verticalOffset: 20,
+              child: FadeInAnimation(child: widget),
+            ),
+            delay: const Duration(milliseconds: 250),
+            children: [
+              const _Headline(),
+              const _InputField(),
+              const _UploadFileButton(),
+              const _Controls(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -40,14 +47,20 @@ class _Headline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AutoSizeText(
-      'Turn lecture slides\ninto flashcards.',
-      textAlign: TextAlign.center,
-      maxLines: 2,
-      style: TextStyle(
-        fontSize: 72,
-        fontWeight: FontWeight.bold,
-        height: 1.1,
+    return Padding(
+      padding: EdgeInsets.only(
+        top: min(65, MediaQuery.of(context).size.width * 0.1),
+        bottom: 38,
+      ),
+      child: const AutoSizeText(
+        'Turn lecture slides\ninto flashcards.',
+        textAlign: TextAlign.center,
+        maxLines: 2,
+        style: TextStyle(
+          fontSize: 72,
+          fontWeight: FontWeight.bold,
+          height: 1.1,
+        ),
       ),
     );
   }
@@ -92,35 +105,38 @@ class _UploadFileButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     const borderRadius = BorderRadius.all(Radius.circular(12));
     final hasPlus = ref.watch(hasPlusProvider);
-    return InkWell(
-      borderRadius: borderRadius,
-      onTap: () {
-        final hasPlus = ref.read(hasPlusProvider);
-        if (!hasPlus) {
-          showPlusDialog(context);
-          return;
-        }
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: () {
+          final hasPlus = ref.read(hasPlusProvider);
+          if (!hasPlus) {
+            showPlusDialog(context);
+            return;
+          }
 
-        ref.read(generateNotifierProvider.notifier).pickFile();
-      },
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 275),
-        child: Material(
-          key: ValueKey(hasPlus),
-          borderRadius: borderRadius,
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
-          child: SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(40),
-              child: Column(
-                children: [
-                  const Icon(Icons.upload_file),
-                  SizedBox(height: hasPlus ? 13 : 0),
-                  const Text('Upload PDF file'),
-                  SizedBox(height: hasPlus ? 13 : 8),
-                  if (!hasPlus) const PlusBadge(),
-                ],
+          ref.read(generateNotifierProvider.notifier).pickFile();
+        },
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 275),
+          child: Material(
+            key: ValueKey(hasPlus),
+            borderRadius: borderRadius,
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+            child: SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(40),
+                child: Column(
+                  children: [
+                    const Icon(Icons.upload_file),
+                    SizedBox(height: hasPlus ? 13 : 0),
+                    const Text('Upload PDF file'),
+                    SizedBox(height: hasPlus ? 13 : 8),
+                    if (!hasPlus) const PlusBadge(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -135,14 +151,17 @@ class _Controls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      children: [
-        _ExportToAnkiButton(),
-        Expanded(child: SizedBox()),
-        _OptionsButton(),
-        SizedBox(width: 12),
-        _GenerateButton(),
-      ],
+    return const Padding(
+      padding: EdgeInsets.only(top: 12),
+      child: Row(
+        children: [
+          _ExportToAnkiButton(),
+          Expanded(child: SizedBox()),
+          _OptionsButton(),
+          SizedBox(width: 12),
+          _GenerateButton(),
+        ],
+      ),
     );
   }
 }

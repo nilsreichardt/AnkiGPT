@@ -183,34 +183,32 @@ class _SignInButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaxWidthConstrainedBox(
       maxWidth: 500,
-      child: InkWell(
+      child: AnkiGptCard(
         borderRadius: defaultAnkiGptBorderRadius,
-        onTap: () async {
+        onPressed: () async {
           try {
             await ref.read(signInProvider(authProvider: authProvider).future);
           } on Exception catch (e) {
             _showSnackBar(context, e);
           }
         },
-        child: AnkiGptCard(
-          padding: const EdgeInsets.all(16),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 26,
-                  height: 26,
-                  child: icon,
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  'Sign in with ${authProvider.toUiString()}',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ],
-            ),
+        padding: const EdgeInsets.all(16),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 26,
+                height: 26,
+                child: icon,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Sign in with ${authProvider.toUiString()}',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ],
           ),
         ),
       ),

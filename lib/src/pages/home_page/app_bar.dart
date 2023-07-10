@@ -45,7 +45,6 @@ class _AppBarSmallScreen extends StatelessWidget {
       ),
       actions: const [
         AccountPageIconButton(),
-        OthersOptions(),
       ],
     );
   }
@@ -67,7 +66,6 @@ class _AppBarLargeScreen extends ConsumerWidget {
       title: const _NavigationItems(),
       actions: const [
         AccountPageIconButton(),
-        OthersOptions(),
       ],
     );
   }

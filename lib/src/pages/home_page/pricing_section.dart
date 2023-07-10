@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
+import 'package:ankigpt/src/pages/widgets/scroll_to.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
@@ -82,15 +83,7 @@ class _FreeTier extends ConsumerWidget {
       ],
       onPressedCallToAction: () {
         final key = ref.read(homePageScollViewProvider).inputSectionKey;
-        if (key.currentContext != null) {
-          Scrollable.ensureVisible(
-            key.currentContext!,
-            duration: const Duration(milliseconds: 1000),
-            curve: Curves.easeInOutQuart,
-          );
-        } else {
-          context.showTextSnackBar('Can not scroll.');
-        }
+        scrollTo(context: context, key: key);
       },
       callToActionText: 'Get started',
     );

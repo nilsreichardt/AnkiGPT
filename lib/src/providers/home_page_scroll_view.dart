@@ -9,7 +9,10 @@ part 'home_page_scroll_view.g.dart';
 HomePageScrollViewData homePageScollView(HomePageScollViewRef ref) {
   return HomePageScrollViewData(
     inputSectionKey: GlobalKey(),
+    demoSectionKey: GlobalKey(),
+    aboutSectionKey: GlobalKey(),
     pricingSectionKey: GlobalKey(),
+    faqSectionKey: GlobalKey(),
   );
 }
 
@@ -17,6 +20,9 @@ HomePageScrollViewData homePageScollView(HomePageScollViewRef ref) {
 class HomePageScrollViewData with _$HomePageScrollViewData {
   const factory HomePageScrollViewData({
     required GlobalKey inputSectionKey,
+    required GlobalKey demoSectionKey,
+    required GlobalKey aboutSectionKey,
     required GlobalKey pricingSectionKey,
+    required GlobalKey faqSectionKey,
   }) = _HomePageScrollViewData;
 }

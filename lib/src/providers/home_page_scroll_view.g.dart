@@ -6,7 +6,7 @@ part of 'home_page_scroll_view.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homePageScollViewHash() => r'1fa1c590aee7e894248e01f5e45e41b1caebd60c';
+String _$homePageScollViewHash() => r'4cb6e06bb0ce91c8e82d40d974c51e311f8b978d';
 
 /// See also [homePageScollView].
 @ProviderFor(homePageScollView)

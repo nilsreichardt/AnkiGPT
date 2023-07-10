@@ -2,8 +2,10 @@ import 'package:ankigpt/src/pages/widgets/animated_swap.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/pages/widgets/theme.dart';
+import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 TextStyle _getAnswerTextStyle(BuildContext context) =>
@@ -12,14 +14,15 @@ TextStyle _getAnswerTextStyle(BuildContext context) =>
           color: Colors.grey[700],
         );
 
-class FaqSection extends StatelessWidget {
+class FaqSection extends ConsumerWidget {
   const FaqSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const MaxWidthConstrainedBox(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MaxWidthConstrainedBox(
+      key: ref.read(homePageScollViewProvider).faqSectionKey,
       maxWidth: 850,
-      child: Column(
+      child: const Column(
         children: [
           SectionTitle(title: 'FAQ'),
           SizedBox(height: 48),

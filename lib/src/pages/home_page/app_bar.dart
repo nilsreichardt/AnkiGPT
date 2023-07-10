@@ -2,8 +2,10 @@ import 'package:ankigpt/src/pages/widgets/ankigpt_logo.dart';
 import 'package:ankigpt/src/pages/widgets/app_bar_widgets.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
+import 'package:ankigpt/src/pages/widgets/scroll_to.dart';
 import 'package:ankigpt/src/pages/widgets/theme.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -71,11 +73,11 @@ class _AppBarLargeScreen extends ConsumerWidget {
   }
 }
 
-class _NavigationItems extends StatelessWidget {
+class _NavigationItems extends ConsumerWidget {
   const _NavigationItems();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final spaceBetweenItems = SizedBox(width: context.isDesktop ? 16 : 0);
     return Theme(
       data: Theme.of(context).copyWith(
@@ -83,7 +85,9 @@ class _NavigationItems extends StatelessWidget {
           style: TextButton.styleFrom(
             textStyle: const TextStyle(
               fontSize: 18,
+              color: Colors.white,
             ),
+            foregroundColor: blackGreen,
           ),
         ),
       ),
@@ -91,22 +95,34 @@ class _NavigationItems extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              final key = ref.read(homePageScollViewProvider).demoSectionKey;
+              scrollTo(context: context, key: key);
+            },
             child: const Text('Demo'),
           ),
           spaceBetweenItems,
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              final key = ref.read(homePageScollViewProvider).pricingSectionKey;
+              scrollTo(context: context, key: key);
+            },
             child: const Text('Pricing'),
           ),
           spaceBetweenItems,
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              final key = ref.read(homePageScollViewProvider).aboutSectionKey;
+              scrollTo(context: context, key: key);
+            },
             child: const Text('About'),
           ),
           spaceBetweenItems,
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              final key = ref.read(homePageScollViewProvider).faqSectionKey;
+              scrollTo(context: context, key: key);
+            },
             child: const Text('FAQ'),
           ),
         ],

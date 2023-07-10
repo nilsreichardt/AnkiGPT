@@ -3,17 +3,20 @@ import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/pages/widgets/social_media_icon_button.dart';
+import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AboutSection extends StatelessWidget {
+class AboutSection extends ConsumerWidget {
   const AboutSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const MaxWidthConstrainedBox(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MaxWidthConstrainedBox(
+      key: ref.read(homePageScollViewProvider).aboutSectionKey,
       maxWidth: 850,
-      child: Padding(
+      child: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [

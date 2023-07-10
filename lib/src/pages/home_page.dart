@@ -1,6 +1,7 @@
 import 'package:ankigpt/src/pages/home_page/about_section.dart';
 import 'package:ankigpt/src/pages/home_page/app_bar.dart';
 import 'package:ankigpt/src/pages/home_page/demo_section.dart';
+import 'package:ankigpt/src/pages/home_page/drawer.dart';
 import 'package:ankigpt/src/pages/home_page/faq_section.dart';
 import 'package:ankigpt/src/pages/home_page/input_section.dart';
 import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
@@ -16,7 +17,7 @@ class HomePage2 extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: const HomePageAppBar2(),
-      drawer: context.isMobile ? const Drawer() : null,
+      drawer: context.isMobile ? const HomePageDrawer() : null,
       body: const SingleChildScrollView(
         child: SafeArea(
           child: Column(

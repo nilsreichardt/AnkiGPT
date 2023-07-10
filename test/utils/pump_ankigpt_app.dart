@@ -8,6 +8,7 @@ Future<void> pumpAnkiGptApp({
   List<Override> overrides = const [],
   required WidgetTester tester,
   required Widget body,
+  Widget? drawer,
 }) async {
   await tester.pumpWidget(
     ProviderScope(
@@ -18,6 +19,7 @@ Future<void> pumpAnkiGptApp({
           '/account': (context) => const AccountPage(),
         },
         home: Scaffold(
+          drawer: drawer,
           body: body,
         ),
       ),

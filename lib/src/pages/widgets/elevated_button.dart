@@ -47,24 +47,26 @@ class AnkiGptElevatedButton extends StatelessWidget {
         this.disabledForegroundColor ?? _disabledForegroundColorFallback;
     final borderRadius = BorderRadius.circular(10.0);
 
-    return Tooltip(
-      message: tooltip ?? '',
-      child: InkWell(
-        borderRadius: borderRadius,
-        onTap: isEnabled ? onPressed : null,
-        hoverColor: color.withOpacity(0.1),
-        splashColor: color.withOpacity(0.1),
+    return Semantics(
+      button: true,
+      enabled: isEnabled,
+      container: true,
+      child: Tooltip(
+        message: tooltip ?? '',
         child: AnkiGptCard(
           borderRadius: borderRadius,
+          onPressed: isEnabled ? onPressed : null,
+          hoverColor: color.withOpacity(0.1),
+          splashColor: color.withOpacity(0.1),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
           color: isEnabled ? color : disabledBackgroundColor,
           border: border,
-          child: DefaultTextStyle(
-            style: DefaultTextStyle.of(context).style.copyWith(
-                  color: isEnabled ? null : disabledForegroundColor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                ),
+          child: DefaultTextStyle.merge(
+            style: TextStyle(
+              color: isEnabled ? null : disabledForegroundColor,
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
             child: child,
           ),
         ),

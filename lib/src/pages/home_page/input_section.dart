@@ -173,6 +173,7 @@ class _OptionsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnkiGptElevatedButton.icon(
+      tooltip: 'Edit options (e.g. number of cards)',
       icon: const Icon(Icons.tune),
       label: const Text('Options'),
       border: Border.all(
@@ -193,6 +194,7 @@ class _GenerateButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnkiGptElevatedButton.icon(
+      tooltip: 'Generate flashcards',
       icon: const Icon(Icons.play_arrow),
       label: const Text('Generate'),
       onPressed: () {

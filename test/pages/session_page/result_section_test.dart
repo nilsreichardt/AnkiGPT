@@ -4,6 +4,7 @@ import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/watch_view.dart';
 import 'package:ankigpt/src/pages/session_page/result_section.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
+import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/shared_preferences_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ void main() {
       List<AnkiCard> cards = const [],
       WatchView view = const WatchView(),
     }) async {
+      const sessionId = 'session-id';
       await pumpAnkiGptApp(
         tester: tester,
         body: const SingleChildScrollView(
@@ -57,10 +59,11 @@ void main() {
         ),
         overrides: [
           cardsListProvider.overrideWith(() => MockCardsList(cards)),
-          watchProvider('sessionId').overrideWith(() => MockWatch(view)),
+          watchProvider(sessionId).overrideWith(() => MockWatch(view)),
           sharedPreferencesAccesserProvider.overrideWith(
             () => MockSharedPreferencesAcccesser(MockSharedPreferences()),
-          )
+          ),
+          sessionIdProvider.overrideWithValue(sessionId)
         ],
       );
     }
@@ -115,5 +118,5 @@ void main() {
 
       await multiScreenGolden(tester, 'result_section_with_cards');
     });
-  });
+  }, skip: 'https://github.com/rrousselGit/riverpod/issues/2047');
 }

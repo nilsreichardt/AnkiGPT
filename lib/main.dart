@@ -735,7 +735,6 @@ class _ResultList extends ConsumerWidget {
 
     return Column(
       children: [
-        const _WarningCard(),
         const _SearchBar(),
         const SizedBox(height: 12),
         SelectionArea(
@@ -1745,58 +1744,6 @@ class _WarningAfterDownload extends ConsumerWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _WarningCard extends ConsumerWidget {
-  const _WarningCard();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final shouldShow = ref.watch(showWarningCardProvider);
-    const color = Colors.orangeAccent;
-
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 275),
-      child: shouldShow
-          ? Padding(
-              key: ValueKey(shouldShow),
-              padding: const EdgeInsets.only(bottom: 12),
-              child: AnkiGptCard(
-                color: color,
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    const Icon(Icons.warning, color: color, size: 40),
-                    const SizedBox(width: 12),
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "AnkiGPT is your co-pilot, not the captain! Remember, even AI stumbles sometimes, so be sure to double-check those cards. Don't forget, nothing beats the magic of your own creative touch in the flashcard mix!",
-                            style: TextStyle(
-                              color: color,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    IconButton(
-                      tooltip: 'Hide this warning',
-                      onPressed: () =>
-                          ref.read(showWarningCardProvider.notifier).hide(),
-                      icon: const Icon(Icons.close, color: color),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : SizedBox.shrink(
-              key: ValueKey(shouldShow),
-            ),
     );
   }
 }

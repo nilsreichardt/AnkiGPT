@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:animations/animations.dart';
 import 'package:ankigpt/main.dart';
-import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
@@ -12,6 +11,7 @@ import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -39,6 +39,7 @@ class _DesktopControlsView extends StatelessWidget {
       children: [
         _ExportToAnkiButton(),
         Expanded(child: SizedBox()),
+        _LoadingButton(),
         _OptionsButton(),
         SizedBox(width: 12),
         _GenerateButton(),
@@ -112,20 +113,13 @@ class _ExportToAnkiButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.read(generateNotifierProvider);
-    final isFinished = state is GenerationStateSuccess;
+    final view = ref.read(watchProvider);
     return AnkiGptElevatedButton.icon(
       icon: const Icon(Icons.download),
       label: const Text('Export to Anki'),
-      onPressed: isFinished
+      onPressed: view.isDownloadAvailable
           ? () {
-              final url = state.downloadUrl;
-              if (url == null) {
-                context.showTextSnackBar('Download failed.');
-                return;
-              }
-
-              launchUrl(Uri.parse(url));
+              launchUrl(Uri.parse(view.downloadUrl!));
               showModal(
                 context: context,
                 builder: (context) => const _ExportToAnkiDialog(),
@@ -133,13 +127,9 @@ class _ExportToAnkiButton extends ConsumerWidget {
               );
             }
           : null,
-      tooltip: state.maybeWhen(
-        loading: (_, __, ___) => 'Still generating... Please wait.',
-        success: (_, __, ___) => 'Download as .csv file to import it',
-        orElse: () => '',
-      ),
+      tooltip: view.downloadButtonTooltip,
       center: context.isMobile,
-      isEnabled: isFinished,
+      isEnabled: view.isDownloadAvailable,
     );
   }
 }
@@ -325,6 +315,32 @@ class NumberOfCardsDropdown extends ConsumerWidget {
           }
         },
       ),
+    );
+  }
+}
+
+class _LoadingButton extends ConsumerWidget {
+  const _LoadingButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLoading = ref.watch(watchProvider.select((view) => view.isLoading));
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 200),
+      child: isLoading
+          ? Padding(
+              padding: const EdgeInsets.only(right: 18),
+              child: Tooltip(
+                key: super.key,
+                message: 'Generating Cards...',
+                child: const SizedBox(
+                  height: 25,
+                  width: 25,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            )
+          : const SizedBox(),
     );
   }
 }

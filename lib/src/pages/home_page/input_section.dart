@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/home_page/controls.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
+import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
@@ -35,7 +36,7 @@ class InputSection extends ConsumerWidget {
               delay: const Duration(milliseconds: 250),
               children: [
                 const _Headline(),
-                const _InputField(),
+                const InputField(),
                 const _FileButton(),
                 const Controls(),
               ],
@@ -71,8 +72,13 @@ class _Headline extends StatelessWidget {
   }
 }
 
-class _InputField extends ConsumerWidget {
-  const _InputField();
+class InputField extends ConsumerWidget {
+  const InputField({
+    super.key,
+    this.isEnabled = true,
+  });
+
+  final bool isEnabled;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -94,6 +100,7 @@ class _InputField extends ConsumerWidget {
               decoration: InputDecoration(
                   focusedBorder: border,
                   enabledBorder: border,
+                  disabledBorder: border,
                   filled: true,
                   hoverColor: Colors.white,
                   fillColor: Colors.white,
@@ -102,7 +109,8 @@ class _InputField extends ConsumerWidget {
 Supports all languages.''',
                   hintStyle: const TextStyle(fontWeight: FontWeight.normal)),
               minLines: 6,
-              maxLines: null,
+              maxLines: 12,
+              enabled: isEnabled,
               keyboardType: TextInputType.multiline,
             ),
     );
@@ -136,36 +144,33 @@ class _UploadFileButton extends ConsumerWidget {
     final hasPlus = ref.watch(hasPlusProvider);
     return Padding(
       padding: const EdgeInsets.only(top: 12),
-      child: InkWell(
-        borderRadius: borderRadius,
-        onTap: () {
-          final hasPlus = ref.read(hasPlusProvider);
-          if (!hasPlus) {
-            showPlusDialog(context);
-            return;
-          }
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 275),
+        child: AnkiGptCard(
+          key: ValueKey(hasPlus),
+          onPressed: () {
+            final hasPlus = ref.read(hasPlusProvider);
+            if (!hasPlus) {
+              showPlusDialog(context);
+              return;
+            }
 
-          ref.read(generateNotifierProvider.notifier).pickFile();
-        },
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 275),
-          child: Material(
-            key: ValueKey(hasPlus),
-            borderRadius: borderRadius,
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
-            child: SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(40),
-                child: Column(
-                  children: [
-                    const Icon(Icons.upload_file),
-                    SizedBox(height: hasPlus ? 13 : 0),
-                    const Text('Upload PDF file'),
-                    SizedBox(height: hasPlus ? 13 : 8),
-                    if (!hasPlus) const PlusBadge(),
-                  ],
-                ),
+            ref.read(generateNotifierProvider.notifier).pickFile();
+          },
+          borderRadius: borderRadius,
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+          child: SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(40),
+              child: Column(
+                children: [
+                  const Icon(Icons.upload_file),
+                  SizedBox(height: hasPlus ? 13 : 0),
+                  const Text('Upload PDF file'),
+                  SizedBox(height: hasPlus ? 13 : 8),
+                  if (!hasPlus) const PlusBadge(),
+                ],
               ),
             ),
           ),
@@ -186,9 +191,8 @@ class _PickedFileButton extends ConsumerWidget {
         ref.watch(generateNotifierProvider) is GenerationStateLoading;
     return SizedBox(
       width: double.infinity,
-      child: InkWell(
-        borderRadius: borderRadius,
-        onTap: isLoading
+      child: AnkiGptCard(
+        onPressed: isLoading
             ? null
             : () {
                 final hasPlus = ref.read(hasPlusProvider);
@@ -199,41 +203,39 @@ class _PickedFileButton extends ConsumerWidget {
 
                 ref.read(generateNotifierProvider.notifier).pickFile();
               },
-        child: Material(
-          borderRadius: borderRadius,
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 40, 12, 40),
-                child: Column(
-                  children: [
-                    const Icon(Icons.upload_file),
-                    const SizedBox(height: 13),
-                    Text(pickedFile?.name ?? 'File picked.'),
-                    const SizedBox(height: 13),
-                  ],
-                ),
+        borderRadius: borderRadius,
+        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 40, 12, 40),
+              child: Column(
+                children: [
+                  const Icon(Icons.upload_file),
+                  const SizedBox(height: 13),
+                  Text(pickedFile?.name ?? 'File picked.'),
+                  const SizedBox(height: 13),
+                ],
               ),
-              Positioned(
-                top: 12,
-                right: 12,
-                child: IconButton(
-                  tooltip:
-                      'Remove file${isLoading ? ' (disabled while loading)' : ''}',
-                  onPressed: isLoading
-                      ? null
-                      : () {
-                          ref
-                              .read(generateNotifierProvider.notifier)
-                              .clearPickedFile();
-                        },
-                  icon: const Icon(Icons.delete),
-                ),
+            ),
+            Positioned(
+              top: 12,
+              right: 12,
+              child: IconButton(
+                tooltip:
+                    'Remove file${isLoading ? ' (disabled while loading)' : ''}',
+                onPressed: isLoading
+                    ? null
+                    : () {
+                        ref
+                            .read(generateNotifierProvider.notifier)
+                            .clearPickedFile();
+                      },
+                icon: const Icon(Icons.delete),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -14,7 +14,7 @@ part 'router_provider.g.dart';
 GoRouter router(RouterRef ref) {
   final logger = ref.read(loggerProvider);
   return GoRouter(
-    initialLocation: '/sucessful-plus-payment',
+    initialLocation: '/sessions/123',
     // initialLocation: '/',
     observers: [
       NavigationLoggerObserver(logger),
@@ -42,7 +42,7 @@ GoRouter router(RouterRef ref) {
           GoRoute(
             path: 'sessions/:id',
             builder: (context, state) {
-              final id = state.queryParameters['id'];
+              final id = state.pathParameters['id'];
               return SessionPage(sessionId: id);
             },
           ),

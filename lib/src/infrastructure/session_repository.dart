@@ -4,6 +4,7 @@ import 'package:ankigpt/src/models/card_id.dart';
 import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:file_picker/file_picker.dart';
@@ -13,11 +14,13 @@ class SessionRepository {
   final FirebaseFunctions functions;
   final String routeFunctionsUrl;
   final FirebaseStorage storage;
+  final FirebaseFirestore firestore;
 
   const SessionRepository({
     required this.functions,
     required this.routeFunctionsUrl,
     required this.storage,
+    required this.firestore,
   });
 
   Future<SessionId> startSession({
@@ -109,5 +112,18 @@ class SessionRepository {
         'question': question,
       }
     });
+  }
+
+  Stream<SessionDto?> streamSession(SessionId sessionId) {
+    return firestore
+        .collection('Sessions')
+        .doc(sessionId)
+        .withConverter(
+          fromFirestore: (doc, options) =>
+              SessionDto.fromJsonWithInjectedId(sessionId, doc.data()!),
+          toFirestore: (_, __) => throw UnimplementedError(),
+        )
+        .snapshots()
+        .map((event) => event.data());
   }
 }

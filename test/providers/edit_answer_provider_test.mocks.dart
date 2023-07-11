@@ -3,14 +3,15 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
 
-import 'package:ankigpt/src/infrastructure/session_repository.dart' as _i4;
-import 'package:ankigpt/src/models/session_dto.dart' as _i6;
+import 'package:ankigpt/src/infrastructure/session_repository.dart' as _i5;
+import 'package:ankigpt/src/models/session_dto.dart' as _i7;
+import 'package:cloud_firestore/cloud_firestore.dart' as _i4;
 import 'package:cloud_functions/cloud_functions.dart' as _i2;
-import 'package:file_picker/file_picker.dart' as _i7;
+import 'package:file_picker/file_picker.dart' as _i8;
 import 'package:firebase_storage/firebase_storage.dart' as _i3;
-import 'package:logger/src/logger.dart' as _i8;
+import 'package:logger/src/logger.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -46,10 +47,21 @@ class _FakeFirebaseStorage_1 extends _i1.SmartFake
         );
 }
 
+class _FakeFirebaseFirestore_2 extends _i1.SmartFake
+    implements _i4.FirebaseFirestore {
+  _FakeFirebaseFirestore_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [SessionRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSessionRepository extends _i1.Mock implements _i4.SessionRepository {
+class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
   @override
   _i2.FirebaseFunctions get functions => (super.noSuchMethod(
         Invocation.getter(#functions),
@@ -81,8 +93,20 @@ class MockSessionRepository extends _i1.Mock implements _i4.SessionRepository {
         ),
       ) as _i3.FirebaseStorage);
   @override
-  _i5.Future<String> startSession({
-    required _i6.Input? input,
+  _i4.FirebaseFirestore get firestore => (super.noSuchMethod(
+        Invocation.getter(#firestore),
+        returnValue: _FakeFirebaseFirestore_2(
+          this,
+          Invocation.getter(#firestore),
+        ),
+        returnValueForMissingStub: _FakeFirebaseFirestore_2(
+          this,
+          Invocation.getter(#firestore),
+        ),
+      ) as _i4.FirebaseFirestore);
+  @override
+  _i6.Future<String> startSession({
+    required _i7.Input? input,
     required int? numberOfCards,
     required String? sessionId,
   }) =>
@@ -96,14 +120,14 @@ class MockSessionRepository extends _i1.Mock implements _i4.SessionRepository {
             #sessionId: sessionId,
           },
         ),
-        returnValue: _i5.Future<String>.value(''),
-        returnValueForMissingStub: _i5.Future<String>.value(''),
-      ) as _i5.Future<String>);
+        returnValue: _i6.Future<String>.value(''),
+        returnValueForMissingStub: _i6.Future<String>.value(''),
+      ) as _i6.Future<String>);
   @override
-  _i5.Future<void> uploadFile({
+  _i6.Future<void> uploadFile({
     required String? sessionId,
     required String? userId,
-    required _i7.PlatformFile? file,
+    required _i8.PlatformFile? file,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -115,11 +139,11 @@ class MockSessionRepository extends _i1.Mock implements _i4.SessionRepository {
             #file: file,
           },
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
   @override
-  _i5.Future<void> deleteCard({
+  _i6.Future<void> deleteCard({
     required String? sessionId,
     required String? cardId,
   }) =>
@@ -132,11 +156,11 @@ class MockSessionRepository extends _i1.Mock implements _i4.SessionRepository {
             #cardId: cardId,
           },
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
   @override
-  _i5.Future<void> undoDeleteCard({
+  _i6.Future<void> undoDeleteCard({
     required String? sessionId,
     required String? cardId,
   }) =>
@@ -149,11 +173,11 @@ class MockSessionRepository extends _i1.Mock implements _i4.SessionRepository {
             #cardId: cardId,
           },
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
   @override
-  _i5.Future<void> editAnswer({
+  _i6.Future<void> editAnswer({
     required String? sessionId,
     required String? cardId,
     required String? answer,
@@ -168,11 +192,11 @@ class MockSessionRepository extends _i1.Mock implements _i4.SessionRepository {
             #answer: answer,
           },
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
   @override
-  _i5.Future<void> editQuestion({
+  _i6.Future<void> editQuestion({
     required String? sessionId,
     required String? cardId,
     required String? question,
@@ -187,15 +211,25 @@ class MockSessionRepository extends _i1.Mock implements _i4.SessionRepository {
             #question: question,
           },
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
+  _i6.Stream<_i7.SessionDto?> streamSession(String? sessionId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #streamSession,
+          [sessionId],
+        ),
+        returnValue: _i6.Stream<_i7.SessionDto?>.empty(),
+        returnValueForMissingStub: _i6.Stream<_i7.SessionDto?>.empty(),
+      ) as _i6.Stream<_i7.SessionDto?>);
 }
 
 /// A class which mocks [Logger].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLogger extends _i1.Mock implements _i8.Logger {
+class MockLogger extends _i1.Mock implements _i9.Logger {
   @override
   void v(
     dynamic message, [
@@ -300,7 +334,7 @@ class MockLogger extends _i1.Mock implements _i8.Logger {
       );
   @override
   void log(
-    _i8.Level? level,
+    _i9.Level? level,
     dynamic message, [
     dynamic error,
     StackTrace? stackTrace,

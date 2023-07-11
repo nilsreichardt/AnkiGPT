@@ -23,6 +23,7 @@ import 'package:ankigpt/src/providers/edit_answer_provider.dart';
 import 'package:ankigpt/src/providers/edit_question_provider.dart';
 import 'package:ankigpt/src/providers/like_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
+import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/total_cards_counter_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,8 @@ class ResultSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final view = ref.watch(watchProvider);
+    final sessionId = ref.watch(sessionIdProvider)!;
+    final view = ref.watch(watchProvider(sessionId));
     final hasSessionId = view.sessionId != null;
 
     return AnimatedSwitcher(
@@ -109,7 +111,7 @@ class _ResultList extends ConsumerWidget {
     WidgetRef ref,
     CardId cardId,
   ) {
-    final sessionId = ref.read(watchProvider).sessionId!;
+    final sessionId = ref.read(sessionIdProvider)!;
     context.hideSnackBar();
     context.showTextSnackBar(
       'Card deleted.',
@@ -127,7 +129,7 @@ class _ResultList extends ConsumerWidget {
   }
 
   void deleteCard(BuildContext context, WidgetRef ref, CardId cardId) {
-    final sessionId = ref.read(watchProvider).sessionId!;
+    final sessionId = ref.read(sessionIdProvider)!;
     ref.read(deleteCardControllerProvider.notifier).delete(
           cardId: cardId,
           sessionId: sessionId,
@@ -400,7 +402,7 @@ class _CardAnswer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return _CardTextField(
       onChanged: (text) {
-        final sessionId = ref.read(watchProvider).sessionId!;
+        final sessionId = ref.read(sessionIdProvider)!;
         ref.read(editAnswerProvider.notifier).debounce(
               cardId: cardId,
               answer: text,
@@ -431,7 +433,7 @@ class _CardQuestion extends ConsumerWidget {
       child: _CardTextField(
         text: question,
         onChanged: (text) {
-          final sessionId = ref.read(watchProvider).sessionId!;
+          final sessionId = ref.read(sessionIdProvider)!;
           ref.read(editQuestionProvider.notifier).debounce(
                 cardId: cardId,
                 question: text,
@@ -502,7 +504,7 @@ class _Controls extends ConsumerWidget {
                       IconButton(
                         tooltip: 'Dislike, if this is a bad card.',
                         onPressed: () {
-                          final sessionId = ref.read(watchProvider).sessionId!;
+                          final sessionId = ref.read(sessionIdProvider)!;
                           ref
                               .read(
                                   cardFeedbackStatusControllerProvider.notifier)
@@ -524,7 +526,7 @@ class _Controls extends ConsumerWidget {
                       IconButton(
                         tooltip: 'Like, if this is a good card.',
                         onPressed: () {
-                          final sessionId = ref.read(watchProvider).sessionId!;
+                          final sessionId = ref.read(sessionIdProvider)!;
                           ref
                               .read(
                                   cardFeedbackStatusControllerProvider.notifier)
@@ -658,7 +660,7 @@ class _UndoLikeButton extends ConsumerWidget {
     return IconButton(
       tooltip: 'Undo like',
       onPressed: () {
-        final sessionId = ref.read(watchProvider).sessionId!;
+        final sessionId = ref.read(sessionIdProvider)!;
         ref
             .read(cardFeedbackStatusControllerProvider.notifier)
             .setStatus(cardId, CardFeedbackStatus.notReviewed);
@@ -681,7 +683,7 @@ class _UndoDislikeButton extends ConsumerWidget {
     return IconButton(
       tooltip: 'Undo dislike',
       onPressed: () {
-        final sessionId = ref.read(watchProvider).sessionId!;
+        final sessionId = ref.read(sessionIdProvider)!;
         ref
             .read(cardFeedbackStatusControllerProvider.notifier)
             .setStatus(cardId, CardFeedbackStatus.notReviewed);

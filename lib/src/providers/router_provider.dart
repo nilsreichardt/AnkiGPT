@@ -1,7 +1,7 @@
 import 'package:ankigpt/src/pages/account_page.dart';
 import 'package:ankigpt/src/pages/home_page.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
-import 'package:ankigpt/src/pages/session_page.dart';
+import 'package:ankigpt/src/pages/deck_page.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/navigation_logger_observer.dart';
 import 'package:ankigpt/src/providers/show_successful_playment_dialog.dart';
@@ -43,7 +43,7 @@ GoRouter router(RouterRef ref) {
             path: 'sessions/:id',
             builder: (context, state) {
               final id = state.pathParameters['id'];
-              return SessionPage(sessionId: id);
+              return DeckPage(sessionId: id);
             },
           ),
         ],

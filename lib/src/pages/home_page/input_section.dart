@@ -10,7 +10,7 @@ import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
-import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
+import 'package:ankigpt/src/providers/input_text_field_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -79,12 +79,13 @@ class _InputField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasPickedFile = ref.watch(hasPickedFileProvider);
+    final controller = ref.watch(inputTextFieldControllerProvider);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 275),
       child: hasPickedFile
           ? const SizedBox()
           : InputTextField(
-              controller: ref.watch(slideTextFieldControllerProvider),
+              controller: controller,
             ),
     );
   }

@@ -4,12 +4,13 @@ import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/footer2.dart';
 import 'package:ankigpt/src/pages/widgets/input_text_field.dart';
 import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
+import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SessionPage extends ConsumerStatefulWidget {
-  const SessionPage({
+class DeckPage extends ConsumerStatefulWidget {
+  const DeckPage({
     super.key,
     required this.sessionId,
   });
@@ -17,41 +18,49 @@ class SessionPage extends ConsumerStatefulWidget {
   final SessionId? sessionId;
 
   @override
-  ConsumerState<SessionPage> createState() => _SessionPageState();
+  ConsumerState<DeckPage> createState() => _SessionPageState();
 }
 
-class _SessionPageState extends ConsumerState<SessionPage> {
+class _SessionPageState extends ConsumerState<DeckPage> {
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.sessionId == null) {
+      final sessionId = widget.sessionId;
+      if (sessionId == null) {
         return;
       }
 
-      ref.read(watchProvider.notifier).watch(sessionId: widget.sessionId!);
+      ref
+          .read(watchProvider(sessionId).notifier)
+          .watch(sessionId: widget.sessionId!);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          controller: ref.watch(scrollControllerProvider),
-          child: Column(
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height,
-                  maxWidth: 900,
+    return ProviderScope(
+      overrides: [
+        sessionIdProvider.overrideWithValue(widget.sessionId),
+      ],
+      child: Scaffold(
+        appBar: AppBar(),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            controller: ref.watch(scrollControllerProvider),
+            child: Column(
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height,
+                    maxWidth: 900,
+                  ),
+                  child: const _Body(),
                 ),
-                child: const _Body(),
-              ),
-              const Footer2(),
-            ],
+                const Footer2(),
+              ],
+            ),
           ),
         ),
       ),
@@ -81,7 +90,8 @@ class _Input extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final view = ref.watch(watchProvider);
+    final sessionId = ref.watch(sessionIdProvider)!;
+    final view = ref.watch(watchProvider(sessionId));
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 275),
       child: view.hasFile
@@ -99,7 +109,9 @@ class _FileCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fileName = ref.watch(watchProvider.select((view) => view.fileName));
+    final sessionId = ref.watch(sessionIdProvider)!;
+    final fileName =
+        ref.watch(watchProvider(sessionId).select((view) => view.fileName));
     const borderRadius = BorderRadius.all(Radius.circular(12));
     return SizedBox(
       width: double.infinity,

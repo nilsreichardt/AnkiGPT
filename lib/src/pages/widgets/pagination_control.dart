@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:ankigpt/src/models/generate_state.dart';
+import 'package:ankigpt/src/models/cards_list_view.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
 import 'package:ankigpt/src/providers/scroll_controller_provider.dart';

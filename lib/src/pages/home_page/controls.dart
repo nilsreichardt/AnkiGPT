@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:animations/animations.dart';
 import 'package:ankigpt/main.dart';
+import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
@@ -11,6 +12,7 @@ import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -91,16 +93,46 @@ class _OptionsButton extends StatelessWidget {
   }
 }
 
-class _GenerateButton extends StatelessWidget {
+class _GenerateButton extends ConsumerWidget {
   const _GenerateButton();
 
+  Future<void> generate(BuildContext context, WidgetRef ref) async {
+    try {
+      await ref.read(generateNotifierProvider.notifier).submit();
+    } catch (e) {
+      if (e is PlusMembershipRequiredException) {
+        showPlusDialog(context);
+        return;
+      }
+
+      if (e is TooShortInputException) {
+        showModal(
+          context: context,
+          builder: (context) => const _TooLessInputDialog(),
+        );
+        return;
+      }
+
+      if (e is TooLongInputException) {
+        showInputTooLong(context);
+        return;
+      }
+
+      context.showTextSnackBar('$e');
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionId = ref.watch(sessionIdProvider);
+    final isWatchingSession = sessionId != null;
+    final isEnabled = !isWatchingSession;
     return AnkiGptElevatedButton.icon(
-      tooltip: 'Generate flashcards',
+      tooltip: isEnabled ? 'Generate flashcards' : '',
       icon: const Icon(Icons.play_arrow),
       label: const Text('Generate'),
       center: context.isMobile,
+      isEnabled: isEnabled,
       onPressed: () {
         showInputTooLong(context);
       },
@@ -113,7 +145,8 @@ class _ExportToAnkiButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final view = ref.read(watchProvider);
+    final sessionId = ref.watch(sessionIdProvider) ?? 'does-not-exist';
+    final view = ref.read(watchProvider(sessionId));
     return AnkiGptElevatedButton.icon(
       icon: const Icon(Icons.download),
       label: const Text('Export to Anki'),
@@ -324,7 +357,9 @@ class _LoadingButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(watchProvider.select((view) => view.isLoading));
+    final sessionId = ref.watch(sessionIdProvider) ?? 'does-not-exist';
+    final isLoading =
+        ref.watch(watchProvider(sessionId).select((view) => view.isLoading));
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 200),
       child: isLoading
@@ -341,6 +376,25 @@ class _LoadingButton extends ConsumerWidget {
               ),
             )
           : const SizedBox(),
+    );
+  }
+}
+
+class _TooLessInputDialog extends StatelessWidget {
+  const _TooLessInputDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Input too short!'),
+      content: const Text(
+          'Please add more text (min. 400 characters). If the text is too short, GPT cannot generate the flashcards.'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }

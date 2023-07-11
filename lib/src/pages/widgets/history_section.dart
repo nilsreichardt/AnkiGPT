@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
-import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/history_deck_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class HistorySection extends ConsumerWidget {
@@ -100,16 +100,7 @@ class _CreatedHistoryDeck extends ConsumerWidget {
     return _HistoryDeckBase(
       numberOfCards: numberOfCards,
       name: name,
-      onTap: () {
-        ref.read(generateNotifierProvider.notifier).watch(
-              sessionId: dto.id,
-              data: WatchData(
-                cards: dto.cards?.values.toList() ?? [],
-                downloadUrl: dto.csv!.downloadUrl,
-                language: dto.language!,
-              ),
-            );
-      },
+      onTap: () => context.go('/deck/${dto.id}'),
       createdAt: createdAt,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

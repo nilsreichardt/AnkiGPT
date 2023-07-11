@@ -1,4 +1,4 @@
-import 'package:ankigpt/main.dart';
+import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'card_generation_size_provider.g.dart';

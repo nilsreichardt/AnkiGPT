@@ -18,7 +18,7 @@ class Watch extends _$Watch {
   SessionRepository get _repository => ref.read(sessionRepositoryProvider);
 
   @override
-  WatchView build() {
+  WatchView build(String sessionId) {
     ref.onDispose(() => _stopSubscription());
     return const WatchView();
   }

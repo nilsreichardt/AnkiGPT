@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:ankigpt/src/models/anki_card.dart';
-import 'package:ankigpt/src/models/generate_state.dart';
+import 'package:ankigpt/src/models/cards_list_view.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

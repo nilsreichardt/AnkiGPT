@@ -1,5 +1,6 @@
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/language.dart';
+import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/watch_view.dart';
 import 'package:ankigpt/src/pages/session_page/result_section.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
@@ -33,7 +34,7 @@ class MockWatch extends Watch {
   MockWatch(this._view);
 
   @override
-  WatchView build() {
+  WatchView build(SessionId sessionId) {
     return _view;
   }
 }
@@ -56,7 +57,7 @@ void main() {
         ),
         overrides: [
           cardsListProvider.overrideWith(() => MockCardsList(cards)),
-          watchProvider.overrideWith(() => MockWatch(view)),
+          watchProvider('sessionId').overrideWith(() => MockWatch(view)),
           sharedPreferencesAccesserProvider.overrideWith(
             () => MockSharedPreferencesAcccesser(MockSharedPreferences()),
           )

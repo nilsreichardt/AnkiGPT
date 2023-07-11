@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'slide_text_field_controller_provider.g.dart';
+part 'input_text_field_controller.g.dart';
 
 @Riverpod(keepAlive: true)
-Raw<TextEditingController> slideTextFieldController(
-        SlideTextFieldControllerRef ref) =>
+Raw<TextEditingController> inputTextFieldController(
+        InputTextFieldControllerRef ref) =>
     TextEditingController();

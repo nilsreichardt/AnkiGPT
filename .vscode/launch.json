@@ -8,6 +8,7 @@
             "name": "ankigpt (prod)",
             "request": "launch",
             "type": "dart",
+            "program": "lib/main.dart",
             "args": [
                 "--dart-define=FLAVOR=prod",
             ]
@@ -16,6 +17,7 @@
             "name": "ankigpt (dev)",
             "request": "launch",
             "type": "dart",
+            "program": "lib/main.dart",
             "args": [
                 "--dart-define=FLAVOR=dev",
             ]

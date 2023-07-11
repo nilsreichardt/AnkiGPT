@@ -4,6 +4,7 @@ import 'package:animations/animations.dart';
 import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
+import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
@@ -25,20 +26,23 @@ class InputSection extends ConsumerWidget {
       key: ref.read(homePageScollViewProvider).inputSectionKey,
       maxWidth: 700,
       child: AnimationLimiter(
-        child: Column(
-          children: AnimationConfiguration.toStaggeredList(
-            duration: const Duration(milliseconds: 450),
-            childAnimationBuilder: (widget) => SlideAnimation(
-              verticalOffset: 20,
-              child: FadeInAnimation(child: widget),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Column(
+            children: AnimationConfiguration.toStaggeredList(
+              duration: const Duration(milliseconds: 450),
+              childAnimationBuilder: (widget) => SlideAnimation(
+                verticalOffset: 20,
+                child: FadeInAnimation(child: widget),
+              ),
+              delay: const Duration(milliseconds: 250),
+              children: [
+                const _Headline(),
+                const _InputField(),
+                const _UploadFileButton(),
+                const _Controls(),
+              ],
             ),
-            delay: const Duration(milliseconds: 250),
-            children: [
-              const _Headline(),
-              const _InputField(),
-              const _UploadFileButton(),
-              const _Controls(),
-            ],
           ),
         ),
       ),
@@ -155,17 +159,45 @@ class _Controls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(top: 12),
-      child: Row(
-        children: [
-          _ExportToAnkiButton(),
-          Expanded(child: SizedBox()),
-          _OptionsButton(),
-          SizedBox(width: 12),
-          _GenerateButton(),
-        ],
-      ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: context.isMobile
+          ? const _MobileControlsView()
+          : const _DesktopControlsView(),
+    );
+  }
+}
+
+class _DesktopControlsView extends StatelessWidget {
+  const _DesktopControlsView();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      children: [
+        _ExportToAnkiButton(),
+        Expanded(child: SizedBox()),
+        _OptionsButton(),
+        SizedBox(width: 12),
+        _GenerateButton(),
+      ],
+    );
+  }
+}
+
+class _MobileControlsView extends StatelessWidget {
+  const _MobileControlsView();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        _ExportToAnkiButton(),
+        SizedBox(height: 12),
+        _OptionsButton(),
+        SizedBox(height: 12),
+        _GenerateButton(),
+      ],
     );
   }
 }
@@ -184,6 +216,7 @@ class _OptionsButton extends StatelessWidget {
         width: 1.4,
       ),
       color: Colors.transparent,
+      center: context.isMobile,
       onPressed: () {
         showModal(
           context: context,
@@ -204,6 +237,7 @@ class _GenerateButton extends StatelessWidget {
       tooltip: 'Generate flashcards',
       icon: const Icon(Icons.play_arrow),
       label: const Text('Generate'),
+      center: context.isMobile,
       onPressed: () {
         showInputTooLong(context);
       },
@@ -220,6 +254,7 @@ class _ExportToAnkiButton extends StatelessWidget {
       icon: const Icon(Icons.download),
       label: const Text('Export to Anki'),
       onPressed: () {},
+      center: context.isMobile,
       isEnabled: false,
     );
   }

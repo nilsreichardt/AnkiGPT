@@ -4,6 +4,7 @@ import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/home_page/controls.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
+import 'package:ankigpt/src/pages/widgets/input_text_field.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
@@ -36,7 +37,7 @@ class InputSection extends ConsumerWidget {
               delay: const Duration(milliseconds: 250),
               children: [
                 const _Headline(),
-                const InputField(),
+                const _InputField(),
                 const _FileButton(),
                 const Controls(),
               ],
@@ -72,46 +73,18 @@ class _Headline extends StatelessWidget {
   }
 }
 
-class InputField extends ConsumerWidget {
-  const InputField({
-    super.key,
-    this.isEnabled = true,
-  });
-
-  final bool isEnabled;
+class _InputField extends ConsumerWidget {
+  const _InputField();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasPickedFile = ref.watch(hasPickedFileProvider);
-    final border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(
-        color: Color(0xFFCECECE),
-        width: 2,
-      ),
-    );
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 275),
       child: hasPickedFile
           ? const SizedBox()
-          : TextField(
+          : InputTextField(
               controller: ref.watch(slideTextFieldControllerProvider),
-              autofocus: true,
-              decoration: InputDecoration(
-                  focusedBorder: border,
-                  enabledBorder: border,
-                  disabledBorder: border,
-                  filled: true,
-                  hoverColor: Colors.white,
-                  fillColor: Colors.white,
-                  hintText:
-                      '''Copy the text of a few slides and paste it into this text field.
-Supports all languages.''',
-                  hintStyle: const TextStyle(fontWeight: FontWeight.normal)),
-              minLines: 6,
-              maxLines: 12,
-              enabled: isEnabled,
-              keyboardType: TextInputType.multiline,
             ),
     );
   }

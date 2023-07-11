@@ -22,6 +22,7 @@ mixin _$WatchView {
   String? get error => throw _privateConstructorUsedError;
   String? get fileName => throw _privateConstructorUsedError;
   String? get sessionId => throw _privateConstructorUsedError;
+  String? get inputText => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WatchViewCopyWith<WatchView> get copyWith =>
@@ -39,7 +40,8 @@ abstract class $WatchViewCopyWith<$Res> {
       Language? language,
       String? error,
       String? fileName,
-      String? sessionId});
+      String? sessionId,
+      String? inputText});
 }
 
 /// @nodoc
@@ -61,6 +63,7 @@ class _$WatchViewCopyWithImpl<$Res, $Val extends WatchView>
     Object? error = freezed,
     Object? fileName = freezed,
     Object? sessionId = freezed,
+    Object? inputText = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -87,6 +90,10 @@ class _$WatchViewCopyWithImpl<$Res, $Val extends WatchView>
           ? _value.sessionId
           : sessionId // ignore: cast_nullable_to_non_nullable
               as String?,
+      inputText: freezed == inputText
+          ? _value.inputText
+          : inputText // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -104,7 +111,8 @@ abstract class _$$_WatchViewCopyWith<$Res> implements $WatchViewCopyWith<$Res> {
       Language? language,
       String? error,
       String? fileName,
-      String? sessionId});
+      String? sessionId,
+      String? inputText});
 }
 
 /// @nodoc
@@ -124,6 +132,7 @@ class __$$_WatchViewCopyWithImpl<$Res>
     Object? error = freezed,
     Object? fileName = freezed,
     Object? sessionId = freezed,
+    Object? inputText = freezed,
   }) {
     return _then(_$_WatchView(
       isLoading: null == isLoading
@@ -150,6 +159,10 @@ class __$$_WatchViewCopyWithImpl<$Res>
           ? _value.sessionId
           : sessionId // ignore: cast_nullable_to_non_nullable
               as String?,
+      inputText: freezed == inputText
+          ? _value.inputText
+          : inputText // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -163,7 +176,8 @@ class _$_WatchView extends _WatchView {
       this.language,
       this.error,
       this.fileName,
-      this.sessionId})
+      this.sessionId,
+      this.inputText})
       : super._();
 
   @override
@@ -179,10 +193,12 @@ class _$_WatchView extends _WatchView {
   final String? fileName;
   @override
   final String? sessionId;
+  @override
+  final String? inputText;
 
   @override
   String toString() {
-    return 'WatchView(isLoading: $isLoading, downloadUrl: $downloadUrl, language: $language, error: $error, fileName: $fileName, sessionId: $sessionId)';
+    return 'WatchView(isLoading: $isLoading, downloadUrl: $downloadUrl, language: $language, error: $error, fileName: $fileName, sessionId: $sessionId, inputText: $inputText)';
   }
 
   @override
@@ -200,12 +216,14 @@ class _$_WatchView extends _WatchView {
             (identical(other.fileName, fileName) ||
                 other.fileName == fileName) &&
             (identical(other.sessionId, sessionId) ||
-                other.sessionId == sessionId));
+                other.sessionId == sessionId) &&
+            (identical(other.inputText, inputText) ||
+                other.inputText == inputText));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, downloadUrl, language,
-      error, fileName, sessionId);
+      error, fileName, sessionId, inputText);
 
   @JsonKey(ignore: true)
   @override
@@ -221,7 +239,8 @@ abstract class _WatchView extends WatchView {
       final Language? language,
       final String? error,
       final String? fileName,
-      final String? sessionId}) = _$_WatchView;
+      final String? sessionId,
+      final String? inputText}) = _$_WatchView;
   const _WatchView._() : super._();
 
   @override
@@ -236,6 +255,8 @@ abstract class _WatchView extends WatchView {
   String? get fileName;
   @override
   String? get sessionId;
+  @override
+  String? get inputText;
   @override
   @JsonKey(ignore: true)
   _$$_WatchViewCopyWith<_$_WatchView> get copyWith =>

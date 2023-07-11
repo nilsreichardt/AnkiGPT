@@ -15,6 +15,7 @@ class WatchView with _$WatchView {
     String? error,
     String? fileName,
     SessionId? sessionId,
+    String? inputText,
   }) = _WatchView;
 
   bool get hasFile => fileName != null;

@@ -6,7 +6,7 @@ part of 'watch_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$watchHash() => r'723d39c1a1b6d21d62ae44fddda4a97dee678672';
+String _$watchHash() => r'7e94cbf5c39f4f6f0b2c57f659cfef880023c25e';
 
 /// See also [Watch].
 @ProviderFor(Watch)

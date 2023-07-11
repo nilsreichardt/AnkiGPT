@@ -1,8 +1,8 @@
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/home_page/controls.dart';
-import 'package:ankigpt/src/pages/home_page/input_section.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/footer2.dart';
+import 'package:ankigpt/src/pages/widgets/input_text_field.dart';
 import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +37,7 @@ class _SessionPageState extends ConsumerState<SessionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: const _BackButton(),
-      ),
+      appBar: AppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           controller: ref.watch(scrollControllerProvider),
@@ -57,20 +55,6 @@ class _SessionPageState extends ConsumerState<SessionPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _BackButton extends ConsumerWidget {
-  const _BackButton();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return BackButton(
-      onPressed: () {
-        ref.read(watchProvider.notifier).reset();
-        Navigator.of(context).pop();
-      },
     );
   }
 }
@@ -102,7 +86,8 @@ class _Input extends ConsumerWidget {
       duration: const Duration(milliseconds: 275),
       child: view.hasFile
           ? const _FileCard()
-          : const InputField(
+          : InputTextField(
+              controller: TextEditingController(text: view.inputText),
               isEnabled: false,
             ),
     );

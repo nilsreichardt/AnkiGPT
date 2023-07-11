@@ -64,6 +64,40 @@ void main() {
       );
     }
 
+    testGoldens('renders error cards on error as expected', (tester) async {
+      final cards = generateDummyCards(2);
+      const view = WatchView(
+        downloadUrl: 'https://example.com',
+        isLoading: false,
+        language: Language.en,
+        error: 'some-error',
+        sessionId: 'session-id',
+      );
+      await pumpResultSection(
+        tester,
+        view: view,
+        cards: cards,
+      );
+
+      await screenMatchesGolden(tester, 'result_section_error');
+    });
+
+    testGoldens('renders empty state as expected', (tester) async {
+      const view = WatchView(
+        downloadUrl: 'https://example.com',
+        isLoading: false,
+        language: Language.en,
+        sessionId: 'session-id',
+      );
+      await pumpResultSection(
+        tester,
+        view: view,
+        cards: [],
+      );
+
+      await screenMatchesGolden(tester, 'result_section_empty');
+    });
+
     testGoldens('renders as exepcted with cards', (tester) async {
       final cards = generateDummyCards(50);
       const view = WatchView(

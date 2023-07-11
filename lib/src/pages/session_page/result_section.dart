@@ -12,6 +12,7 @@ import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/card_feedback_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
+import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/pagination_control.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
@@ -192,28 +193,30 @@ class _EmptyList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 40, top: 28),
-      child: SelectionContainer.disabled(
-        child: Column(
-          children: [
-            const Icon(
-              Icons.list,
-              size: 80,
-              color: Colors.grey,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Could not generate any cards for the given input. Please try again with a different input.',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 10),
-            AnkiGptElevatedButton.icon(
+      child: Column(
+        children: [
+          const Icon(
+            Icons.list,
+            size: 80,
+            color: Colors.grey,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Could not generate any cards for the given input. Please try again with a different input.',
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          const SizedBox(height: 10),
+          MaxWidthConstrainedBox(
+            maxWidth: 200,
+            child: AnkiGptElevatedButton.icon(
               icon: const Icon(Icons.arrow_back),
+              center: true,
               onPressed: () =>
                   launchUrl(Uri.parse('https://ankigpt.wtf/support')),
               label: const Text('Go back'),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

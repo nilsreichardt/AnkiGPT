@@ -13,6 +13,7 @@ HomePageScrollViewData homePageScollView(HomePageScollViewRef ref) {
     aboutSectionKey: GlobalKey(),
     pricingSectionKey: GlobalKey(),
     faqSectionKey: GlobalKey(),
+    myDecksSectionKey: GlobalKey(),
   );
 }
 
@@ -24,5 +25,6 @@ class HomePageScrollViewData with _$HomePageScrollViewData {
     required GlobalKey aboutSectionKey,
     required GlobalKey pricingSectionKey,
     required GlobalKey faqSectionKey,
+    required GlobalKey myDecksSectionKey,
   }) = _HomePageScrollViewData;
 }

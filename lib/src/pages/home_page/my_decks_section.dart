@@ -1,65 +1,74 @@
 import 'dart:math';
 
-import 'package:ankigpt/src/models/session_dto.dart';
+import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
+import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/providers/history_deck_list_provider.dart';
+import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-class HistorySection extends ConsumerWidget {
-  const HistorySection({super.key});
+class MyDecksSection extends ConsumerWidget {
+  const MyDecksSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(historyDeckListProvider).when(
-          data: (sessions) {
-            return AnimationLimiter(
-              child: Column(
-                children: AnimationConfiguration.toStaggeredList(
-                  duration: const Duration(milliseconds: 375),
-                  childAnimationBuilder: (widget) => SlideAnimation(
-                    verticalOffset: 20,
-                    child: FadeInAnimation(
-                      child: widget,
+    return Column(
+      key: ref.read(homePageScollViewProvider).myDecksSectionKey,
+      children: [
+        const SectionTitle(title: 'My Decks'),
+        const SizedBox(height: 32),
+        ref.watch(historyDeckListProvider).when(
+              data: (sessions) {
+                return AnimationLimiter(
+                  child: Column(
+                    children: AnimationConfiguration.toStaggeredList(
+                      duration: const Duration(milliseconds: 375),
+                      childAnimationBuilder: (widget) => SlideAnimation(
+                        verticalOffset: 20,
+                        child: FadeInAnimation(
+                          child: widget,
+                        ),
+                      ),
+                      children: [
+                        for (final session in sessions)
+                          session.when(
+                            created: (questions, createdAt, name, sessionId,
+                                    numberOfCards) =>
+                                _CreatedHistoryDeck(
+                              questions: questions,
+                              createdAt: session.createdAt,
+                              name: name,
+                              sessionId: sessionId,
+                              numberOfCards: numberOfCards,
+                            ),
+                            loading: (createdAt, name, numberOfCards) =>
+                                _LoadingHistoryDeck(
+                              createdAt: session.createdAt,
+                              name: name,
+                              numberOfCards: numberOfCards,
+                            ),
+                            error: (error, createdAt, name, numberOfCards) =>
+                                _ErrorHistoryDeck(
+                              createdAt: session.createdAt,
+                              error: error,
+                              name: name,
+                              numberOfCards: numberOfCards,
+                            ),
+                          )
+                      ],
                     ),
                   ),
-                  children: [
-                    for (final session in sessions)
-                      session.when(
-                        created:
-                            (questions, createdAt, name, dto, numberOfCards) =>
-                                _CreatedHistoryDeck(
-                          questions: questions,
-                          createdAt: session.createdAt,
-                          name: name,
-                          dto: dto,
-                          numberOfCards: numberOfCards,
-                        ),
-                        loading: (createdAt, name, numberOfCards) =>
-                            _LoadingHistoryDeck(
-                          createdAt: session.createdAt,
-                          name: name,
-                          numberOfCards: numberOfCards,
-                        ),
-                        error: (error, createdAt, name, numberOfCards) =>
-                            _ErrorHistoryDeck(
-                          createdAt: session.createdAt,
-                          error: error,
-                          name: name,
-                          numberOfCards: numberOfCards,
-                        ),
-                      )
-                  ],
-                ),
-              ),
-            );
-          },
-          error: (error, _) => _ErrorText(error: '$error'),
-          loading: () => const SizedBox(),
-        );
+                );
+              },
+              error: (error, _) => _ErrorText(error: '$error'),
+              loading: () => const SizedBox(),
+            )
+      ],
+    );
   }
 }
 
@@ -84,15 +93,15 @@ class _CreatedHistoryDeck extends ConsumerWidget {
     required this.name,
     required this.createdAt,
     required this.questions,
-    required this.dto,
     required this.numberOfCards,
+    required this.sessionId,
   });
 
   final String name;
   final DateTime createdAt;
   final List<String> questions;
-  final SessionDto dto;
   final int numberOfCards;
+  final SessionId sessionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -100,7 +109,7 @@ class _CreatedHistoryDeck extends ConsumerWidget {
     return _HistoryDeckBase(
       numberOfCards: numberOfCards,
       name: name,
-      onTap: () => context.go('/deck/${dto.id}'),
+      onTap: () => context.go('/deck/$sessionId'),
       createdAt: createdAt,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

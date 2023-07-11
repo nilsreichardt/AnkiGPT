@@ -40,7 +40,7 @@ GoRouter router(RouterRef ref) {
             },
           ),
           GoRoute(
-            path: 'sessions/:id',
+            path: 'deck/:id',
             builder: (context, state) {
               final id = state.pathParameters['id'];
               return DeckPage(sessionId: id);

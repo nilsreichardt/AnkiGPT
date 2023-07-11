@@ -43,7 +43,7 @@ Stream<List<HistoryDeck>> historyDeckList(HistoryDeckListRef ref) {
             numberOfCards: dto.cards?.length ?? 0,
             questions:
                 questions.length < 5 ? questions : questions.sublist(0, 5),
-            sessionDto: dto,
+            sessionId: dto.id,
           );
         }).toList() ??
         [],

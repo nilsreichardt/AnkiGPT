@@ -1,4 +1,4 @@
-import 'package:ankigpt/src/models/session_dto.dart';
+import 'package:ankigpt/src/models/session_id.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'history_deck.freezed.dart';
@@ -9,7 +9,7 @@ class HistoryDeck with _$HistoryDeck {
     required List<String> questions,
     required DateTime createdAt,
     required String name,
-    required SessionDto sessionDto,
+    required SessionId sessionId,
     required int numberOfCards,
   }) = HistoryDeckCreated;
   const factory HistoryDeck.loading({

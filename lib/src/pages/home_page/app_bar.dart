@@ -1,10 +1,11 @@
 import 'package:ankigpt/src/pages/widgets/ankigpt_logo.dart';
-import 'package:ankigpt/src/pages/widgets/app_bar_widgets.dart';
+import 'package:ankigpt/src/pages/widgets/account_page_icon_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/scroll_to.dart';
 import 'package:ankigpt/src/pages/widgets/theme.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
+import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -76,6 +77,7 @@ class _NavigationItems extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final spaceBetweenItems = SizedBox(width: context.isDesktop ? 16 : 0);
+    final isSignedIn = ref.watch(isSignedInProvider);
     return Theme(
       data: Theme.of(context).copyWith(
         textButtonTheme: TextButtonThemeData(
@@ -91,13 +93,7 @@ class _NavigationItems extends ConsumerWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextButton(
-            onPressed: () {
-              final key = ref.read(homePageScollViewProvider).demoSectionKey;
-              scrollTo(context: context, key: key);
-            },
-            child: const Text('Demo'),
-          ),
+          isSignedIn ? const _MyDecksButton() : const _DemoButton(),
           spaceBetweenItems,
           TextButton(
             onPressed: () {
@@ -124,6 +120,36 @@ class _NavigationItems extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _DemoButton extends ConsumerWidget {
+  const _DemoButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return TextButton(
+      onPressed: () {
+        final key = ref.read(homePageScollViewProvider).demoSectionKey;
+        scrollTo(context: context, key: key);
+      },
+      child: const Text('Demo'),
+    );
+  }
+}
+
+class _MyDecksButton extends ConsumerWidget {
+  const _MyDecksButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return TextButton(
+      onPressed: () {
+        final key = ref.read(homePageScollViewProvider).myDecksSectionKey;
+        scrollTo(context: context, key: key);
+      },
+      child: const Text('Decks'),
     );
   }
 }

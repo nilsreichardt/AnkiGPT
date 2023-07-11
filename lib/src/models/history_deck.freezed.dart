@@ -22,7 +22,7 @@ mixin _$HistoryDeck {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<String> questions, DateTime createdAt,
-            String name, SessionDto sessionDto, int numberOfCards)
+            String name, String sessionId, int numberOfCards)
         created,
     required TResult Function(
             DateTime createdAt, String name, int numberOfCards)
@@ -35,7 +35,7 @@ mixin _$HistoryDeck {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<String> questions, DateTime createdAt, String name,
-            SessionDto sessionDto, int numberOfCards)?
+            String sessionId, int numberOfCards)?
         created,
     TResult? Function(DateTime createdAt, String name, int numberOfCards)?
         loading,
@@ -47,7 +47,7 @@ mixin _$HistoryDeck {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<String> questions, DateTime createdAt, String name,
-            SessionDto sessionDto, int numberOfCards)?
+            String sessionId, int numberOfCards)?
         created,
     TResult Function(DateTime createdAt, String name, int numberOfCards)?
         loading,
@@ -140,10 +140,8 @@ abstract class _$$HistoryDeckCreatedCopyWith<$Res>
       {List<String> questions,
       DateTime createdAt,
       String name,
-      SessionDto sessionDto,
+      String sessionId,
       int numberOfCards});
-
-  $SessionDtoCopyWith<$Res> get sessionDto;
 }
 
 /// @nodoc
@@ -160,7 +158,7 @@ class __$$HistoryDeckCreatedCopyWithImpl<$Res>
     Object? questions = null,
     Object? createdAt = null,
     Object? name = null,
-    Object? sessionDto = null,
+    Object? sessionId = null,
     Object? numberOfCards = null,
   }) {
     return _then(_$HistoryDeckCreated(
@@ -176,23 +174,15 @@ class __$$HistoryDeckCreatedCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      sessionDto: null == sessionDto
-          ? _value.sessionDto
-          : sessionDto // ignore: cast_nullable_to_non_nullable
-              as SessionDto,
+      sessionId: null == sessionId
+          ? _value.sessionId
+          : sessionId // ignore: cast_nullable_to_non_nullable
+              as String,
       numberOfCards: null == numberOfCards
           ? _value.numberOfCards
           : numberOfCards // ignore: cast_nullable_to_non_nullable
               as int,
     ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $SessionDtoCopyWith<$Res> get sessionDto {
-    return $SessionDtoCopyWith<$Res>(_value.sessionDto, (value) {
-      return _then(_value.copyWith(sessionDto: value));
-    });
   }
 }
 
@@ -203,7 +193,7 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
       {required final List<String> questions,
       required this.createdAt,
       required this.name,
-      required this.sessionDto,
+      required this.sessionId,
       required this.numberOfCards})
       : _questions = questions;
 
@@ -220,13 +210,13 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
   @override
   final String name;
   @override
-  final SessionDto sessionDto;
+  final String sessionId;
   @override
   final int numberOfCards;
 
   @override
   String toString() {
-    return 'HistoryDeck.created(questions: $questions, createdAt: $createdAt, name: $name, sessionDto: $sessionDto, numberOfCards: $numberOfCards)';
+    return 'HistoryDeck.created(questions: $questions, createdAt: $createdAt, name: $name, sessionId: $sessionId, numberOfCards: $numberOfCards)';
   }
 
   @override
@@ -239,8 +229,8 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.sessionDto, sessionDto) ||
-                other.sessionDto == sessionDto) &&
+            (identical(other.sessionId, sessionId) ||
+                other.sessionId == sessionId) &&
             (identical(other.numberOfCards, numberOfCards) ||
                 other.numberOfCards == numberOfCards));
   }
@@ -251,7 +241,7 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
       const DeepCollectionEquality().hash(_questions),
       createdAt,
       name,
-      sessionDto,
+      sessionId,
       numberOfCards);
 
   @JsonKey(ignore: true)
@@ -265,7 +255,7 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<String> questions, DateTime createdAt,
-            String name, SessionDto sessionDto, int numberOfCards)
+            String name, String sessionId, int numberOfCards)
         created,
     required TResult Function(
             DateTime createdAt, String name, int numberOfCards)
@@ -274,14 +264,14 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
             String message, DateTime createdAt, String name, int numberOfCards)
         error,
   }) {
-    return created(questions, createdAt, name, sessionDto, numberOfCards);
+    return created(questions, createdAt, name, sessionId, numberOfCards);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<String> questions, DateTime createdAt, String name,
-            SessionDto sessionDto, int numberOfCards)?
+            String sessionId, int numberOfCards)?
         created,
     TResult? Function(DateTime createdAt, String name, int numberOfCards)?
         loading,
@@ -289,14 +279,14 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
             String message, DateTime createdAt, String name, int numberOfCards)?
         error,
   }) {
-    return created?.call(questions, createdAt, name, sessionDto, numberOfCards);
+    return created?.call(questions, createdAt, name, sessionId, numberOfCards);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<String> questions, DateTime createdAt, String name,
-            SessionDto sessionDto, int numberOfCards)?
+            String sessionId, int numberOfCards)?
         created,
     TResult Function(DateTime createdAt, String name, int numberOfCards)?
         loading,
@@ -306,7 +296,7 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
     required TResult orElse(),
   }) {
     if (created != null) {
-      return created(questions, createdAt, name, sessionDto, numberOfCards);
+      return created(questions, createdAt, name, sessionId, numberOfCards);
     }
     return orElse();
   }
@@ -351,7 +341,7 @@ abstract class HistoryDeckCreated implements HistoryDeck {
       {required final List<String> questions,
       required final DateTime createdAt,
       required final String name,
-      required final SessionDto sessionDto,
+      required final String sessionId,
       required final int numberOfCards}) = _$HistoryDeckCreated;
 
   List<String> get questions;
@@ -359,7 +349,7 @@ abstract class HistoryDeckCreated implements HistoryDeck {
   DateTime get createdAt;
   @override
   String get name;
-  SessionDto get sessionDto;
+  String get sessionId;
   @override
   int get numberOfCards;
   @override
@@ -457,7 +447,7 @@ class _$HistoryDeckLoading implements HistoryDeckLoading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<String> questions, DateTime createdAt,
-            String name, SessionDto sessionDto, int numberOfCards)
+            String name, String sessionId, int numberOfCards)
         created,
     required TResult Function(
             DateTime createdAt, String name, int numberOfCards)
@@ -473,7 +463,7 @@ class _$HistoryDeckLoading implements HistoryDeckLoading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<String> questions, DateTime createdAt, String name,
-            SessionDto sessionDto, int numberOfCards)?
+            String sessionId, int numberOfCards)?
         created,
     TResult? Function(DateTime createdAt, String name, int numberOfCards)?
         loading,
@@ -488,7 +478,7 @@ class _$HistoryDeckLoading implements HistoryDeckLoading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<String> questions, DateTime createdAt, String name,
-            SessionDto sessionDto, int numberOfCards)?
+            String sessionId, int numberOfCards)?
         created,
     TResult Function(DateTime createdAt, String name, int numberOfCards)?
         loading,
@@ -655,7 +645,7 @@ class _$HistoryDeckError implements HistoryDeckError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<String> questions, DateTime createdAt,
-            String name, SessionDto sessionDto, int numberOfCards)
+            String name, String sessionId, int numberOfCards)
         created,
     required TResult Function(
             DateTime createdAt, String name, int numberOfCards)
@@ -671,7 +661,7 @@ class _$HistoryDeckError implements HistoryDeckError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<String> questions, DateTime createdAt, String name,
-            SessionDto sessionDto, int numberOfCards)?
+            String sessionId, int numberOfCards)?
         created,
     TResult? Function(DateTime createdAt, String name, int numberOfCards)?
         loading,
@@ -686,7 +676,7 @@ class _$HistoryDeckError implements HistoryDeckError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<String> questions, DateTime createdAt, String name,
-            SessionDto sessionDto, int numberOfCards)?
+            String sessionId, int numberOfCards)?
         created,
     TResult Function(DateTime createdAt, String name, int numberOfCards)?
         loading,

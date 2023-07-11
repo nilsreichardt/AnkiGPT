@@ -1,6 +1,7 @@
 import 'package:ankigpt/src/pages/widgets/ankigpt_logo.dart';
 import 'package:ankigpt/src/pages/widgets/scroll_to.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
+import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,6 +11,7 @@ class HomePageDrawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const spaceBetweenItems = SizedBox(height: 12);
+    final isSignedIn = ref.watch(isSignedInProvider);
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -32,14 +34,9 @@ class HomePageDrawer extends ConsumerWidget {
                       title: const Text('Input'),
                     ),
                     spaceBetweenItems,
-                    ListTile(
-                      onTap: () {
-                        final key =
-                            ref.read(homePageScollViewProvider).demoSectionKey;
-                        scrollTo(context: context, key: key);
-                        Navigator.pop(context);
-                      },
-                      title: const Text('Demo'),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      child: isSignedIn ? const _DeckTile() : const _DemoTile(),
                     ),
                     spaceBetweenItems,
                     ListTile(
@@ -93,6 +90,54 @@ class HomePageDrawer extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _DemoTile extends ConsumerWidget {
+  const _DemoTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return _BasicTile(
+      key: const ValueKey('demo-tile'),
+      sectionKey: ref.read(homePageScollViewProvider).demoSectionKey,
+      text: 'Demo',
+    );
+  }
+}
+
+class _DeckTile extends ConsumerWidget {
+  const _DeckTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return _BasicTile(
+      key: const ValueKey('decks-tile'),
+      sectionKey: ref.read(homePageScollViewProvider).myDecksSectionKey,
+      text: 'Decks',
+    );
+  }
+}
+
+class _BasicTile extends ConsumerWidget {
+  const _BasicTile({
+    super.key,
+    required this.sectionKey,
+    required this.text,
+  });
+
+  final GlobalKey sectionKey;
+  final String text;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      onTap: () {
+        scrollTo(context: context, key: sectionKey);
+        Navigator.pop(context);
+      },
+      title: Text(text),
     );
   }
 }

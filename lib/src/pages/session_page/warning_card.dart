@@ -15,7 +15,7 @@ class WarningDoubleCheckCard extends ConsumerWidget {
       duration: const Duration(milliseconds: 275),
       child: shouldShow
           ? Padding(
-              key: ValueKey(shouldShow),
+              key: const ValueKey('warning-card'),
               padding: const EdgeInsets.only(bottom: 12),
               child: AnkiGptCard(
                 color: color.withOpacity(0.1),
@@ -48,7 +48,7 @@ class WarningDoubleCheckCard extends ConsumerWidget {
                 ),
               ),
             )
-          : SizedBox.shrink(key: ValueKey(shouldShow)),
+          : const SizedBox.shrink(key: ValueKey('empty')),
     );
   }
 }

@@ -15,6 +15,7 @@ import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Controls extends StatelessWidget {
@@ -47,25 +48,51 @@ class _DesktopControlsView extends ConsumerWidget {
           const _OptionsButton(),
           const SizedBox(width: 12),
           const _GenerateButton(),
-        ]
+        ] else
+          const _CreateNewDeck(),
       ],
     );
   }
 }
 
-class _MobileControlsView extends StatelessWidget {
+class _MobileControlsView extends ConsumerWidget {
   const _MobileControlsView();
 
   @override
-  Widget build(BuildContext context) {
-    return const Column(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionId = ref.watch(sessionIdProvider);
+    final isWatching = sessionId != null;
+    return Column(
       children: [
-        _ExportToAnkiButton(),
-        SizedBox(height: 12),
-        _OptionsButton(),
-        SizedBox(height: 12),
-        _GenerateButton(),
+        const _ExportToAnkiButton(),
+        const SizedBox(height: 12),
+        if (!isWatching) ...[
+          const _OptionsButton(),
+          const SizedBox(height: 12),
+          const _GenerateButton(),
+        ] else
+          const _CreateNewDeck(),
       ],
+    );
+  }
+}
+
+class _CreateNewDeck extends StatelessWidget {
+  const _CreateNewDeck();
+
+  @override
+  Widget build(BuildContext context) {
+    return AnkiGptElevatedButton.icon(
+      tooltip: 'Create a new deck with a different input',
+      icon: const Icon(Icons.add),
+      label: const Text('New Deck'),
+      border: Border.all(
+        color: Colors.grey[400]!,
+        width: 1.4,
+      ),
+      color: Colors.transparent,
+      center: context.isMobile,
+      onPressed: () => context.pop(),
     );
   }
 }

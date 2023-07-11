@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/models/auth_provider.dart';
+import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';

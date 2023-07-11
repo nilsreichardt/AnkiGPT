@@ -12,6 +12,8 @@ import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/account_page.dart';
 import 'package:ankigpt/src/pages/home_page.dart';
+import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
+import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/session_page.dart';
 import 'package:ankigpt/src/pages/widgets/animated_swap.dart';
@@ -479,128 +481,6 @@ class PlusBadge extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-void showPlusDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) => const PlusDialog(),
-    routeSettings: const RouteSettings(name: '/plus'),
-  );
-}
-
-class PlusDialog extends ConsumerWidget {
-  const PlusDialog({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return AlertDialog(
-      title: const Text("AnkiGPT Plus"),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: min(MediaQuery.of(context).size.height * 2, 300),
-            child: const TutorialVideoPlayer(
-              aspectRatio: 16 / 12,
-              videoUrl:
-                  'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fpdf-upload-tutorial.mp4?alt=media&token=a67cd7c1-ff89-41e8-a1f0-9daebe1caaed',
-            ),
-          ),
-          const SizedBox(height: 16),
-          const Text('''Advantages:
-* Upload PDF files and automatically generate flashcards
-* No character limit for the input text
-* Generate 50, 100, 150 200 or 250 cards at once
-* Premium support
-
-Lifetime: €9.99 (no subscription)'''),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('CANCEL'),
-        ),
-        const _BuyButton(),
-      ],
-    );
-  }
-}
-
-class _BuyButton extends ConsumerStatefulWidget {
-  const _BuyButton();
-
-  @override
-  ConsumerState<_BuyButton> createState() => _BuyButtonState();
-}
-
-class _BuyButtonState extends ConsumerState<_BuyButton> {
-  bool isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    final isSignedIn = ref.read(isSignedInProvider);
-    if (isSignedIn) {
-      // Generating URL in the background
-      unawaited(ref.read(stripeCheckoutProvider.notifier).generateUrl());
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final hasAccount = ref.watch(hasAccountProvider).value;
-    return Stack(
-      children: [
-        Opacity(
-          opacity: isLoading ? 0 : 1,
-          child: IgnorePointer(
-            ignoring: isLoading,
-            child: TextButton(
-              onPressed: () async {
-                setState(() {
-                  isLoading = true;
-                });
-
-                try {
-                  // Analytics
-                  unawaited(ref.read(clickedBuyProvider.future));
-
-                  if (hasAccount == true) {
-                    await ref.read(stripeCheckoutProvider.notifier).open();
-                  } else {
-                    ref.read(wantsToBuyProvider.notifier).toggle();
-                    Navigator.pushNamed(context, '/account');
-                  }
-                } on Exception catch (e) {
-                  context.showTextSnackBar('Error while buying Plus: $e');
-                  Navigator.pop(context);
-                } finally {
-                  setState(() {
-                    isLoading = false;
-                  });
-                }
-              },
-              child: const Text('BUY'),
-            ),
-          ),
-        ),
-        Opacity(
-          opacity: isLoading ? 1 : 0,
-          child: IgnorePointer(
-            ignoring: !isLoading,
-            child: const SizedBox(
-              height: 25,
-              width: 25,
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        )
-      ],
     );
   }
 }
@@ -1747,29 +1627,6 @@ class TooLessInputDialog extends StatelessWidget {
       title: 'Too short!',
       content:
           'Please add more text (min. 400 characters). If the text is too short, GPT cannot generate the flashcards.',
-    );
-  }
-}
-
-class TooLongInputDialog extends StatelessWidget {
-  const TooLongInputDialog({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaxWidthConstrainedBox(
-      maxWidth: 500,
-      child: AlertDialog(
-        title: const Text('Too long!'),
-        content: const Text(
-            'Your text is too long. Free users have a limt of 5,000 characters.\n\nBuy AnkiGPT Plus for €9.99 (one-time purchase) to remove this limit.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('CANCEL'),
-          ),
-          const _BuyButton(),
-        ],
-      ),
     );
   }
 }

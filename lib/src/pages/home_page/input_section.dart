@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:ankigpt/main.dart';
+import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
@@ -195,7 +196,7 @@ class _GenerateButton extends StatelessWidget {
       icon: const Icon(Icons.play_arrow),
       label: const Text('Generate'),
       onPressed: () {
-        print('Generate');
+        showInputTooLong(context);
       },
     );
   }

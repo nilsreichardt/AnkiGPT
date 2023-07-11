@@ -189,7 +189,7 @@ class _TierBase extends StatelessWidget {
               ),
             ),
             ...points.map(
-              (point) => _SellingPoint(
+              (point) => SellingPoint(
                 text: point.text,
                 trailing: point.trailing,
               ),
@@ -230,8 +230,9 @@ class _CallToActionButton extends StatelessWidget {
   }
 }
 
-class _SellingPoint extends StatelessWidget {
-  const _SellingPoint({
+class SellingPoint extends StatelessWidget {
+  const SellingPoint({
+    super.key,
     required this.text,
     this.trailing,
   });

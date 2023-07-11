@@ -4,10 +4,12 @@ import 'package:animations/animations.dart';
 import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
+import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
+import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
@@ -17,6 +19,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InputSection extends ConsumerWidget {
   const InputSection({super.key});
@@ -335,17 +338,121 @@ class _GenerateButton extends StatelessWidget {
   }
 }
 
-class _ExportToAnkiButton extends StatelessWidget {
+class _ExportToAnkiButton extends ConsumerWidget {
   const _ExportToAnkiButton();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.read(generateNotifierProvider);
+    final isFinished = state is GenerationStateSuccess;
     return AnkiGptElevatedButton.icon(
       icon: const Icon(Icons.download),
       label: const Text('Export to Anki'),
-      onPressed: () {},
+      onPressed: isFinished
+          ? () {
+              final url = state.downloadUrl;
+              if (url == null) {
+                context.showTextSnackBar('Download failed.');
+                return;
+              }
+
+              launchUrl(Uri.parse(url));
+              showModal(
+                context: context,
+                builder: (context) => const _ExportToAnkiDialog(),
+                routeSettings: const RouteSettings(name: '/export-to-anki'),
+              );
+            }
+          : null,
+      tooltip: state.maybeWhen(
+        loading: (_, __, ___) => 'Still generating... Please wait.',
+        success: (_, __, ___) => 'Download as .csv file to import it',
+        orElse: () => '',
+      ),
       center: context.isMobile,
-      isEnabled: false,
+      isEnabled: isFinished,
+    );
+  }
+}
+
+class _ExportToAnkiDialog extends StatelessWidget {
+  const _ExportToAnkiDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Tutorial: How import a .csv file into Anki'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: min(MediaQuery.of(context).size.height * 2, 300),
+              child: const TutorialVideoPlayer(
+                aspectRatio: 4 / 2.9,
+                videoUrl:
+                    'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fanki-import-tutorial.mp4?alt=media&token=87f434d0-8318-47d0-b0e1-4c86753b9eb3',
+              ),
+            ),
+            const SizedBox(height: 18),
+            const ListTile(
+              title:
+                  Text('1. Open Anki and click on "Import" in the menu bar.'),
+            ),
+            const ListTile(
+              title: Text('2. Select the .csv file you just downloaded.'),
+            ),
+            const ListTile(
+              title: Text('3. Select "Comma" as Field Separator.'),
+            ),
+            const ListTile(
+              title: Text('4. Make sure to select the right deck.'),
+            ),
+            const ListTile(
+              title: Text('5. Click on "Import".'),
+            ),
+            const SizedBox(height: 12),
+            const _WarningAfterDownload(),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('OK'),
+        ),
+      ],
+    );
+  }
+}
+
+class _WarningAfterDownload extends ConsumerWidget {
+  const _WarningAfterDownload();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const color = Colors.deepOrange;
+    return SizedBox(
+      width: min(MediaQuery.of(context).size.height * 2, 400),
+      child: const AnkiGptCard(
+        color: Color(0xFFFFDFC1),
+        padding: EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Icon(Icons.warning, color: color, size: 30),
+            SizedBox(width: 12),
+            Flexible(
+              child: Text(
+                "AnkiGPT is your co-pilot, not the captain! Remember, even AI stumbles sometimes, so be sure to double-check those cards!",
+                style: TextStyle(
+                  color: color,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

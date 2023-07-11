@@ -12,7 +12,7 @@ class DemoSection extends ConsumerWidget {
     return MaxWidthConstrainedBox(
       key: ref.read(homePageScollViewProvider).demoSectionKey,
       child: const TutorialVideoPlayer(
-        aspectRatio: 16 / 9,
+        aspectRatio: 16 / 9.6,
         videoUrl:
             'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fankigpt.mp4?alt=media&token=4ffb0db0-b24d-4bc5-87bc-f339725105d6',
       ),

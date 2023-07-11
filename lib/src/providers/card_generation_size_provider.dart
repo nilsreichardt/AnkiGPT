@@ -7,7 +7,7 @@ part 'card_generation_size_provider.g.dart';
 class GenerationSize extends _$GenerationSize {
   @override
   CardGenrationSize build() {
-    return CardGenrationSize.five;
+    return CardGenrationSize.ten;
   }
 
   void set(CardGenrationSize size) {

@@ -239,7 +239,7 @@ class _DangerZoneCard extends StatelessWidget {
         borderRadius: defaultAnkiGptBorderRadius,
         child: AnkiGptCard(
           padding: const EdgeInsets.all(0),
-          color: Theme.of(context).colorScheme.error,
+          color: Theme.of(context).colorScheme.error.withOpacity(0.1),
           child: const Column(
             children: [
               _SignOutTile(),

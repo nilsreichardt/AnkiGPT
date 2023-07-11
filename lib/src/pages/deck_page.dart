@@ -1,5 +1,6 @@
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/home_page/controls.dart';
+import 'package:ankigpt/src/pages/session_page/result_section.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/input_text_field.dart';
@@ -40,6 +41,9 @@ class _SessionPageState extends ConsumerState<DeckPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Keep provider alive.
+    ref.watch(watchProvider(widget.sessionId ?? 'does-not-exist'));
+
     return ProviderScope(
       overrides: [
         sessionIdProvider.overrideWithValue(widget.sessionId),
@@ -79,6 +83,7 @@ class _Body extends StatelessWidget {
         children: [
           _Input(),
           Controls(),
+          ResultSection(),
         ],
       ),
     );

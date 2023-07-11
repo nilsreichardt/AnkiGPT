@@ -14,8 +14,6 @@ part 'router_provider.g.dart';
 GoRouter router(RouterRef ref) {
   final logger = ref.read(loggerProvider);
   return GoRouter(
-    initialLocation: '/sessions/123',
-    // initialLocation: '/',
     observers: [
       NavigationLoggerObserver(logger),
     ],

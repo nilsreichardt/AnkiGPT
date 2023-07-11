@@ -250,36 +250,33 @@ class _HistoryDeckBase extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: defaultAnkiGptBorderRadius,
-        child: AnkiGptCard(
-          color: color.withOpacity(0.1),
-          padding: const EdgeInsets.all(22),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (name != null)
-                  Text(
-                    name!,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+      child: AnkiGptCard(
+        onPressed: onTap,
+        color: color.withOpacity(0.1),
+        padding: const EdgeInsets.all(22),
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (name != null)
                 Text(
-                    '${DateFormat.yMEd().add_jms().format(createdAt!)}, $numberOfCards cards',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withOpacity(0.75),
-                        )),
-                body,
-              ],
-            ),
+                  name!,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              Text(
+                  '${DateFormat.yMEd().add_jms().format(createdAt!)}, $numberOfCards cards',
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.75),
+                      )),
+              body,
+            ],
           ),
         ),
       ),

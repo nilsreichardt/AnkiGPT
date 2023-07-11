@@ -374,7 +374,7 @@ class _CardTextFieldState extends State<_CardTextField> {
       onExit: (_) => switchHovering(),
       child: AnkiGptCard(
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        color: hovering ? Colors.grey : Colors.transparent,
+        color: hovering ? Colors.grey.withOpacity(0.1) : Colors.transparent,
         child: TextField(
           controller: controller,
           maxLines: null,
@@ -715,7 +715,7 @@ class _Subtitle extends ConsumerWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: 12, top: 12),
       child: Text(
         'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $cardsCount cards',
         style: TextStyle(color: Colors.grey[500]),

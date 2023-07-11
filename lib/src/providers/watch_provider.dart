@@ -42,7 +42,7 @@ class Watch extends _$Watch {
         final cards = (dto.cards?.values.toList() ?? []);
         ref.read(cardsListProvider.notifier).set(cards);
 
-        final isDownloadAvailable = dto.csv == null;
+        final isDownloadAvailable = dto.csv != null;
         final downloadUrl = dto.csv?.downloadUrl;
 
         state = state.copyWith(

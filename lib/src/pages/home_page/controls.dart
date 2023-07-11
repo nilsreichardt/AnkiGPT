@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:animations/animations.dart';
-import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
@@ -32,19 +31,23 @@ class Controls extends StatelessWidget {
   }
 }
 
-class _DesktopControlsView extends StatelessWidget {
+class _DesktopControlsView extends ConsumerWidget {
   const _DesktopControlsView();
 
   @override
-  Widget build(BuildContext context) {
-    return const Row(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionId = ref.watch(sessionIdProvider);
+    final isWatching = sessionId != null;
+    return Row(
       children: [
-        _ExportToAnkiButton(),
-        Expanded(child: SizedBox()),
-        _LoadingButton(),
-        _OptionsButton(),
-        SizedBox(width: 12),
-        _GenerateButton(),
+        const _ExportToAnkiButton(),
+        const Expanded(child: SizedBox()),
+        const _LoadingButton(),
+        if (!isWatching) ...[
+          const _OptionsButton(),
+          const SizedBox(width: 12),
+          const _GenerateButton(),
+        ]
       ],
     );
   }
@@ -146,7 +149,7 @@ class _ExportToAnkiButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sessionId = ref.watch(sessionIdProvider) ?? 'does-not-exist';
-    final view = ref.read(watchProvider(sessionId));
+    final view = ref.watch(watchProvider(sessionId));
     return AnkiGptElevatedButton.icon(
       icon: const Icon(Icons.download),
       label: const Text('Export to Anki'),

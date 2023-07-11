@@ -1,5 +1,6 @@
 import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/models/session_id.dart';
+import 'package:ankigpt/src/pages/widgets/footer2.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +11,7 @@ class SessionPage extends ConsumerStatefulWidget {
     required this.sessionId,
   });
 
-  final SessionId sessionId;
+  final SessionId? sessionId;
 
   @override
   ConsumerState<SessionPage> createState() => _SessionPageState();
@@ -22,14 +23,45 @@ class _SessionPageState extends ConsumerState<SessionPage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.sessionId == null) return;
       ref
           .read(generateNotifierProvider.notifier)
-          .watch(sessionId: widget.sessionId);
+          .watch(sessionId: widget.sessionId!);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return const HomePage();
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height,
+                  maxWidth: 900,
+                ),
+                child: const _Body(),
+              ),
+              const Footer2(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  const _Body();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        Controls(),
+      ],
+    );
   }
 }

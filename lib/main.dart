@@ -44,6 +44,7 @@ import 'package:ankigpt/src/providers/like_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
+import 'package:ankigpt/src/providers/router_provider.dart';
 import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:ankigpt/src/providers/search_text_field_controller.dart';
@@ -121,27 +122,11 @@ class AnkiGptApp extends ConsumerWidget {
     // Call shared preferences to initialize it.
     ref.read(sharedPreferencesAccesserProvider);
 
-    return MaterialApp(
-      title: 'AnkiGPT',
+    return MaterialApp.router(
+      title: 'AnkiGPT - Turn lecture slides into flashcards',
       theme: ankigptTheme,
-      home: const HomePage2(),
       debugShowCheckedModeBanner: false,
-      onGenerateRoute: (settings) {
-        if (settings.name?.startsWith('/session/') ?? false) {
-          final sessionId = settings.name!.split('/').last;
-          return MaterialPageRoute(
-            builder: (context) => SessionPage(sessionId: sessionId),
-          );
-        }
-
-        return null;
-      },
-      routes: {
-        '/imprint': (context) => const ImprintPage(),
-        '/account': (context) => const AccountPage(),
-        '/sucessful-plus-payment': (context) =>
-            const HomePage(hasSuccessfulPlusPayment: true),
-      },
+      routerConfig: ref.watch(routerProvider),
     );
   }
 }

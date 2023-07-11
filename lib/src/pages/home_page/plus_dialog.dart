@@ -51,7 +51,9 @@ class PlusDialog extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          const _Points(),
+          const PlusAdvantages(),
+          const SizedBox(height: 16),
+          const _PlusPrice(),
         ],
       ),
       actions: const [
@@ -74,41 +76,48 @@ class _CancelButton extends StatelessWidget {
   }
 }
 
-class _Points extends StatelessWidget {
-  const _Points();
+class PlusAdvantages extends StatelessWidget {
+  const PlusAdvantages({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SellingPoint(text: 'PDF files as input'),
-        const SellingPoint(text: 'Up to 200 cards per request'),
-        const SellingPoint(text: 'Unlimited input characters per request'),
-        const SellingPoint(text: 'Premium support'),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                '€9.99',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                'Lifetime',
-                style: TextStyle(
-                  color: Colors.grey[600]!,
-                ),
-              ),
-            ],
-          ),
-        ),
+        SellingPoint(text: 'PDF files as input'),
+        SellingPoint(text: 'Up to 200 cards per request'),
+        SellingPoint(text: 'Unlimited input characters per request'),
+        SellingPoint(text: 'Premium support'),
       ],
+    );
+  }
+}
+
+class _PlusPrice extends StatelessWidget {
+  const _PlusPrice();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            '€9.99',
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Text(
+            'Lifetime',
+            style: TextStyle(
+              color: Colors.grey[600]!,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -212,7 +221,7 @@ class TooLongInputDialog extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16),
-            _Points(),
+            PlusAdvantages(),
           ],
         ),
         actions: [

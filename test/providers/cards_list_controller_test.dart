@@ -7,13 +7,15 @@ import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../utils/generate_dummy_cards.dart';
+
 void main() {
   group('CardsListController', () {
     late ProviderContainer container;
     late List<AnkiCard> cards;
 
     setUp(() {
-      cards = _generateAnkiCards(CardsListController.cardsPerPage * 3);
+      cards = generateDummyCards(CardsListController.cardsPerPage * 3);
       container = ProviderContainer();
 
       container.read(cardsListProvider.notifier).set(cards);
@@ -45,7 +47,7 @@ void main() {
     });
 
     test('should sort cards', () {
-      final cards = _generateAnkiCards(10);
+      final cards = generateDummyCards(10);
 
       final random = Random(42);
       final shuffeledCards = List<AnkiCard>.from(cards)..shuffle(random);
@@ -85,7 +87,7 @@ void main() {
 
     test('should handle if cards list does not fit perfectly', () {
       const length = CardsListController.cardsPerPage - 1;
-      final cards = _generateAnkiCards(length);
+      final cards = generateDummyCards(length);
       container.read(cardsListProvider.notifier).set(cards);
 
       final view = container.read(cardsListControllerProvider);
@@ -151,7 +153,7 @@ void main() {
       'should go to previous page when current page disappears',
       () {
         final cards =
-            _generateAnkiCards((CardsListController.cardsPerPage * 2) + 1);
+            generateDummyCards((CardsListController.cardsPerPage * 2) + 1);
         container.read(cardsListProvider.notifier).set(cards);
 
         container.read(cardsListControllerProvider.notifier).setPage(3);
@@ -170,7 +172,7 @@ void main() {
       'should jump back to first page when all cards disappear',
       () {
         final cards =
-            _generateAnkiCards((CardsListController.cardsPerPage * 2) + 1);
+            generateDummyCards((CardsListController.cardsPerPage * 2) + 1);
         container.read(cardsListProvider.notifier).set(cards);
 
         container.read(cardsListControllerProvider.notifier).setPage(3);
@@ -183,18 +185,4 @@ void main() {
       },
     );
   });
-}
-
-/// Generates a list of [AnkiCard]s with the given [count] that are sorted by
-/// their [createdAt] date.
-List<AnkiCard> _generateAnkiCards(int count) {
-  return List<AnkiCard>.generate(
-    count,
-    (index) => AnkiCard(
-      answer: 'answer $index',
-      question: 'question $index',
-      createdAt: DateTime.now().add(Duration(minutes: index)),
-      id: '$index',
-    ),
-  );
 }

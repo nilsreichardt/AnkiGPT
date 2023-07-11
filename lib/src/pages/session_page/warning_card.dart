@@ -16,7 +16,7 @@ class WarningDoubleCheckCard extends ConsumerWidget {
       child: shouldShow
           ? Padding(
               key: const ValueKey('warning-card'),
-              padding: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.only(bottom: 12, top: 12),
               child: AnkiGptCard(
                 color: color.withOpacity(0.1),
                 padding: const EdgeInsets.all(16),

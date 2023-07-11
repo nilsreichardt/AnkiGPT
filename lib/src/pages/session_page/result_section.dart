@@ -5,12 +5,12 @@ import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/card_feedback.dart';
 import 'package:ankigpt/src/models/card_id.dart';
 import 'package:ankigpt/src/models/language.dart';
-import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/session_page/error_card.dart';
+import 'package:ankigpt/src/pages/session_page/search_bar.dart';
 import 'package:ankigpt/src/pages/session_page/warning_card.dart';
-import 'package:ankigpt/src/pages/widgets/animated_swap.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/card_feedback_dialog.dart';
+import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/pagination_control.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
@@ -22,7 +22,6 @@ import 'package:ankigpt/src/providers/edit_answer_provider.dart';
 import 'package:ankigpt/src/providers/edit_question_provider.dart';
 import 'package:ankigpt/src/providers/like_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
-import 'package:ankigpt/src/providers/search_text_field_controller.dart';
 import 'package:ankigpt/src/providers/total_cards_counter_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
@@ -54,10 +53,11 @@ class ResultSection extends ConsumerWidget {
               children: [
                 _Subtitle(language: view.language),
                 if (view.hasError) ErrorCard(text: view.error),
-                _ResultList(
-                  sessionId: view.sessionId,
-                  isUploadingFile: false,
-                ),
+                const CardsSearchBar(),
+                if (view.isLoading)
+                  const _LoadingCards()
+                else
+                  const _ResultList(),
               ],
             )
           : const SizedBox(),
@@ -66,139 +66,49 @@ class ResultSection extends ConsumerWidget {
 }
 
 class _LoadingCards extends StatelessWidget {
-  const _LoadingCards({
-    required this.isUploadFile,
-  });
-
-  final bool isUploadFile;
+  const _LoadingCards();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: Center(
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: Column(
-            key: ValueKey(isUploadFile),
-            children: [
-              const SizedBox(height: 12),
-              const CircularProgressIndicator(),
-              const SizedBox(height: 12),
-              Text(
-                isUploadFile
-                    ? 'Uploading file...'
-                    : 'Generating cards... This may take a few minutes.',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+        child: Column(
+          children: [
+            const SizedBox(height: 12),
+            const CircularProgressIndicator(),
+            const SizedBox(height: 12),
+            const Text(
+              'Generating cards... This may take a few minutes.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
-              Opacity(
-                opacity: isUploadFile ? 0 : 1,
-                child: Text(
-                  'You can close the browser tab and come back later.',
-                  style: TextStyle(
-                    color: Colors.grey[500]!,
-                    fontSize: 14,
-                  ),
-                ),
-              )
-            ],
-          ),
+            ),
+            Text(
+              'You can close the browser tab and come back later.',
+              style: TextStyle(
+                color: Colors.grey[500]!,
+                fontSize: 14,
+              ),
+            )
+          ],
         ),
       ),
     );
   }
 }
 
-class _SearchBar extends ConsumerStatefulWidget {
-  const _SearchBar();
-
-  @override
-  ConsumerState<_SearchBar> createState() => _SearchBarState();
-}
-
-class _SearchBarState extends ConsumerState<_SearchBar> {
-  late bool isSearching;
-
-  @override
-  void initState() {
-    super.initState();
-    isSearching = ref.read(searchTextFieldControllerProvider).text.isNotEmpty;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final cardsCount = ref.watch(totalCardsCountProvider);
-    if (cardsCount == 0) {
-      return const SizedBox.shrink();
-    }
-
-    return AnkiGptCard(
-      color: Colors.grey,
-      padding: const EdgeInsets.fromLTRB(16, 6, 12, 6),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: ref.read(searchTextFieldControllerProvider),
-              onChanged: (query) {
-                ref.read(searchQueryProvider.notifier).debounce(query);
-
-                setState(() {
-                  isSearching = query.isNotEmpty;
-                });
-              },
-              decoration: const InputDecoration(
-                hintText:
-                    "Search to ensure AI hasn't overlooked key topics in your flashcards",
-                border: InputBorder.none,
-              ),
-              onEditingComplete: () =>
-                  ref.read(searchQueryProvider.notifier).fire(),
-            ),
-          ),
-          const SizedBox(width: 12),
-          AnimatedSwap(
-            duration: const Duration(milliseconds: 300),
-            child: isSearching
-                ? IconButton(
-                    key: const ValueKey(true),
-                    tooltip: 'Clear',
-                    onPressed: () =>
-                        ref.read(searchQueryProvider.notifier).clear(),
-                    icon: const Icon(Icons.close),
-                  )
-                : IconButton(
-                    key: const ValueKey(false),
-                    onPressed: null,
-                    icon: const Icon(Icons.search),
-                    disabledColor: Theme.of(context).iconTheme.color,
-                  ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _ResultList extends ConsumerWidget {
-  const _ResultList({
-    Key? key,
-    required this.sessionId,
-    required this.isUploadingFile,
-  }) : super(key: key);
-
-  final SessionId? sessionId;
-  final bool isUploadingFile;
+  const _ResultList();
 
   void showDeleteSnackBar(
     BuildContext context,
     WidgetRef ref,
     CardId cardId,
   ) {
+    final sessionId = ref.read(watchProvider).sessionId!;
     context.hideSnackBar();
     context.showTextSnackBar(
       'Card deleted.',
@@ -207,7 +117,7 @@ class _ResultList extends ConsumerWidget {
         onPressed: () {
           ref
               .read(deleteCardControllerProvider.notifier)
-              .undo(sessionId: sessionId!);
+              .undo(sessionId: sessionId);
           context.hideSnackBar();
           context.showTextSnackBar('Card restored.');
         },
@@ -216,9 +126,10 @@ class _ResultList extends ConsumerWidget {
   }
 
   void deleteCard(BuildContext context, WidgetRef ref, CardId cardId) {
+    final sessionId = ref.read(watchProvider).sessionId!;
     ref.read(deleteCardControllerProvider.notifier).delete(
           cardId: cardId,
-          sessionId: sessionId!,
+          sessionId: sessionId,
         );
     showDeleteSnackBar(context, ref, cardId);
   }
@@ -227,17 +138,13 @@ class _ResultList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final totalCardsCount = ref.watch(totalCardsCountProvider);
     if (totalCardsCount == 0) {
-      return _LoadingCards(
-        isUploadFile: isUploadingFile,
-      );
+      return const _EmptyList();
     }
 
     final cards = ref.watch(cardsListControllerProvider).cards;
-
     return Column(
       children: [
         const WarningDoubleCheckCard(),
-        const _SearchBar(),
         const SizedBox(height: 12),
         SelectionArea(
           child: AnimationLimiter(
@@ -259,7 +166,6 @@ class _ResultList extends ConsumerWidget {
                       child: ResultCard(
                         key: ValueKey(card.id),
                         card: card,
-                        sessionId: sessionId!,
                         onDeleted: (cardId) {
                           // We need to make the delete call at this position in the widget tree because a call in the
                           // card would lead to an error when the presses the undo button.
@@ -275,6 +181,40 @@ class _ResultList extends ConsumerWidget {
         const SizedBox(height: 12),
         const PaginationControl(),
       ],
+    );
+  }
+}
+
+class _EmptyList extends StatelessWidget {
+  const _EmptyList();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 40, top: 28),
+      child: SelectionContainer.disabled(
+        child: Column(
+          children: [
+            const Icon(
+              Icons.list,
+              size: 80,
+              color: Colors.grey,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Could not generate any cards for the given input. Please try again with a different input.',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 10),
+            AnkiGptElevatedButton.icon(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () =>
+                  launchUrl(Uri.parse('https://ankigpt.wtf/support')),
+              label: const Text('Go back'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -320,12 +260,10 @@ class ResultCard extends ConsumerStatefulWidget {
   const ResultCard({
     Key? key,
     required this.card,
-    required this.sessionId,
     required this.onDeleted,
   }) : super(key: key);
 
   final AnkiCard card;
-  final SessionId sessionId;
   final ValueChanged<CardId> onDeleted;
 
   @override
@@ -364,13 +302,11 @@ class _ResultCardState extends ConsumerState<ResultCard> {
                   _CardQuestion(
                     question: widget.card.question,
                     cardId: widget.card.id,
-                    sessionId: widget.sessionId,
                   ),
                   _Controls(
                     isHovering: hovering,
                     cardId: widget.card.id,
                     randomNumber: randomNumber,
-                    sessionId: widget.sessionId,
                     onDeleted: widget.onDeleted,
                   )
                 ],
@@ -379,7 +315,6 @@ class _ResultCardState extends ConsumerState<ResultCard> {
               _CardAnswer(
                 answer: widget.card.answer,
                 cardId: widget.card.id,
-                sessionId: widget.sessionId,
               ),
             ],
           ),
@@ -453,21 +388,22 @@ class _CardAnswer extends ConsumerWidget {
   const _CardAnswer({
     required this.cardId,
     required this.answer,
-    required this.sessionId,
   });
 
   final CardId cardId;
   final String answer;
-  final SessionId sessionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return _CardTextField(
-      onChanged: (text) => ref.read(editAnswerProvider.notifier).debounce(
-            cardId: cardId,
-            answer: text,
-            sessionId: sessionId,
-          ),
+      onChanged: (text) {
+        final sessionId = ref.read(watchProvider).sessionId!;
+        ref.read(editAnswerProvider.notifier).debounce(
+              cardId: cardId,
+              answer: text,
+              sessionId: sessionId,
+            );
+      },
       text: answer,
       style: TextStyle(
         color: Colors.grey[700],
@@ -481,23 +417,24 @@ class _CardQuestion extends ConsumerWidget {
   const _CardQuestion({
     required this.cardId,
     required this.question,
-    required this.sessionId,
   });
 
   final CardId cardId;
   final String question;
-  final SessionId sessionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
       child: _CardTextField(
         text: question,
-        onChanged: (text) => ref.read(editQuestionProvider.notifier).debounce(
-              cardId: cardId,
-              question: text,
-              sessionId: sessionId,
-            ),
+        onChanged: (text) {
+          final sessionId = ref.read(watchProvider).sessionId!;
+          ref.read(editQuestionProvider.notifier).debounce(
+                cardId: cardId,
+                question: text,
+                sessionId: sessionId,
+              );
+        },
         style: const TextStyle(
           fontWeight: FontWeight.w600,
         ),
@@ -511,13 +448,11 @@ class _Controls extends ConsumerWidget {
     required this.isHovering,
     required this.cardId,
     required this.randomNumber,
-    required this.sessionId,
     required this.onDeleted,
   });
 
   final bool isHovering;
   final CardId cardId;
-  final SessionId sessionId;
   final int randomNumber;
   final ValueChanged<CardId> onDeleted;
 
@@ -546,12 +481,10 @@ class _Controls extends ConsumerWidget {
           if (hasLiked)
             _UndoLikeButton(
               cardId: cardId,
-              sessionId: sessionId,
             ),
           if (hasDisliked)
             _UndoDislikeButton(
               cardId: cardId,
-              sessionId: sessionId,
             ),
           if (!hasDisliked && !hasLiked)
             AnimatedSwitcher(
@@ -566,6 +499,7 @@ class _Controls extends ConsumerWidget {
                       IconButton(
                         tooltip: 'Dislike, if this is a bad card.',
                         onPressed: () {
+                          final sessionId = ref.read(watchProvider).sessionId!;
                           ref
                               .read(
                                   cardFeedbackStatusControllerProvider.notifier)
@@ -587,10 +521,12 @@ class _Controls extends ConsumerWidget {
                       IconButton(
                         tooltip: 'Like, if this is a good card.',
                         onPressed: () {
+                          final sessionId = ref.read(watchProvider).sessionId!;
                           ref
                               .read(
                                   cardFeedbackStatusControllerProvider.notifier)
                               .setStatus(cardId, CardFeedbackStatus.liked);
+
                           ref.read(
                             likeCardProvider(
                               cardId: cardId,
@@ -710,17 +646,16 @@ class _DeleteButton extends ConsumerWidget {
 class _UndoLikeButton extends ConsumerWidget {
   const _UndoLikeButton({
     required this.cardId,
-    required this.sessionId,
   });
 
   final CardId cardId;
-  final SessionId sessionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return IconButton(
       tooltip: 'Undo like',
       onPressed: () {
+        final sessionId = ref.read(watchProvider).sessionId!;
         ref
             .read(cardFeedbackStatusControllerProvider.notifier)
             .setStatus(cardId, CardFeedbackStatus.notReviewed);
@@ -734,17 +669,16 @@ class _UndoLikeButton extends ConsumerWidget {
 class _UndoDislikeButton extends ConsumerWidget {
   const _UndoDislikeButton({
     required this.cardId,
-    required this.sessionId,
   });
 
   final CardId cardId;
-  final SessionId sessionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return IconButton(
       tooltip: 'Undo dislike',
       onPressed: () {
+        final sessionId = ref.read(watchProvider).sessionId!;
         ref
             .read(cardFeedbackStatusControllerProvider.notifier)
             .setStatus(cardId, CardFeedbackStatus.notReviewed);

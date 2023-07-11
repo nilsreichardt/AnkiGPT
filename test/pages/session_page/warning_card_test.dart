@@ -3,25 +3,12 @@ import 'package:ankigpt/src/providers/shared_preferences_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../mocks/mock_shared_preferences_accesser.dart';
+import '../../mocks/mock_shared_preferences_accesser.mocks.dart';
 import '../../utils/pump_ankigpt_app.dart';
-import 'warning_card_test.mocks.dart';
 
-class MockSharedPreferencesAcccesser extends SharedPreferencesAccesser {
-  final MockSharedPreferences? _sharedPreferences;
-
-  MockSharedPreferencesAcccesser(this._sharedPreferences);
-
-  @override
-  SharedPreferences? build() {
-    return _sharedPreferences;
-  }
-}
-
-@GenerateNiceMocks([MockSpec<SharedPreferences>()])
 void main() {
   late MockSharedPreferences mockSharedPreferences;
 

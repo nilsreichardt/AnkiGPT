@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:animations/animations.dart';
 import 'package:ankigpt/firebase_options_dev.dart' as dev;
 import 'package:ankigpt/firebase_options_prod.dart' as prod;
 import 'package:ankigpt/src/models/anki_card.dart';
@@ -13,7 +14,6 @@ import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/account_page.dart';
 import 'package:ankigpt/src/pages/home_page.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
-import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/session_page.dart';
 import 'package:ankigpt/src/pages/widgets/animated_swap.dart';
@@ -25,9 +25,9 @@ import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/history_section.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/pagination_control.dart';
+import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
 import 'package:ankigpt/src/pages/widgets/theme.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
-import 'package:ankigpt/src/providers/buy_button_analytics.dart';
 import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
@@ -38,7 +38,6 @@ import 'package:ankigpt/src/providers/edit_answer_provider.dart';
 import 'package:ankigpt/src/providers/edit_question_provider.dart';
 import 'package:ankigpt/src/providers/flavor_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
-import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:ankigpt/src/providers/like_provider.dart';
@@ -51,9 +50,7 @@ import 'package:ankigpt/src/providers/search_text_field_controller.dart';
 import 'package:ankigpt/src/providers/shared_preferences_provider.dart';
 import 'package:ankigpt/src/providers/show_warning_card.dart';
 import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
-import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/total_cards_counter_provider.dart';
-import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
 import 'package:confetti/confetti.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -168,7 +165,7 @@ class _HomePageState extends State<HomePage> {
 
     if (widget.hasSuccessfulPlusPayment) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        showDialog(
+        showModal(
           context: context,
           builder: (context) => const SuccessfulPlusPaymentDialog(),
         );
@@ -433,50 +430,6 @@ class _PickedFileButton extends ConsumerWidget {
                   icon: const Icon(Icons.delete),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class PlusBadge extends StatelessWidget {
-  const PlusBadge({
-    super.key,
-    this.withText = true,
-  });
-
-  final bool withText;
-
-  @override
-  Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxWidth: 100,
-      ),
-      child: Material(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.orange,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.star,
-                size: 14,
-              ),
-              if (withText) ...[
-                const SizedBox(width: 6),
-                const Text(
-                  'PLUS',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ]
             ],
           ),
         ),
@@ -1199,7 +1152,7 @@ class _EditButton extends StatelessWidget {
             tooltip: 'Edit',
             icon: const Icon(Icons.edit),
             onPressed: () {
-              showDialog(
+              showModal(
                 context: context,
                 builder: (context) => AlertDialog(
                   title: const Text('Tutorial: Edit card'),
@@ -1589,7 +1542,7 @@ class GenerateButton extends ConsumerWidget {
                     }
 
                     if (e is TooShortInputException) {
-                      showDialog(
+                      showModal(
                         context: context,
                         builder: (context) => const TooLessInputDialog(),
                       );
@@ -1597,7 +1550,7 @@ class GenerateButton extends ConsumerWidget {
                     }
 
                     if (e is TooLongInputException) {
-                      showDialog(
+                      showModal(
                         context: context,
                         builder: (context) => const TooLongInputDialog(),
                       );
@@ -1694,7 +1647,7 @@ class DownloadButton extends ConsumerWidget {
                     }
 
                     launchUrl(Uri.parse(url));
-                    showDialog(
+                    showModal(
                       context: context,
                       builder: (context) => const _ExportToAnkiDialog(),
                       routeSettings:

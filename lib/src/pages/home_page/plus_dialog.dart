@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:animations/animations.dart';
 import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
@@ -15,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void showPlusDialog(BuildContext context) {
-  showDialog(
+  showModal(
     context: context,
     builder: (context) => const PlusDialog(),
     routeSettings: const RouteSettings(name: '/plus'),
@@ -23,7 +24,7 @@ void showPlusDialog(BuildContext context) {
 }
 
 void showInputTooLong(BuildContext context) {
-  showDialog(
+  showModal(
     context: context,
     builder: (context) => const TooLongInputDialog(),
     routeSettings: const RouteSettings(name: '/too-long-input'),

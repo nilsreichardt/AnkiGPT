@@ -8,6 +8,7 @@ environment:
   sdk: ">=3.1.0-63.1.beta <4.0.0"
 
 dependencies:
+  animations: ^2.0.7
   auto_size_text: ^3.0.0
   chewie: ^1.5.0
   clock: ^1.1.1

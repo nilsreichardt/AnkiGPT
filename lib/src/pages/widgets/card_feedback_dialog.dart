@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:ankigpt/src/models/card_feedback.dart';
 import 'package:ankigpt/src/models/card_id.dart';
 import 'package:ankigpt/src/models/session_id.dart';
@@ -11,7 +12,7 @@ Future<void> showCardLikeDialog(
   required CardId cardId,
   required SessionId sessionId,
 }) async {
-  return showDialog<void>(
+  return showModal<void>(
     context: context,
     builder: (context) => CardLikeDialog(
       cardId: cardId,
@@ -26,7 +27,7 @@ Future<void> showCardDislikeDialog(
   required CardId cardId,
   required SessionId sessionId,
 }) async {
-  return showDialog<void>(
+  return showModal<void>(
     context: context,
     builder: (context) => CardDislikeDialog(
       cardId: cardId,

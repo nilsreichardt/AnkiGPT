@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:animations/animations.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/scroll_to.dart';
@@ -261,7 +262,7 @@ class _PdfPointHelpButton extends StatelessWidget {
     return IconButton(
       tooltip: 'Details',
       icon: const Icon(Icons.help_outline),
-      onPressed: () => showDialog(
+      onPressed: () => showModal(
         context: context,
         builder: (context) => const _PdfPointHelpDialog(),
       ),

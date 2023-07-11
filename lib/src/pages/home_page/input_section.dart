@@ -1,9 +1,12 @@
 import 'dart:math';
 
+import 'package:animations/animations.dart';
 import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
+import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
+import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
@@ -168,7 +171,7 @@ class _Controls extends StatelessWidget {
 }
 
 class _OptionsButton extends StatelessWidget {
-  const _OptionsButton({super.key});
+  const _OptionsButton();
 
   @override
   Widget build(BuildContext context) {
@@ -182,14 +185,18 @@ class _OptionsButton extends StatelessWidget {
       ),
       color: Colors.transparent,
       onPressed: () {
-        print('Generate');
+        showModal(
+          context: context,
+          builder: (context) => const _OptionsDialog(),
+          routeSettings: const RouteSettings(name: '/options'),
+        );
       },
     );
   }
 }
 
 class _GenerateButton extends StatelessWidget {
-  const _GenerateButton({super.key});
+  const _GenerateButton();
 
   @override
   Widget build(BuildContext context) {
@@ -214,6 +221,109 @@ class _ExportToAnkiButton extends StatelessWidget {
       label: const Text('Export to Anki'),
       onPressed: () {},
       isEnabled: false,
+    );
+  }
+}
+
+class _OptionsDialog extends StatelessWidget {
+  const _OptionsDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Options'),
+      content: ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: 300,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Number of cards',
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              'Specify the number of cards to generate.',
+              style: TextStyle(
+                color: Colors.grey[600]!,
+                fontSize: 12,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const NumberOfCardsDropdown(),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('CANCEL'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('OK'),
+        ),
+      ],
+    );
+  }
+}
+
+class NumberOfCardsDropdown extends ConsumerWidget {
+  const NumberOfCardsDropdown({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final hasPlus = ref.watch(hasPlusProvider);
+    final hasPickedFile = ref.watch(pickedFileProvider) != null;
+
+    final avaliableSizes = CardGenrationSize.values
+        .where((c) => hasPickedFile ? c.isAvailableForFiles() : true)
+        .toList();
+
+    return SizedBox(
+      width: double.infinity,
+      child: DropdownButtonFormField<CardGenrationSize>(
+        value: ref.watch(generationSizeProvider),
+        items: [
+          ...avaliableSizes.map(
+            (c) => DropdownMenuItem(
+              value: c,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(c.getUiText()),
+                  if (!hasPlus && c.isPlus()) ...[
+                    const SizedBox(width: 12),
+                    const SizedBox(
+                      width: 38,
+                      child: PlusBadge(
+                        withText: false,
+                      ),
+                    )
+                  ]
+                ],
+              ),
+            ),
+          )
+        ],
+        onChanged: (v) {
+          if (v != null) {
+            if (!hasPlus && v.isPlus()) {
+              showPlusDialog(context);
+            }
+
+            ref.read(generationSizeProvider.notifier).set(v);
+          }
+        },
+      ),
     );
   }
 }

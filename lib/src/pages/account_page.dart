@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animations/animations.dart';
 import 'package:ankigpt/src/models/auth_provider.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
@@ -292,7 +293,7 @@ class _SignOutTile extends ConsumerWidget {
       icon: const Icon(Icons.logout),
       title: const Text('Sign out'),
       onTap: () async {
-        final shouldSignOut = await showDialog<bool>(
+        final shouldSignOut = await showModal<bool>(
           context: context,
           builder: (_) => const _SignOutConfirmationDialog(),
         );

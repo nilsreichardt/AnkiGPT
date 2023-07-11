@@ -1,7 +1,6 @@
 import 'package:ankigpt/src/pages/widgets/ankigpt_logo.dart';
 import 'package:ankigpt/src/pages/widgets/app_bar_widgets.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
-import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/scroll_to.dart';
 import 'package:ankigpt/src/pages/widgets/theme.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';

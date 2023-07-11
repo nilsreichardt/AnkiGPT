@@ -129,7 +129,7 @@ class _Product extends StatelessWidget {
 }
 
 class _AboutAnkiGpt extends StatelessWidget {
-  const _AboutAnkiGpt({super.key});
+  const _AboutAnkiGpt();
 
   @override
   Widget build(BuildContext context) {

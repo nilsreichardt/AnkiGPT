@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
+import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/providers/history_deck_list_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
@@ -12,62 +13,81 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class MyDecksSection extends ConsumerWidget {
-  const MyDecksSection({super.key});
+  const MyDecksSection({
+    super.key,
+    this.isTesting = false,
+  });
+
+  /// Determines whether the app is in testing mode.
+  final bool isTesting;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      key: ref.read(homePageScollViewProvider).myDecksSectionKey,
-      children: [
-        const SectionTitle(title: 'My Decks'),
-        const SizedBox(height: 32),
-        ref.watch(historyDeckListProvider).when(
-              data: (sessions) {
-                return AnimationLimiter(
-                  child: Column(
-                    children: AnimationConfiguration.toStaggeredList(
-                      duration: const Duration(milliseconds: 375),
-                      childAnimationBuilder: (widget) => SlideAnimation(
-                        verticalOffset: 20,
-                        child: FadeInAnimation(
-                          child: widget,
+    return MaxWidthConstrainedBox(
+      maxWidth: 900,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          key: ref.read(homePageScollViewProvider).myDecksSectionKey,
+          children: [
+            const SectionTitle(title: 'My Decks'),
+            const Text(
+              'Shows the 10 latest decks you created.',
+              style: TextStyle(color: Colors.grey, fontSize: 12),
+            ),
+            const SizedBox(height: 32),
+            ref.watch(historyDeckListProvider).when(
+                  data: (sessions) {
+                    return AnimationLimiter(
+                      child: Column(
+                        children: AnimationConfiguration.toStaggeredList(
+                          duration: const Duration(milliseconds: 375),
+                          childAnimationBuilder: (widget) => SlideAnimation(
+                            verticalOffset: 20,
+                            child: FadeInAnimation(
+                              child: widget,
+                            ),
+                          ),
+                          children: [
+                            for (final session in sessions)
+                              session.maybeWhen(
+                                created: (questions, createdAt, name, sessionId,
+                                        numberOfCards) =>
+                                    _CreatedHistoryDeck(
+                                  questions: questions,
+                                  createdAt: session.createdAt,
+                                  name: name,
+                                  sessionId: sessionId,
+                                  numberOfCards: numberOfCards,
+                                ),
+                                loading: (createdAt, name, numberOfCards) =>
+                                    _LoadingHistoryDeck(
+                                  createdAt: session.createdAt,
+                                  name: name,
+                                  numberOfCards: numberOfCards,
+                                  isTesting: isTesting,
+                                ),
+                                error:
+                                    (error, createdAt, name, numberOfCards) =>
+                                        _ErrorHistoryDeck(
+                                  createdAt: session.createdAt,
+                                  error: error,
+                                  name: name,
+                                  numberOfCards: numberOfCards,
+                                ),
+                                orElse: () => const SizedBox(),
+                              )
+                          ],
                         ),
                       ),
-                      children: [
-                        for (final session in sessions)
-                          session.when(
-                            created: (questions, createdAt, name, sessionId,
-                                    numberOfCards) =>
-                                _CreatedHistoryDeck(
-                              questions: questions,
-                              createdAt: session.createdAt,
-                              name: name,
-                              sessionId: sessionId,
-                              numberOfCards: numberOfCards,
-                            ),
-                            loading: (createdAt, name, numberOfCards) =>
-                                _LoadingHistoryDeck(
-                              createdAt: session.createdAt,
-                              name: name,
-                              numberOfCards: numberOfCards,
-                            ),
-                            error: (error, createdAt, name, numberOfCards) =>
-                                _ErrorHistoryDeck(
-                              createdAt: session.createdAt,
-                              error: error,
-                              name: name,
-                              numberOfCards: numberOfCards,
-                            ),
-                          )
-                      ],
-                    ),
-                  ),
-                );
-              },
-              error: (error, _) => _ErrorText(error: '$error'),
-              loading: () => const SizedBox(),
-            )
-      ],
+                    );
+                  },
+                  error: (error, _) => _ErrorText(error: '$error'),
+                  loading: () => const SizedBox(),
+                )
+          ],
+        ),
+      ),
     );
   }
 }
@@ -144,11 +164,13 @@ class _LoadingHistoryDeck extends StatelessWidget {
     required this.name,
     required this.createdAt,
     required this.numberOfCards,
+    required this.isTesting,
   });
 
   final String name;
   final DateTime createdAt;
   final int numberOfCards;
+  final bool isTesting;
 
   @override
   Widget build(BuildContext context) {
@@ -156,11 +178,15 @@ class _LoadingHistoryDeck extends StatelessWidget {
       numberOfCards: numberOfCards,
       name: name,
       createdAt: createdAt,
-      body: const Padding(
-        padding: EdgeInsets.fromLTRB(16, 32, 16, 16),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 32, 16, 16),
         child: Tooltip(
           message: 'Still generating...',
           child: CircularProgressIndicator(
+            // If we're testing, we want to make sure the progress indicator
+            // uses a fixed value so that we can test the UI. Otherwise, the
+            // pumpAndSettle() call in the tests will never complete.
+            value: isTesting ? 0.5 : null,
             color: Colors.blue,
           ),
         ),
@@ -228,7 +254,7 @@ class _HistoryDeckBase extends StatelessWidget {
         onTap: onTap,
         borderRadius: defaultAnkiGptBorderRadius,
         child: AnkiGptCard(
-          color: color,
+          color: color.withOpacity(0.1),
           padding: const EdgeInsets.all(22),
           child: SizedBox(
             width: double.infinity,

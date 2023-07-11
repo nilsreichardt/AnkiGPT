@@ -26,6 +26,7 @@ class AnkiGptElevatedButton extends StatelessWidget {
     Color? disabledBackgroundColor,
     Color? disabledForegroundColor,
     BoxBorder? border,
+    bool center,
   }) = _AnkiGptElevatedButtonWithIcon;
 
   final VoidCallback? onPressed;
@@ -86,12 +87,14 @@ class _AnkiGptElevatedButtonWithIcon extends AnkiGptElevatedButton {
     super.border,
     Widget? icon,
     Widget? label,
+    bool center = false,
   }) : super(
           child: _AnkiGptElevatedButtonWithIconChild(
             isEnabled: isEnabled,
             icon: icon,
             label: label,
             disableForegroundColor: disabledForegroundColor,
+            center: center,
           ),
         );
 }
@@ -102,12 +105,14 @@ class _AnkiGptElevatedButtonWithIconChild extends StatelessWidget {
     this.label,
     this.isEnabled,
     this.disableForegroundColor,
+    this.center = false,
   });
 
   final Widget? icon;
   final Widget? label;
   final bool? isEnabled;
   final Color? disableForegroundColor;
+  final bool center;
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +126,8 @@ class _AnkiGptElevatedButtonWithIconChild extends StatelessWidget {
             : disableForegroundColor,
       ),
       child: Row(
+        mainAxisAlignment:
+            center ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
           if (icon != null) icon!,
           if (icon != null && label != null) const SizedBox(width: 8),

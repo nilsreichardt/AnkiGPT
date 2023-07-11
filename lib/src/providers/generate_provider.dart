@@ -334,3 +334,9 @@ class PickedFile extends _$PickedFile {
     state = value;
   }
 }
+
+@riverpod
+bool hasPickedFile(HasPickedFileRef ref) {
+  final pickedFile = ref.watch(pickedFileProvider);
+  return pickedFile != null;
+}

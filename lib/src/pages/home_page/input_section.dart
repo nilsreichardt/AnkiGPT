@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:animations/animations.dart';
 import 'package:ankigpt/main.dart';
+import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
@@ -39,7 +40,7 @@ class InputSection extends ConsumerWidget {
               children: [
                 const _Headline(),
                 const _InputField(),
-                const _UploadFileButton(),
+                const _FileButton(),
                 const _Controls(),
               ],
             ),
@@ -79,6 +80,7 @@ class _InputField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final hasPickedFile = ref.watch(hasPickedFileProvider);
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
       borderSide: const BorderSide(
@@ -86,22 +88,45 @@ class _InputField extends ConsumerWidget {
         width: 2,
       ),
     );
-    return TextField(
-      controller: ref.watch(slideTextFieldControllerProvider),
-      autofocus: true,
-      decoration: InputDecoration(
-          focusedBorder: border,
-          enabledBorder: border,
-          filled: true,
-          hoverColor: Colors.white,
-          fillColor: Colors.white,
-          hintText:
-              '''Copy the text of a few slides and paste it into this text field.
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 275),
+      child: hasPickedFile
+          ? const SizedBox()
+          : TextField(
+              controller: ref.watch(slideTextFieldControllerProvider),
+              autofocus: true,
+              decoration: InputDecoration(
+                  focusedBorder: border,
+                  enabledBorder: border,
+                  filled: true,
+                  hoverColor: Colors.white,
+                  fillColor: Colors.white,
+                  hintText:
+                      '''Copy the text of a few slides and paste it into this text field.
 Supports all languages.''',
-          hintStyle: const TextStyle(fontWeight: FontWeight.normal)),
-      minLines: 6,
-      maxLines: null,
-      keyboardType: TextInputType.multiline,
+                  hintStyle: const TextStyle(fontWeight: FontWeight.normal)),
+              minLines: 6,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+            ),
+    );
+  }
+}
+
+class _FileButton extends ConsumerWidget {
+  const _FileButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final hasPickedFile = ref.watch(hasPickedFileProvider);
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 275),
+      child: Container(
+        key: ValueKey(hasPickedFile),
+        child: hasPickedFile
+            ? const _PickedFileButton()
+            : const _UploadFileButton(),
+      ),
     );
   }
 }
@@ -147,6 +172,71 @@ class _UploadFileButton extends ConsumerWidget {
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PickedFileButton extends ConsumerWidget {
+  const _PickedFileButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const borderRadius = BorderRadius.all(Radius.circular(12));
+    final pickedFile = ref.watch(pickedFileProvider);
+    final isLoading =
+        ref.watch(generateNotifierProvider) is GenerationStateLoading;
+    return SizedBox(
+      width: double.infinity,
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: isLoading
+            ? null
+            : () {
+                final hasPlus = ref.read(hasPlusProvider);
+                if (!hasPlus) {
+                  showPlusDialog(context);
+                  return;
+                }
+
+                ref.read(generateNotifierProvider.notifier).pickFile();
+              },
+        child: Material(
+          borderRadius: borderRadius,
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 40, 12, 40),
+                child: Column(
+                  children: [
+                    const Icon(Icons.upload_file),
+                    const SizedBox(height: 13),
+                    Text(pickedFile?.name ?? 'File picked.'),
+                    const SizedBox(height: 13),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 12,
+                right: 12,
+                child: IconButton(
+                  tooltip:
+                      'Remove file${isLoading ? ' (disabled while loading)' : ''}',
+                  onPressed: isLoading
+                      ? null
+                      : () {
+                          ref
+                              .read(generateNotifierProvider.notifier)
+                              .clearPickedFile();
+                        },
+                  icon: const Icon(Icons.delete),
+                ),
+              ),
+            ],
           ),
         ),
       ),

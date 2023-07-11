@@ -1,7 +1,7 @@
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/home_page/controls.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
-import 'package:ankigpt/src/pages/widgets/footer2.dart';
+import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/input_text_field.dart';
 import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
@@ -58,7 +58,7 @@ class _SessionPageState extends ConsumerState<DeckPage> {
                   ),
                   child: const _Body(),
                 ),
-                const Footer2(),
+                const Footer(),
               ],
             ),
           ),

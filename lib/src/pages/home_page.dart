@@ -7,7 +7,7 @@ import 'package:ankigpt/src/pages/home_page/input_section.dart';
 import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
 import 'package:ankigpt/src/pages/successful_payment_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
-import 'package:ankigpt/src/pages/widgets/footer2.dart';
+import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/providers/show_successful_playment_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,7 +58,7 @@ class _HomePage2State extends ConsumerState<HomePage> {
               SizedBox(height: 100),
               FaqSection(),
               SizedBox(height: 100),
-              Footer2(),
+              Footer(),
             ],
           ),
         ),

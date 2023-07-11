@@ -5,7 +5,7 @@ import 'package:ankigpt/src/models/auth_provider.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
-import 'package:ankigpt/src/pages/widgets/footer2.dart';
+import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
@@ -57,7 +57,7 @@ class AccountPage extends ConsumerWidget {
                   ),
                 ),
               ),
-              const Footer2(),
+              const Footer(),
             ],
           ),
         ),

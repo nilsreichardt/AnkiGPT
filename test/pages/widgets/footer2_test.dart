@@ -1,4 +1,4 @@
-import 'package:ankigpt/src/pages/widgets/footer2.dart';
+import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/providers/version_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,7 +8,7 @@ import '../../utils/pump_ankigpt_app.dart';
 import '../../utils/test_link_util.dart';
 
 void main() {
-  group(Footer2, () {
+  group(Footer, () {
     Future<void> pumpFooter(
       WidgetTester tester, {
       String version = '1.0.0',
@@ -25,7 +25,7 @@ void main() {
               mainAxisAlignment: MainAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Footer2(),
+                Footer(),
               ],
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:ankigpt/src/models/auth_provider.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
+import 'package:ankigpt/src/pages/widgets/footer2.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
@@ -33,20 +34,30 @@ class AccountPage extends ConsumerWidget {
         ],
       ),
       body: SafeArea(
-        child: MaxWidthConstrainedBox(
-          maxWidth: 900,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: Container(
-                key: ValueKey(view.hashCode),
-                child: view.map(
-                  signedIn: (_) => const _SignedInSection(),
-                  signedOut: (_) => const _SignInSection(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height,
+                  maxWidth: 900,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: Container(
+                      key: ValueKey(view.hashCode),
+                      child: view.map(
+                        signedIn: (_) => const _SignedInSection(),
+                        signedOut: (_) => const _SignInSection(),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              const Footer2(),
+            ],
           ),
         ),
       ),

@@ -12,14 +12,14 @@ import 'package:ankigpt/src/providers/show_successful_playment_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage2 extends ConsumerStatefulWidget {
-  const HomePage2({super.key});
+class HomePage extends ConsumerStatefulWidget {
+  const HomePage({super.key});
 
   @override
-  ConsumerState<HomePage2> createState() => _HomePage2State();
+  ConsumerState<HomePage> createState() => _HomePage2State();
 }
 
-class _HomePage2State extends ConsumerState<HomePage2> {
+class _HomePage2State extends ConsumerState<HomePage> {
   @override
   void initState() {
     super.initState();

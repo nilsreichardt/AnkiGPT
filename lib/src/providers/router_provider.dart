@@ -22,7 +22,7 @@ GoRouter router(RouterRef ref) {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const HomePage2(),
+        builder: (context, state) => const HomePage(),
         routes: [
           GoRoute(
             path: 'account',

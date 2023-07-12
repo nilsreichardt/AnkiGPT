@@ -204,7 +204,7 @@ class _SocialMedias extends StatelessWidget {
         ),
         SizedBox(width: 12),
         SocialMediaIconButton(
-          url: 'https://instagram.com/nilsreichardt',
+          url: 'https://instagram.com/nils.reichardt',
           platform: SocialMediaPlatform.instagram,
         ),
         SizedBox(width: 12),

@@ -1,7 +1,9 @@
+import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/providers/version_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 import '../../utils/pump_ankigpt_app.dart';
@@ -9,6 +11,21 @@ import '../../utils/test_link_util.dart';
 
 void main() {
   group(Footer, () {
+    Widget getBody() {
+      return const Align(
+        alignment: Alignment.bottomCenter,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Footer(),
+            ],
+          ),
+        ),
+      );
+    }
+
     Future<void> pumpFooter(
       WidgetTester tester, {
       String version = '1.0.0',
@@ -18,18 +35,7 @@ void main() {
         overrides: [
           versionProvider.overrideWith((ref) => version),
         ],
-        body: const Align(
-          alignment: Alignment.bottomCenter,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Footer(),
-              ],
-            ),
-          ),
-        ),
+        body: getBody(),
       );
     }
 
@@ -97,12 +103,29 @@ void main() {
       });
 
       testWidgets('opens imprint, when clicks on "Imprint"', (tester) async {
-        await testLink(
-          tester: tester,
-          pumpWidget: pumpFooter,
-          find: find.text('Imprint'),
-          uri: 'https://ankigpt.help/imprint',
+        final router = GoRouter(
+          routes: [
+            GoRoute(
+              path: '/',
+              builder: (context, state) => Scaffold(body: getBody()),
+              routes: [
+                GoRoute(
+                  path: 'imprint',
+                  builder: (context, state) => const ImprintPage(),
+                ),
+              ],
+            ),
+          ],
         );
+        await pumpAnkiGptAppWithRouter(
+          tester: tester,
+          router: router,
+        );
+
+        await tester.tap(find.text('Imprint'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(ImprintPage), findsOneWidget);
       });
     });
 

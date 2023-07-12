@@ -14,6 +14,7 @@ import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
 import 'package:ankigpt/src/providers/sign_out_provider.dart';
+import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/stripe_portal_provider.dart';
 import 'package:ankigpt/src/providers/user_id_provider.dart';
 import 'package:flutter/material.dart';
@@ -299,6 +300,7 @@ class _SignOutTile extends ConsumerWidget {
         if (shouldSignOut == true) {
           try {
             ref.read(clearSessionStateProvider.notifier).clear();
+            ref.read(stripeCheckoutProvider.notifier).reset();
             await ref.read(signOutProvider.future);
           } on Exception catch (e) {
             // ignore: use_build_context_synchronously

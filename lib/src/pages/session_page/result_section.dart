@@ -240,11 +240,15 @@ class _EmptySearch extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 10),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.feedback),
-              onPressed: () =>
-                  launchUrl(Uri.parse('https://ankigpt.help/support')),
-              label: const Text('Send feedback'),
+            MaxWidthConstrainedBox(
+              maxWidth: 200,
+              child: AnkiGptElevatedButton.icon(
+                icon: const Icon(Icons.feedback),
+                onPressed: () =>
+                    launchUrl(Uri.parse('https://ankigpt.help/support')),
+                label: const Text('Send feedback'),
+                center: true,
+              ),
             ),
           ],
         ),

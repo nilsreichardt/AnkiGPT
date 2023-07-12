@@ -15,6 +15,7 @@ import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
+import 'package:ankigpt/src/providers/total_cards_counter_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -403,15 +404,31 @@ class NumberOfCardsDropdown extends ConsumerWidget {
 class _LoadingButton extends ConsumerWidget {
   const _LoadingButton();
 
+  bool isLoading({
+    required bool isViewLoaidng,
+    required bool isSearchLoading,
+    required int totalCards,
+  }) {
+    if (totalCards == 0) {
+      return false;
+    }
+
+    return isViewLoaidng || isSearchLoading;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sessionId = ref.watch(sessionIdProvider) ?? 'does-not-exist';
     final view = ref.watch(watchProvider(sessionId));
     final isSearchLoading = ref.watch(isSearchLoadingProvider);
-    final isLoading = view.isLoading || isSearchLoading;
+    final totalCards = ref.watch(totalCardsCountProvider);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 200),
-      child: isLoading
+      child: isLoading(
+        isViewLoaidng: view.isLoading,
+        isSearchLoading: isSearchLoading,
+        totalCards: totalCards,
+      )
           ? const Padding(
               padding: EdgeInsets.only(right: 18),
               child: SizedBox(

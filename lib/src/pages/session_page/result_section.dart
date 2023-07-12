@@ -40,6 +40,7 @@ class ResultSection extends ConsumerWidget {
     final sessionId = ref.watch(sessionIdProvider)!;
     final view = ref.watch(watchProvider(sessionId));
     final hasSessionId = view.sessionId != null;
+    final totalCards = ref.watch(totalCardsCountProvider);
 
     return AnimatedSwitcher(
       layoutBuilder: (currentChild, previousChildren) => Stack(
@@ -57,10 +58,12 @@ class ResultSection extends ConsumerWidget {
                 _Subtitle(language: view.language),
                 if (view.hasError) ErrorCard(text: view.error),
                 const CardsSearchBar(),
-                if (view.isLoading)
-                  const _LoadingCards()
-                else
-                  const _ResultList(),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 275),
+                  child: view.isLoading && totalCards == 0
+                      ? const _LoadingCards()
+                      : const _ResultList(),
+                ),
               ],
             )
           : const SizedBox(),

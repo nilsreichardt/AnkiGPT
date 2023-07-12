@@ -38,8 +38,8 @@
       ]
     },
     {
-      "target": "ankigpt-prod-help",
-      "public": "public",
+      "target": "ankigpt-prod-playground",
+      "public": "build/web",
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -49,13 +49,6 @@
         {
           "source": "**",
           "destination": "/index.html"
-        }
-      ],
-      "redirects": [
-        {
-          "source": "/",
-          "destination": "https://ankig.pt/PZXe",
-          "type": 302
         }
       ]
     }

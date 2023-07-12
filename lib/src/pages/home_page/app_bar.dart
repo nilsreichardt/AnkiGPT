@@ -149,7 +149,7 @@ class _MyDecksButton extends ConsumerWidget {
         final key = ref.read(homePageScollViewProvider).myDecksSectionKey;
         scrollTo(context: context, key: key);
       },
-      child: const Text('Decks'),
+      child: const Text('My Decks'),
     );
   }
 }

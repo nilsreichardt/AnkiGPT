@@ -115,7 +115,7 @@ class _DeckTile extends ConsumerWidget {
     return _BasicTile(
       key: const ValueKey('decks-tile'),
       sectionKey: ref.read(homePageScollViewProvider).myDecksSectionKey,
-      text: 'Decks',
+      text: 'My Decks',
     );
   }
 }

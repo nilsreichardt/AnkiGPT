@@ -34,7 +34,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Demo'), findsOneWidget);
-      expect(find.text('Decks'), findsNothing);
+      expect(find.text('My Decks'), findsNothing);
     });
 
     testWidgets('shows decks tile when user is signed', (tester) async {
@@ -43,7 +43,7 @@ void main() {
       await tester.tap(find.text('Open Drawer'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Decks'), findsOneWidget);
+      expect(find.text('My Decks'), findsOneWidget);
       expect(find.text('Demo'), findsNothing);
     });
 

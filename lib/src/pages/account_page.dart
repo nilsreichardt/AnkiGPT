@@ -10,6 +10,7 @@ import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
 import 'package:ankigpt/src/providers/account_view_provider.dart';
+import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
 import 'package:ankigpt/src/providers/sign_out_provider.dart';
@@ -297,6 +298,7 @@ class _SignOutTile extends ConsumerWidget {
 
         if (shouldSignOut == true) {
           try {
+            ref.read(clearSessionStateProvider.notifier).clear();
             await ref.read(signOutProvider.future);
           } on Exception catch (e) {
             // ignore: use_build_context_synchronously

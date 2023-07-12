@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:ankigpt/src/models/deck_preview.dart';
 import 'package:ankigpt/src/pages/home_page/my_decks_section.dart';
-import 'package:ankigpt/src/providers/history_deck_list_provider.dart';
+import 'package:ankigpt/src/providers/deck_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
@@ -29,7 +29,7 @@ void main() {
           ),
         ),
         overrides: [
-          historyDeckListProvider.overrideWith((ref) => Stream.value(decks)),
+          deckListProvider.overrideWith((ref) => Stream.value(decks)),
         ],
       );
     }

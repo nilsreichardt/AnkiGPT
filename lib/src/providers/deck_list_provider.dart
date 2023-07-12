@@ -6,10 +6,10 @@ import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/providers/stream_session_docs_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'history_deck_list_provider.g.dart';
+part 'deck_list_provider.g.dart';
 
 @riverpod
-Stream<List<DeckPreview>> historyDeckList(HistoryDeckListRef ref) {
+Stream<List<DeckPreview>> deckList(DeckListRef ref) {
   // Map the stream of session docs to a stream of history decks.
   final sessions = ref.watch(streamSessionDocsProvider);
   if (sessions.value == null) {

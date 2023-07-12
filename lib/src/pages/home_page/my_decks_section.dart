@@ -4,7 +4,7 @@ import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
-import 'package:ankigpt/src/providers/history_deck_list_provider.dart';
+import 'package:ankigpt/src/providers/deck_list_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,7 +36,7 @@ class MyDecksSection extends ConsumerWidget {
               style: TextStyle(color: Colors.grey, fontSize: 12),
             ),
             const SizedBox(height: 32),
-            ref.watch(historyDeckListProvider).when(
+            ref.watch(deckListProvider).when(
                   data: (sessions) {
                     return AnimationLimiter(
                       child: Column(

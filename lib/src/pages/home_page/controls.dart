@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:animations/animations.dart';
 import 'package:ankigpt/src/models/card_generation_size.dart';
+import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/cancel_text_button.dart';
@@ -125,21 +126,10 @@ class _OptionsButton extends StatelessWidget {
   }
 }
 
-class _GenerateButton extends ConsumerStatefulWidget {
+class _GenerateButton extends ConsumerWidget {
   const _GenerateButton();
 
-  @override
-  ConsumerState<_GenerateButton> createState() => _GenerateButtonState();
-}
-
-class _GenerateButtonState extends ConsumerState<_GenerateButton> {
-  bool isLoading = false;
-
-  Future<void> generate() async {
-    setState(() {
-      isLoading = true;
-    });
-
+  Future<void> generate(BuildContext context, WidgetRef ref) async {
     try {
       await ref.read(generateNotifierProvider.notifier).submit();
     } catch (e) {
@@ -162,25 +152,41 @@ class _GenerateButtonState extends ConsumerState<_GenerateButton> {
       }
 
       context.showTextSnackBar('$e');
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
     }
   }
 
   @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isGenerating =
+        ref.watch(generateNotifierProvider) is GenerationStateLoading;
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: AnkiGptElevatedButton.icon(
+        key: ValueKey(isGenerating),
+        tooltip: isGenerating ? 'Generating...' : 'Generate flashcards',
+        icon: isGenerating ? null : const Icon(Icons.play_arrow),
+        label: isGenerating
+            ? const _GenerateButtonLoadingIndicator()
+            : const Text('Generate'),
+        center: context.isMobile,
+        onPressed: isGenerating ? null : () => generate(context, ref),
+      ),
+    );
+  }
+}
+
+class _GenerateButtonLoadingIndicator extends StatelessWidget {
+  const _GenerateButtonLoadingIndicator();
+
+  @override
   Widget build(BuildContext context) {
-    final sessionId = ref.watch(sessionIdProvider);
-    final isWatchingSession = sessionId != null;
-    final isEnabled = !isWatchingSession && !isLoading;
-    return AnkiGptElevatedButton.icon(
-      tooltip: isEnabled ? 'Generate flashcards' : '',
-      icon: const Icon(Icons.play_arrow),
-      label: const Text('Generate'),
-      center: context.isMobile,
-      isEnabled: isEnabled,
-      onPressed: generate,
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 42, vertical: 2),
+      child: SizedBox(
+        height: 20,
+        width: 20,
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

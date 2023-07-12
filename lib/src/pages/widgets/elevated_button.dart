@@ -17,6 +17,7 @@ class AnkiGptElevatedButton extends StatelessWidget {
   });
 
   factory AnkiGptElevatedButton.icon({
+    Key? key,
     VoidCallback? onPressed,
     Widget? icon,
     Widget? label,
@@ -78,6 +79,7 @@ class AnkiGptElevatedButton extends StatelessWidget {
 
 class _AnkiGptElevatedButtonWithIcon extends AnkiGptElevatedButton {
   _AnkiGptElevatedButtonWithIcon({
+    super.key,
     super.onPressed,
     super.tooltip,
     super.isEnabled,

@@ -57,46 +57,46 @@ class GenerateNotifier extends _$GenerateNotifier {
       _validateTextInput(text);
     }
 
-    state = GenerateState.loading(
-      isUploadFile: _hasPickedFile,
-    );
+    state = const GenerateState.loading();
 
-    UserId? userId = _userRepository.getUserId();
-    if (!_userRepository.isSignedIn()) {
-      _logger.d("User is not signed in, signing in...");
-      userId = await _userRepository.signIn();
-    }
-
-    SessionId? sessionId = _generateSessionId();
-    if (_hasPickedFile) {
-      final successful = await _uploadFile(
-        sessionId: sessionId,
-        userId: userId!,
-      );
-      if (!successful) {
-        return;
+    try {
+      UserId? userId = _userRepository.getUserId();
+      if (!_userRepository.isSignedIn()) {
+        _logger.d("User is not signed in, signing in...");
+        userId = await _userRepository.signIn();
       }
 
-      state = GenerateState.loading(
+      SessionId? sessionId = _generateSessionId();
+      if (_hasPickedFile) {
+        final successful = await _uploadFile(
+          sessionId: sessionId,
+          userId: userId!,
+        );
+        if (!successful) {
+          return;
+        }
+      }
+
+      await _sessionRepository.startSession(
+        numberOfCards: size.toInt(),
         sessionId: sessionId,
-        isUploadFile: false,
+        input: Input(
+          text: text.isEmpty ? null : text,
+          type: _hasPickedFile ? InputType.file : InputType.text,
+          file: _hasPickedFile ? FileInput(name: _pickedFile!.name) : null,
+        ),
       );
+
+      _logger.d("Started session with id: $sessionId");
+
+      state = const GenerateState.initial();
+
+      final router = ref.read(routerProvider);
+      router.go('/deck/$sessionId');
+    } catch (e, s) {
+      _logger.e("Failed to generate cards", e, s);
+      state = GenerateState.error(message: '$e');
     }
-
-    await _sessionRepository.startSession(
-      numberOfCards: size.toInt(),
-      sessionId: sessionId,
-      input: Input(
-        text: text.isEmpty ? null : text,
-        type: _hasPickedFile ? InputType.file : InputType.text,
-        file: _hasPickedFile ? FileInput(name: _pickedFile!.name) : null,
-      ),
-    );
-
-    _logger.d("Started session with id: $sessionId");
-
-    final router = ref.read(routerProvider);
-    router.go('/deck/$sessionId');
   }
 
   void _validateTextInput(String text) {
@@ -123,10 +123,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       _logger.d('Uploaded file');
       return true;
     } catch (e) {
-      state = GenerateState.error(
-        message: 'Failed to upload file: $e',
-        sessionId: sessionId,
-      );
+      state = GenerateState.error(message: 'Failed to upload file: $e');
       _logger.e('Failed to upload file', e);
       return false;
     }

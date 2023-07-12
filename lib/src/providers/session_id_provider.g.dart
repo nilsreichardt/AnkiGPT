@@ -6,7 +6,7 @@ part of 'session_id_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sessionIdHash() => r'a299ad0951efc238d4bfb1e73fe8b985b8835044';
+String _$sessionIdHash() => r'a5a4551f5ffac0c3e73821cc0ad4164f0293384f';
 
 /// See also [sessionId].
 @ProviderFor(sessionId)
@@ -15,8 +15,8 @@ final sessionIdProvider = AutoDisposeProvider<String?>.internal(
   name: r'sessionIdProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$sessionIdHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
+  dependencies: const <ProviderOrFamily>[],
+  allTransitiveDependencies: const <ProviderOrFamily>{},
 );
 
 typedef SessionIdRef = AutoDisposeProviderRef<String?>;

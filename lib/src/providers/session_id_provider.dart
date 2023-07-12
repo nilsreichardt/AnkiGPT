@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'session_id_provider.g.dart';
 
-@riverpod
+@Riverpod(dependencies: [])
 SessionId? sessionId(SessionIdRef ref) {
   return null;
 }

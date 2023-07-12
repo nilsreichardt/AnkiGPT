@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/infrastructure/session_repository.dart';
 import 'package:ankigpt/src/infrastructure/user_repository.dart';
 import 'package:ankigpt/src/models/card_generation_size.dart';

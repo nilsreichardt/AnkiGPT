@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'history_deck.dart';
+part of 'deck_preview.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$HistoryDeck {
+mixin _$DeckPreview {
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int get numberOfCards => throw _privateConstructorUsedError;
@@ -59,45 +59,45 @@ mixin _$HistoryDeck {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(HistoryDeckCreated value) created,
-    required TResult Function(HistoryDeckLoading value) loading,
-    required TResult Function(HistoryDeckError value) error,
+    required TResult Function(DeckPreviewCreated value) created,
+    required TResult Function(DeckPreviewLoading value) loading,
+    required TResult Function(DeckPreviewError value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(HistoryDeckCreated value)? created,
-    TResult? Function(HistoryDeckLoading value)? loading,
-    TResult? Function(HistoryDeckError value)? error,
+    TResult? Function(DeckPreviewCreated value)? created,
+    TResult? Function(DeckPreviewLoading value)? loading,
+    TResult? Function(DeckPreviewError value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(HistoryDeckCreated value)? created,
-    TResult Function(HistoryDeckLoading value)? loading,
-    TResult Function(HistoryDeckError value)? error,
+    TResult Function(DeckPreviewCreated value)? created,
+    TResult Function(DeckPreviewLoading value)? loading,
+    TResult Function(DeckPreviewError value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $HistoryDeckCopyWith<HistoryDeck> get copyWith =>
+  $DeckPreviewCopyWith<DeckPreview> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $HistoryDeckCopyWith<$Res> {
-  factory $HistoryDeckCopyWith(
-          HistoryDeck value, $Res Function(HistoryDeck) then) =
-      _$HistoryDeckCopyWithImpl<$Res, HistoryDeck>;
+abstract class $DeckPreviewCopyWith<$Res> {
+  factory $DeckPreviewCopyWith(
+          DeckPreview value, $Res Function(DeckPreview) then) =
+      _$DeckPreviewCopyWithImpl<$Res, DeckPreview>;
   @useResult
   $Res call({DateTime createdAt, String name, int numberOfCards});
 }
 
 /// @nodoc
-class _$HistoryDeckCopyWithImpl<$Res, $Val extends HistoryDeck>
-    implements $HistoryDeckCopyWith<$Res> {
-  _$HistoryDeckCopyWithImpl(this._value, this._then);
+class _$DeckPreviewCopyWithImpl<$Res, $Val extends DeckPreview>
+    implements $DeckPreviewCopyWith<$Res> {
+  _$DeckPreviewCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -129,11 +129,11 @@ class _$HistoryDeckCopyWithImpl<$Res, $Val extends HistoryDeck>
 }
 
 /// @nodoc
-abstract class _$$HistoryDeckCreatedCopyWith<$Res>
-    implements $HistoryDeckCopyWith<$Res> {
-  factory _$$HistoryDeckCreatedCopyWith(_$HistoryDeckCreated value,
-          $Res Function(_$HistoryDeckCreated) then) =
-      __$$HistoryDeckCreatedCopyWithImpl<$Res>;
+abstract class _$$DeckPreviewCreatedCopyWith<$Res>
+    implements $DeckPreviewCopyWith<$Res> {
+  factory _$$DeckPreviewCreatedCopyWith(_$DeckPreviewCreated value,
+          $Res Function(_$DeckPreviewCreated) then) =
+      __$$DeckPreviewCreatedCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -145,11 +145,11 @@ abstract class _$$HistoryDeckCreatedCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$HistoryDeckCreatedCopyWithImpl<$Res>
-    extends _$HistoryDeckCopyWithImpl<$Res, _$HistoryDeckCreated>
-    implements _$$HistoryDeckCreatedCopyWith<$Res> {
-  __$$HistoryDeckCreatedCopyWithImpl(
-      _$HistoryDeckCreated _value, $Res Function(_$HistoryDeckCreated) _then)
+class __$$DeckPreviewCreatedCopyWithImpl<$Res>
+    extends _$DeckPreviewCopyWithImpl<$Res, _$DeckPreviewCreated>
+    implements _$$DeckPreviewCreatedCopyWith<$Res> {
+  __$$DeckPreviewCreatedCopyWithImpl(
+      _$DeckPreviewCreated _value, $Res Function(_$DeckPreviewCreated) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -161,7 +161,7 @@ class __$$HistoryDeckCreatedCopyWithImpl<$Res>
     Object? sessionId = null,
     Object? numberOfCards = null,
   }) {
-    return _then(_$HistoryDeckCreated(
+    return _then(_$DeckPreviewCreated(
       questions: null == questions
           ? _value._questions
           : questions // ignore: cast_nullable_to_non_nullable
@@ -188,8 +188,8 @@ class __$$HistoryDeckCreatedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$HistoryDeckCreated implements HistoryDeckCreated {
-  const _$HistoryDeckCreated(
+class _$DeckPreviewCreated implements DeckPreviewCreated {
+  const _$DeckPreviewCreated(
       {required final List<String> questions,
       required this.createdAt,
       required this.name,
@@ -216,14 +216,14 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
 
   @override
   String toString() {
-    return 'HistoryDeck.created(questions: $questions, createdAt: $createdAt, name: $name, sessionId: $sessionId, numberOfCards: $numberOfCards)';
+    return 'DeckPreview.created(questions: $questions, createdAt: $createdAt, name: $name, sessionId: $sessionId, numberOfCards: $numberOfCards)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$HistoryDeckCreated &&
+            other is _$DeckPreviewCreated &&
             const DeepCollectionEquality()
                 .equals(other._questions, _questions) &&
             (identical(other.createdAt, createdAt) ||
@@ -247,8 +247,8 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$HistoryDeckCreatedCopyWith<_$HistoryDeckCreated> get copyWith =>
-      __$$HistoryDeckCreatedCopyWithImpl<_$HistoryDeckCreated>(
+  _$$DeckPreviewCreatedCopyWith<_$DeckPreviewCreated> get copyWith =>
+      __$$DeckPreviewCreatedCopyWithImpl<_$DeckPreviewCreated>(
           this, _$identity);
 
   @override
@@ -304,9 +304,9 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(HistoryDeckCreated value) created,
-    required TResult Function(HistoryDeckLoading value) loading,
-    required TResult Function(HistoryDeckError value) error,
+    required TResult Function(DeckPreviewCreated value) created,
+    required TResult Function(DeckPreviewLoading value) loading,
+    required TResult Function(DeckPreviewError value) error,
   }) {
     return created(this);
   }
@@ -314,9 +314,9 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(HistoryDeckCreated value)? created,
-    TResult? Function(HistoryDeckLoading value)? loading,
-    TResult? Function(HistoryDeckError value)? error,
+    TResult? Function(DeckPreviewCreated value)? created,
+    TResult? Function(DeckPreviewLoading value)? loading,
+    TResult? Function(DeckPreviewError value)? error,
   }) {
     return created?.call(this);
   }
@@ -324,9 +324,9 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(HistoryDeckCreated value)? created,
-    TResult Function(HistoryDeckLoading value)? loading,
-    TResult Function(HistoryDeckError value)? error,
+    TResult Function(DeckPreviewCreated value)? created,
+    TResult Function(DeckPreviewLoading value)? loading,
+    TResult Function(DeckPreviewError value)? error,
     required TResult orElse(),
   }) {
     if (created != null) {
@@ -336,13 +336,13 @@ class _$HistoryDeckCreated implements HistoryDeckCreated {
   }
 }
 
-abstract class HistoryDeckCreated implements HistoryDeck {
-  const factory HistoryDeckCreated(
+abstract class DeckPreviewCreated implements DeckPreview {
+  const factory DeckPreviewCreated(
       {required final List<String> questions,
       required final DateTime createdAt,
       required final String name,
       required final String sessionId,
-      required final int numberOfCards}) = _$HistoryDeckCreated;
+      required final int numberOfCards}) = _$DeckPreviewCreated;
 
   List<String> get questions;
   @override
@@ -354,27 +354,27 @@ abstract class HistoryDeckCreated implements HistoryDeck {
   int get numberOfCards;
   @override
   @JsonKey(ignore: true)
-  _$$HistoryDeckCreatedCopyWith<_$HistoryDeckCreated> get copyWith =>
+  _$$DeckPreviewCreatedCopyWith<_$DeckPreviewCreated> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$HistoryDeckLoadingCopyWith<$Res>
-    implements $HistoryDeckCopyWith<$Res> {
-  factory _$$HistoryDeckLoadingCopyWith(_$HistoryDeckLoading value,
-          $Res Function(_$HistoryDeckLoading) then) =
-      __$$HistoryDeckLoadingCopyWithImpl<$Res>;
+abstract class _$$DeckPreviewLoadingCopyWith<$Res>
+    implements $DeckPreviewCopyWith<$Res> {
+  factory _$$DeckPreviewLoadingCopyWith(_$DeckPreviewLoading value,
+          $Res Function(_$DeckPreviewLoading) then) =
+      __$$DeckPreviewLoadingCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({DateTime createdAt, String name, int numberOfCards});
 }
 
 /// @nodoc
-class __$$HistoryDeckLoadingCopyWithImpl<$Res>
-    extends _$HistoryDeckCopyWithImpl<$Res, _$HistoryDeckLoading>
-    implements _$$HistoryDeckLoadingCopyWith<$Res> {
-  __$$HistoryDeckLoadingCopyWithImpl(
-      _$HistoryDeckLoading _value, $Res Function(_$HistoryDeckLoading) _then)
+class __$$DeckPreviewLoadingCopyWithImpl<$Res>
+    extends _$DeckPreviewCopyWithImpl<$Res, _$DeckPreviewLoading>
+    implements _$$DeckPreviewLoadingCopyWith<$Res> {
+  __$$DeckPreviewLoadingCopyWithImpl(
+      _$DeckPreviewLoading _value, $Res Function(_$DeckPreviewLoading) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -384,7 +384,7 @@ class __$$HistoryDeckLoadingCopyWithImpl<$Res>
     Object? name = null,
     Object? numberOfCards = null,
   }) {
-    return _then(_$HistoryDeckLoading(
+    return _then(_$DeckPreviewLoading(
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -403,8 +403,8 @@ class __$$HistoryDeckLoadingCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$HistoryDeckLoading implements HistoryDeckLoading {
-  const _$HistoryDeckLoading(
+class _$DeckPreviewLoading implements DeckPreviewLoading {
+  const _$DeckPreviewLoading(
       {required this.createdAt,
       required this.name,
       required this.numberOfCards});
@@ -418,14 +418,14 @@ class _$HistoryDeckLoading implements HistoryDeckLoading {
 
   @override
   String toString() {
-    return 'HistoryDeck.loading(createdAt: $createdAt, name: $name, numberOfCards: $numberOfCards)';
+    return 'DeckPreview.loading(createdAt: $createdAt, name: $name, numberOfCards: $numberOfCards)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$HistoryDeckLoading &&
+            other is _$DeckPreviewLoading &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.name, name) || other.name == name) &&
@@ -439,8 +439,8 @@ class _$HistoryDeckLoading implements HistoryDeckLoading {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$HistoryDeckLoadingCopyWith<_$HistoryDeckLoading> get copyWith =>
-      __$$HistoryDeckLoadingCopyWithImpl<_$HistoryDeckLoading>(
+  _$$DeckPreviewLoadingCopyWith<_$DeckPreviewLoading> get copyWith =>
+      __$$DeckPreviewLoadingCopyWithImpl<_$DeckPreviewLoading>(
           this, _$identity);
 
   @override
@@ -496,9 +496,9 @@ class _$HistoryDeckLoading implements HistoryDeckLoading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(HistoryDeckCreated value) created,
-    required TResult Function(HistoryDeckLoading value) loading,
-    required TResult Function(HistoryDeckError value) error,
+    required TResult Function(DeckPreviewCreated value) created,
+    required TResult Function(DeckPreviewLoading value) loading,
+    required TResult Function(DeckPreviewError value) error,
   }) {
     return loading(this);
   }
@@ -506,9 +506,9 @@ class _$HistoryDeckLoading implements HistoryDeckLoading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(HistoryDeckCreated value)? created,
-    TResult? Function(HistoryDeckLoading value)? loading,
-    TResult? Function(HistoryDeckError value)? error,
+    TResult? Function(DeckPreviewCreated value)? created,
+    TResult? Function(DeckPreviewLoading value)? loading,
+    TResult? Function(DeckPreviewError value)? error,
   }) {
     return loading?.call(this);
   }
@@ -516,9 +516,9 @@ class _$HistoryDeckLoading implements HistoryDeckLoading {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(HistoryDeckCreated value)? created,
-    TResult Function(HistoryDeckLoading value)? loading,
-    TResult Function(HistoryDeckError value)? error,
+    TResult Function(DeckPreviewCreated value)? created,
+    TResult Function(DeckPreviewLoading value)? loading,
+    TResult Function(DeckPreviewError value)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -528,11 +528,11 @@ class _$HistoryDeckLoading implements HistoryDeckLoading {
   }
 }
 
-abstract class HistoryDeckLoading implements HistoryDeck {
-  const factory HistoryDeckLoading(
+abstract class DeckPreviewLoading implements DeckPreview {
+  const factory DeckPreviewLoading(
       {required final DateTime createdAt,
       required final String name,
-      required final int numberOfCards}) = _$HistoryDeckLoading;
+      required final int numberOfCards}) = _$DeckPreviewLoading;
 
   @override
   DateTime get createdAt;
@@ -542,16 +542,16 @@ abstract class HistoryDeckLoading implements HistoryDeck {
   int get numberOfCards;
   @override
   @JsonKey(ignore: true)
-  _$$HistoryDeckLoadingCopyWith<_$HistoryDeckLoading> get copyWith =>
+  _$$DeckPreviewLoadingCopyWith<_$DeckPreviewLoading> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$HistoryDeckErrorCopyWith<$Res>
-    implements $HistoryDeckCopyWith<$Res> {
-  factory _$$HistoryDeckErrorCopyWith(
-          _$HistoryDeckError value, $Res Function(_$HistoryDeckError) then) =
-      __$$HistoryDeckErrorCopyWithImpl<$Res>;
+abstract class _$$DeckPreviewErrorCopyWith<$Res>
+    implements $DeckPreviewCopyWith<$Res> {
+  factory _$$DeckPreviewErrorCopyWith(
+          _$DeckPreviewError value, $Res Function(_$DeckPreviewError) then) =
+      __$$DeckPreviewErrorCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -559,11 +559,11 @@ abstract class _$$HistoryDeckErrorCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$HistoryDeckErrorCopyWithImpl<$Res>
-    extends _$HistoryDeckCopyWithImpl<$Res, _$HistoryDeckError>
-    implements _$$HistoryDeckErrorCopyWith<$Res> {
-  __$$HistoryDeckErrorCopyWithImpl(
-      _$HistoryDeckError _value, $Res Function(_$HistoryDeckError) _then)
+class __$$DeckPreviewErrorCopyWithImpl<$Res>
+    extends _$DeckPreviewCopyWithImpl<$Res, _$DeckPreviewError>
+    implements _$$DeckPreviewErrorCopyWith<$Res> {
+  __$$DeckPreviewErrorCopyWithImpl(
+      _$DeckPreviewError _value, $Res Function(_$DeckPreviewError) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -574,7 +574,7 @@ class __$$HistoryDeckErrorCopyWithImpl<$Res>
     Object? name = null,
     Object? numberOfCards = null,
   }) {
-    return _then(_$HistoryDeckError(
+    return _then(_$DeckPreviewError(
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -597,8 +597,8 @@ class __$$HistoryDeckErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$HistoryDeckError implements HistoryDeckError {
-  const _$HistoryDeckError(
+class _$DeckPreviewError implements DeckPreviewError {
+  const _$DeckPreviewError(
       {required this.message,
       required this.createdAt,
       required this.name,
@@ -615,14 +615,14 @@ class _$HistoryDeckError implements HistoryDeckError {
 
   @override
   String toString() {
-    return 'HistoryDeck.error(message: $message, createdAt: $createdAt, name: $name, numberOfCards: $numberOfCards)';
+    return 'DeckPreview.error(message: $message, createdAt: $createdAt, name: $name, numberOfCards: $numberOfCards)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$HistoryDeckError &&
+            other is _$DeckPreviewError &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -638,8 +638,8 @@ class _$HistoryDeckError implements HistoryDeckError {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$HistoryDeckErrorCopyWith<_$HistoryDeckError> get copyWith =>
-      __$$HistoryDeckErrorCopyWithImpl<_$HistoryDeckError>(this, _$identity);
+  _$$DeckPreviewErrorCopyWith<_$DeckPreviewError> get copyWith =>
+      __$$DeckPreviewErrorCopyWithImpl<_$DeckPreviewError>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -694,9 +694,9 @@ class _$HistoryDeckError implements HistoryDeckError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(HistoryDeckCreated value) created,
-    required TResult Function(HistoryDeckLoading value) loading,
-    required TResult Function(HistoryDeckError value) error,
+    required TResult Function(DeckPreviewCreated value) created,
+    required TResult Function(DeckPreviewLoading value) loading,
+    required TResult Function(DeckPreviewError value) error,
   }) {
     return error(this);
   }
@@ -704,9 +704,9 @@ class _$HistoryDeckError implements HistoryDeckError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(HistoryDeckCreated value)? created,
-    TResult? Function(HistoryDeckLoading value)? loading,
-    TResult? Function(HistoryDeckError value)? error,
+    TResult? Function(DeckPreviewCreated value)? created,
+    TResult? Function(DeckPreviewLoading value)? loading,
+    TResult? Function(DeckPreviewError value)? error,
   }) {
     return error?.call(this);
   }
@@ -714,9 +714,9 @@ class _$HistoryDeckError implements HistoryDeckError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(HistoryDeckCreated value)? created,
-    TResult Function(HistoryDeckLoading value)? loading,
-    TResult Function(HistoryDeckError value)? error,
+    TResult Function(DeckPreviewCreated value)? created,
+    TResult Function(DeckPreviewLoading value)? loading,
+    TResult Function(DeckPreviewError value)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -726,12 +726,12 @@ class _$HistoryDeckError implements HistoryDeckError {
   }
 }
 
-abstract class HistoryDeckError implements HistoryDeck {
-  const factory HistoryDeckError(
+abstract class DeckPreviewError implements DeckPreview {
+  const factory DeckPreviewError(
       {required final String message,
       required final DateTime createdAt,
       required final String name,
-      required final int numberOfCards}) = _$HistoryDeckError;
+      required final int numberOfCards}) = _$DeckPreviewError;
 
   String get message;
   @override
@@ -742,6 +742,6 @@ abstract class HistoryDeckError implements HistoryDeck {
   int get numberOfCards;
   @override
   @JsonKey(ignore: true)
-  _$$HistoryDeckErrorCopyWith<_$HistoryDeckError> get copyWith =>
+  _$$DeckPreviewErrorCopyWith<_$DeckPreviewError> get copyWith =>
       throw _privateConstructorUsedError;
 }

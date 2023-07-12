@@ -7,7 +7,7 @@ part of 'get_stripe_portal_url_provider.dart';
 // **************************************************************************
 
 String _$getStripePortalUrlHash() =>
-    r'f5c2f13c679ea90a65ce5f1fd3d7b2a3c15e85c8';
+    r'82c6628e6cdec86bfccc1721e929e447c5d5594c';
 
 /// See also [getStripePortalUrl].
 @ProviderFor(getStripePortalUrl)

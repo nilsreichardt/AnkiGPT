@@ -163,11 +163,15 @@ class _GenerateButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isGenerating =
         ref.watch(generateNotifierProvider) is GenerationStateLoading;
+
+    final size = ref.watch(generationSizeProvider);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       child: AnkiGptElevatedButton.icon(
         key: ValueKey(isGenerating),
-        tooltip: isGenerating ? 'Generating...' : 'Generate flashcards',
+        tooltip: isGenerating
+            ? 'Generating...'
+            : 'Generate ${size.getUiText()} flashcards',
         icon: isGenerating ? null : const Icon(Icons.play_arrow),
         label: isGenerating
             ? const _GenerateButtonLoadingIndicator()

@@ -19,6 +19,10 @@ jobs:
       - name: Analyze
         run: flutter analyze
 
+  # Since custom_lint can't run with "flutter analyze", we need to run it
+  # separately.
+  #
+  # See: https://pub.dev/packages/custom_lint#obtaining-the-list-of-lints-in-the-ci
   custom-lint:
     runs-on: ubuntu-22.04
     steps:

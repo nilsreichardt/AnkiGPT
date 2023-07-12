@@ -27,7 +27,6 @@ class InputTextField extends StatelessWidget {
           enabledBorder: border,
           disabledBorder: border,
           filled: true,
-          hoverColor: Colors.white,
           fillColor: Colors.white,
           hintText:
               '''Copy the text of a few slides and paste it into this text field.

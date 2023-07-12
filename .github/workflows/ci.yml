@@ -2,9 +2,6 @@ name: ci
 
 on: pull_request
 
-env:
-  FLUTTER_CHANNEL: "beta"
-
 jobs:
   analyze:
     runs-on: ubuntu-22.04

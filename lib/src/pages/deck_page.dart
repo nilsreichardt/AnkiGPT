@@ -4,23 +4,20 @@ import 'package:ankigpt/src/pages/session_page/result_section.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/input_text_field.dart';
-import 'package:ankigpt/src/providers/cards_list_controller.dart';
+import 'package:ankigpt/src/providers/deck_page_scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class DeckPage extends ConsumerStatefulWidget {
   const DeckPage({
     super.key,
     required this.sessionId,
-    this.page,
   });
 
   final SessionId? sessionId;
-  final int? page;
 
   @override
   ConsumerState<DeckPage> createState() => _SessionPageState();
@@ -41,12 +38,6 @@ class _SessionPageState extends ConsumerState<DeckPage> {
             .watch(sessionId: widget.sessionId!);
         logger.v('Watch session: $sessionId');
       }
-
-      final page = widget.page;
-      if (page != null) {
-        ref.read(cardsListControllerProvider.notifier).setPage(page);
-        logger.v('Set page: $page');
-      }
     });
   }
 
@@ -60,14 +51,10 @@ class _SessionPageState extends ConsumerState<DeckPage> {
         sessionIdProvider.overrideWithValue(widget.sessionId),
       ],
       child: Scaffold(
-        appBar: AppBar(
-          leading: const _BackButton(),
-        ),
+        appBar: AppBar(),
         body: SafeArea(
           child: SingleChildScrollView(
-            controller: ScrollController(
-              initialScrollOffset: widget.page != null ? 250 : 0,
-            ),
+            controller: ref.watch(deckPageScrollControllerProvider),
             child: Column(
               children: [
                 ConstrainedBox(
@@ -83,17 +70,6 @@ class _SessionPageState extends ConsumerState<DeckPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _BackButton extends StatelessWidget {
-  const _BackButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return BackButton(
-      onPressed: () => context.go('/'),
     );
   }
 }

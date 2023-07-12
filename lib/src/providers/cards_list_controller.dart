@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/cards_list_view.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
-import 'package:ankigpt/src/providers/router_provider.dart';
+import 'package:ankigpt/src/providers/deck_page_scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cards_list_controller.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class CardsListController extends _$CardsListController {
   static const int cardsPerPage = 20;
 
@@ -26,12 +26,7 @@ class CardsListController extends _$CardsListController {
     final query = ref.watch(searchQueryProvider);
     cards = _maybeFilterCards(cards, query);
 
-    return _buildView(cards, currentPage: _getCurrentPageFromLocation());
-  }
-
-  int _getCurrentPageFromLocation() {
-    final location = getCurrentLocation(ref);
-    return int.tryParse(location.queryParameters['page'] ?? '') ?? 1;
+    return _buildView(cards, currentPage: _currentPage);
   }
 
   List<AnkiCard> _maybeFilterCards(List<AnkiCard> cards, String query) {
@@ -80,6 +75,7 @@ class CardsListController extends _$CardsListController {
     if (state.canPressNext) {
       final cards = ref.read(cardsListProvider);
       state = _buildView(cards, currentPage: state.currentPage + 1);
+      _scrolToTop();
     }
   }
 
@@ -87,12 +83,22 @@ class CardsListController extends _$CardsListController {
     if (state.canPressPrevious) {
       final cards = ref.read(cardsListProvider);
       state = _buildView(cards, currentPage: state.currentPage - 1);
+      _scrolToTop();
     }
   }
 
   void setPage(int page) {
     final cards = ref.read(cardsListProvider);
     state = _buildView(cards, currentPage: page);
+    _scrolToTop();
+  }
+
+  void _scrolToTop() {
+    final scrollController = ref.read(deckPageScrollControllerProvider);
+    // We do not scroll to the actual top because there is the input field. To
+    // provide a better user experience we scroll to the top of the cards list
+    // instead which is 250 pixels below the actual top.
+    scrollController.jumpTo(250);
   }
 }
 

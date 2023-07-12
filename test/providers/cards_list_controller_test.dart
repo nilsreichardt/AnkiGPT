@@ -3,20 +3,30 @@ import 'dart:math';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
+import 'package:ankigpt/src/providers/deck_page_scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
 import '../utils/generate_dummy_cards.dart';
+import 'cards_list_controller_test.mocks.dart';
 
+@GenerateNiceMocks([MockSpec<ScrollController>()])
 void main() {
   group('CardsListController', () {
     late ProviderContainer container;
     late List<AnkiCard> cards;
+    late MockScrollController mockScrollController;
 
     setUp(() {
       cards = generateDummyCards(CardsListController.cardsPerPage * 3);
-      container = ProviderContainer();
+      mockScrollController = MockScrollController();
+      container = ProviderContainer(overrides: [
+        deckPageScrollControllerProvider.overrideWithValue(mockScrollController)
+      ]);
 
       container.read(cardsListProvider.notifier).set(cards);
     });
@@ -223,6 +233,23 @@ void main() {
 
       final view2 = container.read(cardsListControllerProvider);
       expect(view2.cards, view1.cards);
+    });
+
+    test('scrolls to top when setting page', () {
+      final cards = generateDummyCards(CardsListController.cardsPerPage * 3);
+      container.read(cardsListProvider.notifier).set(cards);
+
+      container.read(cardsListControllerProvider.notifier).setPage(2);
+      verify(mockScrollController.jumpTo(250)).called(1);
+    });
+
+    test('scrolls to top when go to previous/next page', () {
+      final cards = generateDummyCards(CardsListController.cardsPerPage * 3);
+      container.read(cardsListProvider.notifier).set(cards);
+
+      container.read(cardsListControllerProvider.notifier).nextPage();
+      container.read(cardsListControllerProvider.notifier).previousPage();
+      verify(mockScrollController.jumpTo(250)).called(2);
     });
   });
 }

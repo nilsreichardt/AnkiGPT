@@ -135,7 +135,7 @@ class _LegalText extends StatelessWidget {
   Widget build(BuildContext context) {
     return MarkdownBody(
       data:
-          'By signing in, you confirm that you read the [Terms of Service](https://ankigpt.wtf/terms) and [Privacy Policy](https://ankigpt.wtf/privacy-policy).',
+          'By signing in, you confirm that you read the [Terms of Service](https://ankigpt.help/terms) and [Privacy Policy](https://ankigpt.help/privacy-policy).',
       styleSheet: MarkdownStyleSheet(
         p: Theme.of(context).textTheme.bodySmall!.copyWith(
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
@@ -271,7 +271,7 @@ class _DeleteAccountTile extends ConsumerWidget {
         };
         final mailto = Uri(
           scheme: 'mailto',
-          path: 'support@ankigpt.wtf',
+          path: 'support@ankigpt.help',
           query: parameters.entries
               .map((e) =>
                   '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')

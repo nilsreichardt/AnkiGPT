@@ -184,5 +184,37 @@ void main() {
         expect(view2.currentPage, 1);
       },
     );
+
+    test('should keep the same order after updating the list (one page)', () {
+      final cards = generateDummyCards(CardsListController.cardsPerPage);
+      container.read(cardsListProvider.notifier).set(cards);
+
+      final view1 = container.read(cardsListControllerProvider);
+
+      final updatedCards = List<AnkiCard>.from(cards);
+      final fixRandom = Random(42);
+      updatedCards.shuffle(fixRandom);
+      container.read(cardsListProvider.notifier).set(updatedCards);
+
+      final view2 = container.read(cardsListControllerProvider);
+      expect(view2.cards, view1.cards);
+    });
+
+    // Regression test for: https://github.com/nilsreichardt/ankigpt/issues/65
+    test('should keep the same order after updating the list (multiple pages)',
+        () {
+      final cards = generateDummyCards(CardsListController.cardsPerPage * 3);
+      container.read(cardsListProvider.notifier).set(cards);
+
+      final view1 = container.read(cardsListControllerProvider);
+
+      final updatedCards = List<AnkiCard>.from(cards);
+      final fixRandom = Random(42);
+      updatedCards.shuffle(fixRandom);
+      container.read(cardsListProvider.notifier).set(updatedCards);
+
+      final view2 = container.read(cardsListControllerProvider);
+      expect(view2.cards, view1.cards);
+    });
   });
 }

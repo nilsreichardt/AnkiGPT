@@ -45,7 +45,7 @@ class OthersOptions extends StatelessWidget {
             Navigator.of(context).pushNamed('/imprint');
             break;
           case OthersOptionsItem.privacy:
-            const url = 'https://ankigpt.wtf/privacy-policy';
+            const url = 'https://ankigpt.help/privacy-policy';
             launchUrl(Uri.parse(url));
             break;
         }

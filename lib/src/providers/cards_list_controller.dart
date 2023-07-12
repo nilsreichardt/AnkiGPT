@@ -54,7 +54,8 @@ class CardsListController extends _$CardsListController {
     }
 
     final endIndex = min(startIndex + cardsPerPage, cards.length);
-    final visibleCards = cards.sublist(startIndex, endIndex)..sortByCreatedAt();
+    final sortedCards = cards.toList()..sortByCreatedAt();
+    final visibleCards = sortedCards.sublist(startIndex, endIndex);
 
     _currentPage = currentPage;
     return CardsListView(

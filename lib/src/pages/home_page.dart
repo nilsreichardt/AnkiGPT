@@ -60,7 +60,7 @@ class _HomePage2State extends ConsumerState<HomePage> {
                 child: Column(
                   children: [
                     const InputSection(),
-                    const SizedBox(height: 100),
+                    const SizedBox(height: 50),
                     isSignedIn ? const MyDecksSection() : const DemoSection(),
                     const SizedBox(height: 100),
                     const PricingSection(),

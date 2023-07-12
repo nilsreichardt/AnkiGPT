@@ -56,7 +56,7 @@ class _Headline extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        top: min(45, MediaQuery.of(context).size.width * 0.1),
+        top: min(35, MediaQuery.of(context).size.width * 0.1),
         bottom: 38,
       ),
       child: const AutoSizeText(

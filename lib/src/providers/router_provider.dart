@@ -1,10 +1,12 @@
 import 'package:ankigpt/src/pages/account_page.dart';
+import 'package:ankigpt/src/pages/deck_page.dart';
 import 'package:ankigpt/src/pages/home_page.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
-import 'package:ankigpt/src/pages/deck_page.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/navigation_logger_observer.dart';
 import 'package:ankigpt/src/providers/show_successful_playment_dialog.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -45,6 +47,7 @@ GoRouter router(RouterRef ref) {
               return DeckPage(
                 sessionId: id,
                 page: page != null ? int.tryParse(page) : null,
+                key: ValueKey('$id-$page'),
               );
             },
           ),
@@ -52,4 +55,13 @@ GoRouter router(RouterRef ref) {
       ),
     ],
   );
+}
+
+Uri getCurrentLocation(Ref ref) {
+  final router = ref.read(routerProvider);
+  final RouteMatch lastMatch = router.routerDelegate.currentConfiguration.last;
+  final RouteMatchList matchList = lastMatch is ImperativeRouteMatch
+      ? lastMatch.matches
+      : router.routerDelegate.currentConfiguration;
+  return matchList.uri;
 }

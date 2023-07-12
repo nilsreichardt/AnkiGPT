@@ -6,11 +6,11 @@ import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/input_text_field.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
-import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class DeckPage extends ConsumerStatefulWidget {
   const DeckPage({
@@ -60,10 +60,14 @@ class _SessionPageState extends ConsumerState<DeckPage> {
         sessionIdProvider.overrideWithValue(widget.sessionId),
       ],
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          leading: const _BackButton(),
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
-            controller: ref.watch(scrollControllerProvider),
+            controller: ScrollController(
+              initialScrollOffset: widget.page != null ? 250 : 0,
+            ),
             child: Column(
               children: [
                 ConstrainedBox(
@@ -79,6 +83,17 @@ class _SessionPageState extends ConsumerState<DeckPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _BackButton extends StatelessWidget {
+  const _BackButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return BackButton(
+      onPressed: () => context.go('/'),
     );
   }
 }

@@ -1,9 +1,7 @@
 import 'dart:ui';
 
-import 'package:ankigpt/src/models/cards_list_view.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
-import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,28 +24,8 @@ class PaginationControl extends ConsumerWidget {
     super.key,
   });
 
-  void onPageChanged(WidgetRef ref, CardsListView? prev, CardsListView next) {
-    final hasCurrentPageChanged = prev?.currentPage != next.currentPage;
-    if (hasCurrentPageChanged) {
-      _scrollToTop(ref);
-    }
-  }
-
-  void _scrollToTop(WidgetRef ref) {
-    ref.read(scrollControllerProvider).animateTo(
-          250,
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeOutExpo,
-        );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(
-      cardsListControllerProvider,
-      (prev, next) => onPageChanged(ref, prev, next),
-    );
-
     final view = ref.watch(cardsListControllerProvider);
     return IconTheme(
       data: Theme.of(context).iconTheme.copyWith(
@@ -118,7 +96,7 @@ class _PageNumberInactive extends ConsumerWidget {
     return InkWell(
       onTap: () {
         _goToPage(context, pageNumber);
-        ref.read(cardsListControllerProvider.notifier).setPage(pageNumber);
+        // ref.read(cardsListControllerProvider.notifier).setPage(pageNumber);
       },
       borderRadius: BorderRadius.circular(5),
       child: _PageNumberBase(

@@ -145,40 +145,32 @@ class _ResultList extends ConsumerWidget {
     }
 
     final cards = ref.watch(cardsListControllerProvider).cards;
+    final currentPage =
+        ref.watch(cardsListControllerProvider.select((v) => v.currentPage));
     return Column(
       children: [
         const WarningDoubleCheckCard(),
         const SizedBox(height: 12),
         SelectionArea(
-          child: AnimationLimiter(
-            // We don't use cards.length as key because we don't want to animate all
-            // cards when the list changes.
-            key: ValueKey(cards.isEmpty),
-            child: Column(
-              children: AnimationConfiguration.toStaggeredList(
-                duration: const Duration(milliseconds: 375),
-                childAnimationBuilder: (widget) => SlideAnimation(
-                  verticalOffset: 20,
-                  child: FadeInAnimation(child: widget),
+          child: Column(
+            key: ValueKey(
+                'cards.isEmpty: ${cards.isEmpty}, currentPage: $currentPage'),
+            children: [
+              if (cards.isEmpty) const _EmptySearch(),
+              for (final card in cards)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: ResultCard(
+                    key: ValueKey(card.id),
+                    card: card,
+                    onDeleted: (cardId) {
+                      // We need to make the delete call at this position in the widget tree because a call in the
+                      // card would lead to an error when the presses the undo button.
+                      deleteCard(context, ref, cardId);
+                    },
+                  ),
                 ),
-                children: [
-                  if (cards.isEmpty) const _EmptySearch(),
-                  for (final card in cards)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: ResultCard(
-                        key: ValueKey(card.id),
-                        card: card,
-                        onDeleted: (cardId) {
-                          // We need to make the delete call at this position in the widget tree because a call in the
-                          // card would lead to an error when the presses the undo button.
-                          deleteCard(context, ref, cardId);
-                        },
-                      ),
-                    ),
-                ],
-              ),
-            ),
+            ],
           ),
         ),
         const SizedBox(height: 12),

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/cards_list_view.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
+import 'package:ankigpt/src/providers/router_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -25,7 +26,12 @@ class CardsListController extends _$CardsListController {
     final query = ref.watch(searchQueryProvider);
     cards = _maybeFilterCards(cards, query);
 
-    return _buildView(cards, currentPage: _currentPage);
+    return _buildView(cards, currentPage: _getCurrentPageFromLocation());
+  }
+
+  int _getCurrentPageFromLocation() {
+    final location = getCurrentLocation(ref);
+    return int.tryParse(location.queryParameters['page'] ?? '') ?? 1;
   }
 
   List<AnkiCard> _maybeFilterCards(List<AnkiCard> cards, String query) {

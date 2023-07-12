@@ -1,8 +1,10 @@
 import 'package:ankigpt/src/pages/home_page/faq_section.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
+import '../../utils/golden.dart';
 import '../../utils/pump_ankigpt_app.dart';
 
 void main() {
@@ -28,7 +30,8 @@ void main() {
       await tester.tap(find.text('Is the source code of AnkiGPT public?'));
       await tester.pumpAndSettle();
 
-      await screenMatchesGolden(tester, 'faq_section_answer');
+      await expectGoldenMatchesWithTolerance(
+          find.byType(ProviderScope), 'faq_section_answer.png');
     });
   });
 }

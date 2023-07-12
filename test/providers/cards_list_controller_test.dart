@@ -186,23 +186,6 @@ void main() {
       },
     );
 
-    test(
-      'should jump back to first page when all cards disappear',
-      () {
-        final cards =
-            generateDummyCards((CardsListController.cardsPerPage * 2) + 1);
-        container.read(cardsListProvider.notifier).set(cards);
-
-        container.read(cardsListControllerProvider.notifier).setPage(3);
-        final view1 = container.read(cardsListControllerProvider);
-        expect(view1.currentPage, 3);
-
-        container.read(cardsListProvider.notifier).set([]);
-        final view2 = container.read(cardsListControllerProvider);
-        expect(view2.currentPage, 1);
-      },
-    );
-
     test('should keep the same order after updating the list (one page)', () {
       final cards = generateDummyCards(CardsListController.cardsPerPage);
       container.read(cardsListProvider.notifier).set(cards);

@@ -101,11 +101,14 @@ class _CreateNewDeck extends StatelessWidget {
   }
 }
 
-class _OptionsButton extends StatelessWidget {
+class _OptionsButton extends ConsumerWidget {
   const _OptionsButton();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Keep the provider alive
+    ref.watch(generationSizeProvider);
+
     return AnkiGptElevatedButton.icon(
       tooltip: 'Edit options (e.g. number of cards)',
       icon: const Icon(Icons.tune),

@@ -15,6 +15,7 @@ import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 bool _isMobileView(BuildContext context) =>
     MediaQuery.of(context).size.width < 735;
@@ -119,7 +120,7 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
       await ref.read(stripeCheckoutProvider.notifier).open();
     } else {
       ref.read(wantsToBuyProvider.notifier).toggle();
-      Navigator.pushNamed(context, '/account');
+      context.go('/account');
     }
   }
 

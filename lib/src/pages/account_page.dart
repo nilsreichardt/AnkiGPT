@@ -200,6 +200,7 @@ class _SignInButton extends ConsumerWidget {
           try {
             await ref.read(signInProvider(authProvider: authProvider).future);
           } on Exception catch (e) {
+            if (!context.mounted) return;
             _showSnackBar(context, e);
           }
         },
@@ -456,6 +457,7 @@ class _ManageBillsState extends ConsumerState<_ManageBills> {
         try {
           await ref.read(stripePortalProvider.notifier).open();
         } on Exception catch (e) {
+          if (!context.mounted) return;
           context.showTextSnackBar('$e');
         }
       },

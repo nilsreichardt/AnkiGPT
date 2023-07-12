@@ -138,11 +138,13 @@ class _GenerateButton extends ConsumerWidget {
       await ref.read(generateNotifierProvider.notifier).submit();
     } catch (e) {
       if (e is PlusMembershipRequiredException) {
+        if (!context.mounted) return;
         showPlusDialog(context);
         return;
       }
 
       if (e is TooShortInputException) {
+        if (!context.mounted) return;
         showModal(
           context: context,
           builder: (context) => const _TooLessInputDialog(),
@@ -151,10 +153,12 @@ class _GenerateButton extends ConsumerWidget {
       }
 
       if (e is TooLongInputException) {
+        if (!context.mounted) return;
         showInputTooLong(context);
         return;
       }
 
+      if (!context.mounted) return;
       context.showTextSnackBar('$e');
     }
   }

@@ -173,6 +173,7 @@ class _BuyButtonState extends ConsumerState<_BuyButton> {
                 try {
                   await buy();
                 } on Exception catch (e) {
+                  if (!context.mounted) return;
                   context.showTextSnackBar('Error while buying Plus: $e');
                   Navigator.pop(context);
                 } finally {

@@ -214,7 +214,7 @@ class _EmptyList extends StatelessWidget {
               icon: const Icon(Icons.arrow_back),
               center: true,
               onPressed: () =>
-                  launchUrl(Uri.parse('https://ankigpt.wtf/support')),
+                  launchUrl(Uri.parse('https://ankigpt.help/support')),
               label: const Text('Go back'),
             ),
           ),
@@ -251,7 +251,7 @@ class _EmptySearch extends StatelessWidget {
             ElevatedButton.icon(
               icon: const Icon(Icons.feedback),
               onPressed: () =>
-                  launchUrl(Uri.parse('https://ankigpt.wtf/support')),
+                  launchUrl(Uri.parse('https://ankigpt.help/support')),
               label: const Text('Send feedback'),
             ),
           ],

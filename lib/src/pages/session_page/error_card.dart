@@ -67,7 +67,7 @@ class ErrorCard extends ConsumerWidget {
                     const SizedBox(width: 12),
                     TextButton(
                       onPressed: () =>
-                          launchUrl(Uri.parse('https://ankigpt.wtf/support')),
+                          launchUrl(Uri.parse('https://ankigpt.help/support')),
                       style: TextButton.styleFrom(
                         foregroundColor: Theme.of(context).colorScheme.error,
                       ),

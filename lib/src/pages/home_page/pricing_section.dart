@@ -9,6 +9,7 @@ import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
+import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
@@ -124,6 +125,7 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
 
   @override
   Widget build(BuildContext context) {
+    final hasPlus = ref.watch(hasPlusProvider);
     return _TierBase(
       name: 'Plus',
       price: '€9.99',
@@ -137,6 +139,7 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
       ],
       onPressedCallToAction: buy,
       callToActionText: 'Buy',
+      isEnabled: !hasPlus,
     );
   }
 }
@@ -149,6 +152,7 @@ class _TierBase extends StatelessWidget {
     required this.onPressedCallToAction,
     required this.callToActionText,
     this.priceDescription,
+    this.isEnabled = true,
   });
 
   final String name;
@@ -157,6 +161,7 @@ class _TierBase extends StatelessWidget {
   final List<PointData> points;
   final VoidCallback onPressedCallToAction;
   final String callToActionText;
+  final bool isEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -199,6 +204,7 @@ class _TierBase extends StatelessWidget {
             _CallToActionButton(
               onPressed: onPressedCallToAction,
               text: callToActionText,
+              isEnabled: isEnabled,
             )
           ],
         ),
@@ -211,14 +217,17 @@ class _CallToActionButton extends StatelessWidget {
   const _CallToActionButton({
     required this.text,
     required this.onPressed,
+    this.isEnabled = true,
   });
 
   final String text;
   final VoidCallback onPressed;
+  final bool isEnabled;
 
   @override
   Widget build(BuildContext context) {
     return AnkiGptElevatedButton(
+      isEnabled: isEnabled,
       onPressed: onPressed,
       child: SizedBox(
         width: double.infinity,

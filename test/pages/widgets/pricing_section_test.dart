@@ -4,6 +4,7 @@ import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
 import 'package:ankigpt/src/providers/account_view_provider.dart';
 import 'package:ankigpt/src/providers/buy_repostiroy_provider.dart.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
+import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -46,6 +47,7 @@ void main() {
           loggerProvider.overrideWithValue(MockLogger()),
           hasAccount2Provider.overrideWithValue(hasAccount),
           accountViewProvider.overrideWithValue(const AccountView.signedOut()),
+          hasPlusProvider.overrideWithValue(false),
         ],
       );
     }

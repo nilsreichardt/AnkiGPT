@@ -39,6 +39,10 @@ GoRouter router(RouterRef ref) {
             },
           ),
           GoRoute(
+            path: 'cancel',
+            redirect: (context, state) => '/',
+          ),
+          GoRoute(
             path: 'deck/:id',
             builder: (context, state) {
               final id = state.pathParameters['id'];

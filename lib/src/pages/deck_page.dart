@@ -118,11 +118,11 @@ class _FileCard extends ConsumerWidget {
     final fileName =
         ref.watch(watchProvider(sessionId).select((view) => view.fileName));
     const borderRadius = BorderRadius.all(Radius.circular(12));
-    return SizedBox(
-      width: double.infinity,
-      child: AnkiGptCard(
-        borderRadius: borderRadius,
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+    return AnkiGptCard(
+      borderRadius: borderRadius,
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      child: SizedBox(
+        width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 40, 12, 40),
           child: Column(

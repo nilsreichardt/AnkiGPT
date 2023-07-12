@@ -298,11 +298,12 @@ class _PdfPointHelpDialog extends StatelessWidget {
                   'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fpdf-upload-tutorial.mp4?alt=media&token=a67cd7c1-ff89-41e8-a1f0-9daebe1caaed',
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           const Text(
             '* You can upload PDF files as input.\n'
             '* Generating 100 - 200 cards takes about 5 - 10 minutes.\n'
             '* Only text is extracted from the PDF file (images are ignored)',
+            style: TextStyle(fontSize: 16),
           ),
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:animations/animations.dart';
 import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
+import 'package:ankigpt/src/pages/widgets/cancel_text_button.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
@@ -315,10 +316,7 @@ class _OptionsDialog extends StatelessWidget {
         ),
       ),
       actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('CANCEL'),
-        ),
+        const CancelTextButton(),
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();

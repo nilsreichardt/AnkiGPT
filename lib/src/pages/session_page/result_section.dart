@@ -29,6 +29,7 @@ import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ResultSection extends ConsumerWidget {
@@ -204,8 +205,7 @@ class _EmptyList extends StatelessWidget {
             child: AnkiGptElevatedButton.icon(
               icon: const Icon(Icons.arrow_back),
               center: true,
-              onPressed: () =>
-                  launchUrl(Uri.parse('https://ankigpt.help/support')),
+              onPressed: () => context.pop(),
               label: const Text('Go back'),
             ),
           ),

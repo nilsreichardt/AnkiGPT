@@ -8,21 +8,27 @@ class AnkiGptCard extends StatefulWidget {
   const AnkiGptCard({
     super.key,
     this.color,
-    this.padding = const EdgeInsets.fromLTRB(14, 6, 14, 16),
+    this.padding = const EdgeInsets.fromLTRB(14, 16, 14, 16),
     required this.child,
-    this.hoverColor,
     this.borderRadius,
+    this.border,
+    this.onPressed,
+    this.splashColor,
+    this.hoverColor,
   });
 
   final Color? color;
-  final Color? hoverColor;
   final EdgeInsetsGeometry padding;
   final Widget child;
+  final BoxBorder? border;
+  final VoidCallback? onPressed;
+  final Color? splashColor;
+  final Color? hoverColor;
 
   /// The border radius of the card.
   ///
   /// Defaults to [defaultAnkiGptBorderRadius].
-  final BorderRadiusGeometry? borderRadius;
+  final BorderRadius? borderRadius;
 
   @override
   State<AnkiGptCard> createState() => _AnkiGptCardState();
@@ -40,7 +46,7 @@ class _AnkiGptCardState extends State<AnkiGptCard> {
       return widget.color;
     }
 
-    return widget.color!.withOpacity(0.1);
+    return widget.color;
   }
 
   @override
@@ -67,13 +73,26 @@ class _AnkiGptCardState extends State<AnkiGptCard> {
         curve: Curves.linear,
       ),
       duration: const Duration(milliseconds: 275),
-      child: Material(
+      child: Container(
         key: ValueKey(randomInt),
-        borderRadius: widget.borderRadius ?? defaultAnkiGptBorderRadius,
-        color: _getColor(context),
-        child: Padding(
-          padding: widget.padding,
-          child: widget.child,
+        decoration: BoxDecoration(
+          borderRadius: widget.borderRadius ?? defaultAnkiGptBorderRadius,
+          color: _getColor(context),
+          border: widget.border,
+        ),
+        child: Material(
+          type: MaterialType.button,
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: widget.borderRadius ?? defaultAnkiGptBorderRadius,
+            onTap: widget.onPressed,
+            hoverColor: widget.hoverColor,
+            splashColor: widget.splashColor,
+            child: Padding(
+              padding: widget.padding,
+              child: widget.child,
+            ),
+          ),
         ),
       ),
     );

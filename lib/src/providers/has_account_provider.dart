@@ -10,3 +10,10 @@ Stream<bool> hasAccount(HasAccountRef ref) {
       .userChanges()
       .map((user) => user != null && !user.isAnonymous);
 }
+
+/// Returns true if the user is logged in and not anonymous.
+@riverpod
+bool hasAccount2(HasAccount2Ref ref) {
+  final user = ref.read(firebaseAuthProvider).currentUser;
+  return user != null && !user.isAnonymous;
+}

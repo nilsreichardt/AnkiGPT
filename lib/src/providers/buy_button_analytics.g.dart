@@ -6,7 +6,7 @@ part of 'buy_button_analytics.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$clickedBuyHash() => r'5988f90c67199d6b91981123c9c96cfae73ed640';
+String _$clickedBuyHash() => r'e988b105c5879063a7d0db0f53a09e44a21757dd';
 
 /// See also [clickedBuy].
 @ProviderFor(clickedBuy)

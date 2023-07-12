@@ -3,18 +3,30 @@ import 'dart:math';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
+import 'package:ankigpt/src/providers/deck_page_scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
+import '../utils/generate_dummy_cards.dart';
+import 'cards_list_controller_test.mocks.dart';
+
+@GenerateNiceMocks([MockSpec<ScrollController>()])
 void main() {
   group('CardsListController', () {
     late ProviderContainer container;
     late List<AnkiCard> cards;
+    late MockScrollController mockScrollController;
 
     setUp(() {
-      cards = _generateAnkiCards(CardsListController.cardsPerPage * 3);
-      container = ProviderContainer();
+      cards = generateDummyCards(CardsListController.cardsPerPage * 3);
+      mockScrollController = MockScrollController();
+      container = ProviderContainer(overrides: [
+        deckPageScrollControllerProvider.overrideWithValue(mockScrollController)
+      ]);
 
       container.read(cardsListProvider.notifier).set(cards);
     });
@@ -45,7 +57,7 @@ void main() {
     });
 
     test('should sort cards', () {
-      final cards = _generateAnkiCards(10);
+      final cards = generateDummyCards(10);
 
       final random = Random(42);
       final shuffeledCards = List<AnkiCard>.from(cards)..shuffle(random);
@@ -70,6 +82,14 @@ void main() {
       expect(view.canPressPrevious, true);
     });
 
+    test('sets page number even when cards list is empty', () {
+      container.read(cardsListProvider.notifier).set([]);
+
+      container.read(cardsListControllerProvider.notifier).setPage(2);
+      final view = container.read(cardsListControllerProvider);
+      expect(view.currentPage, 2);
+    });
+
     test('should correctly switch to the previous page', () {
       // Move to the second page first to test going back.
       container.read(cardsListControllerProvider.notifier).nextPage();
@@ -85,7 +105,7 @@ void main() {
 
     test('should handle if cards list does not fit perfectly', () {
       const length = CardsListController.cardsPerPage - 1;
-      final cards = _generateAnkiCards(length);
+      final cards = generateDummyCards(length);
       container.read(cardsListProvider.notifier).set(cards);
 
       final view = container.read(cardsListControllerProvider);
@@ -151,7 +171,7 @@ void main() {
       'should go to previous page when current page disappears',
       () {
         final cards =
-            _generateAnkiCards((CardsListController.cardsPerPage * 2) + 1);
+            generateDummyCards((CardsListController.cardsPerPage * 2) + 1);
         container.read(cardsListProvider.notifier).set(cards);
 
         container.read(cardsListControllerProvider.notifier).setPage(3);
@@ -166,25 +186,8 @@ void main() {
       },
     );
 
-    test(
-      'should jump back to first page when all cards disappear',
-      () {
-        final cards =
-            _generateAnkiCards((CardsListController.cardsPerPage * 2) + 1);
-        container.read(cardsListProvider.notifier).set(cards);
-
-        container.read(cardsListControllerProvider.notifier).setPage(3);
-        final view1 = container.read(cardsListControllerProvider);
-        expect(view1.currentPage, 3);
-
-        container.read(cardsListProvider.notifier).set([]);
-        final view2 = container.read(cardsListControllerProvider);
-        expect(view2.currentPage, 1);
-      },
-    );
-
     test('should keep the same order after updating the list (one page)', () {
-      final cards = _generateAnkiCards(CardsListController.cardsPerPage);
+      final cards = generateDummyCards(CardsListController.cardsPerPage);
       container.read(cardsListProvider.notifier).set(cards);
 
       final view1 = container.read(cardsListControllerProvider);
@@ -201,7 +204,7 @@ void main() {
     // Regression test for: https://github.com/nilsreichardt/ankigpt/issues/65
     test('should keep the same order after updating the list (multiple pages)',
         () {
-      final cards = _generateAnkiCards(CardsListController.cardsPerPage * 3);
+      final cards = generateDummyCards(CardsListController.cardsPerPage * 3);
       container.read(cardsListProvider.notifier).set(cards);
 
       final view1 = container.read(cardsListControllerProvider);
@@ -214,20 +217,22 @@ void main() {
       final view2 = container.read(cardsListControllerProvider);
       expect(view2.cards, view1.cards);
     });
-  });
-}
 
-/// Generates a list of [AnkiCard]s with the given [count] that are sorted by
-/// their [createdAt] date.
-List<AnkiCard> _generateAnkiCards(int count) {
-  final fixDate = DateTime(2021, 1, 1);
-  return List<AnkiCard>.generate(
-    count,
-    (index) => AnkiCard(
-      answer: 'answer $index',
-      question: 'question $index',
-      createdAt: fixDate.add(Duration(minutes: index)),
-      id: '$index',
-    ),
-  );
+    test('scrolls to top when setting page', () {
+      final cards = generateDummyCards(CardsListController.cardsPerPage * 3);
+      container.read(cardsListProvider.notifier).set(cards);
+
+      container.read(cardsListControllerProvider.notifier).setPage(2);
+      verify(mockScrollController.jumpTo(250)).called(1);
+    });
+
+    test('scrolls to top when go to previous/next page', () {
+      final cards = generateDummyCards(CardsListController.cardsPerPage * 3);
+      container.read(cardsListProvider.notifier).set(cards);
+
+      container.read(cardsListControllerProvider.notifier).nextPage();
+      container.read(cardsListControllerProvider.notifier).previousPage();
+      verify(mockScrollController.jumpTo(250)).called(2);
+    });
+  });
 }

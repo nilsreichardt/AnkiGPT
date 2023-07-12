@@ -1,10 +1,10 @@
-import 'package:ankigpt/main.dart';
+import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/input_text_field_controller.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
-import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:logger/logger.dart';
@@ -38,7 +38,7 @@ void main() {
         // Generate String with 299 characters
         final text = List.generate(399, (index) => 'a').join();
 
-        container.read(slideTextFieldControllerProvider).text = text;
+        container.read(inputTextFieldControllerProvider).text = text;
 
         // Except that .submit throws TooShortInputException
         expect(
@@ -53,7 +53,7 @@ void main() {
         // Generate String with 5,001 characters
         final text = List.generate(5001, (index) => 'a').join();
 
-        container.read(slideTextFieldControllerProvider).text = text;
+        container.read(inputTextFieldControllerProvider).text = text;
 
         // Except that .submit throws TooLongInputException
         expect(

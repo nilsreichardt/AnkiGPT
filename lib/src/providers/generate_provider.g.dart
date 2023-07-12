@@ -6,7 +6,22 @@ part of 'generate_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$generateNotifierHash() => r'9ae7f6ac8f1b5bd0582f22c8187dbe98371348b2';
+String _$hasPickedFileHash() => r'75fba6d5253680aba830ce471b70fc9adbe24545';
+
+/// See also [hasPickedFile].
+@ProviderFor(hasPickedFile)
+final hasPickedFileProvider = AutoDisposeProvider<bool>.internal(
+  hasPickedFile,
+  name: r'hasPickedFileProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$hasPickedFileHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef HasPickedFileRef = AutoDisposeProviderRef<bool>;
+String _$generateNotifierHash() => r'a6bf09a05b1073d66d96fcd73edb4bd1cd66d380';
 
 /// See also [GenerateNotifier].
 @ProviderFor(GenerateNotifier)

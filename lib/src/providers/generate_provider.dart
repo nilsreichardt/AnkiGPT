@@ -1,25 +1,21 @@
 import 'dart:async';
 
-import 'package:ankigpt/main.dart';
 import 'package:ankigpt/src/infrastructure/session_repository.dart';
 import 'package:ankigpt/src/infrastructure/user_repository.dart';
-import 'package:ankigpt/src/models/anki_card.dart';
+import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/models/input_type.dart';
-import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
-import 'package:ankigpt/src/providers/cards_list_provider.dart';
 import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/input_text_field_controller.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
-import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
+import 'package:ankigpt/src/providers/router_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
-import 'package:ankigpt/src/providers/slide_text_field_controller_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -32,29 +28,22 @@ part 'generate_provider.g.dart';
 class GenerateNotifier extends _$GenerateNotifier {
   Logger get _logger => ref.read(loggerProvider);
   TextEditingController get _textEditingController =>
-      ref.read(slideTextFieldControllerProvider);
+      ref.read(inputTextFieldControllerProvider);
   UserRepository get _userRepository => ref.read(userRepositoryProvider);
   SessionRepository get _sessionRepository =>
       ref.read(sessionRepositoryProvider);
   bool get _hasPlus => ref.read(hasPlusProvider);
-  FirebaseFirestore get _firestore => FirebaseFirestore.instance;
 
-  StreamSubscription<DocumentSnapshot<SessionDto>>? _subscription;
   PlatformFile? _pickedFile;
   bool get _hasPickedFile => _pickedFile != null;
 
   @override
   GenerateState build() {
-    ref.onDispose(() => _stopSubscription());
     return const GenerateState.initial();
   }
 
   Future<void> submit() async {
     final size = ref.read(generationSizeProvider);
-
-    // Stopping subscription because it could be running when watch() has been
-    // called before.
-    _stopSubscription();
 
     _logger.d("Generating cards...");
 
@@ -68,95 +57,46 @@ class GenerateNotifier extends _$GenerateNotifier {
       _validateTextInput(text);
     }
 
-    state = GenerateState.loading(
-      isUploadFile: _hasPickedFile,
-    );
+    state = const GenerateState.loading();
 
-    UserId? userId = _userRepository.getUserId();
-    if (!_userRepository.isSignedIn()) {
-      _logger.d("User is not signed in, signing in...");
-      userId = await _userRepository.signIn();
-    }
-
-    SessionId? sessionId;
-    if (_hasPickedFile) {
-      // If the user has picked a file, the client generates the session id. In
-      // the other case, the server generates it.
-      sessionId = _generateSessionId();
-      final successful = await _uploadFile(
-        sessionId: sessionId,
-        userId: userId!,
-      );
-      if (!successful) {
-        return;
+    try {
+      UserId? userId = _userRepository.getUserId();
+      if (!_userRepository.isSignedIn()) {
+        _logger.d("User is not signed in, signing in...");
+        userId = await _userRepository.signIn();
       }
 
-      state = GenerateState.loading(
-        sessionId: sessionId,
-        isUploadFile: false,
-      );
-    }
-
-    sessionId = await _sessionRepository.startSession(
-      numberOfCards: size.toInt(),
-      sessionId: sessionId,
-      input: Input(
-        text: text.isEmpty ? null : text,
-        type: _hasPickedFile ? InputType.file : InputType.text,
-        file: _hasPickedFile ? FileInput(name: _pickedFile!.name) : null,
-      ),
-    );
-
-    _subscription = _firestore
-        .collection('Sessions')
-        .doc(sessionId)
-        .withConverter(
-          fromFirestore: (doc, options) =>
-              SessionDto.fromJsonWithInjectedId(sessionId!, doc.data()!),
-          toFirestore: (_, __) => throw UnimplementedError(),
-        )
-        .snapshots()
-        .listen((event) {
-      final dto = event.data();
-      if (dto == null) {
-        return;
-      }
-
-      _logger.d("Received session dto with ${dto.cards?.length} cards");
-
-      if (dto.status == SessionStatus.error) {
-        _stopSubscription();
-        state = GenerateState.error(
-          message: dto.error!,
-          sessionId: sessionId!,
-          language: dto.language,
+      SessionId? sessionId = _generateSessionId();
+      if (_hasPickedFile) {
+        final successful = await _uploadFile(
+          sessionId: sessionId,
+          userId: userId!,
         );
-        return;
+        if (!successful) {
+          return;
+        }
       }
 
-      final cards = (dto.cards?.values.toList() ?? []);
-      ref.read(cardsListProvider.notifier).set(cards);
-
-      if (dto.status == SessionStatus.completed) {
-        state = GenerateState.success(
-          sessionId: sessionId!,
-          downloadUrl: dto.csv!.downloadUrl,
-          language: dto.language,
-        );
-        return;
-      }
-
-      if (dto.status == SessionStatus.stopped) {
-        _stopSubscription();
-        state = const GenerateState.initial();
-        return;
-      }
-
-      state = GenerateState.loading(
+      await _sessionRepository.startSession(
+        numberOfCards: size.toInt(),
         sessionId: sessionId,
-        language: dto.language,
+        input: Input(
+          text: text.isEmpty ? null : text,
+          type: _hasPickedFile ? InputType.file : InputType.text,
+          file: _hasPickedFile ? FileInput(name: _pickedFile!.name) : null,
+        ),
       );
-    });
+
+      _logger.d("Started session with id: $sessionId");
+
+      state = const GenerateState.initial();
+
+      final router = ref.read(routerProvider);
+      router.go('/deck/$sessionId');
+    } catch (e, s) {
+      _logger.e("Failed to generate cards", e, s);
+      state = GenerateState.error(message: '$e');
+    }
   }
 
   void _validateTextInput(String text) {
@@ -183,10 +123,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       _logger.d('Uploaded file');
       return true;
     } catch (e) {
-      state = GenerateState.error(
-        message: 'Failed to upload file: $e',
-        sessionId: sessionId,
-      );
+      state = GenerateState.error(message: 'Failed to upload file: $e');
       _logger.e('Failed to upload file', e);
       return false;
     }
@@ -196,83 +133,6 @@ class GenerateNotifier extends _$GenerateNotifier {
     final id = const Uuid().v4();
     _logger.d("Generated session id: $id");
     return id;
-  }
-
-  void _stopSubscription() {
-    if (_subscription != null) {
-      _logger.d("Stopping subscription for generating cards...");
-      _subscription?.cancel();
-    }
-  }
-
-  void watch({
-    required String sessionId,
-    WatchData? data,
-  }) {
-    ref.read(scrollControllerProvider).jumpTo(0);
-
-    if (data == null) {
-      state = const GenerateState.loading();
-    } else {
-      state = GenerateState.success(
-        sessionId: sessionId,
-        downloadUrl: data.downloadUrl,
-        language: data.language,
-      );
-    }
-
-    _subscription = _firestore
-        .collection('Sessions')
-        .doc(sessionId)
-        .withConverter(
-          fromFirestore: (doc, options) =>
-              SessionDto.fromJsonWithInjectedId(sessionId, doc.data()!),
-          toFirestore: (_, __) => throw UnimplementedError(),
-        )
-        .snapshots()
-        .listen((event) {
-      final dto = event.data();
-      if (dto == null) {
-        return;
-      }
-
-      _logger.d("Received session dto with ${dto.cards?.length} cards");
-
-      final cards = (dto.cards?.values.toList() ?? []);
-      ref.read(cardsListProvider.notifier).set(cards);
-
-      if (dto.csv == null) {
-        state = GenerateState.loading(
-          sessionId: sessionId,
-          language: dto.language,
-        );
-        return;
-      }
-
-      if (dto.status == SessionStatus.error) {
-        _stopSubscription();
-        state = GenerateState.error(
-          message: dto.error!,
-          sessionId: sessionId,
-          language: dto.language,
-        );
-        return;
-      }
-
-      ref.read(cardsListProvider.notifier).set(cards);
-      state = GenerateState.success(
-        sessionId: sessionId,
-        downloadUrl: dto.csv!.downloadUrl,
-        language: dto.language,
-      );
-    }, onError: (e) {
-      _stopSubscription();
-      _logger.e("Error while listening to session", e);
-      state = GenerateState.error(
-        message: 'Error while listening to session: $e',
-        sessionId: sessionId,
-      );
-    });
   }
 
   void reset() {
@@ -305,18 +165,6 @@ class GenerateNotifier extends _$GenerateNotifier {
   }
 }
 
-class WatchData {
-  final List<AnkiCard> cards;
-  final String downloadUrl;
-  final Language language;
-
-  const WatchData({
-    required this.cards,
-    required this.downloadUrl,
-    required this.language,
-  });
-}
-
 class TooShortInputException implements Exception {}
 
 class TooLongInputException implements Exception {}
@@ -333,4 +181,10 @@ class PickedFile extends _$PickedFile {
   void set(PlatformFile? value) {
     state = value;
   }
+}
+
+@riverpod
+bool hasPickedFile(HasPickedFileRef ref) {
+  final pickedFile = ref.watch(pickedFileProvider);
+  return pickedFile != null;
 }

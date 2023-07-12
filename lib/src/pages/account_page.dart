@@ -1,13 +1,16 @@
 import 'dart:async';
 
-import 'package:ankigpt/main.dart';
+import 'package:animations/animations.dart';
 import 'package:ankigpt/src/models/auth_provider.dart';
+import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
+import 'package:ankigpt/src/pages/widgets/cancel_text_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
+import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
-import 'package:ankigpt/src/pages/widgets/other_options.dart';
 import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
 import 'package:ankigpt/src/providers/account_view_provider.dart';
+import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
 import 'package:ankigpt/src/providers/sign_out_provider.dart';
@@ -28,25 +31,32 @@ class AccountPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Account'),
-        actions: const [
-          OthersOptions(),
-        ],
       ),
       body: SafeArea(
-        child: MaxWidthConstrainedBox(
-          maxWidth: 900,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: Container(
-                key: ValueKey(view.hashCode),
-                child: view.map(
-                  signedIn: (_) => const _SignedInSection(),
-                  signedOut: (_) => const _SignInSection(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height,
+                  maxWidth: 900,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: Container(
+                      key: ValueKey(view.hashCode),
+                      child: view.map(
+                        signedIn: (_) => const _SignedInSection(),
+                        signedOut: (_) => const _SignInSection(),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              const Footer(),
+            ],
           ),
         ),
       ),
@@ -183,34 +193,32 @@ class _SignInButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaxWidthConstrainedBox(
       maxWidth: 500,
-      child: InkWell(
+      child: AnkiGptCard(
         borderRadius: defaultAnkiGptBorderRadius,
-        onTap: () async {
+        onPressed: () async {
           try {
             await ref.read(signInProvider(authProvider: authProvider).future);
           } on Exception catch (e) {
             _showSnackBar(context, e);
           }
         },
-        child: AnkiGptCard(
-          padding: const EdgeInsets.all(16),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 26,
-                  height: 26,
-                  child: icon,
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  'Sign in with ${authProvider.toUiString()}',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ],
-            ),
+        padding: const EdgeInsets.all(16),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 26,
+                height: 26,
+                child: icon,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Sign in with ${authProvider.toUiString()}',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ],
           ),
         ),
       ),
@@ -229,7 +237,7 @@ class _DangerZoneCard extends StatelessWidget {
         borderRadius: defaultAnkiGptBorderRadius,
         child: AnkiGptCard(
           padding: const EdgeInsets.all(0),
-          color: Theme.of(context).colorScheme.error,
+          color: Theme.of(context).colorScheme.error.withOpacity(0.1),
           child: const Column(
             children: [
               _SignOutTile(),
@@ -283,13 +291,14 @@ class _SignOutTile extends ConsumerWidget {
       icon: const Icon(Icons.logout),
       title: const Text('Sign out'),
       onTap: () async {
-        final shouldSignOut = await showDialog<bool>(
+        final shouldSignOut = await showModal<bool>(
           context: context,
           builder: (_) => const _SignOutConfirmationDialog(),
         );
 
         if (shouldSignOut == true) {
           try {
+            ref.read(clearSessionStateProvider.notifier).clear();
             await ref.read(signOutProvider.future);
           } on Exception catch (e) {
             // ignore: use_build_context_synchronously
@@ -366,13 +375,10 @@ class _SignOutConfirmationDialog extends StatelessWidget {
       title: const Text('Sign out'),
       content: const Text('Are you sure you want to sign out?'),
       actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
-        ),
+        const CancelTextButton(),
         TextButton(
           onPressed: () => Navigator.of(context).pop(true),
-          child: const Text('Sign out'),
+          child: const Text('SIGN OUT'),
         ),
       ],
     );

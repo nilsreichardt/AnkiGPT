@@ -8,7 +8,10 @@ environment:
   sdk: ">=3.1.0-63.1.beta <4.0.0"
 
 dependencies:
+  animations: ^2.0.7
+  auto_size_text: ^3.0.0
   chewie: ^1.5.0
+  clock: ^1.1.1
   cloud_firestore: ^4.8.0
   cloud_functions: ^4.3.1
   collection: ^1.17.2
@@ -27,6 +30,7 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.0.6
   freezed_annotation: ^2.2.0
+  go_router: ^9.0.3
   google_sign_in: ^6.1.4
   intl: ^0.18.1
   json_annotation: ^4.8.1
@@ -42,6 +46,7 @@ dependencies:
   url_launcher: ^6.1.11
   uuid: ^3.0.7
   video_player: ^2.6.1
+  wolt_responsive_layout_grid: ^0.0.3
 
 dev_dependencies:
   flutter_test:
@@ -55,9 +60,32 @@ dev_dependencies:
   riverpod_lint: ^1.3.2
   riverpod_generator: ^2.2.3
   mockito: ^5.4.2
+  path: ^1.8.3
 
 flutter:
   uses-material-design: true
   assets:
     - assets/logo/
     - assets/icons/
+    - assets/images/
+  fonts:
+    - family: Ubuntu
+      fonts:
+        - asset: fonts/ubuntu/Ubuntu-Light.ttf
+          weight: 300
+        - asset: fonts/ubuntu/Ubuntu-LightItalic.ttf
+          style: italic
+          weight: 300
+        - asset: fonts/ubuntu/Ubuntu-Regular.ttf
+        - asset: fonts/ubuntu/Ubuntu-Italic.ttf
+          style: italic
+        - asset: fonts/ubuntu/Ubuntu-Medium.ttf
+          weight: 500
+        - asset: fonts/ubuntu/Ubuntu-MediumItalic.ttf
+          style: italic
+          weight: 500
+        - asset: fonts/ubuntu/Ubuntu-Bold.ttf
+          weight: 700
+        - asset: fonts/ubuntu/Ubuntu-BoldItalic.ttf
+          style: italic
+          weight: 700

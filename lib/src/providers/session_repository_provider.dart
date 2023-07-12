@@ -11,9 +11,11 @@ SessionRepository sessionRepository(SessionRepositoryRef ref) {
   final functions = ref.watch(cloudFunctionsProvider);
   final storage = ref.watch(firebaseStorageProvider);
   final routeUrl = ref.read(routeFunctionsUrlProvider);
+  final firestore = ref.read(cloudFirestoreProvider);
   return SessionRepository(
     functions: functions,
     routeFunctionsUrl: routeUrl,
     storage: storage,
+    firestore: firestore,
   );
 }

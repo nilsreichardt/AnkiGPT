@@ -6,7 +6,7 @@ part of 'stripe_checkout_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$stripeCheckoutHash() => r'22cb7cc56c862d98f759a2eff9097bb1e14f877f';
+String _$stripeCheckoutHash() => r'2113908e7ef2b12c2a76ac91865745407cdd7cbf';
 
 /// See also [StripeCheckout].
 @ProviderFor(StripeCheckout)

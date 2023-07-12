@@ -1,18 +1,20 @@
 import 'dart:math';
 
 import 'package:ankigpt/src/models/anki_card.dart';
-import 'package:ankigpt/src/models/generate_state.dart';
+import 'package:ankigpt/src/models/cards_list_view.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
+import 'package:ankigpt/src/providers/deck_page_scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cards_list_controller.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class CardsListController extends _$CardsListController {
-  static const int cardsPerPage = 25;
+  static const int cardsPerPage = 20;
 
-  // We need keep a copy of the current page because we can't access state.currentPage during the build method.
+  // We need keep a copy of the current page because we can't access
+  // state.currentPage during the build method.
   //
   // See https://github.com/rrousselGit/riverpod/issues/2663
   int _currentPage = 1;
@@ -40,16 +42,17 @@ class CardsListController extends _$CardsListController {
     }).toList();
   }
 
-  CardsListView _buildView(List<AnkiCard> cards, {required currentPage}) {
+  CardsListView _buildView(List<AnkiCard> cards, {required int currentPage}) {
+    _currentPage = currentPage;
     if (cards.isEmpty) {
-      return CardsListView.empty();
+      return CardsListView.empty(currentPage: currentPage);
     }
 
     final totalPages = (cards.length / cardsPerPage).ceil();
 
     int startIndex = _calcStartIndex(currentPage);
     while (startIndex >= cards.length) {
-      currentPage = currentPage! - 1;
+      currentPage = currentPage - 1;
       startIndex = _calcStartIndex(currentPage);
     }
 
@@ -57,10 +60,9 @@ class CardsListController extends _$CardsListController {
     final sortedCards = cards.toList()..sortByCreatedAt();
     final visibleCards = sortedCards.sublist(startIndex, endIndex);
 
-    _currentPage = currentPage;
     return CardsListView(
       cards: visibleCards,
-      currentPage: currentPage!,
+      currentPage: currentPage,
       totalPages: totalPages,
       canPressNext: currentPage < totalPages,
       canPressPrevious: currentPage > 1,
@@ -73,6 +75,7 @@ class CardsListController extends _$CardsListController {
     if (state.canPressNext) {
       final cards = ref.read(cardsListProvider);
       state = _buildView(cards, currentPage: state.currentPage + 1);
+      _scrolToTop();
     }
   }
 
@@ -80,12 +83,22 @@ class CardsListController extends _$CardsListController {
     if (state.canPressPrevious) {
       final cards = ref.read(cardsListProvider);
       state = _buildView(cards, currentPage: state.currentPage - 1);
+      _scrolToTop();
     }
   }
 
   void setPage(int page) {
     final cards = ref.read(cardsListProvider);
     state = _buildView(cards, currentPage: page);
+    _scrolToTop();
+  }
+
+  void _scrolToTop() {
+    final scrollController = ref.read(deckPageScrollControllerProvider);
+    // We do not scroll to the actual top because there is the input field. To
+    // provide a better user experience we scroll to the top of the cards list
+    // instead which is 250 pixels below the actual top.
+    scrollController.jumpTo(250);
   }
 }
 

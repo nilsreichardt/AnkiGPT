@@ -41,6 +41,21 @@
           "type": 302
         }
       ]
+    },
+    {
+      "target": "ankigpt-prod-playground",
+      "public": "build/web",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
     }
   ]
 }

@@ -18,27 +18,29 @@ class MockUrlLauncher extends Fake
   Map<String, String>? headers;
   String? webOnlyWindowName;
 
-  bool? response;
+  /// The response that [canLaunch] should return.
+  ///
+  /// Defaults to `true`.
+  bool response = true;
 
   bool closeWebViewCalled = false;
   bool canLaunchCalled = false;
   bool launchCalled = false;
 
-  // ignore: use_setters_to_change_properties
   void setCanLaunchExpectations(String url) {
     this.url = url;
   }
 
   void setLaunchExpectations({
     required String url,
-    PreferredLaunchMode? launchMode,
+    PreferredLaunchMode? launchMode = PreferredLaunchMode.platformDefault,
     bool? useSafariVC,
     bool? useWebView,
-    required bool enableJavaScript,
-    required bool enableDomStorage,
-    required bool universalLinksOnly,
-    required Map<String, String> headers,
-    required String? webOnlyWindowName,
+    bool enableJavaScript = true,
+    bool enableDomStorage = true,
+    bool universalLinksOnly = false,
+    Map<String, String> headers = const <String, String>{},
+    String? webOnlyWindowName,
   }) {
     this.url = url;
     this.launchMode = launchMode;
@@ -63,7 +65,7 @@ class MockUrlLauncher extends Fake
   Future<bool> canLaunch(String url) async {
     expect(url, this.url);
     canLaunchCalled = true;
-    return response!;
+    return response;
   }
 
   @override
@@ -86,7 +88,7 @@ class MockUrlLauncher extends Fake
     expect(headers, this.headers);
     expect(webOnlyWindowName, this.webOnlyWindowName);
     launchCalled = true;
-    return response!;
+    return response;
   }
 
   @override
@@ -98,7 +100,7 @@ class MockUrlLauncher extends Fake
     expect(options.webViewConfiguration.headers, headers);
     expect(options.webOnlyWindowName, webOnlyWindowName);
     launchCalled = true;
-    return response!;
+    return response;
   }
 
   @override

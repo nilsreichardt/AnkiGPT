@@ -1,76 +1,138 @@
+import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
-import 'package:flutter/gestures.dart';
+import 'package:ankigpt/src/providers/version_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-// ignore: depend_on_referenced_packages
-import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
-import '../../mocks/mock_url_launcher_platform.dart';
+import '../../utils/pump_ankigpt_app.dart';
+import '../../utils/test_link_util.dart';
 
 void main() {
-  group('Footer', () {
-    testWidgets('should open WhatsApp link when users click on feedback link',
-        (tester) async {
-      final mock = MockUrlLauncher();
-      UrlLauncherPlatform.instance = mock;
-
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: Footer(releaseDate: 'June 1'),
+  group(Footer, () {
+    Widget getBody() {
+      return const Align(
+        alignment: Alignment.bottomCenter,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Footer(),
+            ],
           ),
         ),
       );
+    }
 
-      mock
-        ..setLaunchExpectations(
-          url: 'https://wa.me/4915229504121',
-          launchMode: PreferredLaunchMode.platformDefault,
-          universalLinksOnly: false,
-          enableJavaScript: true,
-          enableDomStorage: true,
-          headers: <String, String>{},
-          webOnlyWindowName: null,
-        )
-        ..setResponse(true);
+    Future<void> pumpFooter(
+      WidgetTester tester, {
+      String version = '1.0.0',
+    }) async {
+      await pumpAnkiGptApp(
+        tester: tester,
+        overrides: [
+          versionProvider.overrideWith((ref) => version),
+        ],
+        body: getBody(),
+      );
+    }
 
-      final RichText textWidget = tester.widget(find.byType(RichText));
-      final TextSpan span = textWidget.text as TextSpan;
-
-      // Copied from https://github.com/flutter/packages/blob/main/packages/url_launcher/url_launcher/test/link_test.dart
-      final List<Type> gestureRecognizerTypes = <Type>[];
-      span.visitChildren((InlineSpan inlineSpan) {
-        if (inlineSpan is TextSpan) {
-          final TapGestureRecognizer? recognizer =
-              inlineSpan.recognizer as TapGestureRecognizer?;
-          gestureRecognizerTypes.add(recognizer?.runtimeType ?? Null);
-          if (recognizer != null) {
-            recognizer.onTap!();
-          }
-        }
-        return true;
+    group('Product', () {
+      testWidgets('opens GitHub, when clicks on "Source Code"', (tester) async {
+        await testLink(
+          tester: tester,
+          pumpWidget: pumpFooter,
+          find: find.text('Source Code'),
+          uri: 'https://github.com/nilsreichardt/ankigpt',
+        );
       });
 
-      expect(mock.launchCalled, isTrue);
+      testWidgets('opens support link, when clicks on "Feedback"',
+          (tester) async {
+        await testLink(
+          tester: tester,
+          pumpWidget: pumpFooter,
+          find: find.text('Feedback'),
+          uri: 'https://ankigpt.help/support',
+        );
+      });
     });
 
-    testGoldens('renders as excepcted', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          builder: (context, child) {
-            if (child == null) return const SizedBox();
-            return Column(
-              children: [
-                Expanded(child: child),
-                const Footer(releaseDate: 'June 1'),
+    group('Contact', () {
+      testWidgets('opens support link, when clicks on "WhatsApp"',
+          (tester) async {
+        await testLink(
+          tester: tester,
+          pumpWidget: pumpFooter,
+          find: find.text('WhatsApp'),
+          uri: 'https://ankigpt.help/support',
+        );
+      });
+
+      testWidgets('opens email, when clicks on "Email"', (tester) async {
+        await testLink(
+          tester: tester,
+          pumpWidget: pumpFooter,
+          find: find.text('Email'),
+          uri: 'mailto:support@ankigpt.help',
+        );
+      });
+    });
+
+    group('Legal', () {
+      testWidgets('opens terms of service, when clicks on "Terms of Service"',
+          (tester) async {
+        await testLink(
+          tester: tester,
+          pumpWidget: pumpFooter,
+          find: find.text('Terms of Service'),
+          uri: 'https://ankigpt.help/terms-of-service',
+        );
+      });
+
+      testWidgets('opens privacy policy, when clicks on "Privacy Policy"',
+          (tester) async {
+        await testLink(
+          tester: tester,
+          pumpWidget: pumpFooter,
+          find: find.text('Privacy Policy'),
+          uri: 'https://ankigpt.help/privacy-policy',
+        );
+      });
+
+      testWidgets('opens imprint, when clicks on "Imprint"', (tester) async {
+        final router = GoRouter(
+          routes: [
+            GoRoute(
+              path: '/',
+              builder: (context, state) => Scaffold(body: getBody()),
+              routes: [
+                GoRoute(
+                  path: 'imprint',
+                  builder: (context, state) => const ImprintPage(),
+                ),
               ],
-            );
-          },
-          home: const Scaffold(),
-        ),
-      );
-      await screenMatchesGolden(tester, 'footer');
+            ),
+          ],
+        );
+        await pumpAnkiGptAppWithRouter(
+          tester: tester,
+          router: router,
+        );
+
+        await tester.tap(find.text('Imprint'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(ImprintPage), findsOneWidget);
+      });
+    });
+
+    testGoldens('renders as expected', (tester) async {
+      await pumpFooter(tester);
+
+      await multiScreenGolden(tester, 'footer');
     });
   });
 }

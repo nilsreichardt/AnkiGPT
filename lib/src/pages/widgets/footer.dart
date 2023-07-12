@@ -5,6 +5,7 @@ import 'package:ankigpt/src/pages/widgets/social_media_icon_button.dart';
 import 'package:ankigpt/src/providers/version_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wolt_responsive_layout_grid/wolt_responsive_layout_grid.dart';
 
@@ -92,7 +93,7 @@ class _LegalLinks extends StatelessWidget {
           Uri.parse('https://ankigpt.help/terms-of-service')
         ),
         ('Privacy Policy', Uri.parse('https://ankigpt.help/privacy-policy')),
-        ('Imprint', Uri.parse('https://ankigpt.help/imprint')),
+        ('Imprint', Uri.parse('/imprint')),
       ],
     );
   }
@@ -215,7 +216,13 @@ class _LinksList extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 18),
               child: InkWell(
-                onTap: () => launchUrl(link.$2),
+                onTap: () {
+                  if (link.$2.scheme.isEmpty) {
+                    context.go('${link.$2}');
+                  } else {
+                    launchUrl(link.$2);
+                  }
+                },
                 child: Text(link.$1),
               ),
             ),

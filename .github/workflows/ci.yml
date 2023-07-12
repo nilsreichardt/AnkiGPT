@@ -19,6 +19,19 @@ jobs:
       - name: Analyze
         run: flutter analyze
 
+  custom-lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+
+      - name: Install Dart
+        uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
+        with:
+          sdk: beta
+
+      - name: Custom Lint
+        run: dart run custom_lint
+
   format:
     runs-on: ubuntu-22.04
     steps:

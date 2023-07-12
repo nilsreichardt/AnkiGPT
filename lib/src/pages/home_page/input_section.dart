@@ -163,22 +163,22 @@ class _PickedFileButton extends ConsumerWidget {
     final pickedFile = ref.watch(pickedFileProvider);
     final isLoading =
         ref.watch(generateNotifierProvider) is GenerationStateLoading;
-    return SizedBox(
-      width: double.infinity,
-      child: AnkiGptCard(
-        onPressed: isLoading
-            ? null
-            : () {
-                final hasPlus = ref.read(hasPlusProvider);
-                if (!hasPlus) {
-                  showPlusDialog(context);
-                  return;
-                }
+    return AnkiGptCard(
+      onPressed: isLoading
+          ? null
+          : () {
+              final hasPlus = ref.read(hasPlusProvider);
+              if (!hasPlus) {
+                showPlusDialog(context);
+                return;
+              }
 
-                ref.read(generateNotifierProvider.notifier).pickFile();
-              },
-        borderRadius: borderRadius,
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              ref.read(generateNotifierProvider.notifier).pickFile();
+            },
+      borderRadius: borderRadius,
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      child: SizedBox(
+        width: double.infinity,
         child: Stack(
           alignment: Alignment.center,
           children: [

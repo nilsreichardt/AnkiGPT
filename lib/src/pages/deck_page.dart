@@ -4,6 +4,8 @@ import 'package:ankigpt/src/pages/session_page/result_section.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/input_text_field.dart';
+import 'package:ankigpt/src/providers/cards_list_controller.dart';
+import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
@@ -14,9 +16,11 @@ class DeckPage extends ConsumerStatefulWidget {
   const DeckPage({
     super.key,
     required this.sessionId,
+    this.page,
   });
 
   final SessionId? sessionId;
+  final int? page;
 
   @override
   ConsumerState<DeckPage> createState() => _SessionPageState();
@@ -28,14 +32,21 @@ class _SessionPageState extends ConsumerState<DeckPage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      final logger = ref.read(loggerProvider);
+
       final sessionId = widget.sessionId;
-      if (sessionId == null) {
-        return;
+      if (sessionId != null) {
+        ref
+            .read(watchProvider(sessionId).notifier)
+            .watch(sessionId: widget.sessionId!);
+        logger.v('Watch session: $sessionId');
       }
 
-      ref
-          .read(watchProvider(sessionId).notifier)
-          .watch(sessionId: widget.sessionId!);
+      final page = widget.page;
+      if (page != null) {
+        ref.read(cardsListControllerProvider.notifier).setPage(page);
+        logger.v('Set page: $page');
+      }
     });
   }
 

@@ -15,10 +15,10 @@ class CardsListView with _$CardsListView {
     required bool canPressPrevious,
   }) = _CardsListView;
 
-  factory CardsListView.empty() {
-    return const CardsListView(
+  factory CardsListView.empty({int currentPage = 1}) {
+    return CardsListView(
       cards: [],
-      currentPage: 1,
+      currentPage: currentPage,
       totalPages: 1,
       canPressNext: false,
       canPressPrevious: false,

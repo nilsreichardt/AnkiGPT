@@ -6,6 +6,20 @@ import 'package:ankigpt/src/providers/cards_list_controller.dart';
 import 'package:ankigpt/src/providers/scroll_controller_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+void _goToPage(BuildContext context, int page) {
+  final location = GoRouterState.of(context).location;
+  final currentUri = Uri.parse(location);
+  context.go(
+    currentUri.replace(
+      queryParameters: {
+        ...currentUri.queryParameters,
+        'page': '$page',
+      },
+    ).toString(),
+  );
+}
 
 class PaginationControl extends ConsumerWidget {
   const PaginationControl({
@@ -102,8 +116,10 @@ class _PageNumberInactive extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
-      onTap: () =>
-          ref.read(cardsListControllerProvider.notifier).setPage(pageNumber),
+      onTap: () {
+        _goToPage(context, pageNumber);
+        ref.read(cardsListControllerProvider.notifier).setPage(pageNumber);
+      },
       borderRadius: BorderRadius.circular(5),
       child: _PageNumberBase(
         text: '$pageNumber',
@@ -165,7 +181,12 @@ class _PreviousButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return TextButton.icon(
       onPressed: isEnabled
-          ? () => ref.read(cardsListControllerProvider.notifier).previousPage()
+          ? () {
+              final currentPage =
+                  ref.read(cardsListControllerProvider).currentPage;
+              _goToPage(context, currentPage - 1);
+              ref.read(cardsListControllerProvider.notifier).previousPage();
+            }
           : null,
       label: const Text('Previous'),
       icon: const Icon(Icons.arrow_back),
@@ -184,7 +205,12 @@ class _NextButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return TextButton.icon(
       onPressed: isEnabled
-          ? () => ref.read(cardsListControllerProvider.notifier).nextPage()
+          ? () {
+              final currentPage =
+                  ref.read(cardsListControllerProvider).currentPage;
+              _goToPage(context, currentPage + 1);
+              ref.read(cardsListControllerProvider.notifier).nextPage();
+            }
           : null,
       style: TextButton.styleFrom(),
       // Icons and label are swapped because of the directionality.

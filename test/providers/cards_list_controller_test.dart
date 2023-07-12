@@ -72,6 +72,14 @@ void main() {
       expect(view.canPressPrevious, true);
     });
 
+    test('sets page number even when cards list is empty', () {
+      container.read(cardsListProvider.notifier).set([]);
+
+      container.read(cardsListControllerProvider.notifier).setPage(2);
+      final view = container.read(cardsListControllerProvider);
+      expect(view.currentPage, 2);
+    });
+
     test('should correctly switch to the previous page', () {
       // Move to the second page first to test going back.
       container.read(cardsListControllerProvider.notifier).nextPage();

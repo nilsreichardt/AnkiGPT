@@ -12,7 +12,8 @@ part 'cards_list_controller.g.dart';
 class CardsListController extends _$CardsListController {
   static const int cardsPerPage = 20;
 
-  // We need keep a copy of the current page because we can't access state.currentPage during the build method.
+  // We need keep a copy of the current page because we can't access
+  // state.currentPage during the build method.
   //
   // See https://github.com/rrousselGit/riverpod/issues/2663
   int _currentPage = 1;
@@ -40,16 +41,17 @@ class CardsListController extends _$CardsListController {
     }).toList();
   }
 
-  CardsListView _buildView(List<AnkiCard> cards, {required currentPage}) {
+  CardsListView _buildView(List<AnkiCard> cards, {required int currentPage}) {
+    _currentPage = currentPage;
     if (cards.isEmpty) {
-      return CardsListView.empty();
+      return CardsListView.empty(currentPage: currentPage);
     }
 
     final totalPages = (cards.length / cardsPerPage).ceil();
 
     int startIndex = _calcStartIndex(currentPage);
     while (startIndex >= cards.length) {
-      currentPage = currentPage! - 1;
+      currentPage = currentPage - 1;
       startIndex = _calcStartIndex(currentPage);
     }
 
@@ -57,10 +59,9 @@ class CardsListController extends _$CardsListController {
     final sortedCards = cards.toList()..sortByCreatedAt();
     final visibleCards = sortedCards.sublist(startIndex, endIndex);
 
-    _currentPage = currentPage;
     return CardsListView(
       cards: visibleCards,
-      currentPage: currentPage!,
+      currentPage: currentPage,
       totalPages: totalPages,
       canPressNext: currentPage < totalPages,
       canPressPrevious: currentPage > 1,

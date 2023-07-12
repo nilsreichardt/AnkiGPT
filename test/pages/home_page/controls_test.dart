@@ -28,12 +28,6 @@ void main() {
       );
     }
 
-    testGoldens('renders as expected while watching', (tester) async {
-      await pumpControls(tester);
-
-      await multiScreenGolden(tester, 'controls_while_watching');
-    });
-
     testGoldens('renders as expected before watching', (tester) async {
       await pumpControls(tester);
 

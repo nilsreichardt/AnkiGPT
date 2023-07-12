@@ -89,7 +89,10 @@ class GenerateNotifier extends _$GenerateNotifier {
 
       _logger.d("Started session with id: $sessionId");
 
+      // Reset state
       state = const GenerateState.initial();
+      ref.read(pickedFileProvider.notifier).set(null);
+      ref.read(generationSizeProvider.notifier).set(GenerationSize.defaultSize);
 
       final router = ref.read(routerProvider);
       router.go('/deck/$sessionId');

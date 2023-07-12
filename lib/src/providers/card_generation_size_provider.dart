@@ -5,9 +5,11 @@ part 'card_generation_size_provider.g.dart';
 
 @riverpod
 class GenerationSize extends _$GenerationSize {
+  static const defaultSize = CardGenrationSize.ten;
+
   @override
   CardGenrationSize build() {
-    return CardGenrationSize.ten;
+    return defaultSize;
   }
 
   void set(CardGenrationSize size) {

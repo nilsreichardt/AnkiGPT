@@ -7,6 +7,7 @@ import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutSection extends ConsumerWidget {
   const AboutSection({super.key});
@@ -153,6 +154,10 @@ class _ThanksToNiklas extends StatelessWidget {
           decoration: TextDecoration.underline,
         ),
       ),
+      onTapLink: (_, href, __) {
+        if (href == null) return;
+        launchUrl(Uri.parse(href));
+      },
     );
   }
 }

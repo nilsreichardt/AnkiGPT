@@ -11,6 +11,7 @@ import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
@@ -388,21 +389,18 @@ class _LoadingButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sessionId = ref.watch(sessionIdProvider) ?? 'does-not-exist';
-    final isLoading =
-        ref.watch(watchProvider(sessionId).select((view) => view.isLoading));
+    final view = ref.watch(watchProvider(sessionId));
+    final isSearchLoading = ref.watch(isSearchLoadingProvider);
+    final isLoading = view.isLoading || isSearchLoading;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 200),
       child: isLoading
-          ? Padding(
-              padding: const EdgeInsets.only(right: 18),
-              child: Tooltip(
-                key: super.key,
-                message: 'Generating Cards...',
-                child: const SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: CircularProgressIndicator(),
-                ),
+          ? const Padding(
+              padding: EdgeInsets.only(right: 18),
+              child: SizedBox(
+                height: 25,
+                width: 25,
+                child: CircularProgressIndicator(),
               ),
             )
           : const SizedBox(),

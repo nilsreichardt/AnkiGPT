@@ -125,10 +125,21 @@ class _OptionsButton extends StatelessWidget {
   }
 }
 
-class _GenerateButton extends ConsumerWidget {
+class _GenerateButton extends ConsumerStatefulWidget {
   const _GenerateButton();
 
-  Future<void> generate(BuildContext context, WidgetRef ref) async {
+  @override
+  ConsumerState<_GenerateButton> createState() => _GenerateButtonState();
+}
+
+class _GenerateButtonState extends ConsumerState<_GenerateButton> {
+  bool isLoading = false;
+
+  Future<void> generate() async {
+    setState(() {
+      isLoading = true;
+    });
+
     try {
       await ref.read(generateNotifierProvider.notifier).submit();
     } catch (e) {
@@ -151,23 +162,25 @@ class _GenerateButton extends ConsumerWidget {
       }
 
       context.showTextSnackBar('$e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final sessionId = ref.watch(sessionIdProvider);
     final isWatchingSession = sessionId != null;
-    final isEnabled = !isWatchingSession;
+    final isEnabled = !isWatchingSession && !isLoading;
     return AnkiGptElevatedButton.icon(
       tooltip: isEnabled ? 'Generate flashcards' : '',
       icon: const Icon(Icons.play_arrow),
       label: const Text('Generate'),
       center: context.isMobile,
       isEnabled: isEnabled,
-      onPressed: () {
-        showInputTooLong(context);
-      },
+      onPressed: generate,
     );
   }
 }

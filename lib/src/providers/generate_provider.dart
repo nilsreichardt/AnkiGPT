@@ -13,6 +13,7 @@ import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/input_text_field_controller.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
+import 'package:ankigpt/src/providers/router_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:file_picker/file_picker.dart';
@@ -93,6 +94,9 @@ class GenerateNotifier extends _$GenerateNotifier {
     );
 
     _logger.d("Started session with id: $sessionId");
+
+    final router = ref.read(routerProvider);
+    router.go('/deck/$sessionId');
   }
 
   void _validateTextInput(String text) {

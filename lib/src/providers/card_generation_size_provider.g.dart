@@ -6,7 +6,7 @@ part of 'card_generation_size_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$generationSizeHash() => r'dfe86e2f56c18e587c38cb90b2ef55c97a10c8b8';
+String _$generationSizeHash() => r'4052d0761579c36540ea35eb9f471579909550da';
 
 /// See also [GenerationSize].
 @ProviderFor(GenerationSize)

@@ -1,10 +1,11 @@
-import 'package:ankigpt/src/providers/package_info_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'version_provider.g.dart';
 
 @Riverpod(dependencies: [])
-Future<String> version(VersionRef ref) async {
-  final packageInfo = await ref.watch(packageInfoProvider.future);
-  return packageInfo.version;
+String version(VersionRef ref) {
+  return const String.fromEnvironment(
+    'RELEASE_DATE',
+    defaultValue: 'Jan 1 2023',
+  );
 }

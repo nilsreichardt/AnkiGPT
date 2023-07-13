@@ -29,7 +29,7 @@ void main() {
 
     Future<void> pumpFooter(
       WidgetTester tester, {
-      String version = '1.0.0',
+      String version = 'Apr 1 2023',
       WindowConfigData? variant,
     }) async {
       await pumpAnkiGptApp(

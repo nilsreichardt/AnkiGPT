@@ -161,13 +161,9 @@ class _Version extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final future = ref.watch(versionProvider);
+    final version = ref.watch(versionProvider);
     return Text(
-      future.when(
-        data: (v) => 'v$v',
-        error: (e, s) => 'v0.0.0',
-        loading: () => 'v...',
-      ),
+      '$version Version',
       style: TextStyle(
         color: Colors.grey[600],
         fontSize: 12,

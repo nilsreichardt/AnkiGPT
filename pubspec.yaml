@@ -49,13 +49,17 @@ dependencies:
   wolt_responsive_layout_grid: ^0.0.3
 
 dev_dependencies:
+  # Using a fork because adaptive_test couldn't load the fonts.
+  adaptive_test:
+    git:
+      url: https://github.com/nilsreichardt/adaptive_test
+      ref: 7768b756e1298e888d902c98742b2de02089a8df
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
   freezed: ^2.3.4
   build_runner: ^2.4.5
   json_serializable: ^6.7.0
-  golden_toolkit: ^0.15.0
   custom_lint: ^0.4.0
   riverpod_lint: ^1.3.2
   riverpod_generator: ^2.2.3

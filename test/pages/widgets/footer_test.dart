@@ -1,10 +1,11 @@
+import 'package:adaptive_test/adaptive_test.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/providers/version_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
 
 import '../../utils/pump_ankigpt_app.dart';
 import '../../utils/test_link_util.dart';
@@ -29,9 +30,11 @@ void main() {
     Future<void> pumpFooter(
       WidgetTester tester, {
       String version = '1.0.0',
+      WindowConfigData? variant,
     }) async {
       await pumpAnkiGptApp(
         tester: tester,
+        variant: variant,
         overrides: [
           versionProvider.overrideWith((ref) => version),
         ],
@@ -129,10 +132,13 @@ void main() {
       });
     });
 
-    testGoldens('renders as expected', (tester) async {
-      await pumpFooter(tester);
+    testAdaptiveWidgets('renders as expected', (tester, variant) async {
+      await pumpFooter(tester, variant: variant);
 
-      await multiScreenGolden(tester, 'footer');
+      await tester.expectGolden<ProviderScope>(
+        variant,
+        suffix: 'footer',
+      );
     });
   });
 }

@@ -1,11 +1,12 @@
 import 'dart:math';
 
+import 'package:adaptive_test/adaptive_test.dart';
 import 'package:ankigpt/src/models/deck_preview.dart';
 import 'package:ankigpt/src/pages/home_page/my_decks_section.dart';
 import 'package:ankigpt/src/providers/deck_list_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
 
 import '../../utils/pump_ankigpt_app.dart';
 
@@ -20,9 +21,11 @@ void main() {
     Future<void> pumpMyDecksSection(
       WidgetTester tester, {
       List<DeckPreview> decks = const [],
+      WindowConfigData? variant,
     }) async {
       await pumpAnkiGptApp(
         tester: tester,
+        variant: variant,
         body: const SingleChildScrollView(
           child: MyDecksSection(
             isTesting: true,
@@ -34,7 +37,7 @@ void main() {
       );
     }
 
-    testGoldens('renders as expected', (tester) async {
+    testAdaptiveWidgets('renders as expected', (tester, variant) async {
       final decks = [
         DeckPreview.created(
           questions: _generateQuestions(random),
@@ -55,9 +58,16 @@ void main() {
           numberOfCards: random.nextInt(100),
         ),
       ];
-      await pumpMyDecksSection(tester, decks: decks);
+      await pumpMyDecksSection(
+        tester,
+        decks: decks,
+        variant: variant,
+      );
 
-      await multiScreenGolden(tester, 'my_decks_section');
+      await tester.expectGolden<ProviderScope>(
+        variant,
+        suffix: 'my_decks_section',
+      );
     });
   });
 }

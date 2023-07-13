@@ -1,3 +1,4 @@
+import 'package:adaptive_test/adaptive_test.dart';
 import 'package:ankigpt/src/infrastructure/buy_repository.dart';
 import 'package:ankigpt/src/pages/account_page.dart';
 import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
@@ -6,9 +7,11 @@ import 'package:ankigpt/src/providers/buy_repostiroy_provider.dart.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -33,23 +36,39 @@ void main() {
       );
     });
 
+    Widget getBody() {
+      return const SingleChildScrollView(
+        child: PricingSection(),
+      );
+    }
+
     Future<void> pumpPricingSection(
       WidgetTester tester, {
       required bool hasAccount,
+      WindowConfigData? variant,
+      GoRouter? router,
     }) async {
-      await pumpAnkiGptApp(
-        tester: tester,
-        body: const SingleChildScrollView(
-          child: PricingSection(),
-        ),
-        overrides: [
-          buyRepositoryProvider.overrideWithValue(mockBuyRepository),
-          loggerProvider.overrideWithValue(MockLogger()),
-          hasAccount2Provider.overrideWithValue(hasAccount),
-          accountViewProvider.overrideWithValue(const AccountView.signedOut()),
-          hasPlusProvider.overrideWithValue(false),
-        ],
-      );
+      final overrides = [
+        buyRepositoryProvider.overrideWithValue(mockBuyRepository),
+        loggerProvider.overrideWithValue(MockLogger()),
+        hasAccount2Provider.overrideWithValue(hasAccount),
+        accountViewProvider.overrideWithValue(const AccountView.signedOut()),
+        hasPlusProvider.overrideWithValue(false),
+      ];
+      if (router == null) {
+        await pumpAnkiGptApp(
+          tester: tester,
+          variant: variant,
+          body: getBody(),
+          overrides: overrides,
+        );
+      } else {
+        await pumpAnkiGptAppWithRouter(
+          tester: tester,
+          router: router,
+          overrides: overrides,
+        );
+      }
     }
 
     testWidgets('opens stripe session clicking buy button', (tester) async {
@@ -72,7 +91,21 @@ void main() {
 
     testWidgets('should open /account page when user has no account',
         (tester) async {
-      await pumpPricingSection(tester, hasAccount: false);
+      final router = GoRouter(
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, state) => Scaffold(body: getBody()),
+            routes: [
+              GoRoute(
+                path: 'account',
+                builder: (context, state) => const AccountPage(),
+              ),
+            ],
+          ),
+        ],
+      );
+      await pumpPricingSection(tester, hasAccount: false, router: router);
 
       await tester.tap(find.text('Buy'));
       await tester.pumpAndSettle();
@@ -80,10 +113,17 @@ void main() {
       expect(find.byType(AccountPage), findsOneWidget);
     });
 
-    testGoldens('renders correctly', (tester) async {
-      await pumpPricingSection(tester, hasAccount: false);
+    testAdaptiveWidgets('renders correctly', (tester, variant) async {
+      await pumpPricingSection(
+        tester,
+        hasAccount: false,
+        variant: variant,
+      );
 
-      await multiScreenGolden(tester, 'pricing_section');
+      await tester.expectGolden<ProviderScope>(
+        variant,
+        suffix: 'pricing_section',
+      );
     });
   });
 }

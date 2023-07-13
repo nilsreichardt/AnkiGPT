@@ -1,3 +1,4 @@
+import 'package:adaptive_test/adaptive_test.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
@@ -8,8 +9,8 @@ import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/shared_preferences_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,6 +48,7 @@ void main() {
       WidgetTester tester, {
       List<AnkiCard> cards = const [],
       WatchView view = const WatchView(),
+      WindowConfigData? variant,
     }) async {
       const sessionId = 'session-id';
       await pumpAnkiGptApp(
@@ -68,7 +70,8 @@ void main() {
       );
     }
 
-    testGoldens('renders error cards on error as expected', (tester) async {
+    testAdaptiveWidgets('renders error cards on error as expected',
+        (tester, variant) async {
       final cards = generateDummyCards(2);
       const view = WatchView(
         downloadUrl: 'https://example.com',
@@ -79,14 +82,19 @@ void main() {
       );
       await pumpResultSection(
         tester,
+        variant: variant,
         view: view,
         cards: cards,
       );
 
-      await screenMatchesGolden(tester, 'result_section_error');
+      await tester.expectGolden<ProviderScope>(
+        variant,
+        suffix: 'result_error_cards',
+      );
     });
 
-    testGoldens('renders empty state as expected', (tester) async {
+    testAdaptiveWidgets('renders empty state as expected',
+        (tester, variant) async {
       const view = WatchView(
         downloadUrl: 'https://example.com',
         isLoading: false,
@@ -95,14 +103,19 @@ void main() {
       );
       await pumpResultSection(
         tester,
+        variant: variant,
         view: view,
         cards: [],
       );
 
-      await screenMatchesGolden(tester, 'result_section_empty');
+      await tester.expectGolden<ProviderScope>(
+        variant,
+        suffix: 'result_empty',
+      );
     });
 
-    testGoldens('renders as exepcted with cards', (tester) async {
+    testAdaptiveWidgets('renders as exepcted with cards',
+        (tester, variant) async {
       final cards = generateDummyCards(50);
       const view = WatchView(
         downloadUrl: 'https://example.com',
@@ -112,11 +125,15 @@ void main() {
       );
       await pumpResultSection(
         tester,
+        variant: variant,
         cards: cards,
         view: view,
       );
 
-      await multiScreenGolden(tester, 'result_section_with_cards');
+      await tester.expectGolden<ProviderScope>(
+        variant,
+        suffix: 'result_with_cards',
+      );
     });
   }, skip: 'https://github.com/rrousselGit/riverpod/issues/2047');
 }

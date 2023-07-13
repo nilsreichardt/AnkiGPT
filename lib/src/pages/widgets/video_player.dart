@@ -73,30 +73,27 @@ class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.7,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: AspectRatio(
-          aspectRatio: widget.aspectRatio,
-          child: Center(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                if (UniversalPlatform.isMacOS)
-                  Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    decoration: const BoxDecoration(color: Colors.orange),
-                  )
-                else
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    child: _chewieController == null
-                        ? const SizedBox.shrink()
-                        : Chewie(controller: _chewieController!),
-                  ),
-                if (error != null) _ErrorText(error: error!)
-              ],
-            ),
+      child: AspectRatio(
+        aspectRatio: widget.aspectRatio,
+        child: Center(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              if (UniversalPlatform.isMacOS)
+                Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: const BoxDecoration(color: Colors.orange),
+                )
+              else
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: _chewieController == null
+                      ? const SizedBox.shrink()
+                      : Chewie(controller: _chewieController!),
+                ),
+              if (error != null) _ErrorText(error: error!)
+            ],
           ),
         ),
       ),

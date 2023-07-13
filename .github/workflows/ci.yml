@@ -19,6 +19,26 @@ jobs:
       - name: Analyze
         run: flutter analyze
 
+  # Since custom_lint can't run with "flutter analyze", we need to run it
+  # separately.
+  #
+  # See: https://pub.dev/packages/custom_lint#obtaining-the-list-of-lints-in-the-ci
+  custom-lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
+
+      - uses: subosito/flutter-action@main
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+
+      - name: Custom Lint
+        run: dart run custom_lint
+
   format:
     runs-on: ubuntu-22.04
     steps:

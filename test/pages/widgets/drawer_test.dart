@@ -1,8 +1,9 @@
+import 'package:adaptive_test/adaptive_test.dart';
 import 'package:ankigpt/src/pages/home_page/drawer.dart';
 import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
 
 import '../../utils/pump_ankigpt_app.dart';
 
@@ -11,9 +12,11 @@ void main() {
     Future<void> pumpHomePageDrawer(
       WidgetTester tester, {
       bool isSignedIn = false,
+      WindowConfigData? variant,
     }) async {
       await pumpAnkiGptApp(
         tester: tester,
+        variant: variant,
         drawer: const HomePageDrawer(),
         body: Builder(builder: (context) {
           return ElevatedButton(
@@ -47,13 +50,16 @@ void main() {
       expect(find.text('Demo'), findsNothing);
     });
 
-    testGoldens('renders as expected', (tester) async {
-      await pumpHomePageDrawer(tester);
+    testAdaptiveWidgets('renders as expected', (tester, variant) async {
+      await pumpHomePageDrawer(tester, variant: variant);
 
       await tester.tap(find.text('Open Drawer'));
       await tester.pumpAndSettle();
 
-      await multiScreenGolden(tester, 'home_page_drawer');
+      await tester.expectGolden<ProviderScope>(
+        variant,
+        suffix: 'drawer',
+      );
     });
   });
 }

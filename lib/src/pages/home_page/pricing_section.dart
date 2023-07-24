@@ -80,7 +80,7 @@ class _FreeTier extends ConsumerWidget {
       price: '€0',
       points: const [
         PointData('Up to 20 cards per request'),
-        PointData('Up to 5,000 input characters per request'),
+        PointData('Up to 4,000 input characters per request'),
         PointData('Delete, edit & search cards'),
       ],
       onPressedCallToAction: () {

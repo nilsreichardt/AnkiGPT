@@ -218,7 +218,7 @@ class TooLongInputDialog extends StatelessWidget {
             AnkiGptCard(
               color: Color(0xFFFFDFDF),
               child: Text(
-                'Your text is too long. Free users have a limt of 5,000 characters. Buy AnkiGPT Plus to remove this limit.',
+                'Your text is too long. Free users have a limt of 4,000 characters. Buy AnkiGPT Plus to remove this limit.',
                 style: TextStyle(color: Color(0xFFD90000)),
               ),
             ),

@@ -51,7 +51,7 @@ void main() {
           'throw exception when text is too long and user has not plus version',
           () {
         // Generate String with 5,001 characters
-        final text = List.generate(5001, (index) => 'a').join();
+        final text = List.generate(4001, (index) => 'a').join();
 
         container.read(inputTextFieldControllerProvider).text = text;
 

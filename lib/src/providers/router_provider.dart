@@ -35,7 +35,7 @@ GoRouter router(RouterRef ref) {
             builder: (context, state) => const ImprintPage(),
           ),
           GoRoute(
-            path: 'sucessful-plus-payment',
+            path: 'successful-plus-payment',
             redirect: (context, state) {
               _logPlusBought(ref);
               ref.read(showSuccessfulPaymentDialogProvider.notifier).set(true);

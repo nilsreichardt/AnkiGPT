@@ -8,6 +8,7 @@ import 'package:ankigpt/src/models/input_type.dart';
 import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
+import 'package:ankigpt/src/providers/analytics_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
@@ -33,6 +34,8 @@ class GenerateNotifier extends _$GenerateNotifier {
   SessionRepository get _sessionRepository =>
       ref.read(sessionRepositoryProvider);
   bool get _hasPlus => ref.read(hasPlusProvider);
+  Analytics get _analytics => ref.read(analyticsProvider);
+  static const _analyticsPage = 'generate';
 
   PlatformFile? _pickedFile;
   bool get _hasPickedFile => _pickedFile != null;
@@ -48,6 +51,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     _logger.d("Generating cards...");
 
     if (!_hasPlus && size.isPlus()) {
+      _logPlusRequiredToGenerate();
       throw PlusMembershipRequiredException();
     }
 
@@ -86,6 +90,7 @@ class GenerateNotifier extends _$GenerateNotifier {
           file: _hasPickedFile ? FileInput(name: _pickedFile!.name) : null,
         ),
       );
+      _logStartSession(size);
 
       _logger.d("Started session with id: $sessionId");
 
@@ -102,14 +107,50 @@ class GenerateNotifier extends _$GenerateNotifier {
     }
   }
 
+  void _logPlusRequiredToGenerate() {
+    unawaited(
+      _analytics.logEvent(
+        'plus_required_to_generate',
+        page: _analyticsPage,
+      ),
+    );
+  }
+
+  void _logStartSession(CardGenrationSize size) {
+    unawaited(_analytics.logEvent(
+      'start_session',
+      params: {
+        'size': size.name,
+        'input_type': _hasPickedFile ? 'file' : 'text',
+      },
+      page: _analyticsPage,
+    ));
+  }
+
   void _validateTextInput(String text) {
     if (text.length < 400) {
+      _logTooShortInput();
       throw TooShortInputException();
     }
 
     if (text.length > 4000 && !_hasPlus) {
+      _logTooLongInputWithoutPlus();
       throw TooLongInputException();
     }
+  }
+
+  void _logTooLongInputWithoutPlus() {
+    unawaited(_analytics.logEvent(
+      'too_long_input_without_plus',
+      page: _analyticsPage,
+    ));
+  }
+
+  void _logTooShortInput() {
+    unawaited(_analytics.logEvent(
+      'too_short_input',
+      page: _analyticsPage,
+    ));
   }
 
   Future<bool> _uploadFile({

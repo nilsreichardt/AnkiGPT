@@ -3,6 +3,9 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:async' as _i4;
+
+import 'package:ankigpt/src/providers/analytics_provider.dart' as _i3;
 import 'package:logger/src/logger.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -159,4 +162,28 @@ class MockLogger extends _i1.Mock implements _i2.Logger {
         ),
         returnValueForMissingStub: null,
       );
+}
+
+/// A class which mocks [Analytics].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAnalytics extends _i1.Mock implements _i3.Analytics {
+  @override
+  _i4.Future<void> logEvent(
+    String? name, {
+    Map<String, String>? params,
+    String? page,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #logEvent,
+          [name],
+          {
+            #params: params,
+            #page: page,
+          },
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }

@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:ankigpt/src/pages/account_page.dart';
 import 'package:ankigpt/src/pages/deck_page.dart';
 import 'package:ankigpt/src/pages/home_page.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
+import 'package:ankigpt/src/providers/analytics_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/logger/navigation_logger_observer.dart';
 import 'package:ankigpt/src/providers/show_successful_playment_dialog.dart';
@@ -34,6 +37,7 @@ GoRouter router(RouterRef ref) {
           GoRoute(
             path: 'sucessful-plus-payment',
             redirect: (context, state) {
+              _logPlusBought(ref);
               ref.read(showSuccessfulPaymentDialogProvider.notifier).set(true);
               return '/';
             },
@@ -53,6 +57,11 @@ GoRouter router(RouterRef ref) {
       ),
     ],
   );
+}
+
+void _logPlusBought(RouterRef ref) {
+  final analytics = ref.read(analyticsProvider);
+  unawaited(analytics.logEvent('plus_bought'));
 }
 
 Uri getCurrentLocation(Ref ref) {

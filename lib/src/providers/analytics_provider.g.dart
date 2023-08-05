@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'router_provider.dart';
+part of 'analytics_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routerHash() => r'2826ccd32c1fc8bb4ca53da1580795f4b337ec41';
+String _$analyticsHash() => r'80fdcf41080009f040f630377e415cbfc128cff4';
 
-/// See also [router].
-@ProviderFor(router)
-final routerProvider = Provider<GoRouter>.internal(
-  router,
-  name: r'routerProvider',
+/// See also [analytics].
+@ProviderFor(analytics)
+final analyticsProvider = AutoDisposeProvider<Analytics>.internal(
+  analytics,
+  name: r'analyticsProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$routerHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$analyticsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef RouterRef = ProviderRef<GoRouter>;
+typedef AnalyticsRef = AutoDisposeProviderRef<Analytics>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

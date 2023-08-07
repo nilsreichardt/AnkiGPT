@@ -56,7 +56,8 @@ void main() {
       expect(view.totalPages, 1);
     });
 
-    test('should sort cards', () {
+    test('should sort cards by created at date when job index is null', () {
+      // Cards are created without job index
       final cards = generateDummyCards(10);
 
       final random = Random(42);
@@ -65,6 +66,58 @@ void main() {
 
       final view = container.read(cardsListControllerProvider);
       expect(view.cards, cards);
+    });
+
+    test(
+        'should sort cards by job index and then by creating date and finally by job id',
+        () {
+      final fixDate = DateTime(2021, 1, 1);
+      final card5 = AnkiCard(
+        answer: 'answer 1',
+        question: 'question 1',
+        createdAt: fixDate.add(const Duration(minutes: 2)),
+        id: 'id5',
+        job: const Job(index: 2, id: '2'),
+      );
+      final card3 = AnkiCard(
+        answer: 'answer 3',
+        question: 'question 3',
+        createdAt: fixDate.add(const Duration(minutes: 2)),
+        id: 'id3',
+        job: const Job(index: 3, id: '3'),
+      );
+      final card0 = AnkiCard(
+        answer: 'answer 0',
+        question: 'question 0',
+        createdAt: fixDate.add(const Duration(minutes: 3)),
+        id: 'id0',
+        job: const Job(index: 1, id: '1'),
+      );
+      final card10 = AnkiCard(
+        answer: 'answer 0',
+        question: 'question 0',
+        createdAt: fixDate.add(const Duration(minutes: 1)),
+        id: 'id10',
+        job: const Job(index: 1, id: '1'),
+      );
+
+      final unsortedCards = [
+        card5,
+        card3,
+        card0,
+        card10,
+      ];
+
+      container.read(cardsListProvider.notifier).set(unsortedCards);
+      final view = container.read(cardsListControllerProvider);
+
+      final expectedCards = [
+        card10,
+        card0,
+        card5,
+        card3,
+      ];
+      expect(view.cards, expectedCards);
     });
 
     test('should correctly switch to the next page', () {

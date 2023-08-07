@@ -57,7 +57,7 @@ class CardsListController extends _$CardsListController {
     }
 
     final endIndex = min(startIndex + cardsPerPage, cards.length);
-    final sortedCards = cards.toList()..sortByCreatedAt();
+    final sortedCards = cards.toList()..sortByJobIndex();
     final visibleCards = sortedCards.sublist(startIndex, endIndex);
 
     return CardsListView(
@@ -103,13 +103,20 @@ class CardsListController extends _$CardsListController {
 }
 
 extension on List<AnkiCard> {
-  void sortByCreatedAt() {
-    // Sort first by createdAt than by id. This way we can ensure that the order is always the same.
+  /// Sorts the cards by the job index (can be null), than by the creation date and finally
+  /// by the id.
+  void sortByJobIndex() {
     sort((a, b) {
+      final jobIndexComparison = a.job?.index.compareTo(b.job?.index ?? 0) ?? 0;
+      if (jobIndexComparison != 0) {
+        return jobIndexComparison;
+      }
+
       final createdAtComparison = a.createdAt.compareTo(b.createdAt);
       if (createdAtComparison != 0) {
         return createdAtComparison;
       }
+
       return a.id.compareTo(b.id);
     });
   }

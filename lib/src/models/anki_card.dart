@@ -15,12 +15,22 @@ class AnkiCard with _$AnkiCard {
     @JsonKey(fromJson: parseTimestampOrIsoString) required DateTime createdAt,
     @Default(false) bool hasLiked,
     @Default(false) bool hasDisliked,
+
+    /// The information of the job that created this card.
+    ///
+    /// This feature was added on 8. August 2023. Cards created before that
+    /// date will have a null value for this field.
+    Job? job,
   }) = _AnkiCard;
 
   factory AnkiCard.fromJson(Map<String, dynamic> json) =>
       _$AnkiCardFromJson(json);
 
-  factory AnkiCard.fromJsonInjection(String id, Map<String, dynamic> json) {
+  factory AnkiCard.fromJsonInjection(
+    String id,
+    Map<String, dynamic> json, {
+    int? jobIndex,
+  }) {
     json['id'] = id;
 
     if (json['editedAnswer'] != null) {
@@ -44,4 +54,14 @@ class AnkiCard with _$AnkiCard {
 
     return 'AnkiCard(id: $id, question: $shortQuestion, answer: $shortAnswer, createdAt: $createdAt, hasLiked: $hasLiked, hasDisliked: $hasDisliked)';
   }
+}
+
+@Freezed(fromJson: true)
+class Job with _$Job {
+  const factory Job({
+    required String id,
+    required int index,
+  }) = _Job;
+
+  factory Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);
 }

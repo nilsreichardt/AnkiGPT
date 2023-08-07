@@ -3,7 +3,7 @@ targets:
     builders:
       # To speed up the code generation, we require to have a `.gen.dart` suffix
       # to be captured by the `build_runner` pages. Therefore, the
-      # `build_runner` skips all files without this suffix. 
+      # `build_runner` skips all files without this suffix.
       json_serializable:
         options:
           explicit_to_json: true

@@ -434,19 +434,25 @@ class _ManageBills extends ConsumerStatefulWidget {
 }
 
 class _ManageBillsState extends ConsumerState<_ManageBills> {
+  late StripePortal stripePortal;
+
   @override
   void initState() {
     super.initState();
 
     // We generate the url in advance because when we would generate it when the user clicks on the tile, the browser
     // could block the popup because it was not triggered by a user action.
-    unawaited(ref.read(stripePortalProvider.notifier).generateUrl());
+    stripePortal = ref.read(stripePortalProvider.notifier);
+    unawaited(stripePortal.generateUrl());
   }
 
   @override
   void dispose() {
     // Reset the state because the url has an expiration date.
-    ref.read(stripePortalProvider.notifier).reset();
+    //
+    // Wrapping around a [Future.delayed] because other we would change the
+    // provider while building the widget tree.
+    Future.delayed(Duration.zero).then((_) => stripePortal.reset());
     super.dispose();
   }
 

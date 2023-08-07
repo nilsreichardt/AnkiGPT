@@ -49,8 +49,14 @@ jobs:
         with:
           sdk: beta
 
-      - name: Format
+      - name: Install Prettier
+        run: npm install --global prettier@3.0.1
+
+      - name: Format (Dart)
         run: dart format --set-exit-if-changed $(find lib -name "*.dart" -not \( -name "*.*freezed.dart" -o -name "*.*g.dart" \) )
+
+      - name: Format (Prettier)
+        run: prettier . --check
 
   test:
     # We need to use macOS because of the golden tests, see

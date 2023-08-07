@@ -1,8 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-<head>
-  <!--
+  <head>
+    <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
 
@@ -15,63 +14,77 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
-  <base href="$FLUTTER_BASE_HREF">
+    <base href="$FLUTTER_BASE_HREF" />
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description"
-    content="Boost your university study efficiency with AnkiGPT that turns your lecture slides into flashcards instantly. Seamlessly export to Anki for effective revision. Make learning easy and fun by using GPT.">
-  <meta name="keywords"
-    content="Flashcard generator, anki gpt, GPT flashcards, Lecture slide conversion, Automated flashcards, AI flashcards, Slide to flashcard conversion, GPT-powered flashcards, Lecture slide flashcards, Intelligent flashcard creator, AI-assisted flashcards, Slide-based learning, Automatic flashcard generation, Smart study tool, Efficient flashcard creation, Lecture notes to flashcards, AI-driven learning, Personalized flashcards, Study aid generator, Quick flashcard creation, GPT-enabled study tool, pdf2anki">
+    <meta charset="UTF-8" />
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+    <meta
+      name="description"
+      content="Boost your university study efficiency with AnkiGPT that turns your lecture slides into flashcards instantly. Seamlessly export to Anki for effective revision. Make learning easy and fun by using GPT."
+    />
+    <meta
+      name="keywords"
+      content="Flashcard generator, anki gpt, GPT flashcards, Lecture slide conversion, Automated flashcards, AI flashcards, Slide to flashcard conversion, GPT-powered flashcards, Lecture slide flashcards, Intelligent flashcard creator, AI-assisted flashcards, Slide-based learning, Automatic flashcard generation, Smart study tool, Efficient flashcard creation, Lecture notes to flashcards, AI-driven learning, Personalized flashcards, Study aid generator, Quick flashcard creation, GPT-enabled study tool, pdf2anki"
+    />
 
-  <meta property="og:image"
-    content="https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2FLogo.png?alt=media&token=9a00a19e-19d8-44a2-bf49-4e69487728e9">
+    <meta
+      property="og:image"
+      content="https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2FLogo.png?alt=media&token=9a00a19e-19d8-44a2-bf49-4e69487728e9"
+    />
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="ankigpt">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="ankigpt" />
+    <link rel="apple-touch-icon" href="icons/Icon-192.png" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png" />
 
-  <title>AnkiGPT - Turn lecture slides into flashcards</title>
-  <link rel="manifest" href="manifest.json">
+    <title>AnkiGPT - Turn lecture slides into flashcards</title>
+    <link rel="manifest" href="manifest.json" />
 
-  <link rel="stylesheet" href="index.css" type="text/css" media="screen,projection">
+    <link
+      rel="stylesheet"
+      href="index.css"
+      type="text/css"
+      media="screen,projection"
+    />
 
-  <!-- Plausible -->
-  <script defer data-domain="ankigpt.help" src="https://plausible.io/js/script.js"></script>
+    <!-- Plausible -->
+    <script
+      defer
+      data-domain="ankigpt.help"
+      src="https://plausible.io/js/script.js"
+    ></script>
 
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
-</head>
+    <script>
+      // The value below is injected by flutter build, do not touch.
+      const serviceWorkerVersion = null;
+    </script>
+    <!-- This script adds the flutter initialization JS code -->
+    <script src="flutter.js" defer></script>
+  </head>
 
-<body>
-  <script>
-    window.addEventListener('load', function (ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function (engineInitializer) {
-          engineInitializer.initializeEngine().then(function (appRunner) {
-            appRunner.runApp();
-          });
-        }
+  <body>
+    <script>
+      window.addEventListener("load", function (ev) {
+        // Download main.dart.js
+        _flutter.loader.loadEntrypoint({
+          serviceWorker: {
+            serviceWorkerVersion: serviceWorkerVersion,
+          },
+          onEntrypointLoaded: function (engineInitializer) {
+            engineInitializer.initializeEngine().then(function (appRunner) {
+              appRunner.runApp();
+            });
+          },
+        });
       });
-    });
-  </script>
-  <div class="spinner">
-    <div class="double-bounce1"></div>
-    <div class="double-bounce2"></div>
-  </div>
-</body>
-
+    </script>
+    <div class="spinner">
+      <div class="double-bounce1"></div>
+      <div class="double-bounce2"></div>
+    </div>
+  </body>
 </html>

@@ -16,11 +16,13 @@ class DeckPreview with _$DeckPreview {
     required DateTime createdAt,
     required String name,
     required int numberOfCards,
+    required SessionId sessionId,
   }) = DeckPreviewLoading;
   const factory DeckPreview.error({
     required String message,
     required DateTime createdAt,
     required String name,
     required int numberOfCards,
+    required SessionId sessionId,
   }) = DeckPreviewError;
 }

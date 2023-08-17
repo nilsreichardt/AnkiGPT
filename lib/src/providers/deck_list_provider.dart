@@ -21,10 +21,12 @@ Stream<List<DeckPreview>> deckList(DeckListRef ref) {
           final name = _getName(dto.input);
           if (dto.error != null) {
             return DeckPreview.error(
-                createdAt: dto.createdAt,
-                message: dto.error!,
-                name: name,
-                numberOfCards: dto.numberOfCards);
+              createdAt: dto.createdAt,
+              message: dto.error!,
+              name: name,
+              numberOfCards: dto.numberOfCards,
+              sessionId: dto.id,
+            );
           }
 
           if (dto.status == SessionStatus.running) {
@@ -32,6 +34,7 @@ Stream<List<DeckPreview>> deckList(DeckListRef ref) {
               createdAt: dto.createdAt,
               name: name,
               numberOfCards: dto.numberOfCards,
+              sessionId: dto.id,
             );
           }
 

@@ -60,20 +60,23 @@ class MyDecksSection extends ConsumerWidget {
                                   sessionId: sessionId,
                                   numberOfCards: numberOfCards,
                                 ),
-                                loading: (createdAt, name, numberOfCards) =>
+                                loading: (createdAt, name, numberOfCards,
+                                        sessionId) =>
                                     _LoadingHistoryDeck(
                                   createdAt: session.createdAt,
                                   name: name,
                                   numberOfCards: numberOfCards,
                                   isTesting: isTesting,
+                                  sessionId: sessionId,
                                 ),
-                                error:
-                                    (error, createdAt, name, numberOfCards) =>
-                                        _ErrorHistoryDeck(
+                                error: (error, createdAt, name, numberOfCards,
+                                        sessionId) =>
+                                    _ErrorHistoryDeck(
                                   createdAt: session.createdAt,
                                   error: error,
                                   name: name,
                                   numberOfCards: numberOfCards,
+                                  sessionId: sessionId,
                                 ),
                                 orElse: () => const SizedBox(),
                               )
@@ -129,8 +132,8 @@ class _CreatedHistoryDeck extends ConsumerWidget {
     return _HistoryDeckBase(
       numberOfCards: numberOfCards,
       name: name,
-      onTap: () => context.go('/deck/$sessionId'),
       createdAt: createdAt,
+      sessionId: sessionId,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -165,12 +168,14 @@ class _LoadingHistoryDeck extends StatelessWidget {
     required this.createdAt,
     required this.numberOfCards,
     required this.isTesting,
+    required this.sessionId,
   });
 
   final String name;
   final DateTime createdAt;
   final int numberOfCards;
   final bool isTesting;
+  final SessionId sessionId;
 
   @override
   Widget build(BuildContext context) {
@@ -178,6 +183,7 @@ class _LoadingHistoryDeck extends StatelessWidget {
       numberOfCards: numberOfCards,
       name: name,
       createdAt: createdAt,
+      sessionId: sessionId,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 32, 16, 16),
         child: Tooltip(
@@ -201,18 +207,21 @@ class _ErrorHistoryDeck extends StatelessWidget {
     required this.createdAt,
     required this.error,
     required this.numberOfCards,
+    required this.sessionId,
   });
 
   final String name;
   final DateTime createdAt;
   final String? error;
   final int numberOfCards;
+  final SessionId sessionId;
 
   @override
   Widget build(BuildContext context) {
     return _HistoryDeckBase(
         numberOfCards: numberOfCards,
         name: name,
+        sessionId: sessionId,
         createdAt: createdAt,
         color: Theme.of(context).colorScheme.error,
         body: Padding(
@@ -235,23 +244,23 @@ class _HistoryDeckBase extends StatelessWidget {
     required this.createdAt,
     required this.body,
     required this.numberOfCards,
+    required this.sessionId,
     this.color = Colors.blue,
-    this.onTap,
   });
 
   final String? name;
   final DateTime? createdAt;
   final Color color;
   final Widget body;
-  final VoidCallback? onTap;
   final int numberOfCards;
+  final SessionId sessionId;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: AnkiGptCard(
-        onPressed: onTap,
+        onPressed: () => context.go('/deck/$sessionId'),
         color: color.withOpacity(0.1),
         padding: const EdgeInsets.all(22),
         child: SizedBox(

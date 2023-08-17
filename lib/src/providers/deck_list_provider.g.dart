@@ -6,7 +6,7 @@ part of 'deck_list_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$deckListHash() => r'c959ae4dfcb6862044e21aa80c3de4ee3967f539';
+String _$deckListHash() => r'1bcf98fc23e6e042922a4916dd85015865635857';
 
 /// See also [deckList].
 @ProviderFor(deckList)

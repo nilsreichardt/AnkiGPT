@@ -50,12 +50,14 @@ void main() {
           createdAt: DateTime(2023, 1, 1),
           name: _generateString(random),
           numberOfCards: random.nextInt(100),
+          sessionId: _generateString(random),
         ),
         DeckPreview.error(
           message: _generateString(random),
           createdAt: DateTime(2023, 1, 1),
           name: _generateString(random),
           numberOfCards: random.nextInt(100),
+          sessionId: _generateString(random),
         ),
       ];
       await pumpMyDecksSection(

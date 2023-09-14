@@ -179,15 +179,15 @@ class _FaqCardState extends State<_FaqCard> {
           },
           child: MouseRegion(
             cursor: SystemMouseCursors.click,
-            child: AnimatedSize(
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.easeInOutQuart,
-              alignment: Alignment.topCenter,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: lightGreen,
-                  borderRadius: BorderRadius.circular(15),
-                ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: lightGreen,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: AnimatedSize(
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeInOutQuart,
+                alignment: Alignment.topCenter,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -213,7 +213,18 @@ class _FaqCardState extends State<_FaqCard> {
                           ],
                         ),
                         AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 500),
+                          // Adding the default transitionBuilder here fixes
+                          // https://github.com/flutter/flutter/issues/121336. The bug can occur
+                          // when clicking the card very quickly.
+                          transitionBuilder:
+                              (Widget child, Animation<double> animation) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                          duration:
+                              Duration(milliseconds: isExpanded ? 100 : 500),
                           child: isExpanded
                               ? Column(
                                   children: [

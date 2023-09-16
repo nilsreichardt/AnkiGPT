@@ -97,6 +97,8 @@ class GenerateNotifier extends _$GenerateNotifier {
       // Reset state
       state = const GenerateState.initial();
       ref.read(pickedFileProvider.notifier).set(null);
+      _pickedFile = null;
+      _textEditingController.clear();
       ref.read(generationSizeProvider.notifier).set(GenerationSize.defaultSize);
 
       final router = ref.read(routerProvider);

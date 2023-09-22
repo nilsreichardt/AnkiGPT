@@ -86,8 +86,8 @@ class PlusAdvantages extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SellingPoint(text: 'PDF files as input'),
-        SellingPoint(text: 'Up to 200 cards per request'),
-        SellingPoint(text: 'Unlimited input characters per request'),
+        SellingPoint(text: 'Up to 250 cards per request'),
+        SellingPoint(text: 'Up to 500,000 input characters per request'),
         SellingPoint(text: 'Premium support'),
       ],
     );

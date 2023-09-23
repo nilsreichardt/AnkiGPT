@@ -367,7 +367,7 @@ class NumberOfCardsDropdown extends ConsumerWidget {
     final hasPlus = ref.watch(hasPlusProvider);
     final hasPickedFile = ref.watch(pickedFileProvider) != null;
 
-    final avaliableSizes = CardGenrationSize.values
+    final availableSizes = CardGenrationSize.values
         .where((c) => hasPickedFile ? c.isAvailableForFiles() : true)
         .toList();
 
@@ -376,7 +376,7 @@ class NumberOfCardsDropdown extends ConsumerWidget {
       child: DropdownButtonFormField<CardGenrationSize>(
         value: ref.watch(generationSizeProvider),
         items: [
-          ...avaliableSizes.map(
+          ...availableSizes.map(
             (c) => DropdownMenuItem(
               value: c,
               child: Row(

@@ -2,7 +2,9 @@ enum CardGenrationSize {
   five,
   ten,
   twenty,
+  thirtyFive,
   fifty,
+  seventyFive,
   hundred,
   hunderFifty,
   twoHundred,
@@ -16,8 +18,12 @@ enum CardGenrationSize {
         return 10;
       case CardGenrationSize.twenty:
         return 20;
+      case CardGenrationSize.thirtyFive:
+        return 35;
       case CardGenrationSize.fifty:
         return 50;
+      case CardGenrationSize.seventyFive:
+        return 75;
       case CardGenrationSize.hundred:
         return 100;
       case CardGenrationSize.hunderFifty:
@@ -41,8 +47,12 @@ enum CardGenrationSize {
         return '~ 1 - 2 min';
       case CardGenrationSize.twenty:
         return '~ 1 - 2 min';
+      case CardGenrationSize.thirtyFive:
+        return '~ 3 min';
       case CardGenrationSize.fifty:
         return '~ 3 min';
+      case CardGenrationSize.seventyFive:
+        return '~ 5 min';
       case CardGenrationSize.hundred:
         return '~ 5 min';
       case CardGenrationSize.hunderFifty:
@@ -56,7 +66,9 @@ enum CardGenrationSize {
 
   bool isPlus() {
     switch (this) {
+      case CardGenrationSize.thirtyFive:
       case CardGenrationSize.fifty:
+      case CardGenrationSize.seventyFive:
       case CardGenrationSize.hundred:
       case CardGenrationSize.hunderFifty:
       case CardGenrationSize.twoHundred:
@@ -70,7 +82,9 @@ enum CardGenrationSize {
   bool isAvailableForFiles() {
     switch (this) {
       case CardGenrationSize.twenty:
+      case CardGenrationSize.thirtyFive:
       case CardGenrationSize.fifty:
+      case CardGenrationSize.seventyFive:
       case CardGenrationSize.hundred:
       case CardGenrationSize.hunderFifty:
       case CardGenrationSize.twoHundred:

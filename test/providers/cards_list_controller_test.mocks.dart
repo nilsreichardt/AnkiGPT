@@ -184,6 +184,14 @@ class MockScrollController extends _i1.Mock implements _i3.ScrollController {
         returnValueForMissingStub: null,
       );
   @override
+  void maybeDispatchObjectCreation() => super.noSuchMethod(
+        Invocation.method(
+          #maybeDispatchObjectCreation,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   void addListener(_i8.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,

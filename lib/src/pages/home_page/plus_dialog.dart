@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:animations/animations.dart';
 import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
-import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
@@ -16,10 +14,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-void showPlusDialog(BuildContext context) {
+void showPlusDialog(
+  BuildContext context, {
+  Widget? top,
+}) {
   showModal(
     context: context,
-    builder: (context) => const PlusDialog(),
+    builder: (context) => PlusDialog(top: top),
     routeSettings: const RouteSettings(name: '/plus'),
   );
 }
@@ -33,7 +34,12 @@ void showInputTooLong(BuildContext context) {
 }
 
 class PlusDialog extends ConsumerWidget {
-  const PlusDialog({super.key});
+  const PlusDialog({
+    super.key,
+    this.top,
+  });
+
+  final Widget? top;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,15 +49,7 @@ class PlusDialog extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            height: min(MediaQuery.of(context).size.height * 2, 300),
-            child: const TutorialVideoPlayer(
-              aspectRatio: 16 / 12,
-              videoUrl:
-                  'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fpdf-upload-tutorial.mp4?alt=media&token=a67cd7c1-ff89-41e8-a1f0-9daebe1caaed',
-            ),
-          ),
-          const SizedBox(height: 16),
+          if (top != null) top!,
           const PlusAdvantages(),
           const SizedBox(height: 16),
           const _PlusPrice(),
@@ -85,7 +83,7 @@ class PlusAdvantages extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SellingPoint(text: 'PDF files as input'),
+        SellingPoint(text: 'Unlimited cards per month'),
         SellingPoint(text: 'Up to 250 cards per request'),
         SellingPoint(text: 'Up to 500,000 input characters per request'),
         SellingPoint(text: 'Premium support'),
@@ -164,7 +162,13 @@ class _BuyButtonState extends ConsumerState<_BuyButton> {
           opacity: isLoading ? 0 : 1,
           child: IgnorePointer(
             ignoring: isLoading,
-            child: TextButton(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+                foregroundColor: Colors.white,
+                elevation: 0,
+                shadowColor: Colors.transparent,
+              ),
               onPressed: () async {
                 setState(() {
                   isLoading = true;

@@ -85,7 +85,8 @@ class PlusAdvantages extends StatelessWidget {
       children: [
         SellingPoint(text: 'Unlimited cards per month'),
         SellingPoint(text: 'Up to 250 cards per request'),
-        SellingPoint(text: 'Up to 500,000 input characters per request'),
+        SellingPoint(
+            text: 'Up to 500,000 input characters (~ 200 pages) per request'),
         SellingPoint(text: 'Premium support'),
       ],
     );

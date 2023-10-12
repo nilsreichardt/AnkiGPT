@@ -74,12 +74,14 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
           Invocation.getter(#functions),
         ),
       ) as _i2.FirebaseFunctions);
+
   @override
   String get routeFunctionsUrl => (super.noSuchMethod(
         Invocation.getter(#routeFunctionsUrl),
         returnValue: '',
         returnValueForMissingStub: '',
       ) as String);
+
   @override
   _i3.FirebaseStorage get storage => (super.noSuchMethod(
         Invocation.getter(#storage),
@@ -92,6 +94,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
           Invocation.getter(#storage),
         ),
       ) as _i3.FirebaseStorage);
+
   @override
   _i4.FirebaseFirestore get firestore => (super.noSuchMethod(
         Invocation.getter(#firestore),
@@ -104,6 +107,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
           Invocation.getter(#firestore),
         ),
       ) as _i4.FirebaseFirestore);
+
   @override
   _i6.Future<String> startSession({
     required _i7.Input? input,
@@ -123,6 +127,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
         returnValue: _i6.Future<String>.value(''),
         returnValueForMissingStub: _i6.Future<String>.value(''),
       ) as _i6.Future<String>);
+
   @override
   _i6.Future<void> uploadFile({
     required String? sessionId,
@@ -142,6 +147,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
         returnValue: _i6.Future<void>.value(),
         returnValueForMissingStub: _i6.Future<void>.value(),
       ) as _i6.Future<void>);
+
   @override
   _i6.Future<void> deleteCard({
     required String? sessionId,
@@ -159,6 +165,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
         returnValue: _i6.Future<void>.value(),
         returnValueForMissingStub: _i6.Future<void>.value(),
       ) as _i6.Future<void>);
+
   @override
   _i6.Future<void> undoDeleteCard({
     required String? sessionId,
@@ -176,6 +183,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
         returnValue: _i6.Future<void>.value(),
         returnValueForMissingStub: _i6.Future<void>.value(),
       ) as _i6.Future<void>);
+
   @override
   _i6.Future<void> editAnswer({
     required String? sessionId,
@@ -195,6 +203,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
         returnValue: _i6.Future<void>.value(),
         returnValueForMissingStub: _i6.Future<void>.value(),
       ) as _i6.Future<void>);
+
   @override
   _i6.Future<void> editQuestion({
     required String? sessionId,
@@ -214,6 +223,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
         returnValue: _i6.Future<void>.value(),
         returnValueForMissingStub: _i6.Future<void>.value(),
       ) as _i6.Future<void>);
+
   @override
   _i6.Stream<_i7.SessionDto?> streamSession(String? sessionId) =>
       (super.noSuchMethod(
@@ -247,6 +257,7 @@ class MockLogger extends _i1.Mock implements _i9.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void d(
     dynamic message, [
@@ -264,6 +275,7 @@ class MockLogger extends _i1.Mock implements _i9.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void i(
     dynamic message, [
@@ -281,6 +293,7 @@ class MockLogger extends _i1.Mock implements _i9.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void w(
     dynamic message, [
@@ -298,6 +311,7 @@ class MockLogger extends _i1.Mock implements _i9.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void e(
     dynamic message, [
@@ -315,6 +329,7 @@ class MockLogger extends _i1.Mock implements _i9.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void wtf(
     dynamic message, [
@@ -332,6 +347,7 @@ class MockLogger extends _i1.Mock implements _i9.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void log(
     _i9.Level? level,
@@ -351,6 +367,7 @@ class MockLogger extends _i1.Mock implements _i9.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   bool isClosed() => (super.noSuchMethod(
         Invocation.method(
@@ -360,6 +377,7 @@ class MockLogger extends _i1.Mock implements _i9.Logger {
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   void close() => super.noSuchMethod(
         Invocation.method(

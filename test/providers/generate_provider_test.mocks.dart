@@ -41,6 +41,7 @@ class MockLogger extends _i1.Mock implements _i2.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void d(
     dynamic message, [
@@ -58,6 +59,7 @@ class MockLogger extends _i1.Mock implements _i2.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void i(
     dynamic message, [
@@ -75,6 +77,7 @@ class MockLogger extends _i1.Mock implements _i2.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void w(
     dynamic message, [
@@ -92,6 +95,7 @@ class MockLogger extends _i1.Mock implements _i2.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void e(
     dynamic message, [
@@ -109,6 +113,7 @@ class MockLogger extends _i1.Mock implements _i2.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void wtf(
     dynamic message, [
@@ -126,6 +131,7 @@ class MockLogger extends _i1.Mock implements _i2.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void log(
     _i2.Level? level,
@@ -145,6 +151,7 @@ class MockLogger extends _i1.Mock implements _i2.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   bool isClosed() => (super.noSuchMethod(
         Invocation.method(
@@ -154,6 +161,7 @@ class MockLogger extends _i1.Mock implements _i2.Logger {
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   void close() => super.noSuchMethod(
         Invocation.method(

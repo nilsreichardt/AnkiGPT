@@ -45,24 +45,28 @@ class MockScrollController extends _i1.Mock implements _i3.ScrollController {
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   double get initialScrollOffset => (super.noSuchMethod(
         Invocation.getter(#initialScrollOffset),
         returnValue: 0.0,
         returnValueForMissingStub: 0.0,
       ) as double);
+
   @override
   Iterable<_i2.ScrollPosition> get positions => (super.noSuchMethod(
         Invocation.getter(#positions),
         returnValue: <_i2.ScrollPosition>[],
         returnValueForMissingStub: <_i2.ScrollPosition>[],
       ) as Iterable<_i2.ScrollPosition>);
+
   @override
   bool get hasClients => (super.noSuchMethod(
         Invocation.getter(#hasClients),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i2.ScrollPosition get position => (super.noSuchMethod(
         Invocation.getter(#position),
@@ -75,18 +79,21 @@ class MockScrollController extends _i1.Mock implements _i3.ScrollController {
           Invocation.getter(#position),
         ),
       ) as _i2.ScrollPosition);
+
   @override
   double get offset => (super.noSuchMethod(
         Invocation.getter(#offset),
         returnValue: 0.0,
         returnValueForMissingStub: 0.0,
       ) as double);
+
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i4.Future<void> animateTo(
     double? offset, {
@@ -105,6 +112,7 @@ class MockScrollController extends _i1.Mock implements _i3.ScrollController {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
   @override
   void jumpTo(double? value) => super.noSuchMethod(
         Invocation.method(
@@ -113,6 +121,7 @@ class MockScrollController extends _i1.Mock implements _i3.ScrollController {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void attach(_i2.ScrollPosition? position) => super.noSuchMethod(
         Invocation.method(
@@ -121,6 +130,7 @@ class MockScrollController extends _i1.Mock implements _i3.ScrollController {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void detach(_i2.ScrollPosition? position) => super.noSuchMethod(
         Invocation.method(
@@ -129,6 +139,7 @@ class MockScrollController extends _i1.Mock implements _i3.ScrollController {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -137,6 +148,7 @@ class MockScrollController extends _i1.Mock implements _i3.ScrollController {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i2.ScrollPosition createScrollPosition(
     _i6.ScrollPhysics? physics,
@@ -175,6 +187,7 @@ class MockScrollController extends _i1.Mock implements _i3.ScrollController {
           ),
         ),
       ) as _i2.ScrollPosition);
+
   @override
   void debugFillDescription(List<String>? description) => super.noSuchMethod(
         Invocation.method(
@@ -183,6 +196,7 @@ class MockScrollController extends _i1.Mock implements _i3.ScrollController {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void addListener(_i8.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -191,6 +205,7 @@ class MockScrollController extends _i1.Mock implements _i3.ScrollController {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void removeListener(_i8.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -199,6 +214,7 @@ class MockScrollController extends _i1.Mock implements _i3.ScrollController {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void notifyListeners() => super.noSuchMethod(
         Invocation.method(

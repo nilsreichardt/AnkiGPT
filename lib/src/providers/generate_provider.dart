@@ -12,12 +12,14 @@ import 'package:ankigpt/src/providers/analytics_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
 import 'package:ankigpt/src/providers/current_month_usage_provider.dart';
+import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/input_text_field_controller.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/router_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
+import 'package:ankigpt/src/providers/wants_to_generate_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -66,6 +68,12 @@ class GenerateNotifier extends _$GenerateNotifier {
     }
 
     _throwIfFreeLimitReached(size);
+
+    if (!ref.read(hasAccount2Provider)) {
+      ref.read(wantsToGenerateProvider.notifier).set(true);
+      ref.read(routerProvider).go('/account');
+      return;
+    }
 
     state = const GenerateState.loading();
 

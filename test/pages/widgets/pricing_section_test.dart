@@ -74,7 +74,10 @@ void main() {
       await testLink(
         tester: tester,
         find: find.text('Buy'),
-        pumpWidget: (tester) => pumpPricingSection(tester, hasAccount: true),
+        pumpWidget: (tester) async {
+          await pumpPricingSection(tester, hasAccount: true);
+          await tester.ensureVisible(find.text('Buy'));
+        },
         uri: stripeCheckoutUrl,
         webOnlyWindowName: '_self',
       );
@@ -83,6 +86,7 @@ void main() {
     testWidgets('logs analytics when clicking', (tester) async {
       await pumpPricingSection(tester, hasAccount: true);
 
+      await tester.ensureVisible(find.text('Buy'));
       await tester.tap(find.text('Buy'));
 
       verify(mockBuyRepository.logClickedBuy()).called(1);
@@ -106,6 +110,7 @@ void main() {
       );
       await pumpPricingSection(tester, hasAccount: false, router: router);
 
+      await tester.ensureVisible(find.text('Buy'));
       await tester.tap(find.text('Buy'));
       await tester.pumpAndSettle();
 

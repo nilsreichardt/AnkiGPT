@@ -171,7 +171,7 @@ class _TierBase extends StatelessWidget {
         width: _isMobileView(context)
             ? MediaQuery.of(context).size.width * 0.85
             : 320,
-        height: 480,
+        height: 500,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -75,7 +75,7 @@ class _WhichModelIsUsed extends StatelessWidget {
     return const _FaqCard(
       question: Text('Which model is used for AnkiGPT?'),
       answer: Text(
-        "AnkiGPT uses as underlaying AI model GPT-3.5 by OpenAI. Support for GPT-4 is planned.",
+        "AnkiGPT uses as underlaying AI model GPT-3.5 by OpenAI.",
       ),
     );
   }

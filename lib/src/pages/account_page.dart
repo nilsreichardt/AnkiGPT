@@ -11,6 +11,7 @@ import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
 import 'package:ankigpt/src/providers/account_view_provider.dart';
 import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
+import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
 import 'package:ankigpt/src/providers/sign_out_provider.dart';
@@ -504,6 +505,13 @@ class _AvatarCard extends ConsumerWidget {
                             color: Theme.of(context).colorScheme.secondary,
                           ),
                     ),
+                    if (!view.hasPlus) ...[
+                      const SizedBox(height: 32),
+                      _Usage(
+                        generatedCardsCurrentMonth:
+                            view.generatedCardsCurrentMonth,
+                      ),
+                    ]
                   ],
                 ),
               ),
@@ -536,6 +544,63 @@ class _AvatarCard extends ConsumerWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Usage extends StatelessWidget {
+  const _Usage({
+    required this.generatedCardsCurrentMonth,
+  });
+
+  final int generatedCardsCurrentMonth;
+
+  @override
+  Widget build(BuildContext context) {
+    final percentage = generatedCardsCurrentMonth / freeUsageLimitPerMonth;
+    return MaxWidthConstrainedBox(
+      maxWidth: 400,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Center(
+            child: Text(
+              'Current usage',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+              'Limit: $freeUsageLimitPerMonth cards per month, ${(percentage * 100).toStringAsFixed(0)}% verbraucht'),
+          const SizedBox(height: 6),
+          LinearProgressIndicator(
+            value: percentage,
+            backgroundColor:
+                Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            valueColor: AlwaysStoppedAnimation<Color>(
+              Theme.of(context).colorScheme.primary,
+            ),
+            minHeight: 6,
+            borderRadius: BorderRadius.circular(2.5),
+          ),
+          const SizedBox(height: 6),
+          Text('$generatedCardsCurrentMonth cards generated this month'),
+          const SizedBox(height: 10),
+          const Opacity(
+            opacity: 0.7,
+            child: Text(
+              'Usage will be reset on the 1st of every month. Upgrade to AnkiGPT Plus to get unlimited cards.',
+              style: TextStyle(
+                fontSize: 12,
               ),
             ),
           ),

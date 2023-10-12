@@ -12,6 +12,8 @@ https://github.com/nilsreichardt/ankigpt/assets/24459435/853dee68-d634-48e4-93fe
 - ✏️ Edit flashcards, in case you want to change something
 - 🗑️ Delete flashcards, in case GPT (ChatGPT) generated something wrong or useless card
 
+Try it out: https://ankigpt.help
+
 ## How does AnkiGPT work?
 
 AnkiGPT first detects the language of the input. Then it splits the text into multiple sections and sends multiple requests to GPT (ChatGPT) model to generate flashcards. The generated flashcards are then displayed in the browser and can be exported to [Anki](https://apps.ankiweb.net/).

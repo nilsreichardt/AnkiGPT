@@ -102,10 +102,19 @@ class _DoesItWorkWithOtherApps extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _FaqCard(
-      question: Text('Does AnkiGPT work with other flashcard apps than Anki?'),
-      answer: Text(
-        "As of now, AnkiGPT is designed specifically to work with the Anki flashcard app and we currently have no plans to extend support to other flashcard applications. This is to ensure the highest level of integration and functionality with Anki, thus providing an optimal user experience. We encourage users to utilize AnkiGPT with the Anki app for the best performance and reliability.",
+    return _FaqCard(
+      question:
+          const Text('Does AnkiGPT work with other flashcard apps than Anki?'),
+      answer: MarkdownBody(
+        data:
+            "As of now, AnkiGPT is designed specifically to work with the [Anki](https://apps.ankiweb.net) flashcard app and we currently have no plans to extend support to other flashcard applications. This is to ensure the highest level of integration and functionality with [Anki](https://apps.ankiweb.net), thus providing an optimal user experience. We encourage users to utilize AnkiGPT with the [Anki](https://apps.ankiweb.net) app for the best performance and reliability.",
+        styleSheet: MarkdownStyleSheet(
+          a: _getAnswerTextStyle(context).copyWith(
+            decoration: TextDecoration.underline,
+          ),
+          p: _getAnswerTextStyle(context),
+        ),
+        onTapLink: (text, href, title) => launchUrl(Uri.parse(href!)),
       ),
     );
   }

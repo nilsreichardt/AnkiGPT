@@ -4,6 +4,7 @@ import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/social_media_icon_button.dart';
 import 'package:ankigpt/src/providers/version_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -134,23 +135,31 @@ class _AboutAnkiGpt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           width: 150,
           height: 40,
           child: AnkiGptTextLogo(),
         ),
-        SizedBox(height: 12),
-        Text(
-            'Generate flashcards from the lecture slides with one click and easily export them to Anki.'),
-        SizedBox(height: 12),
-        Text('Flashcards may contain incorrect information!'),
-        SizedBox(height: 12),
-        _Version(),
-        SizedBox(height: 16),
-        _SocialMedia(),
+        const SizedBox(height: 12),
+        MarkdownBody(
+          data:
+              'Generate flashcards from the lecture slides with one click and easily export them to [Anki](https://apps.ankiweb.net).',
+          styleSheet: MarkdownStyleSheet(
+            a: DefaultTextStyle.of(context).style.copyWith(
+                  decoration: TextDecoration.underline,
+                ),
+          ),
+          onTapLink: (text, href, title) => launchUrl(Uri.parse(href!)),
+        ),
+        const SizedBox(height: 12),
+        const Text('Flashcards may contain incorrect information!'),
+        const SizedBox(height: 12),
+        const _Version(),
+        const SizedBox(height: 16),
+        const _SocialMedia(),
       ],
     );
   }

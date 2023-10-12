@@ -25,7 +25,7 @@ class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.videoUrl);
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
 
     _controller.addListener(_handleError);
 

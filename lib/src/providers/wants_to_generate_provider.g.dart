@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'card_generation_size_provider.dart';
+part of 'wants_to_generate_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$generationSizeHash() => r'4052d0761579c36540ea35eb9f471579909550da';
+String _$wantsToGenerateHash() => r'8f78123ee6213f5acede899958e32e9c685ed3fc';
 
-/// See also [GenerationSize].
-@ProviderFor(GenerationSize)
-final generationSizeProvider =
-    AutoDisposeNotifierProvider<GenerationSize, CardGenrationSize>.internal(
-  GenerationSize.new,
-  name: r'generationSizeProvider',
+/// See also [WantsToGenerate].
+@ProviderFor(WantsToGenerate)
+final wantsToGenerateProvider =
+    NotifierProvider<WantsToGenerate, bool>.internal(
+  WantsToGenerate.new,
+  name: r'wantsToGenerateProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$generationSizeHash,
+      : _$wantsToGenerateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$GenerationSize = AutoDisposeNotifier<CardGenrationSize>;
+typedef _$WantsToGenerate = Notifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

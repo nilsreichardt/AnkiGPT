@@ -48,12 +48,14 @@ class MockBuyRepository extends _i1.Mock implements _i3.BuyRepository {
           Invocation.getter(#cloudFunctions),
         ),
       ) as _i2.FirebaseFunctions);
+
   @override
   String get routeUrl => (super.noSuchMethod(
         Invocation.getter(#routeUrl),
         returnValue: '',
         returnValueForMissingStub: '',
       ) as String);
+
   @override
   _i4.Future<String> createCheckoutSessionUrl() => (super.noSuchMethod(
         Invocation.method(
@@ -63,6 +65,7 @@ class MockBuyRepository extends _i1.Mock implements _i3.BuyRepository {
         returnValue: _i4.Future<String>.value(''),
         returnValueForMissingStub: _i4.Future<String>.value(''),
       ) as _i4.Future<String>);
+
   @override
   _i4.Future<void> logClickedBuy() => (super.noSuchMethod(
         Invocation.method(
@@ -95,6 +98,7 @@ class MockLogger extends _i1.Mock implements _i5.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void d(
     dynamic message, [
@@ -112,6 +116,7 @@ class MockLogger extends _i1.Mock implements _i5.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void i(
     dynamic message, [
@@ -129,6 +134,7 @@ class MockLogger extends _i1.Mock implements _i5.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void w(
     dynamic message, [
@@ -146,6 +152,7 @@ class MockLogger extends _i1.Mock implements _i5.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void e(
     dynamic message, [
@@ -163,6 +170,7 @@ class MockLogger extends _i1.Mock implements _i5.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void wtf(
     dynamic message, [
@@ -180,6 +188,7 @@ class MockLogger extends _i1.Mock implements _i5.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void log(
     _i5.Level? level,
@@ -199,6 +208,7 @@ class MockLogger extends _i1.Mock implements _i5.Logger {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   bool isClosed() => (super.noSuchMethod(
         Invocation.method(
@@ -208,6 +218,7 @@ class MockLogger extends _i1.Mock implements _i5.Logger {
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   void close() => super.noSuchMethod(
         Invocation.method(

@@ -1,4 +1,5 @@
 import 'package:ankigpt/src/models/auth_provider.dart';
+import 'package:ankigpt/src/providers/app_user_provider.dart';
 import 'package:ankigpt/src/providers/auth_user_provider.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,9 +14,12 @@ AccountView accountView(AccountViewRef ref) {
     return const AccountView.signedOut();
   }
 
+  final appUser = ref.watch(appUserProvider).value;
   return AccountView.signedIn(
     email: authUser.email,
     authProvider: AuthProvider.fromFirebaseAuthUser(authUser),
+    generatedCardsCurrentMonth: appUser?.usage.generatedCardsCurrentMonth ?? 0,
+    hasPlus: appUser?.hasPlus ?? false,
   );
 }
 
@@ -24,6 +28,8 @@ class AccountView with _$AccountView {
   const factory AccountView.signedIn({
     String? email,
     required AuthProvider authProvider,
+    required int generatedCardsCurrentMonth,
+    required bool hasPlus,
   }) = AccountViewSignedIn;
 
   const factory AccountView.signedOut() = AccountViewSignedOut;

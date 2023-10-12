@@ -4,10 +4,12 @@ import 'package:animations/animations.dart';
 import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
+import 'package:ankigpt/src/pages/session_page/error_card.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/cancel_text_button.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
+import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
@@ -18,20 +20,28 @@ import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/total_cards_counter_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Controls extends StatelessWidget {
+class Controls extends ConsumerWidget {
   const Controls({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(generateNotifierProvider);
     return Padding(
       padding: const EdgeInsets.only(top: 12),
-      child: context.isMobile
-          ? const _MobileControlsView()
-          : const _DesktopControlsView(),
+      child: Column(
+        children: [
+          if (state is GenerationStateError)
+            _GenerationErrorCard(message: state.message),
+          context.isMobile
+              ? const _MobileControlsView()
+              : const _DesktopControlsView(),
+        ],
+      ),
     );
   }
 }
@@ -137,14 +147,14 @@ class _GenerateButton extends ConsumerWidget {
     try {
       await ref.read(generateNotifierProvider.notifier).submit();
     } catch (e) {
+      if (!context.mounted) return;
+
       if (e is PlusMembershipRequiredException) {
-        if (!context.mounted) return;
         showPlusDialog(context);
         return;
       }
 
       if (e is TooShortInputException) {
-        if (!context.mounted) return;
         showModal(
           context: context,
           builder: (context) => const _TooLessInputDialog(),
@@ -153,12 +163,21 @@ class _GenerateButton extends ConsumerWidget {
       }
 
       if (e is TooLongInputException) {
-        if (!context.mounted) return;
         showInputTooLong(context);
         return;
       }
 
-      if (!context.mounted) return;
+      if (e is FreeLimitExceededException) {
+        showPlusDialog(
+          context,
+          top: _FreeLimitExceededCard(
+            currentDeckSize: e.currentDeckSize,
+            remainingCardsForCurrentMonth: e.remainingFreeLimit,
+          ),
+        );
+        return;
+      }
+
       context.showTextSnackBar('$e');
     }
   }
@@ -182,6 +201,60 @@ class _GenerateButton extends ConsumerWidget {
             : const Text('Generate'),
         center: context.isMobile,
         onPressed: isGenerating ? null : () => generate(context, ref),
+      ),
+    );
+  }
+}
+
+class _GenerationErrorCard extends StatelessWidget {
+  const _GenerationErrorCard({
+    required this.message,
+  });
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: ErrorCard(text: message),
+    );
+  }
+}
+
+class _FreeLimitExceededCard extends StatelessWidget {
+  const _FreeLimitExceededCard({
+    required this.currentDeckSize,
+    required this.remainingCardsForCurrentMonth,
+  });
+
+  final int currentDeckSize;
+  final int remainingCardsForCurrentMonth;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: MaxWidthConstrainedBox(
+        maxWidth: 450,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.orange[100]!.withOpacity(0.7),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: MarkdownBody(
+            data: '''**Limited reached!**
+
+As a free user, you can create a maximum of $freeUsageLimitPerMonth cards per month. You have $remainingCardsForCurrentMonth remaining, but you attempted to generate $currentDeckSize cards. To produce more cards, consider upgrading to Plus.''',
+            styleSheet: MarkdownStyleSheet(
+              p: const TextStyle(
+                color: Colors.deepOrange,
+                fontSize: 18,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

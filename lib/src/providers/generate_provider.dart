@@ -11,12 +11,15 @@ import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/analytics_provider.dart';
 import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
+import 'package:ankigpt/src/providers/current_month_usage_provider.dart';
+import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/input_text_field_controller.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/router_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
+import 'package:ankigpt/src/providers/wants_to_generate_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -24,6 +27,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
 part 'generate_provider.g.dart';
+
+/// Defines the number of cards every free user has per month available.
+const freeUsageLimitPerMonth = 100;
 
 @Riverpod(keepAlive: true, dependencies: [hasPlus])
 class GenerateNotifier extends _$GenerateNotifier {
@@ -34,6 +40,7 @@ class GenerateNotifier extends _$GenerateNotifier {
   SessionRepository get _sessionRepository =>
       ref.read(sessionRepositoryProvider);
   bool get _hasPlus => ref.read(hasPlusProvider);
+  int get _currentMonthUsage => ref.read(currentMonthUsageProvider);
   Analytics get _analytics => ref.read(analyticsProvider);
   static const _analyticsPage = 'generate';
 
@@ -56,9 +63,16 @@ class GenerateNotifier extends _$GenerateNotifier {
     }
 
     final text = _textEditingController.text;
-
     if (!_hasPickedFile) {
-      _validateTextInput(text);
+      _throwIfTextInputIsInvalid(text);
+    }
+
+    _throwIfFreeLimitReached(size);
+
+    if (!ref.read(hasAccount2Provider)) {
+      ref.read(wantsToGenerateProvider.notifier).set(true);
+      ref.read(routerProvider).go('/account');
+      return;
     }
 
     state = const GenerateState.loading();
@@ -109,10 +123,32 @@ class GenerateNotifier extends _$GenerateNotifier {
     }
   }
 
+  void _throwIfFreeLimitReached(CardGenrationSize size) {
+    if (!_hasPlus) {
+      final remainingFreeLimit = freeUsageLimitPerMonth - _currentMonthUsage;
+      if (remainingFreeLimit < size.toInt()) {
+        _logFreeLimitExceeded();
+        throw FreeLimitExceededException(
+          currentDeckSize: size.toInt(),
+          remainingFreeLimit: remainingFreeLimit,
+        );
+      }
+    }
+  }
+
   void _logPlusRequiredToGenerate() {
     unawaited(
       _analytics.logEvent(
         'plus_required_to_generate',
+        page: _analyticsPage,
+      ),
+    );
+  }
+
+  void _logFreeLimitExceeded() {
+    unawaited(
+      _analytics.logEvent(
+        'free_limit_exceeded',
         page: _analyticsPage,
       ),
     );
@@ -129,7 +165,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     ));
   }
 
-  void _validateTextInput(String text) {
+  void _throwIfTextInputIsInvalid(String text) {
     if (text.length < 400) {
       _logTooShortInput();
       throw TooShortInputException();
@@ -201,7 +237,9 @@ class GenerateNotifier extends _$GenerateNotifier {
     // that the user wants to generate more cards.
     final size = ref.read(generationSizeProvider);
     if (!size.isAvailableForFiles()) {
-      ref.read(generationSizeProvider.notifier).set(CardGenrationSize.fifty);
+      ref
+          .read(generationSizeProvider.notifier)
+          .set(_hasPlus ? CardGenrationSize.fifty : CardGenrationSize.twenty);
     }
   }
 
@@ -216,6 +254,19 @@ class TooShortInputException implements Exception {}
 class TooLongInputException implements Exception {}
 
 class PlusMembershipRequiredException implements Exception {}
+
+class FreeLimitExceededException implements Exception {
+  const FreeLimitExceededException({
+    required this.currentDeckSize,
+    required this.remainingFreeLimit,
+  });
+
+  /// The deck size that the user tried to generate.
+  final int currentDeckSize;
+
+  /// The number of cards the user has left in the free version.
+  final int remainingFreeLimit;
+}
 
 @riverpod
 class PickedFile extends _$PickedFile {

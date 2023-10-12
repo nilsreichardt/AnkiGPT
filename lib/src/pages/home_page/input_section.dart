@@ -2,13 +2,10 @@ import 'dart:math';
 
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/home_page/controls.dart';
-import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/input_text_field.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
-import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
-import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:ankigpt/src/providers/input_text_field_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -115,35 +112,25 @@ class _UploadFileButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const borderRadius = BorderRadius.all(Radius.circular(12));
-    final hasPlus = ref.watch(hasPlusProvider);
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 275),
         child: AnkiGptCard(
-          key: ValueKey(hasPlus),
-          onPressed: () {
-            final hasPlus = ref.read(hasPlusProvider);
-            if (!hasPlus) {
-              showPlusDialog(context);
-              return;
-            }
-
-            ref.read(generateNotifierProvider.notifier).pickFile();
-          },
+          onPressed: () =>
+              ref.read(generateNotifierProvider.notifier).pickFile(),
           borderRadius: borderRadius,
           color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
-          child: SizedBox(
+          child: const SizedBox(
             width: double.infinity,
             child: Padding(
-              padding: const EdgeInsets.all(40),
+              padding: EdgeInsets.all(40),
               child: Column(
                 children: [
-                  const Icon(Icons.upload_file),
-                  SizedBox(height: hasPlus ? 13 : 0),
-                  const Text('Upload PDF file'),
-                  SizedBox(height: hasPlus ? 13 : 8),
-                  if (!hasPlus) const PlusBadge(),
+                  Icon(Icons.upload_file),
+                  SizedBox(height: 13),
+                  Text('Upload PDF file'),
+                  SizedBox(height: 13),
                 ],
               ),
             ),
@@ -166,15 +153,7 @@ class _PickedFileButton extends ConsumerWidget {
     return AnkiGptCard(
       onPressed: isLoading
           ? null
-          : () {
-              final hasPlus = ref.read(hasPlusProvider);
-              if (!hasPlus) {
-                showPlusDialog(context);
-                return;
-              }
-
-              ref.read(generateNotifierProvider.notifier).pickFile();
-            },
+          : () => ref.read(generateNotifierProvider.notifier).pickFile(),
       borderRadius: borderRadius,
       color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
       child: SizedBox(

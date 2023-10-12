@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:animations/animations.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/scroll_to.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
-import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
+import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
@@ -79,6 +78,7 @@ class _FreeTier extends ConsumerWidget {
       name: 'Free',
       price: '€0',
       points: const [
+        PointData('$freeUsageLimitPerMonth cards per month'),
         PointData('Up to 20 cards per request'),
         PointData('Up to 4,000 input characters per request'),
         PointData('Delete, edit & search cards'),
@@ -132,9 +132,9 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
       price: '€9.99',
       priceDescription: 'Lifetime',
       points: const [
-        PointData('PDF files as input', trailing: _PdfPointHelpButton()),
+        PointData('Unlimited cards per month'),
         PointData('Up to 250 cards per request'),
-        PointData('Up to 500,000 input characters per request'),
+        PointData('Up to 500,000 input characters (~ 200 pages) per request'),
         PointData('Premium support'),
         PointData('All free features'),
       ],
@@ -171,7 +171,7 @@ class _TierBase extends StatelessWidget {
         width: _isMobileView(context)
             ? MediaQuery.of(context).size.width * 0.85
             : 320,
-        height: 480,
+        height: 500,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -260,60 +260,6 @@ class SellingPoint extends StatelessWidget {
       ),
       title: Text(text),
       trailing: trailing,
-    );
-  }
-}
-
-class _PdfPointHelpButton extends StatelessWidget {
-  const _PdfPointHelpButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      tooltip: 'Details',
-      icon: const Icon(Icons.help_outline),
-      onPressed: () => showModal(
-        context: context,
-        builder: (context) => const _PdfPointHelpDialog(),
-      ),
-    );
-  }
-}
-
-class _PdfPointHelpDialog extends StatelessWidget {
-  const _PdfPointHelpDialog();
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('PDF Input'),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: min(MediaQuery.of(context).size.height * 2, 450),
-            child: const TutorialVideoPlayer(
-              aspectRatio: 16 / 10.6,
-              videoUrl:
-                  'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fpdf-upload-tutorial.mp4?alt=media&token=a67cd7c1-ff89-41e8-a1f0-9daebe1caaed',
-            ),
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            '* You can upload PDF files as input.\n'
-            '* Generating 100 - 200 cards takes about 5 - 10 minutes.\n'
-            '* Only text is extracted from the PDF file (images are ignored)',
-            style: TextStyle(fontSize: 16),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('CLOSE'),
-        ),
-      ],
     );
   }
 }

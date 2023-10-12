@@ -4,6 +4,7 @@ import 'package:animations/animations.dart';
 import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
+import 'package:ankigpt/src/pages/session_page/error_card.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/cancel_text_button.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
@@ -24,16 +25,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Controls extends StatelessWidget {
+class Controls extends ConsumerWidget {
   const Controls({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(generateNotifierProvider);
     return Padding(
       padding: const EdgeInsets.only(top: 12),
-      child: context.isMobile
-          ? const _MobileControlsView()
-          : const _DesktopControlsView(),
+      child: Column(
+        children: [
+          if (state is GenerationStateError)
+            _GenerationErrorCard(message: state.message),
+          context.isMobile
+              ? const _MobileControlsView()
+              : const _DesktopControlsView(),
+        ],
+      ),
     );
   }
 }
@@ -194,6 +202,22 @@ class _GenerateButton extends ConsumerWidget {
         center: context.isMobile,
         onPressed: isGenerating ? null : () => generate(context, ref),
       ),
+    );
+  }
+}
+
+class _GenerationErrorCard extends StatelessWidget {
+  const _GenerationErrorCard({
+    required this.message,
+  });
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: ErrorCard(text: message),
     );
   }
 }

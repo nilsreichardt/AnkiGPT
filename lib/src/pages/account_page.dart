@@ -116,6 +116,8 @@ class _SignInSection extends StatelessWidget {
       child: SingleChildScrollView(
         child: StaggeredList(
           children: [
+            _SignInNote(),
+            SizedBox(height: 16),
             _GoogleSignIn(),
             SizedBox(height: 12),
             _AppleSignIn(),
@@ -123,6 +125,20 @@ class _SignInSection extends StatelessWidget {
             _LegalText(),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _SignInNote extends StatelessWidget {
+  const _SignInNote();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text(
+      'To use AnkiGPT, please sign in.',
+      style: TextStyle(
+        fontSize: 16,
       ),
     );
   }

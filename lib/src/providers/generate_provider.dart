@@ -29,7 +29,7 @@ import 'package:uuid/uuid.dart';
 part 'generate_provider.g.dart';
 
 /// Defines the number of cards every free user has per month available.
-const freeUsageLimitPerMonth = 150;
+const freeUsageLimitPerMonth = 100;
 
 @Riverpod(keepAlive: true, dependencies: [hasPlus])
 class GenerateNotifier extends _$GenerateNotifier {
@@ -237,7 +237,9 @@ class GenerateNotifier extends _$GenerateNotifier {
     // that the user wants to generate more cards.
     final size = ref.read(generationSizeProvider);
     if (!size.isAvailableForFiles()) {
-      ref.read(generationSizeProvider.notifier).set(CardGenrationSize.fifty);
+      ref
+          .read(generationSizeProvider.notifier)
+          .set(_hasPlus ? CardGenrationSize.fifty : CardGenrationSize.twenty);
     }
   }
 

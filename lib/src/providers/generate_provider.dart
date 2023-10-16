@@ -264,9 +264,9 @@ class GenerateNotifier extends _$GenerateNotifier {
 
   Future<void> pickFile() async {
     final result = await FilePicker.platform.pickFiles(
-      // allowedExtensions: ['pdf'],
+      allowedExtensions: ['pdf'],
       allowMultiple: false,
-      // type: FileType.custom,
+      type: FileType.custom,
     );
 
     if (result == null || result.files.isEmpty) return;

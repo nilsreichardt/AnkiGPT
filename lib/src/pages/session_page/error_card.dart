@@ -27,55 +27,57 @@ class ErrorCard extends ConsumerWidget {
               color: Theme.of(context).colorScheme.error,
             ),
             const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Error!',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          text ?? 'Something went wrong. Please try again.',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.error),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        'Error!',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.error,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600),
+                      TextButton(
+                        onPressed: () {
+                          ref.read(generateNotifierProvider.notifier).submit();
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: Theme.of(context).colorScheme.error,
+                        ),
+                        child: const Text('RETRY'),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        text ?? 'Something went wrong. Please try again.',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.error),
+                      const SizedBox(width: 12),
+                      TextButton(
+                        onPressed: () => launchUrl(
+                            Uri.parse('https://ankigpt.help/support')),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Theme.of(context).colorScheme.error,
+                        ),
+                        child: const Text('CONTACT SUPPORT'),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        ref.read(generateNotifierProvider.notifier).submit();
-                      },
-                      style: TextButton.styleFrom(
-                        foregroundColor: Theme.of(context).colorScheme.error,
-                      ),
-                      child: const Text('RETRY'),
-                    ),
-                    const SizedBox(width: 12),
-                    TextButton(
-                      onPressed: () =>
-                          launchUrl(Uri.parse('https://ankigpt.help/support')),
-                      style: TextButton.styleFrom(
-                        foregroundColor: Theme.of(context).colorScheme.error,
-                      ),
-                      child: const Text('CONTACT SUPPORT'),
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

@@ -20,6 +20,8 @@ import 'package:ankigpt/src/providers/router_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_generate_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -119,8 +121,38 @@ class GenerateNotifier extends _$GenerateNotifier {
       router.go('/deck/$sessionId');
     } catch (e, s) {
       _logger.e("Failed to generate cards", e, s);
+
+      if (e is FirebaseFunctionsException) {
+        state = GenerateState.error(
+            message: _getErrorMessageForFunctionsException(e));
+        return;
+      }
       state = GenerateState.error(message: '$e');
     }
+  }
+
+  String _getErrorMessageForFunctionsException(FirebaseFunctionsException e) {
+    if (e.message == 'too-long-input-exception') {
+      return 'Your input is too long. Please try again with a shorter input.';
+    }
+
+    if (e.message == 'too-less-input-exception') {
+      return 'Your input is too short. Please try again with a longer input (at least 400 characters). In case you uploaded a file, ensure that the file contains enough text (text from images is not supported). Or copy the text from the file and paste it into the text field.';
+    }
+
+    if (e.message == 'no-input-provided-exception') {
+      return 'The provided input was empty. Please try again with a non-empty input. In case you uploaded a file, ensure that the file contains enough text (text from images is not supported). Or copy the text from the file and paste it into the text field.';
+    }
+
+    if (e.message == 'could-not-read-pdf-exception') {
+      return 'The provided file could not be read. Please try again with a different file. Make sure your PDF is not passwort protected. Or copy the text from the file and paste it into the text field.';
+    }
+
+    if (e.message == 'unknown-language-exception') {
+      return 'It was not possible to detect the language of the input. Please try again with a different input. In case you uploading a file, ensure that the file contains enough text (text from images is not supported). Also, it could be that the text in your file is not readable by our OCR. In this case, please copy the text from the file and paste it into the text field.';
+    }
+
+    return 'An unknown error occurred. Please try again or contact the support.';
   }
 
   void _throwIfFreeLimitReached(CardGenrationSize size) {
@@ -205,6 +237,14 @@ class GenerateNotifier extends _$GenerateNotifier {
       _logger.d('Uploaded file');
       return true;
     } catch (e) {
+      if (e is FirebaseException && e.code == 'unauthorized') {
+        _logger.e('Unauthorized to upload file', e);
+        state = const GenerateState.error(
+            message:
+                'Uploading the file was blocked. This could be because your file is too large. Please try again with a smaller file (< 100 MB).');
+        return false;
+      }
+
       state = GenerateState.error(message: 'Failed to upload file: $e');
       _logger.e('Failed to upload file', e);
       return false;

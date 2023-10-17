@@ -455,6 +455,10 @@ class _Controls2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        _MnemonicsButton(
+          cardId: cardId,
+          isVisible: isVisible,
+        ),
         _DeleteButton(
           cardId: cardId,
           isVisible: isVisible,
@@ -654,6 +658,50 @@ class _DeleteButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    return _CardIconButton(
+      isVisible: isVisible,
+      child: IconButton(
+        tooltip: 'Delete',
+        onPressed: () => onDeleted(cardId),
+        icon: const Icon(Icons.delete),
+      ),
+    );
+  }
+}
+
+class _MnemonicsButton extends ConsumerWidget {
+  const _MnemonicsButton({
+    required this.cardId,
+    required this.isVisible,
+  });
+
+  final CardId cardId;
+  final bool isVisible;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return _CardIconButton(
+      isVisible: isVisible,
+      child: IconButton(
+        tooltip: 'Generate mnemonics',
+        onPressed: () {},
+        icon: const Icon(Icons.psychology),
+      ),
+    );
+  }
+}
+
+class _CardIconButton extends StatelessWidget {
+  const _CardIconButton({
+    required this.isVisible,
+    required this.child,
+  });
+
+  final bool isVisible;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 250),
       // Adding the default transitionBuilder here fixes
@@ -670,11 +718,7 @@ class _DeleteButton extends ConsumerWidget {
         opacity: isVisible ? 1 : 0,
         child: IgnorePointer(
           ignoring: !isVisible,
-          child: IconButton(
-            tooltip: 'Delete',
-            onPressed: () => onDeleted(cardId),
-            icon: const Icon(Icons.delete),
-          ),
+          child: child,
         ),
       ),
     );

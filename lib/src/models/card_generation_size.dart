@@ -6,9 +6,7 @@ enum CardGenrationSize {
   fifty,
   seventyFive,
   hundred,
-  hunderFifty,
-  twoHundred,
-  twoHundredsFifty;
+  hundertFifty;
 
   int toInt() {
     switch (this) {
@@ -26,12 +24,8 @@ enum CardGenrationSize {
         return 75;
       case CardGenrationSize.hundred:
         return 100;
-      case CardGenrationSize.hunderFifty:
+      case CardGenrationSize.hundertFifty:
         return 150;
-      case CardGenrationSize.twoHundred:
-        return 200;
-      case CardGenrationSize.twoHundredsFifty:
-        return 250;
     }
   }
 
@@ -55,12 +49,8 @@ enum CardGenrationSize {
         return '~ 5 min';
       case CardGenrationSize.hundred:
         return '~ 5 min';
-      case CardGenrationSize.hunderFifty:
+      case CardGenrationSize.hundertFifty:
         return '~ 5 min';
-      case CardGenrationSize.twoHundred:
-        return '~ 5 - 10 min';
-      case CardGenrationSize.twoHundredsFifty:
-        return '~ 5 - 10 min';
     }
   }
 
@@ -70,9 +60,7 @@ enum CardGenrationSize {
       case CardGenrationSize.fifty:
       case CardGenrationSize.seventyFive:
       case CardGenrationSize.hundred:
-      case CardGenrationSize.hunderFifty:
-      case CardGenrationSize.twoHundred:
-      case CardGenrationSize.twoHundredsFifty:
+      case CardGenrationSize.hundertFifty:
         return true;
       default:
         return false;
@@ -86,9 +74,7 @@ enum CardGenrationSize {
       case CardGenrationSize.fifty:
       case CardGenrationSize.seventyFive:
       case CardGenrationSize.hundred:
-      case CardGenrationSize.hunderFifty:
-      case CardGenrationSize.twoHundred:
-      case CardGenrationSize.twoHundredsFifty:
+      case CardGenrationSize.hundertFifty:
         return true;
       default:
         return false;

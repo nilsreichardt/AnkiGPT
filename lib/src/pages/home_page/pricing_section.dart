@@ -133,7 +133,7 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
       priceDescription: 'Lifetime',
       points: const [
         PointData('Unlimited cards per month'),
-        PointData('Up to 250 cards per request'),
+        PointData('Up to 150 cards per request'),
         PointData('Up to 500,000 input characters (~ 200 pages) per request'),
         PointData('Premium support'),
         PointData('All free features'),

@@ -8,6 +8,9 @@
         "ankigpt-prod": [
           "ankigpt-prod"
         ],
+        "ankigpt-whatsapp-links": [
+          "ankigpt-whatsapp-links"
+        ],
         "ankigpt-prod-playground": [
           "ankigpt-prod-playground"
         ]

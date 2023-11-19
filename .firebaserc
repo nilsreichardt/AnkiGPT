@@ -1,11 +1,13 @@
 {
   "projects": {
-    "default": "ankigpt-prod"
+    "default": "ankigpt-prod",
+    "dev": "ankigpt-dev",
+    "prod": "ankigpt-prod"
   },
   "targets": {
     "ankigpt-prod": {
       "hosting": {
-        "ankigpt-prod": [
+        "ankigpt-app": [
           "ankigpt-prod"
         ],
         "ankigpt-whatsapp-links": [
@@ -13,6 +15,16 @@
         ],
         "ankigpt-prod-playground": [
           "ankigpt-prod-playground"
+        ],
+        "ankigpt-api": [
+          "ankigpt-prod-api"
+        ]
+      }
+    },
+    "ankigpt-dev": {
+      "hosting": {
+        "ankigpt-app": [
+          "ankigpt-dev"
         ]
       }
     }

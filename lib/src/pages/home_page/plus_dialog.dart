@@ -84,7 +84,7 @@ class PlusAdvantages extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SellingPoint(text: 'Unlimited cards per month'),
-        SellingPoint(text: 'Up to 250 cards per request'),
+        SellingPoint(text: 'Up to 150 cards per request'),
         SellingPoint(
             text: 'Up to 500,000 input characters (~ 200 pages) per request'),
         SellingPoint(text: 'Premium support'),

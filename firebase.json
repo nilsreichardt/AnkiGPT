@@ -1,7 +1,7 @@
 {
   "hosting": [
     {
-      "target": "ankigpt-prod",
+      "target": "ankigpt-app",
       "public": "build/web",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
@@ -39,6 +39,18 @@
       ]
     },
     {
+      "target": "ankigpt-whatsapp-links",
+      "public": "build/web",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "redirects": [
+        {
+          "source": "**",
+          "destination": "https://ankig.pt/0",
+          "type": 302
+        }
+      ]
+    },
+    {
       "target": "ankigpt-prod-playground",
       "public": "build/web",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
@@ -46,6 +58,18 @@
         {
           "source": "**",
           "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "ankigpt-api",
+      "rewrites": [
+        {
+          "source": "**",
+          "run": {
+            "serviceId": "routehttp",
+            "region": "europe-west1"
+          }
         }
       ]
     }

@@ -1,7 +1,7 @@
 {
   "hosting": [
     {
-      "target": "ankigpt-prod",
+      "target": "ankigpt-app",
       "public": "build/web",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
@@ -58,6 +58,18 @@
         {
           "source": "**",
           "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "ankigpt-api",
+      "rewrites": [
+        {
+          "source": "**",
+          "run": {
+            "serviceId": "routehttp",
+            "region": "europe-west1"
+          }
         }
       ]
     }

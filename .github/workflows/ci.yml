@@ -123,3 +123,4 @@ jobs:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_ANKIGPT_PROD }}"
           projectId: ankigpt-prod
+          target: ankigpt-app

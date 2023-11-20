@@ -6,7 +6,7 @@ part of 'sign_in_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$signInHash() => r'1120d1339e6301bd676433a04aab90883c226195';
+String _$signInHash() => r'7a29d85b8edfe6c7625f601ae77611cc45f0cfb8';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -58,12 +58,18 @@ class SignInFamily extends Family<AsyncValue<void>> {
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
+    generateNotifierProvider
+  ];
 
   @override
   Iterable<ProviderOrFamily>? get dependencies => _dependencies;
 
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
+      <ProviderOrFamily>{
+    generateNotifierProvider,
+    ...?generateNotifierProvider.allTransitiveDependencies
+  };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>

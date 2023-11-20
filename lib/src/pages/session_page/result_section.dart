@@ -11,6 +11,7 @@ import 'package:ankigpt/src/pages/widgets/card_feedback_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
+import 'package:ankigpt/src/pages/widgets/mnemonics_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/pagination_control.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
@@ -304,6 +305,8 @@ class _ResultCardState extends ConsumerState<ResultCard> {
                     isVisible: hovering || isMobile,
                     cardId: widget.card.id,
                     onDeleted: widget.onDeleted,
+                    answer: widget.card.answer,
+                    question: widget.card.question,
                   )
                 ],
               ),
@@ -445,11 +448,15 @@ class _Controls2 extends StatelessWidget {
     required this.isVisible,
     required this.cardId,
     required this.onDeleted,
+    required this.question,
+    required this.answer,
   });
 
   final bool isVisible;
   final CardId cardId;
   final ValueChanged<CardId> onDeleted;
+  final String question;
+  final String answer;
 
   @override
   Widget build(BuildContext context) {
@@ -458,6 +465,8 @@ class _Controls2 extends StatelessWidget {
         _MnemonicsButton(
           cardId: cardId,
           isVisible: isVisible,
+          answer: answer,
+          question: question,
         ),
         _DeleteButton(
           cardId: cardId,
@@ -673,18 +682,33 @@ class _MnemonicsButton extends ConsumerWidget {
   const _MnemonicsButton({
     required this.cardId,
     required this.isVisible,
+    required this.answer,
+    required this.question,
   });
 
   final CardId cardId;
   final bool isVisible;
+  final String question;
+  final String answer;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final sessionId = ref.watch(sessionIdProvider)!;
     return _CardIconButton(
       isVisible: isVisible,
       child: IconButton(
-        tooltip: 'Generate mnemonics',
-        onPressed: () {},
+        tooltip: 'Generate mnemonic (beta)',
+        onPressed: () {
+          showModal(
+            context: context,
+            builder: (context) => MnemonicsDialog(
+              cardId: cardId,
+              sessionId: sessionId,
+              answer: answer,
+              question: question,
+            ),
+          );
+        },
         icon: const Icon(Icons.psychology),
       ),
     );

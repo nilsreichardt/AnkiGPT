@@ -1,6 +1,6 @@
 # AnkiGPT - Turn lecture slides into flashcards using ChatGPT / GPT and export them to Anki
 
-Generate flashcards from lecture slides with one click using GPT technology and easily export them to Anki. An easy to use Anki ChatGPT combination. 
+Generate flashcards from lecture slides with one click using GPT technology and easily export them to Anki. An easy to use Anki ChatGPT combination.
 
 ➡️ https://ankigpt.help
 
@@ -14,9 +14,10 @@ https://github.com/nilsreichardt/ankigpt/assets/24459435/853dee68-d634-48e4-93fe
 - ✏️ Edit flashcards, in case you want to change something
 - 🗑️ Delete flashcards, in case GPT (ChatGPT) generated something wrong or useless card
 
-Try it out: 
-* As website: https://ankigpt.help (recommended)
-* As GPT: https://chatg.pt/ankigpt (requires ChatGPT Plus subscription)
+Try it out:
+
+- As website: https://ankigpt.help (recommended)
+- As GPT: https://chatg.pt/ankigpt (requires ChatGPT Plus subscription)
 
 ## How does AnkiGPT work?
 

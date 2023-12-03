@@ -19,6 +19,7 @@ import 'package:ankigpt/src/providers/show_successful_playment_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({
@@ -43,6 +44,7 @@ class _HomePage2State extends ConsumerState<HomePage> {
 
     if (widget.has0Analytics) {
       unawaited(increaseZeroCounter());
+      unawaited(setZeroFlag());
     }
   }
 
@@ -56,6 +58,15 @@ class _HomePage2State extends ConsumerState<HomePage> {
       });
     } on Exception catch (e) {
       ref.read(loggerProvider).i('Could not increase zero counter', e);
+    }
+  }
+
+  Future<void> setZeroFlag() async {
+    try {
+      final sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setBool('0', true);
+    } catch (e) {
+      ref.read(loggerProvider).i('Could not set zero flag', e);
     }
   }
 

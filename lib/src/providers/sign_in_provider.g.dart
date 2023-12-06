@@ -42,7 +42,7 @@ class SignInFamily extends Family<AsyncValue<void>> {
 
   /// See also [signIn].
   SignInProvider call({
-    required dynamic authProvider,
+    required AuthProvider authProvider,
   }) {
     return SignInProvider(
       authProvider: authProvider,
@@ -99,7 +99,7 @@ class SignInProvider extends AutoDisposeFutureProvider<void> {
           allTransitiveDependencies: SignInFamily._allTransitiveDependencies,
         );
 
-  final dynamic authProvider;
+  final AuthProvider authProvider;
 
   @override
   bool operator ==(Object other) {

@@ -95,6 +95,7 @@ class _Traction extends ConsumerWidget {
           fontFeatures: const [FontFeature.tabularFigures()],
           color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
         ),
+        textAlign: TextAlign.center,
       ),
     );
   }

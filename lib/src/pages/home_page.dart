@@ -7,7 +7,6 @@ import 'package:ankigpt/src/pages/home_page/drawer.dart';
 import 'package:ankigpt/src/pages/home_page/faq_section.dart';
 import 'package:ankigpt/src/pages/home_page/input_section.dart';
 import 'package:ankigpt/src/pages/home_page/my_decks_section.dart';
-import 'package:ankigpt/src/pages/home_page/new_card.dart';
 import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
 import 'package:ankigpt/src/pages/successful_payment_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
@@ -98,7 +97,7 @@ class _HomePage2State extends ConsumerState<HomePage> {
                 ),
                 child: Column(
                   children: [
-                    const NewCard(),
+                    // const NewCard(),
                     const InputSection(),
                     const SizedBox(height: 50),
                     isSignedIn ? const MyDecksSection() : const DemoSection(),

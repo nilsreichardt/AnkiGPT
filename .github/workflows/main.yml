@@ -27,8 +27,8 @@ permissions: {}
 jobs:
   build_and_deploy:
     runs-on: ubuntu-22.04
-    # permissions:
-      # checks: write # for FirebaseExtended/action-hosting-deploy
+    permissions:
+      checks: write # for FirebaseExtended/action-hosting-deploy
     strategy:
       matrix:
         environment:

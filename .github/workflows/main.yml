@@ -16,7 +16,6 @@ on:
       - "pubspec.yaml"
       - "pubspec.lock"
       - ".github/workflows/main.yml"
-  pull_request:
 
 # Set permissions to none.
 #

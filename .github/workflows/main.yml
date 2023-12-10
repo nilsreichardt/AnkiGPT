@@ -33,14 +33,14 @@ jobs:
     strategy:
       matrix:
         environment:
-          - prod:
-              firebaseServiceAccount: secrets.FIREBASE_SERVICE_ACCOUNT_ANKIGPT_PROD
-              projectId: ankigpt-prod
-              flavor: prod
-          - dev:
-              firebaseServiceAccount: secrets.FIREBASE_SERVICE_ACCOUNT_ANKIGPT_DEV
-              projectId: ankigpt-dev
-              flavor: dev
+          - name: 'prod'
+            firebaseServiceAccount: secrets.FIREBASE_SERVICE_ACCOUNT_ANKIGPT_PROD
+            projectId: ankigpt-prod
+            flavor: prod
+          - name: 'dev'
+            firebaseServiceAccount: secrets.FIREBASE_SERVICE_ACCOUNT_ANKIGPT_DEV
+            projectId: ankigpt-dev
+            flavor: dev
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 

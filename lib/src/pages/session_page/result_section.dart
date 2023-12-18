@@ -300,7 +300,7 @@ class _ResultCardState extends ConsumerState<ResultCard> {
                     question: widget.card.question,
                     cardId: widget.card.id,
                   ),
-                  _Controls2(
+                  _Controls(
                     // We always show the controls on mobile because there is no
                     // hover state.
                     isVisible: hovering || isMobile,
@@ -473,10 +473,11 @@ enum _ControlsOptions {
   undoLike,
   dislike,
   undoDislike,
+  mnemonics,
 }
 
-class _Controls2 extends StatelessWidget {
-  const _Controls2({
+class _Controls extends StatelessWidget {
+  const _Controls({
     required this.isVisible,
     required this.cardId,
     required this.onDeleted,
@@ -494,12 +495,6 @@ class _Controls2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        _MnemonicsButton(
-          cardId: cardId,
-          isVisible: isVisible,
-          answer: answer,
-          question: question,
-        ),
         _DeleteButton(
           cardId: cardId,
           isVisible: isVisible,
@@ -507,6 +502,8 @@ class _Controls2 extends StatelessWidget {
         ),
         _MoreOptionsMenu(
           cardId: cardId,
+          question: question,
+          answer: answer,
         ),
       ],
     );
@@ -516,9 +513,13 @@ class _Controls2 extends StatelessWidget {
 class _MoreOptionsMenu extends ConsumerWidget {
   const _MoreOptionsMenu({
     required this.cardId,
+    required this.question,
+    required this.answer,
   });
 
   final CardId cardId;
+  final String question;
+  final String answer;
 
   void undoDislike(WidgetRef ref) {
     final sessionId = ref.read(sessionIdProvider)!;
@@ -580,6 +581,19 @@ class _MoreOptionsMenu extends ConsumerWidget {
     );
   }
 
+  void showMnemonicsDialog(BuildContext context, WidgetRef ref) {
+    final sessionId = ref.read(sessionIdProvider)!;
+    showModal(
+      context: context,
+      builder: (context) => MnemonicsDialog(
+        cardId: cardId,
+        sessionId: sessionId,
+        answer: answer,
+        question: question,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final status = ref.watch(cardFeedbackStatusControllerProvider)[cardId] ??
@@ -588,9 +602,18 @@ class _MoreOptionsMenu extends ConsumerWidget {
     final hasDisliked = status == CardFeedbackStatus.disliked;
 
     return PopupMenuButton<_ControlsOptions>(
-      tooltip: 'More options (edit, like, dislike)',
+      tooltip: 'More options (edit, like, dislike, mnemonics)',
       icon: const Icon(Icons.more_vert),
       itemBuilder: (context) => [
+        const PopupMenuItem(
+          value: _ControlsOptions.mnemonics,
+          child: ListTile(
+            contentPadding: EdgeInsets.symmetric(vertical: 4),
+            leading: Icon(Icons.psychology),
+            mouseCursor: SystemMouseCursors.click,
+            title: Text('Generate mnemonic (beta)'),
+          ),
+        ),
         const PopupMenuItem(
           value: _ControlsOptions.edit,
           child: ListTile(
@@ -648,6 +671,7 @@ class _MoreOptionsMenu extends ConsumerWidget {
           _ControlsOptions.like => like(ref, context),
           _ControlsOptions.undoDislike => undoDislike(ref),
           _ControlsOptions.undoLike => undoDislike(ref),
+          _ControlsOptions.mnemonics => showMnemonicsDialog(context, ref),
         };
       },
     );
@@ -705,43 +729,6 @@ class _DeleteButton extends ConsumerWidget {
         tooltip: 'Delete',
         onPressed: () => onDeleted(cardId),
         icon: const Icon(Icons.delete),
-      ),
-    );
-  }
-}
-
-class _MnemonicsButton extends ConsumerWidget {
-  const _MnemonicsButton({
-    required this.cardId,
-    required this.isVisible,
-    required this.answer,
-    required this.question,
-  });
-
-  final CardId cardId;
-  final bool isVisible;
-  final String question;
-  final String answer;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final sessionId = ref.watch(sessionIdProvider)!;
-    return _CardIconButton(
-      isVisible: isVisible,
-      child: IconButton(
-        tooltip: 'Generate mnemonic (beta)',
-        onPressed: () {
-          showModal(
-            context: context,
-            builder: (context) => MnemonicsDialog(
-              cardId: cardId,
-              sessionId: sessionId,
-              answer: answer,
-              question: question,
-            ),
-          );
-        },
-        icon: const Icon(Icons.psychology),
       ),
     );
   }

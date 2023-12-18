@@ -10,12 +10,15 @@ import 'package:ankigpt/src/providers/logger/memory_output_provider.dart';
 import 'package:ankigpt/src/providers/logger/provider_logger_observer.dart';
 import 'package:ankigpt/src/providers/router_provider.dart';
 import 'package:ankigpt/src/providers/shared_preferences_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   usePathUrlStrategy();
@@ -36,6 +39,8 @@ Future<void> main() async {
   };
 
   await _initFirebase(flavor);
+
+  unawaited(zeroFlagSetter(logger));
 
   runApp(ProviderScope(
     observers: [
@@ -66,6 +71,30 @@ Future<FirebaseApp> _initFirebase(Flavor flavor) async {
       return Firebase.initializeApp(
           options: prod.DefaultFirebaseOptions.currentPlatform);
   }
+}
+
+Future<void> zeroFlagSetter(Logger logger) async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+  final auth = FirebaseAuth.instance;
+  auth.authStateChanges().listen((user) async {
+    if (user == null) {
+      return;
+    }
+
+    try {
+      final has0 = sharedPreferences.getBool('0') ?? false;
+      if (has0) {
+        final cloudFirestore = FirebaseFirestore.instance;
+        await cloudFirestore.doc('Users/${user.uid}').set({
+          'has0': true,
+        }, SetOptions(merge: true));
+        logger.i('Set has0 flag for user ${user.uid}');
+        return;
+      }
+    } catch (e) {
+      logger.e('Could not set has0 flag for user ${user.uid}', e);
+    }
+  });
 }
 
 class AnkiGptApp extends ConsumerWidget {

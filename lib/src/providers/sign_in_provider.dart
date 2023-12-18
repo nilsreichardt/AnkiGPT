@@ -8,7 +8,7 @@ import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_generate_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'sign_in_provider.g.dart';

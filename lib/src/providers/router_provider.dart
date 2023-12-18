@@ -24,7 +24,11 @@ GoRouter router(RouterRef ref) {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const HomePage(),
+        builder: (context, state) {
+          final zero = state.queryParameters['0'];
+          final has0Analytics = zero?.isEmpty ?? false;
+          return HomePage(has0Analytics: has0Analytics);
+        },
         routes: [
           GoRoute(
             path: 'account',

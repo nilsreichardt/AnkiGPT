@@ -1,5 +1,6 @@
 import 'package:ankigpt/src/models/card_id.dart';
 import 'package:ankigpt/src/models/session_id.dart';
+import 'package:ankigpt/src/providers/card_text_editing_controller_provider.dart';
 import 'package:ankigpt/src/providers/mnemonics_repository_provider.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -61,11 +62,15 @@ class MnemonicsController extends _$MnemonicsController {
 
     try {
       final repository = ref.read(mnemonicsRepositoryProvider);
-      await repository.append(
+      final updatedAnswer = await repository.append(
         mnemonic: mnemonic,
         sessionId: sessionId,
         cardId: cardId,
       );
+
+      final textEditingController =
+          ref.read(answerTextEditingControllerProviderProvider(cardId));
+      textEditingController.text = updatedAnswer;
     } on Exception catch (e) {
       state = MnemonicsState.error('$e');
     }

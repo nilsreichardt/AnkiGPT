@@ -32,12 +32,14 @@ class MnemonicsRepository {
     return response.data['mnemonic'] as String;
   }
 
-  Future<void> append({
+  Future<String> append({
     required String mnemonic,
     required SessionId sessionId,
     required CardId cardId,
   }) async {
-    await cloudFunctions.httpsCallableFromUrl(routeUrl).call({
+    final response = await cloudFunctions
+        .httpsCallableFromUrl(routeUrl)
+        .call<Map<String, dynamic>>({
       'destination': 'appendMnemonic',
       'payload': {
         'cardId': cardId,
@@ -45,5 +47,7 @@ class MnemonicsRepository {
         'mnemonic': mnemonic,
       }
     });
+
+    return response.data['updatedAnswer'] as String;
   }
 }

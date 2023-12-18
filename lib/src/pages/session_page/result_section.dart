@@ -15,6 +15,7 @@ import 'package:ankigpt/src/pages/widgets/mnemonics_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/pagination_control.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
+import 'package:ankigpt/src/providers/card_text_editing_controller_provider.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
 import 'package:ankigpt/src/providers/delete_card_provider.dart';
 import 'package:ankigpt/src/providers/dislike_provider.dart';
@@ -328,11 +329,13 @@ class _CardTextField extends StatefulWidget {
     required this.text,
     required this.onChanged,
     required this.style,
+    required this.controller,
   });
 
   final ValueChanged<String> onChanged;
   final String text;
   final TextStyle style;
+  final TextEditingController controller;
 
   @override
   State<_CardTextField> createState() => _CardTextFieldState();
@@ -340,13 +343,6 @@ class _CardTextField extends StatefulWidget {
 
 class _CardTextFieldState extends State<_CardTextField> {
   bool hovering = false;
-  late TextEditingController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = TextEditingController(text: widget.text);
-  }
 
   void switchHovering() {
     setState(() {
@@ -363,7 +359,7 @@ class _CardTextFieldState extends State<_CardTextField> {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         color: hovering ? Colors.grey.withOpacity(0.1) : Colors.transparent,
         child: TextField(
-          controller: controller,
+          controller: widget.controller,
           maxLines: null,
           onChanged: widget.onChanged,
           decoration: const InputDecoration(
@@ -376,7 +372,7 @@ class _CardTextFieldState extends State<_CardTextField> {
   }
 }
 
-class _CardAnswer extends ConsumerWidget {
+class _CardAnswer extends ConsumerStatefulWidget {
   const _CardAnswer({
     required this.cardId,
     required this.answer,
@@ -386,17 +382,32 @@ class _CardAnswer extends ConsumerWidget {
   final String answer;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_CardAnswer> createState() => _CardAnswerState();
+}
+
+class _CardAnswerState extends ConsumerState<_CardAnswer> {
+  late TextEditingController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        ref.read(answerTextEditingControllerProviderProvider(widget.cardId));
+    controller.text = widget.answer;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return _CardTextField(
+      controller: controller,
       onChanged: (text) {
         final sessionId = ref.read(sessionIdProvider)!;
         ref.read(editAnswerProvider.notifier).debounce(
-              cardId: cardId,
+              cardId: widget.cardId,
               answer: text,
               sessionId: sessionId,
             );
       },
-      text: answer,
+      text: widget.answer,
       style: TextStyle(
         color: Colors.grey[700],
         fontSize: 14,
@@ -405,7 +416,7 @@ class _CardAnswer extends ConsumerWidget {
   }
 }
 
-class _CardQuestion extends ConsumerWidget {
+class _CardQuestion extends ConsumerStatefulWidget {
   const _CardQuestion({
     required this.cardId,
     required this.question,
@@ -415,14 +426,28 @@ class _CardQuestion extends ConsumerWidget {
   final String question;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_CardQuestion> createState() => _CardQuestionState();
+}
+
+class _CardQuestionState extends ConsumerState<_CardQuestion> {
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController(text: widget.question);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Expanded(
       child: _CardTextField(
-        text: question,
+        controller: controller,
+        text: widget.question,
         onChanged: (text) {
           final sessionId = ref.read(sessionIdProvider)!;
           ref.read(editQuestionProvider.notifier).debounce(
-                cardId: cardId,
+                cardId: widget.cardId,
                 question: text,
                 sessionId: sessionId,
               );

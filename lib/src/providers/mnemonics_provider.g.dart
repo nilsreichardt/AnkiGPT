@@ -7,7 +7,7 @@ part of 'mnemonics_provider.dart';
 // **************************************************************************
 
 String _$mnemonicsControllerHash() =>
-    r'3d9f6444a16567d5b5f8834effb5a3f0a7ea4042';
+    r'ec7db5bc08ad4e5b35044a1058cc8b36b86b6156';
 
 /// See also [MnemonicsController].
 @ProviderFor(MnemonicsController)

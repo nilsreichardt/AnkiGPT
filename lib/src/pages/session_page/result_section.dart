@@ -396,6 +396,13 @@ class _CardAnswerState extends ConsumerState<_CardAnswer> {
   }
 
   @override
+  void dispose() {
+    // We don't dispose the controller because it is re-used when opening the
+    // page again.
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return _CardTextField(
       controller: controller,

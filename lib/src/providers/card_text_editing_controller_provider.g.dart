@@ -7,7 +7,7 @@ part of 'card_text_editing_controller_provider.dart';
 // **************************************************************************
 
 String _$answerTextEditingControllerProviderHash() =>
-    r'37b85a9c95f20dfeb084770336fe9626f2af88ae';
+    r'512811cb9977e240102090334f0541a17847b7f5';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,7 +31,7 @@ class _SystemHash {
 }
 
 typedef AnswerTextEditingControllerProviderRef
-    = AutoDisposeProviderRef<TextEditingController>;
+    = ProviderRef<TextEditingController>;
 
 /// See also [answerTextEditingControllerProvider].
 @ProviderFor(answerTextEditingControllerProvider)
@@ -79,7 +79,7 @@ class AnswerTextEditingControllerProviderFamily
 
 /// See also [answerTextEditingControllerProvider].
 class AnswerTextEditingControllerProviderProvider
-    extends AutoDisposeProvider<TextEditingController> {
+    extends Provider<TextEditingController> {
   /// See also [answerTextEditingControllerProvider].
   AnswerTextEditingControllerProviderProvider(
     this.cardId,

@@ -19,6 +19,8 @@ AccountView accountView(AccountViewRef ref) {
     email: authUser.email,
     authProvider: AuthProvider.fromFirebaseAuthUser(authUser),
     generatedCardsCurrentMonth: appUser?.usage.generatedCardsCurrentMonth ?? 0,
+    generatedMnemonicsCurrentMonth:
+        appUser?.usage.generatedMnemonicsCurrentMonth ?? 0,
     hasPlus: appUser?.hasPlus ?? false,
   );
 }
@@ -29,6 +31,7 @@ class AccountView with _$AccountView {
     String? email,
     required AuthProvider authProvider,
     required int generatedCardsCurrentMonth,
+    required int generatedMnemonicsCurrentMonth,
     required bool hasPlus,
   }) = AccountViewSignedIn;
 

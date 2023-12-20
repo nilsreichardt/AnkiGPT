@@ -12,8 +12,10 @@ import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/mnemonics_dialog.dart';
+import 'package:ankigpt/src/pages/widgets/mnemonics_limit_exceeded_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/pagination_control.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
+import 'package:ankigpt/src/providers/app_user_provider.dart';
 import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
 import 'package:ankigpt/src/providers/card_text_editing_controller_provider.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
@@ -582,16 +584,30 @@ class _MoreOptionsMenu extends ConsumerWidget {
   }
 
   void showMnemonicsDialog(BuildContext context, WidgetRef ref) {
-    final sessionId = ref.read(sessionIdProvider)!;
-    showModal(
-      context: context,
-      builder: (context) => MnemonicsDialog(
-        cardId: cardId,
-        sessionId: sessionId,
-        answer: answer,
-        question: question,
-      ),
-    );
+    final user = ref.read(appUserProvider).value;
+
+    // If the user is null, we don't know if the user has enough usage, so we
+    // assume that their has. This is not a problem because the backend will
+    // reject the request if the user has not enough usage.
+    final hasReachedMnemonicsLimit = user?.hasReachedMnemonicsLimit ?? false;
+
+    if (hasReachedMnemonicsLimit) {
+      showModal(
+        context: context,
+        builder: (context) => const MnemonicsLimitExceededDialog(),
+      );
+    } else {
+      final sessionId = ref.read(sessionIdProvider)!;
+      showModal(
+        context: context,
+        builder: (context) => MnemonicsDialog(
+          cardId: cardId,
+          sessionId: sessionId,
+          answer: answer,
+          question: question,
+        ),
+      );
+    }
   }
 
   @override

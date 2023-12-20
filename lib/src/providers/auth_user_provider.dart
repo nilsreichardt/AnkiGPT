@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_user_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Stream<User?> authUser(AuthUserRef ref) {
   return ref.watch(firebaseAuthProvider).userChanges();
 }

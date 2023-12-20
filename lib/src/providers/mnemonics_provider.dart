@@ -36,11 +36,18 @@ class MnemonicsController extends _$MnemonicsController {
       );
       state = MnemonicsState.loaded(mnemonic);
     } on FirebaseFunctionsException catch (e) {
-      if (e.code == 'deadline-exceeded') {
-        state = const MnemonicsState.error(
-            'The request timed out. Please try again.');
-      } else {
-        state = MnemonicsState.error('[${e.plugin}/${e.code}] ${e.message}}');
+      switch (e.code) {
+        case 'deadline-exceeded':
+          state = const MnemonicsState.error(
+              'The request timed out. Please try again.');
+          break;
+        case 'resource-exhausted':
+          state = const MnemonicsState.error(
+              'You have reached your monthly limit of mnemonics. Please upgrade to the plus plan to get unlimited mnemonics.');
+          break;
+        default:
+          state = MnemonicsState.error('[${e.plugin}/${e.code}] ${e.message}}');
+          break;
       }
     } on Exception catch (e) {
       state = MnemonicsState.error('$e');

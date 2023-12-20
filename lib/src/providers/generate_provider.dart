@@ -33,6 +33,8 @@ part 'generate_provider.g.dart';
 /// Defines the number of cards every free user has per month available.
 const freeUsageLimitPerMonth = 100;
 
+const freeMnemonicsUsagePerMonth = 5;
+
 @Riverpod(keepAlive: true, dependencies: [hasPlus])
 class GenerateNotifier extends _$GenerateNotifier {
   Logger get _logger => ref.read(loggerProvider);

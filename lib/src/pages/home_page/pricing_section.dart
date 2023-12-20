@@ -83,7 +83,7 @@ class _FreeTier extends ConsumerWidget {
         PointData('Up to 20 cards per request'),
         PointData('Up to 4,000 input characters per request'),
         PointData(
-          'Add mnemonics to your flashcards',
+          'Generate $freeMnemonicsUsagePerMonth mnemonics per month',
           trailing: _HelpMnemonicsIconButton(),
         ),
         PointData('Delete, edit & search cards'),
@@ -184,6 +184,7 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
         PointData('Unlimited cards per month'),
         PointData('Up to 150 cards per request'),
         PointData('Up to 500,000 input characters (~ 200 pages) per request'),
+        PointData('Generate unlimited mnemonics'),
         PointData('Premium support'),
         PointData('All free features'),
       ],
@@ -220,7 +221,7 @@ class _TierBase extends StatelessWidget {
         width: _isMobileView(context)
             ? MediaQuery.of(context).size.width * 0.85
             : 320,
-        height: 500,
+        height: 550,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -302,13 +303,16 @@ class SellingPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: const Icon(
-        Icons.check,
-        color: Colors.green,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: ListTile(
+        leading: const Icon(
+          Icons.check,
+          color: Colors.green,
+        ),
+        title: Text(text),
+        trailing: trailing,
       ),
-      title: Text(text),
-      trailing: trailing,
     );
   }
 }

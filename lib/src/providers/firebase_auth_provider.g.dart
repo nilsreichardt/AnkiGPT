@@ -6,11 +6,11 @@ part of 'firebase_auth_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$firebaseAuthHash() => r'e9b402f7c78fff0de442bc85fa64f91849d0eb45';
+String _$firebaseAuthHash() => r'c8e57c3e164ad1c2cad48c4508e47f6097e350a7';
 
 /// See also [firebaseAuth].
 @ProviderFor(firebaseAuth)
-final firebaseAuthProvider = AutoDisposeProvider<FirebaseAuth>.internal(
+final firebaseAuthProvider = Provider<FirebaseAuth>.internal(
   firebaseAuth,
   name: r'firebaseAuthProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final firebaseAuthProvider = AutoDisposeProvider<FirebaseAuth>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef FirebaseAuthRef = AutoDisposeProviderRef<FirebaseAuth>;
+typedef FirebaseAuthRef = ProviderRef<FirebaseAuth>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

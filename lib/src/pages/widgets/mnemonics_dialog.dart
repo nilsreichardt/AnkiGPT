@@ -1,6 +1,7 @@
 import 'package:ankigpt/src/models/card_id.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
+import 'package:ankigpt/src/providers/app_user_provider.dart';
 import 'package:ankigpt/src/providers/mnemonics_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -233,6 +234,9 @@ class _RegenerateButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final hasReachedMnemonicsLimit =
+        ref.watch(appUserProvider).value?.hasReachedMnemonicsLimit ?? false;
+
     final state = ref.watch(mnemonicsControllerProvider);
     final isLoading =
         state is MnemonicsStateGenerating || state is MnemonicsStateAppending;
@@ -245,18 +249,23 @@ class _RegenerateButton extends ConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.only(top: 24),
                 child: Tooltip(
-                  message: 'Generates a different mnemonic',
+                  textAlign: TextAlign.center,
+                  message: hasReachedMnemonicsLimit
+                      ? 'You reached your monthly limit of mnemonics.\nPlease upgrade to the plus plan to get unlimited mnemonics.'
+                      : 'Generates a different mnemonic',
                   child: TextButton(
-                    onPressed: () {
-                      final controller =
-                          ref.read(mnemonicsControllerProvider.notifier);
-                      controller.generate(
-                        answer: answer,
-                        cardId: cardId,
-                        sessionId: sessionId,
-                        question: question,
-                      );
-                    },
+                    onPressed: !hasReachedMnemonicsLimit
+                        ? () {
+                            final controller =
+                                ref.read(mnemonicsControllerProvider.notifier);
+                            controller.generate(
+                              answer: answer,
+                              cardId: cardId,
+                              sessionId: sessionId,
+                              question: question,
+                            );
+                          }
+                        : null,
                     child: const Text('Regenerate'),
                   ),
                 ),

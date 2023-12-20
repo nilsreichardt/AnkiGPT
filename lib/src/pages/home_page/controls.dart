@@ -244,7 +244,7 @@ class _FreeLimitExceededCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: MarkdownBody(
-            data: '''**Limited reached!**
+            data: '''**Limit reached!**
 
 As a free user, you can create a maximum of $freeUsageLimitPerMonth cards per month. You have $remainingCardsForCurrentMonth remaining, but you attempted to generate $currentDeckSize cards. To produce more cards, consider upgrading to Plus.''',
             styleSheet: MarkdownStyleSheet(

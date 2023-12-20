@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:animations/animations.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/scroll_to.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
+import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
@@ -104,13 +106,17 @@ class _HelpMnemonicsIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       tooltip: 'What are mnemonics?',
-      onPressed: () => showDialog(
-        context: context,
-        builder: (context) => const _HelpMnemonicsDialog(),
-      ),
+      onPressed: () => showMnemonicHelpDialog(context),
       icon: const Icon(Icons.help_outline),
     );
   }
+}
+
+Future<void> showMnemonicHelpDialog(BuildContext context) {
+  return showModal(
+    context: context,
+    builder: (context) => const _HelpMnemonicsDialog(),
+  );
 }
 
 class _HelpMnemonicsDialog extends StatelessWidget {
@@ -123,10 +129,24 @@ class _HelpMnemonicsDialog extends StatelessWidget {
         maxWidth: 500,
         child: AlertDialog(
           title: const Text('What are mnemonics?'),
-          content: const Text(
-            'Mnemonics is a learning technique that helps individuals remember information, typically by associating complex data with simple, easily recalled cues like sequences, words, or images. They often work by creating relatable or familiar connections in the brain, which can facilitate quicker recall and better memory retention.\n\nFor example, the phrase "Every Good Boy Deserves Fudge" is a musical mnemonic used to remember the order of the lines in the treble clef (EGBDF).\n\nWith AnkiGPT you can generate mnemonics for your flashcard with one click.',
-            style: TextStyle(
-              fontSize: 16,
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: min(MediaQuery.of(context).size.height * 2, 300),
+                  child: const TutorialVideoPlayer(
+                    aspectRatio: 4 / 2.9,
+                    videoUrl:
+                        'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fmnemonic_demo.mp4?alt=media&token=9c67f440-bc36-4b05-a428-b55d5d660be3',
+                  ),
+                ),
+                const Text(
+                  'Mnemonics is a learning technique that helps individuals remember information, typically by associating complex data with simple, easily recalled cues like sequences, words, or images. They often work by creating relatable or familiar connections in the brain, which can facilitate quicker recall and better memory retention.\n\nFor example, the phrase "Every Good Boy Deserves Fudge" is a musical mnemonic used to remember the order of the lines in the treble clef (EGBDF).\n\nWith AnkiGPT you can generate mnemonics for your flashcard with one click.',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ],
             ),
           ),
           actions: [

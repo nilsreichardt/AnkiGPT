@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ankigpt/src/models/card_id.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
@@ -25,20 +27,30 @@ class MnemonicsDialog extends ConsumerStatefulWidget {
 }
 
 class _MnemonicsDialogState extends ConsumerState<MnemonicsDialog> {
+  MnemonicsController? controller;
+
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // When the user opens the dialog, we directly generate a new mnemonic.
-      final controller = ref.read(mnemonicsControllerProvider.notifier);
-      controller.generate(
+      controller = ref.read(mnemonicsControllerProvider.notifier);
+      controller?.generate(
         answer: widget.answer,
         cardId: widget.cardId,
         sessionId: widget.sessionId,
         question: widget.question,
       );
     });
+  }
+
+  @override
+  void dispose() {
+    // When the user closes the dialog, we assume that the user doesn't like the
+    // generated mnemonic and we dislike it.
+    unawaited(controller?.dislike());
+    super.dispose();
   }
 
   @override
@@ -81,7 +93,7 @@ class _MnemonicsDialogState extends ConsumerState<MnemonicsDialog> {
                   appending: () => const _Appending(),
                   generating: () => const _Generating(),
                   error: (message) => _ErrorText(message: message),
-                  loaded: (mnemonic) => _Loaded(
+                  loaded: (mnemonic, _) => _Loaded(
                     mnemonic: mnemonic,
                     cardId: widget.cardId,
                     answer: widget.answer,

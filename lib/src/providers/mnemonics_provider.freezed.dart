@@ -21,7 +21,7 @@ mixin _$MnemonicsState {
     required TResult Function() generating,
     required TResult Function() appending,
     required TResult Function(String message) error,
-    required TResult Function(String mnemonic) loaded,
+    required TResult Function(String mnemonic, String? traceId) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -29,7 +29,7 @@ mixin _$MnemonicsState {
     TResult? Function()? generating,
     TResult? Function()? appending,
     TResult? Function(String message)? error,
-    TResult? Function(String mnemonic)? loaded,
+    TResult? Function(String mnemonic, String? traceId)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,7 +37,7 @@ mixin _$MnemonicsState {
     TResult Function()? generating,
     TResult Function()? appending,
     TResult Function(String message)? error,
-    TResult Function(String mnemonic)? loaded,
+    TResult Function(String mnemonic, String? traceId)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -128,7 +128,7 @@ class _$MnemonicsStateGenerating implements MnemonicsStateGenerating {
     required TResult Function() generating,
     required TResult Function() appending,
     required TResult Function(String message) error,
-    required TResult Function(String mnemonic) loaded,
+    required TResult Function(String mnemonic, String? traceId) loaded,
   }) {
     return generating();
   }
@@ -139,7 +139,7 @@ class _$MnemonicsStateGenerating implements MnemonicsStateGenerating {
     TResult? Function()? generating,
     TResult? Function()? appending,
     TResult? Function(String message)? error,
-    TResult? Function(String mnemonic)? loaded,
+    TResult? Function(String mnemonic, String? traceId)? loaded,
   }) {
     return generating?.call();
   }
@@ -150,7 +150,7 @@ class _$MnemonicsStateGenerating implements MnemonicsStateGenerating {
     TResult Function()? generating,
     TResult Function()? appending,
     TResult Function(String message)? error,
-    TResult Function(String mnemonic)? loaded,
+    TResult Function(String mnemonic, String? traceId)? loaded,
     required TResult orElse(),
   }) {
     if (generating != null) {
@@ -243,7 +243,7 @@ class _$MnemonicsStateAppending implements MnemonicsStateAppending {
     required TResult Function() generating,
     required TResult Function() appending,
     required TResult Function(String message) error,
-    required TResult Function(String mnemonic) loaded,
+    required TResult Function(String mnemonic, String? traceId) loaded,
   }) {
     return appending();
   }
@@ -254,7 +254,7 @@ class _$MnemonicsStateAppending implements MnemonicsStateAppending {
     TResult? Function()? generating,
     TResult? Function()? appending,
     TResult? Function(String message)? error,
-    TResult? Function(String mnemonic)? loaded,
+    TResult? Function(String mnemonic, String? traceId)? loaded,
   }) {
     return appending?.call();
   }
@@ -265,7 +265,7 @@ class _$MnemonicsStateAppending implements MnemonicsStateAppending {
     TResult Function()? generating,
     TResult Function()? appending,
     TResult Function(String message)? error,
-    TResult Function(String mnemonic)? loaded,
+    TResult Function(String mnemonic, String? traceId)? loaded,
     required TResult orElse(),
   }) {
     if (appending != null) {
@@ -384,7 +384,7 @@ class _$MnemonicsStateError implements MnemonicsStateError {
     required TResult Function() generating,
     required TResult Function() appending,
     required TResult Function(String message) error,
-    required TResult Function(String mnemonic) loaded,
+    required TResult Function(String mnemonic, String? traceId) loaded,
   }) {
     return error(message);
   }
@@ -395,7 +395,7 @@ class _$MnemonicsStateError implements MnemonicsStateError {
     TResult? Function()? generating,
     TResult? Function()? appending,
     TResult? Function(String message)? error,
-    TResult? Function(String mnemonic)? loaded,
+    TResult? Function(String mnemonic, String? traceId)? loaded,
   }) {
     return error?.call(message);
   }
@@ -406,7 +406,7 @@ class _$MnemonicsStateError implements MnemonicsStateError {
     TResult Function()? generating,
     TResult Function()? appending,
     TResult Function(String message)? error,
-    TResult Function(String mnemonic)? loaded,
+    TResult Function(String mnemonic, String? traceId)? loaded,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -469,7 +469,7 @@ abstract class _$$MnemonicsStateLoadedCopyWith<$Res> {
           $Res Function(_$MnemonicsStateLoaded) then) =
       __$$MnemonicsStateLoadedCopyWithImpl<$Res>;
   @useResult
-  $Res call({String mnemonic});
+  $Res call({String mnemonic, String? traceId});
 }
 
 /// @nodoc
@@ -484,12 +484,17 @@ class __$$MnemonicsStateLoadedCopyWithImpl<$Res>
   @override
   $Res call({
     Object? mnemonic = null,
+    Object? traceId = freezed,
   }) {
     return _then(_$MnemonicsStateLoaded(
-      null == mnemonic
+      mnemonic: null == mnemonic
           ? _value.mnemonic
           : mnemonic // ignore: cast_nullable_to_non_nullable
               as String,
+      traceId: freezed == traceId
+          ? _value.traceId
+          : traceId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -497,14 +502,16 @@ class __$$MnemonicsStateLoadedCopyWithImpl<$Res>
 /// @nodoc
 
 class _$MnemonicsStateLoaded implements MnemonicsStateLoaded {
-  const _$MnemonicsStateLoaded(this.mnemonic);
+  const _$MnemonicsStateLoaded({required this.mnemonic, required this.traceId});
 
   @override
   final String mnemonic;
+  @override
+  final String? traceId;
 
   @override
   String toString() {
-    return 'MnemonicsState.loaded(mnemonic: $mnemonic)';
+    return 'MnemonicsState.loaded(mnemonic: $mnemonic, traceId: $traceId)';
   }
 
   @override
@@ -513,11 +520,12 @@ class _$MnemonicsStateLoaded implements MnemonicsStateLoaded {
         (other.runtimeType == runtimeType &&
             other is _$MnemonicsStateLoaded &&
             (identical(other.mnemonic, mnemonic) ||
-                other.mnemonic == mnemonic));
+                other.mnemonic == mnemonic) &&
+            (identical(other.traceId, traceId) || other.traceId == traceId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, mnemonic);
+  int get hashCode => Object.hash(runtimeType, mnemonic, traceId);
 
   @JsonKey(ignore: true)
   @override
@@ -532,9 +540,9 @@ class _$MnemonicsStateLoaded implements MnemonicsStateLoaded {
     required TResult Function() generating,
     required TResult Function() appending,
     required TResult Function(String message) error,
-    required TResult Function(String mnemonic) loaded,
+    required TResult Function(String mnemonic, String? traceId) loaded,
   }) {
-    return loaded(mnemonic);
+    return loaded(mnemonic, traceId);
   }
 
   @override
@@ -543,9 +551,9 @@ class _$MnemonicsStateLoaded implements MnemonicsStateLoaded {
     TResult? Function()? generating,
     TResult? Function()? appending,
     TResult? Function(String message)? error,
-    TResult? Function(String mnemonic)? loaded,
+    TResult? Function(String mnemonic, String? traceId)? loaded,
   }) {
-    return loaded?.call(mnemonic);
+    return loaded?.call(mnemonic, traceId);
   }
 
   @override
@@ -554,11 +562,11 @@ class _$MnemonicsStateLoaded implements MnemonicsStateLoaded {
     TResult Function()? generating,
     TResult Function()? appending,
     TResult Function(String message)? error,
-    TResult Function(String mnemonic)? loaded,
+    TResult Function(String mnemonic, String? traceId)? loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(mnemonic);
+      return loaded(mnemonic, traceId);
     }
     return orElse();
   }
@@ -602,10 +610,12 @@ class _$MnemonicsStateLoaded implements MnemonicsStateLoaded {
 }
 
 abstract class MnemonicsStateLoaded implements MnemonicsState {
-  const factory MnemonicsStateLoaded(final String mnemonic) =
-      _$MnemonicsStateLoaded;
+  const factory MnemonicsStateLoaded(
+      {required final String mnemonic,
+      required final String? traceId}) = _$MnemonicsStateLoaded;
 
   String get mnemonic;
+  String? get traceId;
   @JsonKey(ignore: true)
   _$$MnemonicsStateLoadedCopyWith<_$MnemonicsStateLoaded> get copyWith =>
       throw _privateConstructorUsedError;

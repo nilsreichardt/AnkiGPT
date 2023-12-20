@@ -1,6 +1,7 @@
 import 'package:ankigpt/src/models/card_id.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/providers/card_text_editing_controller_provider.dart';
+import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/mnemonics_repository_provider.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -10,6 +11,7 @@ part 'mnemonics_provider.freezed.dart';
 part 'mnemonics_provider.g.dart';
 
 typedef Mnemonic = String;
+typedef LangfuseTraceId = String;
 
 @riverpod
 class MnemonicsController extends _$MnemonicsController {
@@ -24,17 +26,26 @@ class MnemonicsController extends _$MnemonicsController {
     required String question,
     required String answer,
   }) async {
+    final previousTraceId = state.maybeWhen(
+      loaded: (_, traceId) => traceId,
+      orElse: () => null,
+    );
     state = const MnemonicsState.generating();
 
     try {
       final repository = ref.read(mnemonicsRepositoryProvider);
-      final mnemonic = await repository.generate(
+      final response = await repository.generate(
         answer: answer,
         question: question,
         cardId: cardId,
         sessionId: sessionId,
+        previousLangfuseTraceId: previousTraceId,
       );
-      state = MnemonicsState.loaded(mnemonic);
+
+      state = MnemonicsState.loaded(
+        mnemonic: response.$2,
+        traceId: response.$1,
+      );
     } on FirebaseFunctionsException catch (e) {
       switch (e.code) {
         case 'deadline-exceeded':
@@ -58,11 +69,11 @@ class MnemonicsController extends _$MnemonicsController {
     required SessionId sessionId,
     required CardId cardId,
   }) async {
-    final mnemonic = state.when(
-      generating: () => throw Exception('Mnemonic is generating'),
-      appending: () => throw Exception('Mnemonic is appending'),
-      error: (message) => throw Exception(message),
-      loaded: (mnemonic) => mnemonic,
+    final loadedState = state.map(
+      generating: (state) => throw Exception('Mnemonic is generating'),
+      appending: (state) => throw Exception('Mnemonic is appending'),
+      error: (state) => throw Exception(state.message),
+      loaded: (state) => state,
     );
 
     state = const MnemonicsState.appending();
@@ -70,9 +81,10 @@ class MnemonicsController extends _$MnemonicsController {
     try {
       final repository = ref.read(mnemonicsRepositoryProvider);
       final updatedAnswer = await repository.append(
-        mnemonic: mnemonic,
+        mnemonic: loadedState.mnemonic,
         sessionId: sessionId,
         cardId: cardId,
+        langfuseTraceId: loadedState.traceId,
       );
 
       final textEditingController =
@@ -84,7 +96,33 @@ class MnemonicsController extends _$MnemonicsController {
   }
 
   void update(String mnemonic) {
-    state = MnemonicsState.loaded(mnemonic);
+    final traceId = state.maybeWhen(
+      loaded: (_, traceId) => traceId,
+      orElse: () => null,
+    );
+    state = MnemonicsState.loaded(
+      mnemonic: mnemonic,
+      traceId: traceId,
+    );
+  }
+
+  Future<void> dislike() async {
+    final traceId = state.maybeWhen(
+      loaded: (_, traceId) => traceId,
+      orElse: () => null,
+    );
+
+    if (traceId == null) {
+      ref.read(loggerProvider).d('Skipping dislike because traceId is null');
+      return;
+    }
+
+    try {
+      final repository = ref.read(mnemonicsRepositoryProvider);
+      await repository.dislike(langfuseTraceId: traceId);
+    } on Exception catch (e, s) {
+      ref.read(loggerProvider).e('Could not dislike mnemonic', e, s);
+    }
   }
 }
 
@@ -93,5 +131,8 @@ class MnemonicsState with _$MnemonicsState {
   const factory MnemonicsState.generating() = MnemonicsStateGenerating;
   const factory MnemonicsState.appending() = MnemonicsStateAppending;
   const factory MnemonicsState.error(String message) = MnemonicsStateError;
-  const factory MnemonicsState.loaded(Mnemonic mnemonic) = MnemonicsStateLoaded;
+  const factory MnemonicsState.loaded({
+    required Mnemonic mnemonic,
+    required LangfuseTraceId? traceId,
+  }) = MnemonicsStateLoaded;
 }

@@ -18,7 +18,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 bool _isMobileView(BuildContext context) =>
-    MediaQuery.of(context).size.width < 735;
+    MediaQuery.of(context).size.width < 840;
 
 class PricingSection extends ConsumerWidget {
   const PricingSection({super.key});
@@ -184,7 +184,10 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
         PointData('Unlimited cards per month'),
         PointData('Up to 150 cards per request'),
         PointData('Up to 500,000 input characters (~ 200 pages) per request'),
-        PointData('Generate unlimited mnemonics'),
+        PointData(
+          'Generate unlimited mnemonics',
+          trailing: _HelpMnemonicsIconButton(),
+        ),
         PointData('Premium support'),
         PointData('All free features'),
       ],
@@ -220,8 +223,8 @@ class _TierBase extends StatelessWidget {
       child: SizedBox(
         width: _isMobileView(context)
             ? MediaQuery.of(context).size.width * 0.85
-            : 320,
-        height: 550,
+            : 365,
+        height: _isMobileView(context) ? 550 : 565,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -304,7 +307,7 @@ class SellingPoint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 2),
       child: ListTile(
         leading: const Icon(
           Icons.check,

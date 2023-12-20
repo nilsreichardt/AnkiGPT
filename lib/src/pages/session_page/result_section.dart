@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:animations/animations.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/card_feedback.dart';
@@ -13,9 +11,13 @@ import 'package:ankigpt/src/pages/widgets/card_feedback_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
+import 'package:ankigpt/src/pages/widgets/mnemonics_dialog.dart';
+import 'package:ankigpt/src/pages/widgets/mnemonics_limit_exceeded_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/pagination_control.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
+import 'package:ankigpt/src/providers/app_user_provider.dart';
 import 'package:ankigpt/src/providers/card_feedback_status_provider.dart';
+import 'package:ankigpt/src/providers/card_text_editing_controller_provider.dart';
 import 'package:ankigpt/src/providers/cards_list_controller.dart';
 import 'package:ankigpt/src/providers/delete_card_provider.dart';
 import 'package:ankigpt/src/providers/dislike_provider.dart';
@@ -275,22 +277,16 @@ class ResultCard extends ConsumerStatefulWidget {
 
 class _ResultCardState extends ConsumerState<ResultCard> {
   bool hovering = false;
-  int randomNumber = 0;
 
   void switchHovering() {
     setState(() {
       hovering = !hovering;
-
-      // We need to add a random number to the key to prevent having two widgets
-      // with the same key when the user hovers over the card multiple times. If
-      // the user hovers over the same card multiple times, the widget with the
-      // old key will still be in the tree because of the animation.
-      randomNumber = Random().nextInt(1000000);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = Theme.of(context).platform.isMobile();
     return MouseRegion(
       onEnter: (_) => switchHovering(),
       onExit: (_) => switchHovering(),
@@ -307,10 +303,13 @@ class _ResultCardState extends ConsumerState<ResultCard> {
                     cardId: widget.card.id,
                   ),
                   _Controls(
-                    isHovering: hovering,
+                    // We always show the controls on mobile because there is no
+                    // hover state.
+                    isVisible: hovering || isMobile,
                     cardId: widget.card.id,
-                    randomNumber: randomNumber,
                     onDeleted: widget.onDeleted,
+                    answer: widget.card.answer,
+                    question: widget.card.question,
                   )
                 ],
               ),
@@ -332,11 +331,13 @@ class _CardTextField extends StatefulWidget {
     required this.text,
     required this.onChanged,
     required this.style,
+    required this.controller,
   });
 
   final ValueChanged<String> onChanged;
   final String text;
   final TextStyle style;
+  final TextEditingController controller;
 
   @override
   State<_CardTextField> createState() => _CardTextFieldState();
@@ -344,24 +345,10 @@ class _CardTextField extends StatefulWidget {
 
 class _CardTextFieldState extends State<_CardTextField> {
   bool hovering = false;
-  int randomNumber = 0;
-  late TextEditingController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = TextEditingController(text: widget.text);
-  }
 
   void switchHovering() {
     setState(() {
       hovering = !hovering;
-
-      // We need to add a random number to the key to prevent having two widgets
-      // with the same key when the user hovers over the card multiple times. If
-      // the user hovers over the same card multiple times, the widget with the
-      // old key will still be in the tree because of the animation.
-      randomNumber = Random().nextInt(1000000);
     });
   }
 
@@ -374,7 +361,7 @@ class _CardTextFieldState extends State<_CardTextField> {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         color: hovering ? Colors.grey.withOpacity(0.1) : Colors.transparent,
         child: TextField(
-          controller: controller,
+          controller: widget.controller,
           maxLines: null,
           onChanged: widget.onChanged,
           decoration: const InputDecoration(
@@ -387,7 +374,7 @@ class _CardTextFieldState extends State<_CardTextField> {
   }
 }
 
-class _CardAnswer extends ConsumerWidget {
+class _CardAnswer extends ConsumerStatefulWidget {
   const _CardAnswer({
     required this.cardId,
     required this.answer,
@@ -397,17 +384,39 @@ class _CardAnswer extends ConsumerWidget {
   final String answer;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_CardAnswer> createState() => _CardAnswerState();
+}
+
+class _CardAnswerState extends ConsumerState<_CardAnswer> {
+  late TextEditingController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        ref.read(answerTextEditingControllerProviderProvider(widget.cardId));
+    controller.text = widget.answer;
+  }
+
+  @override
+  void dispose() {
+    // We don't dispose the controller because it is re-used when opening the
+    // page again.
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return _CardTextField(
+      controller: controller,
       onChanged: (text) {
         final sessionId = ref.read(sessionIdProvider)!;
         ref.read(editAnswerProvider.notifier).debounce(
-              cardId: cardId,
+              cardId: widget.cardId,
               answer: text,
               sessionId: sessionId,
             );
       },
-      text: answer,
+      text: widget.answer,
       style: TextStyle(
         color: Colors.grey[700],
         fontSize: 14,
@@ -416,7 +425,7 @@ class _CardAnswer extends ConsumerWidget {
   }
 }
 
-class _CardQuestion extends ConsumerWidget {
+class _CardQuestion extends ConsumerStatefulWidget {
   const _CardQuestion({
     required this.cardId,
     required this.question,
@@ -426,14 +435,28 @@ class _CardQuestion extends ConsumerWidget {
   final String question;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_CardQuestion> createState() => _CardQuestionState();
+}
+
+class _CardQuestionState extends ConsumerState<_CardQuestion> {
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController(text: widget.question);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Expanded(
       child: _CardTextField(
-        text: question,
+        controller: controller,
+        text: widget.question,
         onChanged: (text) {
           final sessionId = ref.read(sessionIdProvider)!;
           ref.read(editQuestionProvider.notifier).debounce(
-                cardId: cardId,
+                cardId: widget.cardId,
                 question: text,
                 sessionId: sessionId,
               );
@@ -446,18 +469,146 @@ class _CardQuestion extends ConsumerWidget {
   }
 }
 
-class _Controls extends ConsumerWidget {
+enum _ControlsOptions {
+  edit,
+  like,
+  undoLike,
+  dislike,
+  undoDislike,
+  mnemonics,
+}
+
+class _Controls extends StatelessWidget {
   const _Controls({
-    required this.isHovering,
+    required this.isVisible,
     required this.cardId,
-    required this.randomNumber,
     required this.onDeleted,
+    required this.question,
+    required this.answer,
   });
 
-  final bool isHovering;
+  final bool isVisible;
   final CardId cardId;
-  final int randomNumber;
   final ValueChanged<CardId> onDeleted;
+  final String question;
+  final String answer;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _DeleteButton(
+          cardId: cardId,
+          isVisible: isVisible,
+          onDeleted: onDeleted,
+        ),
+        _MoreOptionsMenu(
+          cardId: cardId,
+          question: question,
+          answer: answer,
+        ),
+      ],
+    );
+  }
+}
+
+class _MoreOptionsMenu extends ConsumerWidget {
+  const _MoreOptionsMenu({
+    required this.cardId,
+    required this.question,
+    required this.answer,
+  });
+
+  final CardId cardId;
+  final String question;
+  final String answer;
+
+  void undoDislike(WidgetRef ref) {
+    final sessionId = ref.read(sessionIdProvider)!;
+    ref
+        .read(cardFeedbackStatusControllerProvider.notifier)
+        .setStatus(cardId, CardFeedbackStatus.notReviewed);
+    ref.read(undoDislikeCardProvider(cardId: cardId, sessionId: sessionId));
+  }
+
+  void undoLike(WidgetRef ref) {
+    final sessionId = ref.read(sessionIdProvider)!;
+    ref
+        .read(cardFeedbackStatusControllerProvider.notifier)
+        .setStatus(cardId, CardFeedbackStatus.notReviewed);
+    ref.read(undoLikeCardProvider(cardId: cardId, sessionId: sessionId));
+  }
+
+  void dislike(WidgetRef ref, BuildContext context) {
+    final sessionId = ref.read(sessionIdProvider)!;
+    ref
+        .read(cardFeedbackStatusControllerProvider.notifier)
+        .setStatus(cardId, CardFeedbackStatus.disliked);
+    ref.read(
+      dislikeCardProvider(
+        cardId: cardId,
+        sessionId: sessionId,
+      ),
+    );
+    showCardDislikeDialog(
+      context,
+      cardId: cardId,
+      sessionId: sessionId,
+    );
+  }
+
+  void like(WidgetRef ref, BuildContext context) {
+    final sessionId = ref.read(sessionIdProvider)!;
+    ref
+        .read(cardFeedbackStatusControllerProvider.notifier)
+        .setStatus(cardId, CardFeedbackStatus.liked);
+
+    ref.read(
+      likeCardProvider(
+        cardId: cardId,
+        sessionId: sessionId,
+      ),
+    );
+    showCardLikeDialog(
+      context,
+      sessionId: sessionId,
+      cardId: cardId,
+    );
+  }
+
+  void showEditTutorial(BuildContext context) {
+    showModal(
+      context: context,
+      builder: (context) => const _EditTutorialDialog(),
+    );
+  }
+
+  void showMnemonicsDialog(BuildContext context, WidgetRef ref) {
+    final user = ref.read(appUserProvider).value;
+
+    // If the user is null, we don't know if the user has enough usage, so we
+    // assume that their has. This is not a problem because the backend will
+    // reject the request if the user has not enough usage.
+    final hasReachedMnemonicsLimit = user?.hasReachedMnemonicsLimit ?? false;
+
+    if (hasReachedMnemonicsLimit) {
+      showModal(
+        context: context,
+        builder: (context) => const MnemonicsLimitExceededDialog(),
+      );
+    } else {
+      final sessionId = ref.read(sessionIdProvider)!;
+      showModal(
+        context: context,
+        builder: (context) => MnemonicsDialog(
+          cardId: cardId,
+          sessionId: sessionId,
+          answer: answer,
+          question: question,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -465,150 +616,112 @@ class _Controls extends ConsumerWidget {
         CardFeedbackStatus.notReviewed;
     final hasLiked = status == CardFeedbackStatus.liked;
     final hasDisliked = status == CardFeedbackStatus.disliked;
-    return IconTheme(
-      data: Theme.of(context).iconTheme.copyWith(
-            size: 15,
-          ),
-      child: Row(
-        children: [
-          _EditButton(
-            isVisibile: isHovering,
-            randomNumber: randomNumber,
-          ),
-          _DeleteButton(
-            cardId: cardId,
-            isVisibile: isHovering,
-            randomNumber: randomNumber,
-            onDeleted: onDeleted,
-          ),
-          if (hasLiked)
-            _UndoLikeButton(
-              cardId: cardId,
-            ),
-          if (hasDisliked)
-            _UndoDislikeButton(
-              cardId: cardId,
-            ),
-          if (!hasDisliked && !hasLiked)
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 250),
-              child: Opacity(
-                key: ValueKey('$randomNumber + $isHovering'),
-                opacity: isHovering ? 1 : 0,
-                child: IgnorePointer(
-                  ignoring: !isHovering,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        tooltip: 'Dislike, if this is a bad card.',
-                        onPressed: () {
-                          final sessionId = ref.read(sessionIdProvider)!;
-                          ref
-                              .read(
-                                  cardFeedbackStatusControllerProvider.notifier)
-                              .setStatus(cardId, CardFeedbackStatus.disliked);
-                          ref.read(
-                            dislikeCardProvider(
-                              cardId: cardId,
-                              sessionId: sessionId,
-                            ),
-                          );
-                          showCardDislikeDialog(
-                            context,
-                            cardId: cardId,
-                            sessionId: sessionId,
-                          );
-                        },
-                        icon: const Icon(Icons.thumb_down),
-                      ),
-                      IconButton(
-                        tooltip: 'Like, if this is a good card.',
-                        onPressed: () {
-                          final sessionId = ref.read(sessionIdProvider)!;
-                          ref
-                              .read(
-                                  cardFeedbackStatusControllerProvider.notifier)
-                              .setStatus(cardId, CardFeedbackStatus.liked);
 
-                          ref.read(
-                            likeCardProvider(
-                              cardId: cardId,
-                              sessionId: sessionId,
-                            ),
-                          );
-                          showCardLikeDialog(
-                            context,
-                            sessionId: sessionId,
-                            cardId: cardId,
-                          );
-                        },
-                        icon: const Icon(Icons.thumb_up),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+    return PopupMenuButton<_ControlsOptions>(
+      tooltip: 'More options (edit, like, dislike, mnemonics)',
+      icon: const Icon(Icons.more_vert),
+      itemBuilder: (context) => [
+        const PopupMenuItem(
+          value: _ControlsOptions.mnemonics,
+          child: ListTile(
+            contentPadding: EdgeInsets.symmetric(vertical: 4),
+            leading: Icon(Icons.psychology),
+            mouseCursor: SystemMouseCursors.click,
+            title: Text('Generate mnemonic (beta)'),
+          ),
+        ),
+        const PopupMenuItem(
+          value: _ControlsOptions.edit,
+          child: ListTile(
+            contentPadding: EdgeInsets.symmetric(vertical: 4),
+            leading: Icon(Icons.edit),
+            mouseCursor: SystemMouseCursors.click,
+            title: Text('Edit'),
+          ),
+        ),
+        if (hasLiked)
+          const PopupMenuItem(
+            value: _ControlsOptions.undoLike,
+            child: ListTile(
+              contentPadding: EdgeInsets.symmetric(vertical: 4),
+              leading: Icon(Icons.thumb_up),
+              mouseCursor: SystemMouseCursors.click,
+              title: Text('Undo like'),
             ),
+          ),
+        if (hasDisliked)
+          const PopupMenuItem(
+            value: _ControlsOptions.undoDislike,
+            child: ListTile(
+              contentPadding: EdgeInsets.symmetric(vertical: 4),
+              leading: Icon(Icons.thumb_down),
+              mouseCursor: SystemMouseCursors.click,
+              title: Text('Undo dislike'),
+            ),
+          ),
+        if (!hasDisliked && !hasLiked) ...const [
+          PopupMenuItem(
+            value: _ControlsOptions.like,
+            child: ListTile(
+              contentPadding: EdgeInsets.symmetric(vertical: 4),
+              leading: Icon(Icons.thumb_up),
+              mouseCursor: SystemMouseCursors.click,
+              title: Text('I like this card'),
+            ),
+          ),
+          PopupMenuItem(
+            value: _ControlsOptions.dislike,
+            child: ListTile(
+              contentPadding: EdgeInsets.symmetric(vertical: 4),
+              leading: Icon(Icons.thumb_down),
+              mouseCursor: SystemMouseCursors.click,
+              title: Text('I dislike this card'),
+            ),
+          )
         ],
-      ),
+      ],
+      onSelected: (value) {
+        return switch (value) {
+          _ControlsOptions.edit => showEditTutorial(context),
+          _ControlsOptions.dislike => dislike(ref, context),
+          _ControlsOptions.like => like(ref, context),
+          _ControlsOptions.undoDislike => undoDislike(ref),
+          _ControlsOptions.undoLike => undoDislike(ref),
+          _ControlsOptions.mnemonics => showMnemonicsDialog(context, ref),
+        };
+      },
     );
   }
 }
 
-class _EditButton extends StatelessWidget {
-  const _EditButton({
-    required this.isVisibile,
-    required this.randomNumber,
-  });
-
-  final bool isVisibile;
-  final int randomNumber;
+class _EditTutorialDialog extends StatelessWidget {
+  const _EditTutorialDialog();
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 250),
-      child: Opacity(
-        key: ValueKey('$randomNumber + $isVisibile'),
-        opacity: isVisibile ? 1 : 0,
-        child: IgnorePointer(
-          ignoring: !isVisibile,
-          child: IconButton(
-            tooltip: 'Edit',
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              showModal(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Tutorial: Edit card'),
-                  content: const Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        height: 400,
-                        child: TutorialVideoPlayer(
-                          aspectRatio: 16 / 9,
-                          videoUrl:
-                              'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fedit-card-tutorial.mp4?alt=media&token=4473f746-93b9-4fb3-a5c1-4489854f1779',
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                          'Just click on the card to edit it. Auto-save is enabled.'),
-                    ],
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('OK'),
-                    ),
-                  ],
-                ),
-              );
-            },
+    return AlertDialog(
+      title: const Text('Tutorial: Edit card'),
+      content: const Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 400,
+            child: TutorialVideoPlayer(
+              aspectRatio: 16 / 9,
+              videoUrl:
+                  'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fedit-card-tutorial.mp4?alt=media&token=4473f746-93b9-4fb3-a5c1-4489854f1779',
+            ),
           ),
-        ),
+          SizedBox(height: 10),
+          Text('Just click on the card to edit it. Auto-save is enabled.'),
+        ],
       ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }
@@ -616,78 +729,57 @@ class _EditButton extends StatelessWidget {
 class _DeleteButton extends ConsumerWidget {
   const _DeleteButton({
     required this.cardId,
-    required this.isVisibile,
-    required this.randomNumber,
+    required this.isVisible,
     required this.onDeleted,
   });
 
   final CardId cardId;
-  final bool isVisibile;
-  final int randomNumber;
+  final bool isVisible;
   final ValueChanged<CardId> onDeleted;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 250),
-      child: Opacity(
-        key: ValueKey('$isVisibile + $randomNumber'),
-        opacity: isVisibile ? 1 : 0,
-        child: IgnorePointer(
-          ignoring: !isVisibile,
-          child: IconButton(
-            tooltip: 'Delete',
-            onPressed: () => onDeleted(cardId),
-            icon: const Icon(Icons.delete),
-          ),
-        ),
+    return _CardIconButton(
+      isVisible: isVisible,
+      child: IconButton(
+        tooltip: 'Delete',
+        onPressed: () => onDeleted(cardId),
+        icon: const Icon(Icons.delete),
       ),
     );
   }
 }
 
-class _UndoLikeButton extends ConsumerWidget {
-  const _UndoLikeButton({
-    required this.cardId,
+class _CardIconButton extends StatelessWidget {
+  const _CardIconButton({
+    required this.isVisible,
+    required this.child,
   });
 
-  final CardId cardId;
+  final bool isVisible;
+  final Widget child;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return IconButton(
-      tooltip: 'Undo like',
-      onPressed: () {
-        final sessionId = ref.read(sessionIdProvider)!;
-        ref
-            .read(cardFeedbackStatusControllerProvider.notifier)
-            .setStatus(cardId, CardFeedbackStatus.notReviewed);
-        ref.read(undoLikeCardProvider(cardId: cardId, sessionId: sessionId));
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 250),
+      // Adding the default transitionBuilder here fixes
+      // https://github.com/flutter/flutter/issues/121336. The bug can occur
+      // when clicking the card very quickly.
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
       },
-      icon: const Icon(Icons.thumb_up),
-    );
-  }
-}
-
-class _UndoDislikeButton extends ConsumerWidget {
-  const _UndoDislikeButton({
-    required this.cardId,
-  });
-
-  final CardId cardId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return IconButton(
-      tooltip: 'Undo dislike',
-      onPressed: () {
-        final sessionId = ref.read(sessionIdProvider)!;
-        ref
-            .read(cardFeedbackStatusControllerProvider.notifier)
-            .setStatus(cardId, CardFeedbackStatus.notReviewed);
-        ref.read(undoDislikeCardProvider(cardId: cardId, sessionId: sessionId));
-      },
-      icon: const Icon(Icons.thumb_down),
+      child: Opacity(
+        key: ValueKey(isVisible),
+        opacity: isVisible ? 1 : 0,
+        child: IgnorePointer(
+          ignoring: !isVisible,
+          child: child,
+        ),
+      ),
     );
   }
 }
@@ -720,4 +812,9 @@ class _Subtitle extends ConsumerWidget {
       ),
     );
   }
+}
+
+extension on TargetPlatform {
+  bool isMobile() =>
+      this == TargetPlatform.iOS || this == TargetPlatform.android;
 }

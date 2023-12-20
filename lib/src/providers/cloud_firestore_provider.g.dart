@@ -6,11 +6,11 @@ part of 'cloud_firestore_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cloudFirestoreHash() => r'22cbd60b04f1359530f8f83b4339285d79c1e9ef';
+String _$cloudFirestoreHash() => r'62b755d7e7b9f3dee7ee3cbc88d84d4bf2e11ec5';
 
 /// See also [cloudFirestore].
 @ProviderFor(cloudFirestore)
-final cloudFirestoreProvider = AutoDisposeProvider<FirebaseFirestore>.internal(
+final cloudFirestoreProvider = Provider<FirebaseFirestore>.internal(
   cloudFirestore,
   name: r'cloudFirestoreProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,7 +20,7 @@ final cloudFirestoreProvider = AutoDisposeProvider<FirebaseFirestore>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef CloudFirestoreRef = AutoDisposeProviderRef<FirebaseFirestore>;
+typedef CloudFirestoreRef = ProviderRef<FirebaseFirestore>;
 String _$routeFunctionsUrlHash() => r'b728f35c77568115718a1b5793c88555a7a37704';
 
 /// See also [routeFunctionsUrl].

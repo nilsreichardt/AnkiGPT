@@ -18,24 +18,36 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AccountView {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? email, AuthProvider authProvider,
-            int generatedCardsCurrentMonth, bool hasPlus)
+    required TResult Function(
+            String? email,
+            AuthProvider authProvider,
+            int generatedCardsCurrentMonth,
+            int generatedMnemonicsCurrentMonth,
+            bool hasPlus)
         signedIn,
     required TResult Function() signedOut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? email, AuthProvider authProvider,
-            int generatedCardsCurrentMonth, bool hasPlus)?
+    TResult? Function(
+            String? email,
+            AuthProvider authProvider,
+            int generatedCardsCurrentMonth,
+            int generatedMnemonicsCurrentMonth,
+            bool hasPlus)?
         signedIn,
     TResult? Function()? signedOut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? email, AuthProvider authProvider,
-            int generatedCardsCurrentMonth, bool hasPlus)?
+    TResult Function(
+            String? email,
+            AuthProvider authProvider,
+            int generatedCardsCurrentMonth,
+            int generatedMnemonicsCurrentMonth,
+            bool hasPlus)?
         signedIn,
     TResult Function()? signedOut,
     required TResult orElse(),
@@ -90,6 +102,7 @@ abstract class _$$AccountViewSignedInCopyWith<$Res> {
       {String? email,
       AuthProvider authProvider,
       int generatedCardsCurrentMonth,
+      int generatedMnemonicsCurrentMonth,
       bool hasPlus});
 }
 
@@ -107,6 +120,7 @@ class __$$AccountViewSignedInCopyWithImpl<$Res>
     Object? email = freezed,
     Object? authProvider = null,
     Object? generatedCardsCurrentMonth = null,
+    Object? generatedMnemonicsCurrentMonth = null,
     Object? hasPlus = null,
   }) {
     return _then(_$AccountViewSignedIn(
@@ -121,6 +135,10 @@ class __$$AccountViewSignedInCopyWithImpl<$Res>
       generatedCardsCurrentMonth: null == generatedCardsCurrentMonth
           ? _value.generatedCardsCurrentMonth
           : generatedCardsCurrentMonth // ignore: cast_nullable_to_non_nullable
+              as int,
+      generatedMnemonicsCurrentMonth: null == generatedMnemonicsCurrentMonth
+          ? _value.generatedMnemonicsCurrentMonth
+          : generatedMnemonicsCurrentMonth // ignore: cast_nullable_to_non_nullable
               as int,
       hasPlus: null == hasPlus
           ? _value.hasPlus
@@ -137,6 +155,7 @@ class _$AccountViewSignedIn implements AccountViewSignedIn {
       {this.email,
       required this.authProvider,
       required this.generatedCardsCurrentMonth,
+      required this.generatedMnemonicsCurrentMonth,
       required this.hasPlus});
 
   @override
@@ -146,11 +165,13 @@ class _$AccountViewSignedIn implements AccountViewSignedIn {
   @override
   final int generatedCardsCurrentMonth;
   @override
+  final int generatedMnemonicsCurrentMonth;
+  @override
   final bool hasPlus;
 
   @override
   String toString() {
-    return 'AccountView.signedIn(email: $email, authProvider: $authProvider, generatedCardsCurrentMonth: $generatedCardsCurrentMonth, hasPlus: $hasPlus)';
+    return 'AccountView.signedIn(email: $email, authProvider: $authProvider, generatedCardsCurrentMonth: $generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth: $generatedMnemonicsCurrentMonth, hasPlus: $hasPlus)';
   }
 
   @override
@@ -165,12 +186,16 @@ class _$AccountViewSignedIn implements AccountViewSignedIn {
                     generatedCardsCurrentMonth) ||
                 other.generatedCardsCurrentMonth ==
                     generatedCardsCurrentMonth) &&
+            (identical(other.generatedMnemonicsCurrentMonth,
+                    generatedMnemonicsCurrentMonth) ||
+                other.generatedMnemonicsCurrentMonth ==
+                    generatedMnemonicsCurrentMonth) &&
             (identical(other.hasPlus, hasPlus) || other.hasPlus == hasPlus));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, email, authProvider, generatedCardsCurrentMonth, hasPlus);
+  int get hashCode => Object.hash(runtimeType, email, authProvider,
+      generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth, hasPlus);
 
   @JsonKey(ignore: true)
   @override
@@ -182,37 +207,51 @@ class _$AccountViewSignedIn implements AccountViewSignedIn {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? email, AuthProvider authProvider,
-            int generatedCardsCurrentMonth, bool hasPlus)
+    required TResult Function(
+            String? email,
+            AuthProvider authProvider,
+            int generatedCardsCurrentMonth,
+            int generatedMnemonicsCurrentMonth,
+            bool hasPlus)
         signedIn,
     required TResult Function() signedOut,
   }) {
-    return signedIn(email, authProvider, generatedCardsCurrentMonth, hasPlus);
+    return signedIn(email, authProvider, generatedCardsCurrentMonth,
+        generatedMnemonicsCurrentMonth, hasPlus);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? email, AuthProvider authProvider,
-            int generatedCardsCurrentMonth, bool hasPlus)?
+    TResult? Function(
+            String? email,
+            AuthProvider authProvider,
+            int generatedCardsCurrentMonth,
+            int generatedMnemonicsCurrentMonth,
+            bool hasPlus)?
         signedIn,
     TResult? Function()? signedOut,
   }) {
-    return signedIn?.call(
-        email, authProvider, generatedCardsCurrentMonth, hasPlus);
+    return signedIn?.call(email, authProvider, generatedCardsCurrentMonth,
+        generatedMnemonicsCurrentMonth, hasPlus);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? email, AuthProvider authProvider,
-            int generatedCardsCurrentMonth, bool hasPlus)?
+    TResult Function(
+            String? email,
+            AuthProvider authProvider,
+            int generatedCardsCurrentMonth,
+            int generatedMnemonicsCurrentMonth,
+            bool hasPlus)?
         signedIn,
     TResult Function()? signedOut,
     required TResult orElse(),
   }) {
     if (signedIn != null) {
-      return signedIn(email, authProvider, generatedCardsCurrentMonth, hasPlus);
+      return signedIn(email, authProvider, generatedCardsCurrentMonth,
+          generatedMnemonicsCurrentMonth, hasPlus);
     }
     return orElse();
   }
@@ -254,11 +293,13 @@ abstract class AccountViewSignedIn implements AccountView {
       {final String? email,
       required final AuthProvider authProvider,
       required final int generatedCardsCurrentMonth,
+      required final int generatedMnemonicsCurrentMonth,
       required final bool hasPlus}) = _$AccountViewSignedIn;
 
   String? get email;
   AuthProvider get authProvider;
   int get generatedCardsCurrentMonth;
+  int get generatedMnemonicsCurrentMonth;
   bool get hasPlus;
   @JsonKey(ignore: true)
   _$$AccountViewSignedInCopyWith<_$AccountViewSignedIn> get copyWith =>
@@ -303,8 +344,12 @@ class _$AccountViewSignedOut implements AccountViewSignedOut {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? email, AuthProvider authProvider,
-            int generatedCardsCurrentMonth, bool hasPlus)
+    required TResult Function(
+            String? email,
+            AuthProvider authProvider,
+            int generatedCardsCurrentMonth,
+            int generatedMnemonicsCurrentMonth,
+            bool hasPlus)
         signedIn,
     required TResult Function() signedOut,
   }) {
@@ -314,8 +359,12 @@ class _$AccountViewSignedOut implements AccountViewSignedOut {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? email, AuthProvider authProvider,
-            int generatedCardsCurrentMonth, bool hasPlus)?
+    TResult? Function(
+            String? email,
+            AuthProvider authProvider,
+            int generatedCardsCurrentMonth,
+            int generatedMnemonicsCurrentMonth,
+            bool hasPlus)?
         signedIn,
     TResult? Function()? signedOut,
   }) {
@@ -325,8 +374,12 @@ class _$AccountViewSignedOut implements AccountViewSignedOut {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? email, AuthProvider authProvider,
-            int generatedCardsCurrentMonth, bool hasPlus)?
+    TResult Function(
+            String? email,
+            AuthProvider authProvider,
+            int generatedCardsCurrentMonth,
+            int generatedMnemonicsCurrentMonth,
+            bool hasPlus)?
         signedIn,
     TResult Function()? signedOut,
     required TResult orElse(),

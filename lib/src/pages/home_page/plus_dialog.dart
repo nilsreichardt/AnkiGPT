@@ -45,15 +45,17 @@ class PlusDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: const Text("AnkiGPT Plus"),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (top != null) top!,
-          const PlusAdvantages(),
-          const SizedBox(height: 16),
-          const _PlusPrice(),
-        ],
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (top != null) top!,
+            const PlusAdvantages(),
+            const SizedBox(height: 16),
+            const _PlusPrice(),
+          ],
+        ),
       ),
       actions: const [
         _CancelButton(),
@@ -87,6 +89,7 @@ class PlusAdvantages extends StatelessWidget {
         SellingPoint(text: 'Up to 150 cards per request'),
         SellingPoint(
             text: 'Up to 500,000 input characters (~ 200 pages) per request'),
+        SellingPoint(text: 'Unlimited mnemonics per month'),
         SellingPoint(text: 'Premium support'),
       ],
     );

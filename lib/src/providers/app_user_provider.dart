@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_user_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Stream<AppUser?> appUser(AppUserRef ref) {
   final userId = ref.watch(userIdProvider);
   if (userId == null) return Stream.value(null);

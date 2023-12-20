@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_id_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 String? userId(UserIdRef ref) {
   final authUser = ref.watch(authUserProvider).value;
   return authUser?.uid;

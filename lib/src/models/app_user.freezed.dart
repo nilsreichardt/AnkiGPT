@@ -116,10 +116,12 @@ class __$$_AppUserCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AppUser implements _AppUser {
+class _$_AppUser extends _AppUser {
   const _$_AppUser(
       {this.hasPlus = false,
-      this.usage = const Usage(generatedCardsCurrentMonth: 0)});
+      this.usage = const Usage(
+          generatedCardsCurrentMonth: 0, generatedMnemonicsCurrentMonth: 0)})
+      : super._();
 
   factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
       _$$_AppUserFromJson(json);
@@ -163,8 +165,9 @@ class _$_AppUser implements _AppUser {
   }
 }
 
-abstract class _AppUser implements AppUser {
+abstract class _AppUser extends AppUser {
   const factory _AppUser({final bool hasPlus, final Usage usage}) = _$_AppUser;
+  const _AppUser._() : super._();
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
 
@@ -185,6 +188,7 @@ Usage _$UsageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Usage {
   int get generatedCardsCurrentMonth => throw _privateConstructorUsedError;
+  int get generatedMnemonicsCurrentMonth => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -196,7 +200,8 @@ abstract class $UsageCopyWith<$Res> {
   factory $UsageCopyWith(Usage value, $Res Function(Usage) then) =
       _$UsageCopyWithImpl<$Res, Usage>;
   @useResult
-  $Res call({int generatedCardsCurrentMonth});
+  $Res call(
+      {int generatedCardsCurrentMonth, int generatedMnemonicsCurrentMonth});
 }
 
 /// @nodoc
@@ -213,11 +218,16 @@ class _$UsageCopyWithImpl<$Res, $Val extends Usage>
   @override
   $Res call({
     Object? generatedCardsCurrentMonth = null,
+    Object? generatedMnemonicsCurrentMonth = null,
   }) {
     return _then(_value.copyWith(
       generatedCardsCurrentMonth: null == generatedCardsCurrentMonth
           ? _value.generatedCardsCurrentMonth
           : generatedCardsCurrentMonth // ignore: cast_nullable_to_non_nullable
+              as int,
+      generatedMnemonicsCurrentMonth: null == generatedMnemonicsCurrentMonth
+          ? _value.generatedMnemonicsCurrentMonth
+          : generatedMnemonicsCurrentMonth // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -229,7 +239,8 @@ abstract class _$$_UsageCopyWith<$Res> implements $UsageCopyWith<$Res> {
       __$$_UsageCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int generatedCardsCurrentMonth});
+  $Res call(
+      {int generatedCardsCurrentMonth, int generatedMnemonicsCurrentMonth});
 }
 
 /// @nodoc
@@ -242,11 +253,16 @@ class __$$_UsageCopyWithImpl<$Res> extends _$UsageCopyWithImpl<$Res, _$_Usage>
   @override
   $Res call({
     Object? generatedCardsCurrentMonth = null,
+    Object? generatedMnemonicsCurrentMonth = null,
   }) {
     return _then(_$_Usage(
       generatedCardsCurrentMonth: null == generatedCardsCurrentMonth
           ? _value.generatedCardsCurrentMonth
           : generatedCardsCurrentMonth // ignore: cast_nullable_to_non_nullable
+              as int,
+      generatedMnemonicsCurrentMonth: null == generatedMnemonicsCurrentMonth
+          ? _value.generatedMnemonicsCurrentMonth
+          : generatedMnemonicsCurrentMonth // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -255,7 +271,9 @@ class __$$_UsageCopyWithImpl<$Res> extends _$UsageCopyWithImpl<$Res, _$_Usage>
 /// @nodoc
 @JsonSerializable()
 class _$_Usage implements _Usage {
-  const _$_Usage({this.generatedCardsCurrentMonth = 0});
+  const _$_Usage(
+      {this.generatedCardsCurrentMonth = 0,
+      this.generatedMnemonicsCurrentMonth = 0});
 
   factory _$_Usage.fromJson(Map<String, dynamic> json) =>
       _$$_UsageFromJson(json);
@@ -263,10 +281,13 @@ class _$_Usage implements _Usage {
   @override
   @JsonKey()
   final int generatedCardsCurrentMonth;
+  @override
+  @JsonKey()
+  final int generatedMnemonicsCurrentMonth;
 
   @override
   String toString() {
-    return 'Usage(generatedCardsCurrentMonth: $generatedCardsCurrentMonth)';
+    return 'Usage(generatedCardsCurrentMonth: $generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth: $generatedMnemonicsCurrentMonth)';
   }
 
   @override
@@ -277,12 +298,17 @@ class _$_Usage implements _Usage {
             (identical(other.generatedCardsCurrentMonth,
                     generatedCardsCurrentMonth) ||
                 other.generatedCardsCurrentMonth ==
-                    generatedCardsCurrentMonth));
+                    generatedCardsCurrentMonth) &&
+            (identical(other.generatedMnemonicsCurrentMonth,
+                    generatedMnemonicsCurrentMonth) ||
+                other.generatedMnemonicsCurrentMonth ==
+                    generatedMnemonicsCurrentMonth));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, generatedCardsCurrentMonth);
+  int get hashCode => Object.hash(
+      runtimeType, generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth);
 
   @JsonKey(ignore: true)
   @override
@@ -299,12 +325,16 @@ class _$_Usage implements _Usage {
 }
 
 abstract class _Usage implements Usage {
-  const factory _Usage({final int generatedCardsCurrentMonth}) = _$_Usage;
+  const factory _Usage(
+      {final int generatedCardsCurrentMonth,
+      final int generatedMnemonicsCurrentMonth}) = _$_Usage;
 
   factory _Usage.fromJson(Map<String, dynamic> json) = _$_Usage.fromJson;
 
   @override
   int get generatedCardsCurrentMonth;
+  @override
+  int get generatedMnemonicsCurrentMonth;
   @override
   @JsonKey(ignore: true)
   _$$_UsageCopyWith<_$_Usage> get copyWith =>

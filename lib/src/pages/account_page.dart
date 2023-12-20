@@ -526,6 +526,8 @@ class _AvatarCard extends ConsumerWidget {
                       _Usage(
                         generatedCardsCurrentMonth:
                             view.generatedCardsCurrentMonth,
+                        generatedMnemonicsCurrentMonth:
+                            view.generatedMnemonicsCurrentMonth,
                       ),
                     ]
                   ],
@@ -572,9 +574,11 @@ class _AvatarCard extends ConsumerWidget {
 class _Usage extends StatelessWidget {
   const _Usage({
     required this.generatedCardsCurrentMonth,
+    required this.generatedMnemonicsCurrentMonth,
   });
 
   final int generatedCardsCurrentMonth;
+  final int generatedMnemonicsCurrentMonth;
 
   @override
   Widget build(BuildContext context) {
@@ -596,7 +600,7 @@ class _Usage extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-              'Limit: $freeUsageLimitPerMonth cards per month, ${(percentage * 100).toStringAsFixed(0)}% verbraucht'),
+              'Limit: $freeUsageLimitPerMonth cards per month, ${(percentage * 100).toStringAsFixed(0)}% used'),
           const SizedBox(height: 6),
           LinearProgressIndicator(
             value: percentage,
@@ -618,6 +622,14 @@ class _Usage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 12,
               ),
+            ),
+          ),
+          const Divider(height: 38),
+          Opacity(
+            opacity: 0.7,
+            child: Text(
+              'Generated mnemonics this month: $generatedMnemonicsCurrentMonth / $freeMnemonicsUsagePerMonth',
+              style: const TextStyle(fontSize: 12),
             ),
           ),
         ],

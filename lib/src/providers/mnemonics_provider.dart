@@ -43,8 +43,8 @@ class MnemonicsController extends _$MnemonicsController {
       );
 
       state = MnemonicsState.loaded(
-        mnemonic: response.$2,
-        traceId: response.$1,
+        mnemonic: response.$1,
+        traceId: response.$2,
       );
     } on FirebaseFunctionsException catch (e) {
       switch (e.code) {

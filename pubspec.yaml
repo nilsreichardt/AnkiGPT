@@ -1,5 +1,6 @@
 name: ankigpt
-description: Generate flashcards from the lecture slides with one click and easily export them to Anki.
+description: Generate flashcards from the lecture slides with one click and
+  easily export them to Anki.
 publish_to: "none"
 version: 1.0.0+1
 repository: https://github.com/nilsreichardt/ankigpt
@@ -31,7 +32,7 @@ dependencies:
   flutter_svg: ^2.0.6
   freezed_annotation: ^2.2.0
   go_router: ^9.0.3
-  google_sign_in: ^6.1.4
+  google_sign_in: ^6.2.1
   intl: ^0.18.1
   json_annotation: ^4.8.1
   logger: ^1.3.0
@@ -55,17 +56,17 @@ dev_dependencies:
     git:
       url: https://github.com/nilsreichardt/adaptive_test
       ref: 7768b756e1298e888d902c98742b2de02089a8df
+  build_runner: ^2.4.5
+  custom_lint: ^0.4.0
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
   freezed: ^2.3.4
-  build_runner: ^2.4.5
   json_serializable: ^6.7.0
-  custom_lint: ^0.4.0
-  riverpod_lint: ^1.3.2
-  riverpod_generator: ^2.2.3
   mockito: ^5.4.2
   path: ^1.8.3
+  riverpod_generator: ^2.2.3
+  riverpod_lint: ^1.3.2
 
 flutter:
   uses-material-design: true

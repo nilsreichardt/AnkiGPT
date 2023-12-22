@@ -589,10 +589,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_sign_in
-      sha256: "8f8b94880f2753ccb796744259da529674e49b9af2e372abf6978c590c0ebfef"
+      sha256: "0b8787cb9c1a68ad398e8010e8c8766bfa33556d2ab97c439fb4137756d7308f"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.6"
+    version: "6.2.1"
   google_sign_in_android:
     dependency: transitive
     description:
@@ -605,10 +605,10 @@ packages:
     dependency: transitive
     description:
       name: google_sign_in_ios
-      sha256: "8edfde9698b5951f3d02632eceb39cc283865c3cff0b03216bf951089f10345b"
+      sha256: "0822b0abc94ff6d705d7a321ef58818ffed864787f23f5ac3451e3e6afbcf90d"
       url: "https://pub.dev"
     source: hosted
-    version: "5.6.3"
+    version: "5.7.1"
   google_sign_in_platform_interface:
     dependency: transitive
     description:

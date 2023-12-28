@@ -25,7 +25,7 @@ GoRouter router(RouterRef ref) {
       GoRoute(
         path: '/',
         builder: (context, state) {
-          final zero = state.queryParameters['0'];
+          final zero = state.uri.queryParameters['0'];
           final has0Analytics = zero?.isEmpty ?? false;
           return HomePage(has0Analytics: has0Analytics);
         },

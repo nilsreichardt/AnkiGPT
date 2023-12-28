@@ -263,10 +263,10 @@ class _EmptySearch extends StatelessWidget {
 
 class ResultCard extends ConsumerStatefulWidget {
   const ResultCard({
-    Key? key,
+    super.key,
     required this.card,
     required this.onDeleted,
-  }) : super(key: key);
+  });
 
   final AnkiCard card;
   final ValueChanged<CardId> onDeleted;

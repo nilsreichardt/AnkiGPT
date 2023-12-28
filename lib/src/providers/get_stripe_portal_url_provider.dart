@@ -17,7 +17,9 @@ Future<String> getStripePortalUrl(GetStripePortalUrlRef ref) async {
 
     return response.data['url'];
   } catch (e, s) {
-    ref.read(loggerProvider).e('Could not generate portal link', e, s);
+    ref
+        .read(loggerProvider)
+        .e('Could not generate portal link', error: e, stackTrace: s);
     rethrow;
   }
 }

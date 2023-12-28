@@ -36,7 +36,7 @@ class _SessionPageState extends ConsumerState<DeckPage> {
         ref
             .read(watchProvider(sessionId).notifier)
             .watch(sessionId: widget.sessionId!);
-        logger.v('Watch session: $sessionId');
+        logger.t('Watch session: $sessionId');
       }
     });
   }

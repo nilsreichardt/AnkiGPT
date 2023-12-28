@@ -56,7 +56,8 @@ class Watch extends _$Watch {
         );
       },
       onError: (error, stackTrace) {
-        _logger.e("Error while watching session: $error", error, stackTrace);
+        _logger.e("Error while watching session: $error",
+            error: error, stackTrace: stackTrace);
         state = state.copyWith(
           isLoading: false,
           error: 'Error while listing to session: $error',

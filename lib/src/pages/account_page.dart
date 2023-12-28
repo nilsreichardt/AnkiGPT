@@ -25,7 +25,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AccountPage extends ConsumerWidget {
-  const AccountPage({Key? key}) : super(key: key);
+  const AccountPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,7 +67,7 @@ class AccountPage extends ConsumerWidget {
 }
 
 class _SignedInSection extends ConsumerWidget {
-  const _SignedInSection({Key? key}) : super(key: key);
+  const _SignedInSection();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -85,7 +85,7 @@ class _SignedInSection extends ConsumerWidget {
 }
 
 class _BuyPlusCard extends StatelessWidget {
-  const _BuyPlusCard({Key? key}) : super(key: key);
+  const _BuyPlusCard();
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +108,7 @@ class _BuyPlusCard extends StatelessWidget {
 }
 
 class _SignInSection extends StatelessWidget {
-  const _SignInSection({Key? key}) : super(key: key);
+  const _SignInSection();
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +145,7 @@ class _SignInNote extends StatelessWidget {
 }
 
 class _LegalText extends StatelessWidget {
-  const _LegalText({Key? key}) : super(key: key);
+  const _LegalText();
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +166,7 @@ class _LegalText extends StatelessWidget {
 }
 
 class _AppleSignIn extends StatelessWidget {
-  const _AppleSignIn({Key? key}) : super(key: key);
+  const _AppleSignIn();
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +178,7 @@ class _AppleSignIn extends StatelessWidget {
 }
 
 class _GoogleSignIn extends StatelessWidget {
-  const _GoogleSignIn({Key? key}) : super(key: key);
+  const _GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {
@@ -191,10 +191,9 @@ class _GoogleSignIn extends StatelessWidget {
 
 class _SignInButton extends ConsumerWidget {
   const _SignInButton({
-    Key? key,
     required this.icon,
     required this.authProvider,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final AuthProvider authProvider;
@@ -246,7 +245,7 @@ class _SignInButton extends ConsumerWidget {
 }
 
 class _DangerZoneCard extends StatelessWidget {
-  const _DangerZoneCard({Key? key}) : super(key: key);
+  const _DangerZoneCard();
 
   @override
   Widget build(BuildContext context) {
@@ -332,11 +331,10 @@ class _SignOutTile extends ConsumerWidget {
 
 class _DangerZoneTile extends StatelessWidget {
   const _DangerZoneTile({
-    Key? key,
     required this.onTap,
     required this.icon,
     required this.title,
-  }) : super(key: key);
+  });
 
   final VoidCallback onTap;
   final Icon icon;
@@ -355,13 +353,12 @@ class _DangerZoneTile extends StatelessWidget {
 
 class _Tile extends StatelessWidget {
   const _Tile({
-    Key? key,
     required this.onTap,
     required this.icon,
     required this.title,
     this.color,
     this.subtitle,
-  }) : super(key: key);
+  });
 
   final VoidCallback onTap;
   final Icon icon;
@@ -387,7 +384,7 @@ class _Tile extends StatelessWidget {
 }
 
 class _SignOutConfirmationDialog extends StatelessWidget {
-  const _SignOutConfirmationDialog({Key? key}) : super(key: key);
+  const _SignOutConfirmationDialog();
 
   @override
   Widget build(BuildContext context) {
@@ -406,7 +403,7 @@ class _SignOutConfirmationDialog extends StatelessWidget {
 }
 
 class _ContactSupportTile extends StatelessWidget {
-  const _ContactSupportTile({Key? key}) : super(key: key);
+  const _ContactSupportTile();
 
   @override
   Widget build(BuildContext context) {

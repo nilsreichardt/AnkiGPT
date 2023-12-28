@@ -37,7 +37,8 @@ Future<void> signIn(SignInRef ref, {required AuthProvider authProvider}) async {
       ref.read(routerProvider).go('/');
     }
   } catch (e, s) {
-    logger.e('Error while signing in with ${authProvider.name}', e, s);
+    logger.e('Error while signing in with ${authProvider.name}',
+        error: e, stackTrace: s);
     rethrow;
   }
 }

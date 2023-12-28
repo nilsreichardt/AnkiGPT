@@ -6,12 +6,12 @@ part of 'csv_metadata.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CsvMetadata _$$_CsvMetadataFromJson(Map<String, dynamic> json) =>
-    _$_CsvMetadata(
+_$CsvMetadataImpl _$$CsvMetadataImplFromJson(Map<String, dynamic> json) =>
+    _$CsvMetadataImpl(
       downloadUrl: json['downloadUrl'] as String,
     );
 
-Map<String, dynamic> _$$_CsvMetadataToJson(_$_CsvMetadata instance) =>
+Map<String, dynamic> _$$CsvMetadataImplToJson(_$CsvMetadataImpl instance) =>
     <String, dynamic>{
       'downloadUrl': instance.downloadUrl,
     };

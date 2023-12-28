@@ -62,22 +62,22 @@ class _$CsvMetadataCopyWithImpl<$Res, $Val extends CsvMetadata>
 }
 
 /// @nodoc
-abstract class _$$_CsvMetadataCopyWith<$Res>
+abstract class _$$CsvMetadataImplCopyWith<$Res>
     implements $CsvMetadataCopyWith<$Res> {
-  factory _$$_CsvMetadataCopyWith(
-          _$_CsvMetadata value, $Res Function(_$_CsvMetadata) then) =
-      __$$_CsvMetadataCopyWithImpl<$Res>;
+  factory _$$CsvMetadataImplCopyWith(
+          _$CsvMetadataImpl value, $Res Function(_$CsvMetadataImpl) then) =
+      __$$CsvMetadataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String downloadUrl});
 }
 
 /// @nodoc
-class __$$_CsvMetadataCopyWithImpl<$Res>
-    extends _$CsvMetadataCopyWithImpl<$Res, _$_CsvMetadata>
-    implements _$$_CsvMetadataCopyWith<$Res> {
-  __$$_CsvMetadataCopyWithImpl(
-      _$_CsvMetadata _value, $Res Function(_$_CsvMetadata) _then)
+class __$$CsvMetadataImplCopyWithImpl<$Res>
+    extends _$CsvMetadataCopyWithImpl<$Res, _$CsvMetadataImpl>
+    implements _$$CsvMetadataImplCopyWith<$Res> {
+  __$$CsvMetadataImplCopyWithImpl(
+      _$CsvMetadataImpl _value, $Res Function(_$CsvMetadataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -85,7 +85,7 @@ class __$$_CsvMetadataCopyWithImpl<$Res>
   $Res call({
     Object? downloadUrl = null,
   }) {
-    return _then(_$_CsvMetadata(
+    return _then(_$CsvMetadataImpl(
       downloadUrl: null == downloadUrl
           ? _value.downloadUrl
           : downloadUrl // ignore: cast_nullable_to_non_nullable
@@ -96,11 +96,11 @@ class __$$_CsvMetadataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CsvMetadata implements _CsvMetadata {
-  const _$_CsvMetadata({required this.downloadUrl});
+class _$CsvMetadataImpl implements _CsvMetadata {
+  const _$CsvMetadataImpl({required this.downloadUrl});
 
-  factory _$_CsvMetadata.fromJson(Map<String, dynamic> json) =>
-      _$$_CsvMetadataFromJson(json);
+  factory _$CsvMetadataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CsvMetadataImplFromJson(json);
 
   @override
   final String downloadUrl;
@@ -111,10 +111,10 @@ class _$_CsvMetadata implements _CsvMetadata {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CsvMetadata &&
+            other is _$CsvMetadataImpl &&
             (identical(other.downloadUrl, downloadUrl) ||
                 other.downloadUrl == downloadUrl));
   }
@@ -126,12 +126,12 @@ class _$_CsvMetadata implements _CsvMetadata {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CsvMetadataCopyWith<_$_CsvMetadata> get copyWith =>
-      __$$_CsvMetadataCopyWithImpl<_$_CsvMetadata>(this, _$identity);
+  _$$CsvMetadataImplCopyWith<_$CsvMetadataImpl> get copyWith =>
+      __$$CsvMetadataImplCopyWithImpl<_$CsvMetadataImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CsvMetadataToJson(
+    return _$$CsvMetadataImplToJson(
       this,
     );
   }
@@ -139,15 +139,15 @@ class _$_CsvMetadata implements _CsvMetadata {
 
 abstract class _CsvMetadata implements CsvMetadata {
   const factory _CsvMetadata({required final String downloadUrl}) =
-      _$_CsvMetadata;
+      _$CsvMetadataImpl;
 
   factory _CsvMetadata.fromJson(Map<String, dynamic> json) =
-      _$_CsvMetadata.fromJson;
+      _$CsvMetadataImpl.fromJson;
 
   @override
   String get downloadUrl;
   @override
   @JsonKey(ignore: true)
-  _$$_CsvMetadataCopyWith<_$_CsvMetadata> get copyWith =>
+  _$$CsvMetadataImplCopyWith<_$CsvMetadataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

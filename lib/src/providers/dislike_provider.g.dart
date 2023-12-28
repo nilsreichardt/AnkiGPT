@@ -29,8 +29,6 @@ class _SystemHash {
   }
 }
 
-typedef DislikeCardRef = AutoDisposeFutureProviderRef<void>;
-
 /// See also [dislikeCard].
 @ProviderFor(dislikeCard)
 const dislikeCardProvider = DislikeCardFamily();
@@ -86,13 +84,13 @@ class DislikeCardFamily extends Family<AsyncValue<void>> {
 class DislikeCardProvider extends AutoDisposeFutureProvider<void> {
   /// See also [dislikeCard].
   DislikeCardProvider({
-    required this.sessionId,
-    required this.cardId,
-    this.checkboxes,
-    this.text,
-  }) : super.internal(
+    required String sessionId,
+    required String cardId,
+    Map<CardFeedbackType, bool>? checkboxes,
+    String? text,
+  }) : this._internal(
           (ref) => dislikeCard(
-            ref,
+            ref as DislikeCardRef,
             sessionId: sessionId,
             cardId: cardId,
             checkboxes: checkboxes,
@@ -107,12 +105,55 @@ class DislikeCardProvider extends AutoDisposeFutureProvider<void> {
           dependencies: DislikeCardFamily._dependencies,
           allTransitiveDependencies:
               DislikeCardFamily._allTransitiveDependencies,
+          sessionId: sessionId,
+          cardId: cardId,
+          checkboxes: checkboxes,
+          text: text,
         );
+
+  DislikeCardProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.sessionId,
+    required this.cardId,
+    required this.checkboxes,
+    required this.text,
+  }) : super.internal();
 
   final String sessionId;
   final String cardId;
   final Map<CardFeedbackType, bool>? checkboxes;
   final String? text;
+
+  @override
+  Override overrideWith(
+    FutureOr<void> Function(DislikeCardRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: DislikeCardProvider._internal(
+        (ref) => create(ref as DislikeCardRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        sessionId: sessionId,
+        cardId: cardId,
+        checkboxes: checkboxes,
+        text: text,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<void> createElement() {
+    return _DislikeCardProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -135,8 +176,36 @@ class DislikeCardProvider extends AutoDisposeFutureProvider<void> {
   }
 }
 
+mixin DislikeCardRef on AutoDisposeFutureProviderRef<void> {
+  /// The parameter `sessionId` of this provider.
+  String get sessionId;
+
+  /// The parameter `cardId` of this provider.
+  String get cardId;
+
+  /// The parameter `checkboxes` of this provider.
+  Map<CardFeedbackType, bool>? get checkboxes;
+
+  /// The parameter `text` of this provider.
+  String? get text;
+}
+
+class _DislikeCardProviderElement extends AutoDisposeFutureProviderElement<void>
+    with DislikeCardRef {
+  _DislikeCardProviderElement(super.provider);
+
+  @override
+  String get sessionId => (origin as DislikeCardProvider).sessionId;
+  @override
+  String get cardId => (origin as DislikeCardProvider).cardId;
+  @override
+  Map<CardFeedbackType, bool>? get checkboxes =>
+      (origin as DislikeCardProvider).checkboxes;
+  @override
+  String? get text => (origin as DislikeCardProvider).text;
+}
+
 String _$undoDislikeCardHash() => r'9e8c476f86ba26a3209145463340173ee32809ab';
-typedef UndoDislikeCardRef = AutoDisposeFutureProviderRef<void>;
 
 /// See also [undoDislikeCard].
 @ProviderFor(undoDislikeCard)
@@ -187,11 +256,11 @@ class UndoDislikeCardFamily extends Family<AsyncValue<void>> {
 class UndoDislikeCardProvider extends AutoDisposeFutureProvider<void> {
   /// See also [undoDislikeCard].
   UndoDislikeCardProvider({
-    required this.sessionId,
-    required this.cardId,
-  }) : super.internal(
+    required String sessionId,
+    required String cardId,
+  }) : this._internal(
           (ref) => undoDislikeCard(
-            ref,
+            ref as UndoDislikeCardRef,
             sessionId: sessionId,
             cardId: cardId,
           ),
@@ -204,10 +273,47 @@ class UndoDislikeCardProvider extends AutoDisposeFutureProvider<void> {
           dependencies: UndoDislikeCardFamily._dependencies,
           allTransitiveDependencies:
               UndoDislikeCardFamily._allTransitiveDependencies,
+          sessionId: sessionId,
+          cardId: cardId,
         );
+
+  UndoDislikeCardProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.sessionId,
+    required this.cardId,
+  }) : super.internal();
 
   final String sessionId;
   final String cardId;
+
+  @override
+  Override overrideWith(
+    FutureOr<void> Function(UndoDislikeCardRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: UndoDislikeCardProvider._internal(
+        (ref) => create(ref as UndoDislikeCardRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        sessionId: sessionId,
+        cardId: cardId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<void> createElement() {
+    return _UndoDislikeCardProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -225,5 +331,23 @@ class UndoDislikeCardProvider extends AutoDisposeFutureProvider<void> {
     return _SystemHash.finish(hash);
   }
 }
+
+mixin UndoDislikeCardRef on AutoDisposeFutureProviderRef<void> {
+  /// The parameter `sessionId` of this provider.
+  String get sessionId;
+
+  /// The parameter `cardId` of this provider.
+  String get cardId;
+}
+
+class _UndoDislikeCardProviderElement
+    extends AutoDisposeFutureProviderElement<void> with UndoDislikeCardRef {
+  _UndoDislikeCardProviderElement(super.provider);
+
+  @override
+  String get sessionId => (origin as UndoDislikeCardProvider).sessionId;
+  @override
+  String get cardId => (origin as UndoDislikeCardProvider).cardId;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

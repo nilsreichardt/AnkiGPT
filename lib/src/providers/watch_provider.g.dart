@@ -6,7 +6,7 @@ part of 'watch_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$watchHash() => r'116f2230137cf8d8739de90a5652cbb63739f75d';
+String _$watchHash() => r'4eff8befda3a2fc0f2281ed157ea9c5d9fbaa0e6';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -83,8 +83,8 @@ class WatchFamily extends Family<WatchView> {
 class WatchProvider extends AutoDisposeNotifierProviderImpl<Watch, WatchView> {
   /// See also [Watch].
   WatchProvider(
-    this.sessionId,
-  ) : super.internal(
+    String sessionId,
+  ) : this._internal(
           () => Watch()..sessionId = sessionId,
           from: watchProvider,
           name: r'watchProvider',
@@ -94,9 +94,50 @@ class WatchProvider extends AutoDisposeNotifierProviderImpl<Watch, WatchView> {
                   : _$watchHash,
           dependencies: WatchFamily._dependencies,
           allTransitiveDependencies: WatchFamily._allTransitiveDependencies,
+          sessionId: sessionId,
         );
 
+  WatchProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.sessionId,
+  }) : super.internal();
+
   final String sessionId;
+
+  @override
+  WatchView runNotifierBuild(
+    covariant Watch notifier,
+  ) {
+    return notifier.build(
+      sessionId,
+    );
+  }
+
+  @override
+  Override overrideWith(Watch Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: WatchProvider._internal(
+        () => create()..sessionId = sessionId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        sessionId: sessionId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeNotifierProviderElement<Watch, WatchView> createElement() {
+    return _WatchProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -110,15 +151,19 @@ class WatchProvider extends AutoDisposeNotifierProviderImpl<Watch, WatchView> {
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin WatchRef on AutoDisposeNotifierProviderRef<WatchView> {
+  /// The parameter `sessionId` of this provider.
+  String get sessionId;
+}
+
+class _WatchProviderElement
+    extends AutoDisposeNotifierProviderElement<Watch, WatchView> with WatchRef {
+  _WatchProviderElement(super.provider);
 
   @override
-  WatchView runNotifierBuild(
-    covariant Watch notifier,
-  ) {
-    return notifier.build(
-      sessionId,
-    );
-  }
+  String get sessionId => (origin as WatchProvider).sessionId;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

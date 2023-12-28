@@ -81,25 +81,27 @@ class _$GenerateStateCopyWithImpl<$Res, $Val extends GenerateState>
 }
 
 /// @nodoc
-abstract class _$$GenerationStateInitialCopyWith<$Res> {
-  factory _$$GenerationStateInitialCopyWith(_$GenerationStateInitial value,
-          $Res Function(_$GenerationStateInitial) then) =
-      __$$GenerationStateInitialCopyWithImpl<$Res>;
+abstract class _$$GenerationStateInitialImplCopyWith<$Res> {
+  factory _$$GenerationStateInitialImplCopyWith(
+          _$GenerationStateInitialImpl value,
+          $Res Function(_$GenerationStateInitialImpl) then) =
+      __$$GenerationStateInitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GenerationStateInitialCopyWithImpl<$Res>
-    extends _$GenerateStateCopyWithImpl<$Res, _$GenerationStateInitial>
-    implements _$$GenerationStateInitialCopyWith<$Res> {
-  __$$GenerationStateInitialCopyWithImpl(_$GenerationStateInitial _value,
-      $Res Function(_$GenerationStateInitial) _then)
+class __$$GenerationStateInitialImplCopyWithImpl<$Res>
+    extends _$GenerateStateCopyWithImpl<$Res, _$GenerationStateInitialImpl>
+    implements _$$GenerationStateInitialImplCopyWith<$Res> {
+  __$$GenerationStateInitialImplCopyWithImpl(
+      _$GenerationStateInitialImpl _value,
+      $Res Function(_$GenerationStateInitialImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$GenerationStateInitial implements GenerationStateInitial {
-  const _$GenerationStateInitial();
+class _$GenerationStateInitialImpl implements GenerationStateInitial {
+  const _$GenerationStateInitialImpl();
 
   @override
   String toString() {
@@ -107,9 +109,10 @@ class _$GenerationStateInitial implements GenerationStateInitial {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$GenerationStateInitial);
+        (other.runtimeType == runtimeType &&
+            other is _$GenerationStateInitialImpl);
   }
 
   @override
@@ -185,24 +188,24 @@ class _$GenerationStateInitial implements GenerationStateInitial {
 }
 
 abstract class GenerationStateInitial implements GenerateState {
-  const factory GenerationStateInitial() = _$GenerationStateInitial;
+  const factory GenerationStateInitial() = _$GenerationStateInitialImpl;
 }
 
 /// @nodoc
-abstract class _$$GenerationStateErrorCopyWith<$Res> {
-  factory _$$GenerationStateErrorCopyWith(_$GenerationStateError value,
-          $Res Function(_$GenerationStateError) then) =
-      __$$GenerationStateErrorCopyWithImpl<$Res>;
+abstract class _$$GenerationStateErrorImplCopyWith<$Res> {
+  factory _$$GenerationStateErrorImplCopyWith(_$GenerationStateErrorImpl value,
+          $Res Function(_$GenerationStateErrorImpl) then) =
+      __$$GenerationStateErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String message});
 }
 
 /// @nodoc
-class __$$GenerationStateErrorCopyWithImpl<$Res>
-    extends _$GenerateStateCopyWithImpl<$Res, _$GenerationStateError>
-    implements _$$GenerationStateErrorCopyWith<$Res> {
-  __$$GenerationStateErrorCopyWithImpl(_$GenerationStateError _value,
-      $Res Function(_$GenerationStateError) _then)
+class __$$GenerationStateErrorImplCopyWithImpl<$Res>
+    extends _$GenerateStateCopyWithImpl<$Res, _$GenerationStateErrorImpl>
+    implements _$$GenerationStateErrorImplCopyWith<$Res> {
+  __$$GenerationStateErrorImplCopyWithImpl(_$GenerationStateErrorImpl _value,
+      $Res Function(_$GenerationStateErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -210,7 +213,7 @@ class __$$GenerationStateErrorCopyWithImpl<$Res>
   $Res call({
     Object? message = null,
   }) {
-    return _then(_$GenerationStateError(
+    return _then(_$GenerationStateErrorImpl(
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -221,8 +224,8 @@ class __$$GenerationStateErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GenerationStateError implements GenerationStateError {
-  const _$GenerationStateError({required this.message});
+class _$GenerationStateErrorImpl implements GenerationStateError {
+  const _$GenerationStateErrorImpl({required this.message});
 
   @override
   final String message;
@@ -233,10 +236,10 @@ class _$GenerationStateError implements GenerationStateError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GenerationStateError &&
+            other is _$GenerationStateErrorImpl &&
             (identical(other.message, message) || other.message == message));
   }
 
@@ -246,9 +249,10 @@ class _$GenerationStateError implements GenerationStateError {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$GenerationStateErrorCopyWith<_$GenerationStateError> get copyWith =>
-      __$$GenerationStateErrorCopyWithImpl<_$GenerationStateError>(
-          this, _$identity);
+  _$$GenerationStateErrorImplCopyWith<_$GenerationStateErrorImpl>
+      get copyWith =>
+          __$$GenerationStateErrorImplCopyWithImpl<_$GenerationStateErrorImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -321,34 +325,36 @@ class _$GenerationStateError implements GenerationStateError {
 
 abstract class GenerationStateError implements GenerateState {
   const factory GenerationStateError({required final String message}) =
-      _$GenerationStateError;
+      _$GenerationStateErrorImpl;
 
   String get message;
   @JsonKey(ignore: true)
-  _$$GenerationStateErrorCopyWith<_$GenerationStateError> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$GenerationStateErrorImplCopyWith<_$GenerationStateErrorImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$GenerationStateLoadingCopyWith<$Res> {
-  factory _$$GenerationStateLoadingCopyWith(_$GenerationStateLoading value,
-          $Res Function(_$GenerationStateLoading) then) =
-      __$$GenerationStateLoadingCopyWithImpl<$Res>;
+abstract class _$$GenerationStateLoadingImplCopyWith<$Res> {
+  factory _$$GenerationStateLoadingImplCopyWith(
+          _$GenerationStateLoadingImpl value,
+          $Res Function(_$GenerationStateLoadingImpl) then) =
+      __$$GenerationStateLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GenerationStateLoadingCopyWithImpl<$Res>
-    extends _$GenerateStateCopyWithImpl<$Res, _$GenerationStateLoading>
-    implements _$$GenerationStateLoadingCopyWith<$Res> {
-  __$$GenerationStateLoadingCopyWithImpl(_$GenerationStateLoading _value,
-      $Res Function(_$GenerationStateLoading) _then)
+class __$$GenerationStateLoadingImplCopyWithImpl<$Res>
+    extends _$GenerateStateCopyWithImpl<$Res, _$GenerationStateLoadingImpl>
+    implements _$$GenerationStateLoadingImplCopyWith<$Res> {
+  __$$GenerationStateLoadingImplCopyWithImpl(
+      _$GenerationStateLoadingImpl _value,
+      $Res Function(_$GenerationStateLoadingImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$GenerationStateLoading implements GenerationStateLoading {
-  const _$GenerationStateLoading();
+class _$GenerationStateLoadingImpl implements GenerationStateLoading {
+  const _$GenerationStateLoadingImpl();
 
   @override
   String toString() {
@@ -356,9 +362,10 @@ class _$GenerationStateLoading implements GenerationStateLoading {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$GenerationStateLoading);
+        (other.runtimeType == runtimeType &&
+            other is _$GenerationStateLoadingImpl);
   }
 
   @override
@@ -434,5 +441,5 @@ class _$GenerationStateLoading implements GenerationStateLoading {
 }
 
 abstract class GenerationStateLoading implements GenerateState {
-  const factory GenerationStateLoading() = _$GenerationStateLoading;
+  const factory GenerationStateLoading() = _$GenerationStateLoadingImpl;
 }

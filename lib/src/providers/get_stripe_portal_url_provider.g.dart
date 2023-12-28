@@ -7,7 +7,7 @@ part of 'get_stripe_portal_url_provider.dart';
 // **************************************************************************
 
 String _$getStripePortalUrlHash() =>
-    r'82c6628e6cdec86bfccc1721e929e447c5d5594c';
+    r'9f9a57b4b32d7fd6d4eea6ca35522b35aab6d1bf';
 
 /// See also [getStripePortalUrl].
 @ProviderFor(getStripePortalUrl)
@@ -23,4 +23,4 @@ final getStripePortalUrlProvider = AutoDisposeFutureProvider<String>.internal(
 
 typedef GetStripePortalUrlRef = AutoDisposeFutureProviderRef<String>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

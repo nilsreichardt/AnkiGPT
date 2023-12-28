@@ -7,7 +7,7 @@ part of 'mnemonics_provider.dart';
 // **************************************************************************
 
 String _$mnemonicsControllerHash() =>
-    r'8378fdad2060578b448d3ba6534534acd09ad9f0';
+    r'0852a8dff331d2488873193782f4d8c1666e31d2';
 
 /// See also [MnemonicsController].
 @ProviderFor(MnemonicsController)
@@ -24,4 +24,4 @@ final mnemonicsControllerProvider =
 
 typedef _$MnemonicsController = AutoDisposeNotifier<MnemonicsState>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -99,10 +99,11 @@ class _$WatchViewCopyWithImpl<$Res, $Val extends WatchView>
 }
 
 /// @nodoc
-abstract class _$$_WatchViewCopyWith<$Res> implements $WatchViewCopyWith<$Res> {
-  factory _$$_WatchViewCopyWith(
-          _$_WatchView value, $Res Function(_$_WatchView) then) =
-      __$$_WatchViewCopyWithImpl<$Res>;
+abstract class _$$WatchViewImplCopyWith<$Res>
+    implements $WatchViewCopyWith<$Res> {
+  factory _$$WatchViewImplCopyWith(
+          _$WatchViewImpl value, $Res Function(_$WatchViewImpl) then) =
+      __$$WatchViewImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -116,11 +117,11 @@ abstract class _$$_WatchViewCopyWith<$Res> implements $WatchViewCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_WatchViewCopyWithImpl<$Res>
-    extends _$WatchViewCopyWithImpl<$Res, _$_WatchView>
-    implements _$$_WatchViewCopyWith<$Res> {
-  __$$_WatchViewCopyWithImpl(
-      _$_WatchView _value, $Res Function(_$_WatchView) _then)
+class __$$WatchViewImplCopyWithImpl<$Res>
+    extends _$WatchViewCopyWithImpl<$Res, _$WatchViewImpl>
+    implements _$$WatchViewImplCopyWith<$Res> {
+  __$$WatchViewImplCopyWithImpl(
+      _$WatchViewImpl _value, $Res Function(_$WatchViewImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -134,7 +135,7 @@ class __$$_WatchViewCopyWithImpl<$Res>
     Object? sessionId = freezed,
     Object? inputText = freezed,
   }) {
-    return _then(_$_WatchView(
+    return _then(_$WatchViewImpl(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -169,8 +170,8 @@ class __$$_WatchViewCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_WatchView extends _WatchView {
-  const _$_WatchView(
+class _$WatchViewImpl extends _WatchView {
+  const _$WatchViewImpl(
       {this.isLoading = false,
       this.downloadUrl,
       this.language,
@@ -202,10 +203,10 @@ class _$_WatchView extends _WatchView {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_WatchView &&
+            other is _$WatchViewImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.downloadUrl, downloadUrl) ||
@@ -228,8 +229,8 @@ class _$_WatchView extends _WatchView {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_WatchViewCopyWith<_$_WatchView> get copyWith =>
-      __$$_WatchViewCopyWithImpl<_$_WatchView>(this, _$identity);
+  _$$WatchViewImplCopyWith<_$WatchViewImpl> get copyWith =>
+      __$$WatchViewImplCopyWithImpl<_$WatchViewImpl>(this, _$identity);
 }
 
 abstract class _WatchView extends WatchView {
@@ -240,7 +241,7 @@ abstract class _WatchView extends WatchView {
       final String? error,
       final String? fileName,
       final String? sessionId,
-      final String? inputText}) = _$_WatchView;
+      final String? inputText}) = _$WatchViewImpl;
   const _WatchView._() : super._();
 
   @override
@@ -259,6 +260,6 @@ abstract class _WatchView extends WatchView {
   String? get inputText;
   @override
   @JsonKey(ignore: true)
-  _$$_WatchViewCopyWith<_$_WatchView> get copyWith =>
+  _$$WatchViewImplCopyWith<_$WatchViewImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

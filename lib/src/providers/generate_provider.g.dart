@@ -21,7 +21,7 @@ final hasPickedFileProvider = AutoDisposeProvider<bool>.internal(
 );
 
 typedef HasPickedFileRef = AutoDisposeProviderRef<bool>;
-String _$generateNotifierHash() => r'6f44f62fde67d2632a44005b19cd5200678ed759';
+String _$generateNotifierHash() => r'3e316de1e4af9217eb373fbcc2b4f5c47c6a8f20';
 
 /// See also [GenerateNotifier].
 @ProviderFor(GenerateNotifier)
@@ -56,4 +56,4 @@ final pickedFileProvider =
 
 typedef _$PickedFile = AutoDisposeNotifier<PlatformFile?>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

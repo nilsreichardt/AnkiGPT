@@ -76,10 +76,10 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
 }
 
 /// @nodoc
-abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
-  factory _$$_AppUserCopyWith(
-          _$_AppUser value, $Res Function(_$_AppUser) then) =
-      __$$_AppUserCopyWithImpl<$Res>;
+abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
+  factory _$$AppUserImplCopyWith(
+          _$AppUserImpl value, $Res Function(_$AppUserImpl) then) =
+      __$$AppUserImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool hasPlus, Usage usage});
@@ -89,10 +89,11 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_AppUserCopyWithImpl<$Res>
-    extends _$AppUserCopyWithImpl<$Res, _$_AppUser>
-    implements _$$_AppUserCopyWith<$Res> {
-  __$$_AppUserCopyWithImpl(_$_AppUser _value, $Res Function(_$_AppUser) _then)
+class __$$AppUserImplCopyWithImpl<$Res>
+    extends _$AppUserCopyWithImpl<$Res, _$AppUserImpl>
+    implements _$$AppUserImplCopyWith<$Res> {
+  __$$AppUserImplCopyWithImpl(
+      _$AppUserImpl _value, $Res Function(_$AppUserImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +102,7 @@ class __$$_AppUserCopyWithImpl<$Res>
     Object? hasPlus = null,
     Object? usage = null,
   }) {
-    return _then(_$_AppUser(
+    return _then(_$AppUserImpl(
       hasPlus: null == hasPlus
           ? _value.hasPlus
           : hasPlus // ignore: cast_nullable_to_non_nullable
@@ -116,15 +117,15 @@ class __$$_AppUserCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AppUser extends _AppUser {
-  const _$_AppUser(
+class _$AppUserImpl extends _AppUser {
+  const _$AppUserImpl(
       {this.hasPlus = false,
       this.usage = const Usage(
           generatedCardsCurrentMonth: 0, generatedMnemonicsCurrentMonth: 0)})
       : super._();
 
-  factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
-      _$$_AppUserFromJson(json);
+  factory _$AppUserImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AppUserImplFromJson(json);
 
   @override
   @JsonKey()
@@ -139,10 +140,10 @@ class _$_AppUser extends _AppUser {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AppUser &&
+            other is _$AppUserImpl &&
             (identical(other.hasPlus, hasPlus) || other.hasPlus == hasPlus) &&
             (identical(other.usage, usage) || other.usage == usage));
   }
@@ -154,22 +155,23 @@ class _$_AppUser extends _AppUser {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AppUserCopyWith<_$_AppUser> get copyWith =>
-      __$$_AppUserCopyWithImpl<_$_AppUser>(this, _$identity);
+  _$$AppUserImplCopyWith<_$AppUserImpl> get copyWith =>
+      __$$AppUserImplCopyWithImpl<_$AppUserImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AppUserToJson(
+    return _$$AppUserImplToJson(
       this,
     );
   }
 }
 
 abstract class _AppUser extends AppUser {
-  const factory _AppUser({final bool hasPlus, final Usage usage}) = _$_AppUser;
+  const factory _AppUser({final bool hasPlus, final Usage usage}) =
+      _$AppUserImpl;
   const _AppUser._() : super._();
 
-  factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
+  factory _AppUser.fromJson(Map<String, dynamic> json) = _$AppUserImpl.fromJson;
 
   @override
   bool get hasPlus;
@@ -177,7 +179,7 @@ abstract class _AppUser extends AppUser {
   Usage get usage;
   @override
   @JsonKey(ignore: true)
-  _$$_AppUserCopyWith<_$_AppUser> get copyWith =>
+  _$$AppUserImplCopyWith<_$AppUserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -234,9 +236,10 @@ class _$UsageCopyWithImpl<$Res, $Val extends Usage>
 }
 
 /// @nodoc
-abstract class _$$_UsageCopyWith<$Res> implements $UsageCopyWith<$Res> {
-  factory _$$_UsageCopyWith(_$_Usage value, $Res Function(_$_Usage) then) =
-      __$$_UsageCopyWithImpl<$Res>;
+abstract class _$$UsageImplCopyWith<$Res> implements $UsageCopyWith<$Res> {
+  factory _$$UsageImplCopyWith(
+          _$UsageImpl value, $Res Function(_$UsageImpl) then) =
+      __$$UsageImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -244,9 +247,11 @@ abstract class _$$_UsageCopyWith<$Res> implements $UsageCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_UsageCopyWithImpl<$Res> extends _$UsageCopyWithImpl<$Res, _$_Usage>
-    implements _$$_UsageCopyWith<$Res> {
-  __$$_UsageCopyWithImpl(_$_Usage _value, $Res Function(_$_Usage) _then)
+class __$$UsageImplCopyWithImpl<$Res>
+    extends _$UsageCopyWithImpl<$Res, _$UsageImpl>
+    implements _$$UsageImplCopyWith<$Res> {
+  __$$UsageImplCopyWithImpl(
+      _$UsageImpl _value, $Res Function(_$UsageImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -255,7 +260,7 @@ class __$$_UsageCopyWithImpl<$Res> extends _$UsageCopyWithImpl<$Res, _$_Usage>
     Object? generatedCardsCurrentMonth = null,
     Object? generatedMnemonicsCurrentMonth = null,
   }) {
-    return _then(_$_Usage(
+    return _then(_$UsageImpl(
       generatedCardsCurrentMonth: null == generatedCardsCurrentMonth
           ? _value.generatedCardsCurrentMonth
           : generatedCardsCurrentMonth // ignore: cast_nullable_to_non_nullable
@@ -270,13 +275,13 @@ class __$$_UsageCopyWithImpl<$Res> extends _$UsageCopyWithImpl<$Res, _$_Usage>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Usage implements _Usage {
-  const _$_Usage(
+class _$UsageImpl implements _Usage {
+  const _$UsageImpl(
       {this.generatedCardsCurrentMonth = 0,
       this.generatedMnemonicsCurrentMonth = 0});
 
-  factory _$_Usage.fromJson(Map<String, dynamic> json) =>
-      _$$_UsageFromJson(json);
+  factory _$UsageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UsageImplFromJson(json);
 
   @override
   @JsonKey()
@@ -291,10 +296,10 @@ class _$_Usage implements _Usage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Usage &&
+            other is _$UsageImpl &&
             (identical(other.generatedCardsCurrentMonth,
                     generatedCardsCurrentMonth) ||
                 other.generatedCardsCurrentMonth ==
@@ -313,12 +318,12 @@ class _$_Usage implements _Usage {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UsageCopyWith<_$_Usage> get copyWith =>
-      __$$_UsageCopyWithImpl<_$_Usage>(this, _$identity);
+  _$$UsageImplCopyWith<_$UsageImpl> get copyWith =>
+      __$$UsageImplCopyWithImpl<_$UsageImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UsageToJson(
+    return _$$UsageImplToJson(
       this,
     );
   }
@@ -327,9 +332,9 @@ class _$_Usage implements _Usage {
 abstract class _Usage implements Usage {
   const factory _Usage(
       {final int generatedCardsCurrentMonth,
-      final int generatedMnemonicsCurrentMonth}) = _$_Usage;
+      final int generatedMnemonicsCurrentMonth}) = _$UsageImpl;
 
-  factory _Usage.fromJson(Map<String, dynamic> json) = _$_Usage.fromJson;
+  factory _Usage.fromJson(Map<String, dynamic> json) = _$UsageImpl.fromJson;
 
   @override
   int get generatedCardsCurrentMonth;
@@ -337,6 +342,6 @@ abstract class _Usage implements Usage {
   int get generatedMnemonicsCurrentMonth;
   @override
   @JsonKey(ignore: true)
-  _$$_UsageCopyWith<_$_Usage> get copyWith =>
+  _$$UsageImplCopyWith<_$UsageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

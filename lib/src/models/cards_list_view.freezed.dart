@@ -86,11 +86,11 @@ class _$CardsListViewCopyWithImpl<$Res, $Val extends CardsListView>
 }
 
 /// @nodoc
-abstract class _$$_CardsListViewCopyWith<$Res>
+abstract class _$$CardsListViewImplCopyWith<$Res>
     implements $CardsListViewCopyWith<$Res> {
-  factory _$$_CardsListViewCopyWith(
-          _$_CardsListView value, $Res Function(_$_CardsListView) then) =
-      __$$_CardsListViewCopyWithImpl<$Res>;
+  factory _$$CardsListViewImplCopyWith(
+          _$CardsListViewImpl value, $Res Function(_$CardsListViewImpl) then) =
+      __$$CardsListViewImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,11 +102,11 @@ abstract class _$$_CardsListViewCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CardsListViewCopyWithImpl<$Res>
-    extends _$CardsListViewCopyWithImpl<$Res, _$_CardsListView>
-    implements _$$_CardsListViewCopyWith<$Res> {
-  __$$_CardsListViewCopyWithImpl(
-      _$_CardsListView _value, $Res Function(_$_CardsListView) _then)
+class __$$CardsListViewImplCopyWithImpl<$Res>
+    extends _$CardsListViewCopyWithImpl<$Res, _$CardsListViewImpl>
+    implements _$$CardsListViewImplCopyWith<$Res> {
+  __$$CardsListViewImplCopyWithImpl(
+      _$CardsListViewImpl _value, $Res Function(_$CardsListViewImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_CardsListViewCopyWithImpl<$Res>
     Object? canPressNext = null,
     Object? canPressPrevious = null,
   }) {
-    return _then(_$_CardsListView(
+    return _then(_$CardsListViewImpl(
       cards: null == cards
           ? _value._cards
           : cards // ignore: cast_nullable_to_non_nullable
@@ -145,8 +145,8 @@ class __$$_CardsListViewCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CardsListView extends _CardsListView {
-  const _$_CardsListView(
+class _$CardsListViewImpl extends _CardsListView {
+  const _$CardsListViewImpl(
       {required final List<AnkiCard> cards,
       required this.currentPage,
       required this.totalPages,
@@ -178,10 +178,10 @@ class _$_CardsListView extends _CardsListView {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CardsListView &&
+            other is _$CardsListViewImpl &&
             const DeepCollectionEquality().equals(other._cards, _cards) &&
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage) &&
@@ -205,8 +205,8 @@ class _$_CardsListView extends _CardsListView {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CardsListViewCopyWith<_$_CardsListView> get copyWith =>
-      __$$_CardsListViewCopyWithImpl<_$_CardsListView>(this, _$identity);
+  _$$CardsListViewImplCopyWith<_$CardsListViewImpl> get copyWith =>
+      __$$CardsListViewImplCopyWithImpl<_$CardsListViewImpl>(this, _$identity);
 }
 
 abstract class _CardsListView extends CardsListView {
@@ -215,7 +215,7 @@ abstract class _CardsListView extends CardsListView {
       required final int currentPage,
       required final int totalPages,
       required final bool canPressNext,
-      required final bool canPressPrevious}) = _$_CardsListView;
+      required final bool canPressPrevious}) = _$CardsListViewImpl;
   const _CardsListView._() : super._();
 
   @override
@@ -230,6 +230,6 @@ abstract class _CardsListView extends CardsListView {
   bool get canPressPrevious;
   @override
   @JsonKey(ignore: true)
-  _$$_CardsListViewCopyWith<_$_CardsListView> get copyWith =>
+  _$$CardsListViewImplCopyWith<_$CardsListViewImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

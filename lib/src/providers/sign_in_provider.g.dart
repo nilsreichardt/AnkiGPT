@@ -6,7 +6,7 @@ part of 'sign_in_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$signInHash() => r'7a29d85b8edfe6c7625f601ae77611cc45f0cfb8';
+String _$signInHash() => r'79c7d78df13b9e6a600abd96a1ee842de6b108cf';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -28,8 +28,6 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
-
-typedef SignInRef = AutoDisposeFutureProviderRef<void>;
 
 /// See also [signIn].
 @ProviderFor(signIn)
@@ -83,10 +81,10 @@ class SignInFamily extends Family<AsyncValue<void>> {
 class SignInProvider extends AutoDisposeFutureProvider<void> {
   /// See also [signIn].
   SignInProvider({
-    required this.authProvider,
-  }) : super.internal(
+    required AuthProvider authProvider,
+  }) : this._internal(
           (ref) => signIn(
-            ref,
+            ref as SignInRef,
             authProvider: authProvider,
           ),
           from: signInProvider,
@@ -97,9 +95,43 @@ class SignInProvider extends AutoDisposeFutureProvider<void> {
                   : _$signInHash,
           dependencies: SignInFamily._dependencies,
           allTransitiveDependencies: SignInFamily._allTransitiveDependencies,
+          authProvider: authProvider,
         );
 
+  SignInProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.authProvider,
+  }) : super.internal();
+
   final AuthProvider authProvider;
+
+  @override
+  Override overrideWith(
+    FutureOr<void> Function(SignInRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: SignInProvider._internal(
+        (ref) => create(ref as SignInRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        authProvider: authProvider,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<void> createElement() {
+    return _SignInProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -114,5 +146,18 @@ class SignInProvider extends AutoDisposeFutureProvider<void> {
     return _SystemHash.finish(hash);
   }
 }
+
+mixin SignInRef on AutoDisposeFutureProviderRef<void> {
+  /// The parameter `authProvider` of this provider.
+  AuthProvider get authProvider;
+}
+
+class _SignInProviderElement extends AutoDisposeFutureProviderElement<void>
+    with SignInRef {
+  _SignInProviderElement(super.provider);
+
+  @override
+  AuthProvider get authProvider => (origin as SignInProvider).authProvider;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

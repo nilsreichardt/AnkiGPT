@@ -6,7 +6,8 @@ part of 'anki_card.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AnkiCard _$$_AnkiCardFromJson(Map<String, dynamic> json) => _$_AnkiCard(
+_$AnkiCardImpl _$$AnkiCardImplFromJson(Map<String, dynamic> json) =>
+    _$AnkiCardImpl(
       id: json['id'] as String,
       question: json['question'] as String,
       answer: json['answer'] as String,
@@ -18,7 +19,7 @@ _$_AnkiCard _$$_AnkiCardFromJson(Map<String, dynamic> json) => _$_AnkiCard(
           : Job.fromJson(json['job'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_AnkiCardToJson(_$_AnkiCard instance) =>
+Map<String, dynamic> _$$AnkiCardImplToJson(_$AnkiCardImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'question': instance.question,
@@ -29,12 +30,12 @@ Map<String, dynamic> _$$_AnkiCardToJson(_$_AnkiCard instance) =>
       'job': instance.job?.toJson(),
     };
 
-_$_Job _$$_JobFromJson(Map<String, dynamic> json) => _$_Job(
+_$JobImpl _$$JobImplFromJson(Map<String, dynamic> json) => _$JobImpl(
       id: json['id'] as String,
       index: json['index'] as int,
     );
 
-Map<String, dynamic> _$$_JobToJson(_$_Job instance) => <String, dynamic>{
+Map<String, dynamic> _$$JobImplToJson(_$JobImpl instance) => <String, dynamic>{
       'id': instance.id,
       'index': instance.index,
     };

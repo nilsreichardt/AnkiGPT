@@ -93,10 +93,10 @@ class _$AccountViewCopyWithImpl<$Res, $Val extends AccountView>
 }
 
 /// @nodoc
-abstract class _$$AccountViewSignedInCopyWith<$Res> {
-  factory _$$AccountViewSignedInCopyWith(_$AccountViewSignedIn value,
-          $Res Function(_$AccountViewSignedIn) then) =
-      __$$AccountViewSignedInCopyWithImpl<$Res>;
+abstract class _$$AccountViewSignedInImplCopyWith<$Res> {
+  factory _$$AccountViewSignedInImplCopyWith(_$AccountViewSignedInImpl value,
+          $Res Function(_$AccountViewSignedInImpl) then) =
+      __$$AccountViewSignedInImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {String? email,
@@ -107,11 +107,11 @@ abstract class _$$AccountViewSignedInCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$AccountViewSignedInCopyWithImpl<$Res>
-    extends _$AccountViewCopyWithImpl<$Res, _$AccountViewSignedIn>
-    implements _$$AccountViewSignedInCopyWith<$Res> {
-  __$$AccountViewSignedInCopyWithImpl(
-      _$AccountViewSignedIn _value, $Res Function(_$AccountViewSignedIn) _then)
+class __$$AccountViewSignedInImplCopyWithImpl<$Res>
+    extends _$AccountViewCopyWithImpl<$Res, _$AccountViewSignedInImpl>
+    implements _$$AccountViewSignedInImplCopyWith<$Res> {
+  __$$AccountViewSignedInImplCopyWithImpl(_$AccountViewSignedInImpl _value,
+      $Res Function(_$AccountViewSignedInImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -123,7 +123,7 @@ class __$$AccountViewSignedInCopyWithImpl<$Res>
     Object? generatedMnemonicsCurrentMonth = null,
     Object? hasPlus = null,
   }) {
-    return _then(_$AccountViewSignedIn(
+    return _then(_$AccountViewSignedInImpl(
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -150,8 +150,8 @@ class __$$AccountViewSignedInCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AccountViewSignedIn implements AccountViewSignedIn {
-  const _$AccountViewSignedIn(
+class _$AccountViewSignedInImpl implements AccountViewSignedIn {
+  const _$AccountViewSignedInImpl(
       {this.email,
       required this.authProvider,
       required this.generatedCardsCurrentMonth,
@@ -175,10 +175,10 @@ class _$AccountViewSignedIn implements AccountViewSignedIn {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AccountViewSignedIn &&
+            other is _$AccountViewSignedInImpl &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.authProvider, authProvider) ||
                 other.authProvider == authProvider) &&
@@ -200,8 +200,8 @@ class _$AccountViewSignedIn implements AccountViewSignedIn {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$AccountViewSignedInCopyWith<_$AccountViewSignedIn> get copyWith =>
-      __$$AccountViewSignedInCopyWithImpl<_$AccountViewSignedIn>(
+  _$$AccountViewSignedInImplCopyWith<_$AccountViewSignedInImpl> get copyWith =>
+      __$$AccountViewSignedInImplCopyWithImpl<_$AccountViewSignedInImpl>(
           this, _$identity);
 
   @override
@@ -294,7 +294,7 @@ abstract class AccountViewSignedIn implements AccountView {
       required final AuthProvider authProvider,
       required final int generatedCardsCurrentMonth,
       required final int generatedMnemonicsCurrentMonth,
-      required final bool hasPlus}) = _$AccountViewSignedIn;
+      required final bool hasPlus}) = _$AccountViewSignedInImpl;
 
   String? get email;
   AuthProvider get authProvider;
@@ -302,30 +302,30 @@ abstract class AccountViewSignedIn implements AccountView {
   int get generatedMnemonicsCurrentMonth;
   bool get hasPlus;
   @JsonKey(ignore: true)
-  _$$AccountViewSignedInCopyWith<_$AccountViewSignedIn> get copyWith =>
+  _$$AccountViewSignedInImplCopyWith<_$AccountViewSignedInImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$AccountViewSignedOutCopyWith<$Res> {
-  factory _$$AccountViewSignedOutCopyWith(_$AccountViewSignedOut value,
-          $Res Function(_$AccountViewSignedOut) then) =
-      __$$AccountViewSignedOutCopyWithImpl<$Res>;
+abstract class _$$AccountViewSignedOutImplCopyWith<$Res> {
+  factory _$$AccountViewSignedOutImplCopyWith(_$AccountViewSignedOutImpl value,
+          $Res Function(_$AccountViewSignedOutImpl) then) =
+      __$$AccountViewSignedOutImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$AccountViewSignedOutCopyWithImpl<$Res>
-    extends _$AccountViewCopyWithImpl<$Res, _$AccountViewSignedOut>
-    implements _$$AccountViewSignedOutCopyWith<$Res> {
-  __$$AccountViewSignedOutCopyWithImpl(_$AccountViewSignedOut _value,
-      $Res Function(_$AccountViewSignedOut) _then)
+class __$$AccountViewSignedOutImplCopyWithImpl<$Res>
+    extends _$AccountViewCopyWithImpl<$Res, _$AccountViewSignedOutImpl>
+    implements _$$AccountViewSignedOutImplCopyWith<$Res> {
+  __$$AccountViewSignedOutImplCopyWithImpl(_$AccountViewSignedOutImpl _value,
+      $Res Function(_$AccountViewSignedOutImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$AccountViewSignedOut implements AccountViewSignedOut {
-  const _$AccountViewSignedOut();
+class _$AccountViewSignedOutImpl implements AccountViewSignedOut {
+  const _$AccountViewSignedOutImpl();
 
   @override
   String toString() {
@@ -333,9 +333,10 @@ class _$AccountViewSignedOut implements AccountViewSignedOut {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$AccountViewSignedOut);
+        (other.runtimeType == runtimeType &&
+            other is _$AccountViewSignedOutImpl);
   }
 
   @override
@@ -423,5 +424,5 @@ class _$AccountViewSignedOut implements AccountViewSignedOut {
 }
 
 abstract class AccountViewSignedOut implements AccountView {
-  const factory AccountViewSignedOut() = _$AccountViewSignedOut;
+  const factory AccountViewSignedOut() = _$AccountViewSignedOutImpl;
 }

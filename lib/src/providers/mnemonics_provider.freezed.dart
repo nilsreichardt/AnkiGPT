@@ -87,25 +87,27 @@ class _$MnemonicsStateCopyWithImpl<$Res, $Val extends MnemonicsState>
 }
 
 /// @nodoc
-abstract class _$$MnemonicsStateGeneratingCopyWith<$Res> {
-  factory _$$MnemonicsStateGeneratingCopyWith(_$MnemonicsStateGenerating value,
-          $Res Function(_$MnemonicsStateGenerating) then) =
-      __$$MnemonicsStateGeneratingCopyWithImpl<$Res>;
+abstract class _$$MnemonicsStateGeneratingImplCopyWith<$Res> {
+  factory _$$MnemonicsStateGeneratingImplCopyWith(
+          _$MnemonicsStateGeneratingImpl value,
+          $Res Function(_$MnemonicsStateGeneratingImpl) then) =
+      __$$MnemonicsStateGeneratingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$MnemonicsStateGeneratingCopyWithImpl<$Res>
-    extends _$MnemonicsStateCopyWithImpl<$Res, _$MnemonicsStateGenerating>
-    implements _$$MnemonicsStateGeneratingCopyWith<$Res> {
-  __$$MnemonicsStateGeneratingCopyWithImpl(_$MnemonicsStateGenerating _value,
-      $Res Function(_$MnemonicsStateGenerating) _then)
+class __$$MnemonicsStateGeneratingImplCopyWithImpl<$Res>
+    extends _$MnemonicsStateCopyWithImpl<$Res, _$MnemonicsStateGeneratingImpl>
+    implements _$$MnemonicsStateGeneratingImplCopyWith<$Res> {
+  __$$MnemonicsStateGeneratingImplCopyWithImpl(
+      _$MnemonicsStateGeneratingImpl _value,
+      $Res Function(_$MnemonicsStateGeneratingImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$MnemonicsStateGenerating implements MnemonicsStateGenerating {
-  const _$MnemonicsStateGenerating();
+class _$MnemonicsStateGeneratingImpl implements MnemonicsStateGenerating {
+  const _$MnemonicsStateGeneratingImpl();
 
   @override
   String toString() {
@@ -113,10 +115,10 @@ class _$MnemonicsStateGenerating implements MnemonicsStateGenerating {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MnemonicsStateGenerating);
+            other is _$MnemonicsStateGeneratingImpl);
   }
 
   @override
@@ -198,29 +200,31 @@ class _$MnemonicsStateGenerating implements MnemonicsStateGenerating {
 }
 
 abstract class MnemonicsStateGenerating implements MnemonicsState {
-  const factory MnemonicsStateGenerating() = _$MnemonicsStateGenerating;
+  const factory MnemonicsStateGenerating() = _$MnemonicsStateGeneratingImpl;
 }
 
 /// @nodoc
-abstract class _$$MnemonicsStateAppendingCopyWith<$Res> {
-  factory _$$MnemonicsStateAppendingCopyWith(_$MnemonicsStateAppending value,
-          $Res Function(_$MnemonicsStateAppending) then) =
-      __$$MnemonicsStateAppendingCopyWithImpl<$Res>;
+abstract class _$$MnemonicsStateAppendingImplCopyWith<$Res> {
+  factory _$$MnemonicsStateAppendingImplCopyWith(
+          _$MnemonicsStateAppendingImpl value,
+          $Res Function(_$MnemonicsStateAppendingImpl) then) =
+      __$$MnemonicsStateAppendingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$MnemonicsStateAppendingCopyWithImpl<$Res>
-    extends _$MnemonicsStateCopyWithImpl<$Res, _$MnemonicsStateAppending>
-    implements _$$MnemonicsStateAppendingCopyWith<$Res> {
-  __$$MnemonicsStateAppendingCopyWithImpl(_$MnemonicsStateAppending _value,
-      $Res Function(_$MnemonicsStateAppending) _then)
+class __$$MnemonicsStateAppendingImplCopyWithImpl<$Res>
+    extends _$MnemonicsStateCopyWithImpl<$Res, _$MnemonicsStateAppendingImpl>
+    implements _$$MnemonicsStateAppendingImplCopyWith<$Res> {
+  __$$MnemonicsStateAppendingImplCopyWithImpl(
+      _$MnemonicsStateAppendingImpl _value,
+      $Res Function(_$MnemonicsStateAppendingImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$MnemonicsStateAppending implements MnemonicsStateAppending {
-  const _$MnemonicsStateAppending();
+class _$MnemonicsStateAppendingImpl implements MnemonicsStateAppending {
+  const _$MnemonicsStateAppendingImpl();
 
   @override
   String toString() {
@@ -228,10 +232,10 @@ class _$MnemonicsStateAppending implements MnemonicsStateAppending {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MnemonicsStateAppending);
+            other is _$MnemonicsStateAppendingImpl);
   }
 
   @override
@@ -313,24 +317,24 @@ class _$MnemonicsStateAppending implements MnemonicsStateAppending {
 }
 
 abstract class MnemonicsStateAppending implements MnemonicsState {
-  const factory MnemonicsStateAppending() = _$MnemonicsStateAppending;
+  const factory MnemonicsStateAppending() = _$MnemonicsStateAppendingImpl;
 }
 
 /// @nodoc
-abstract class _$$MnemonicsStateErrorCopyWith<$Res> {
-  factory _$$MnemonicsStateErrorCopyWith(_$MnemonicsStateError value,
-          $Res Function(_$MnemonicsStateError) then) =
-      __$$MnemonicsStateErrorCopyWithImpl<$Res>;
+abstract class _$$MnemonicsStateErrorImplCopyWith<$Res> {
+  factory _$$MnemonicsStateErrorImplCopyWith(_$MnemonicsStateErrorImpl value,
+          $Res Function(_$MnemonicsStateErrorImpl) then) =
+      __$$MnemonicsStateErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String message});
 }
 
 /// @nodoc
-class __$$MnemonicsStateErrorCopyWithImpl<$Res>
-    extends _$MnemonicsStateCopyWithImpl<$Res, _$MnemonicsStateError>
-    implements _$$MnemonicsStateErrorCopyWith<$Res> {
-  __$$MnemonicsStateErrorCopyWithImpl(
-      _$MnemonicsStateError _value, $Res Function(_$MnemonicsStateError) _then)
+class __$$MnemonicsStateErrorImplCopyWithImpl<$Res>
+    extends _$MnemonicsStateCopyWithImpl<$Res, _$MnemonicsStateErrorImpl>
+    implements _$$MnemonicsStateErrorImplCopyWith<$Res> {
+  __$$MnemonicsStateErrorImplCopyWithImpl(_$MnemonicsStateErrorImpl _value,
+      $Res Function(_$MnemonicsStateErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -338,7 +342,7 @@ class __$$MnemonicsStateErrorCopyWithImpl<$Res>
   $Res call({
     Object? message = null,
   }) {
-    return _then(_$MnemonicsStateError(
+    return _then(_$MnemonicsStateErrorImpl(
       null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -349,8 +353,8 @@ class __$$MnemonicsStateErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MnemonicsStateError implements MnemonicsStateError {
-  const _$MnemonicsStateError(this.message);
+class _$MnemonicsStateErrorImpl implements MnemonicsStateError {
+  const _$MnemonicsStateErrorImpl(this.message);
 
   @override
   final String message;
@@ -361,10 +365,10 @@ class _$MnemonicsStateError implements MnemonicsStateError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MnemonicsStateError &&
+            other is _$MnemonicsStateErrorImpl &&
             (identical(other.message, message) || other.message == message));
   }
 
@@ -374,8 +378,8 @@ class _$MnemonicsStateError implements MnemonicsStateError {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MnemonicsStateErrorCopyWith<_$MnemonicsStateError> get copyWith =>
-      __$$MnemonicsStateErrorCopyWithImpl<_$MnemonicsStateError>(
+  _$$MnemonicsStateErrorImplCopyWith<_$MnemonicsStateErrorImpl> get copyWith =>
+      __$$MnemonicsStateErrorImplCopyWithImpl<_$MnemonicsStateErrorImpl>(
           this, _$identity);
 
   @override
@@ -455,29 +459,29 @@ class _$MnemonicsStateError implements MnemonicsStateError {
 
 abstract class MnemonicsStateError implements MnemonicsState {
   const factory MnemonicsStateError(final String message) =
-      _$MnemonicsStateError;
+      _$MnemonicsStateErrorImpl;
 
   String get message;
   @JsonKey(ignore: true)
-  _$$MnemonicsStateErrorCopyWith<_$MnemonicsStateError> get copyWith =>
+  _$$MnemonicsStateErrorImplCopyWith<_$MnemonicsStateErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$MnemonicsStateLoadedCopyWith<$Res> {
-  factory _$$MnemonicsStateLoadedCopyWith(_$MnemonicsStateLoaded value,
-          $Res Function(_$MnemonicsStateLoaded) then) =
-      __$$MnemonicsStateLoadedCopyWithImpl<$Res>;
+abstract class _$$MnemonicsStateLoadedImplCopyWith<$Res> {
+  factory _$$MnemonicsStateLoadedImplCopyWith(_$MnemonicsStateLoadedImpl value,
+          $Res Function(_$MnemonicsStateLoadedImpl) then) =
+      __$$MnemonicsStateLoadedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String mnemonic, String? traceId});
 }
 
 /// @nodoc
-class __$$MnemonicsStateLoadedCopyWithImpl<$Res>
-    extends _$MnemonicsStateCopyWithImpl<$Res, _$MnemonicsStateLoaded>
-    implements _$$MnemonicsStateLoadedCopyWith<$Res> {
-  __$$MnemonicsStateLoadedCopyWithImpl(_$MnemonicsStateLoaded _value,
-      $Res Function(_$MnemonicsStateLoaded) _then)
+class __$$MnemonicsStateLoadedImplCopyWithImpl<$Res>
+    extends _$MnemonicsStateCopyWithImpl<$Res, _$MnemonicsStateLoadedImpl>
+    implements _$$MnemonicsStateLoadedImplCopyWith<$Res> {
+  __$$MnemonicsStateLoadedImplCopyWithImpl(_$MnemonicsStateLoadedImpl _value,
+      $Res Function(_$MnemonicsStateLoadedImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -486,7 +490,7 @@ class __$$MnemonicsStateLoadedCopyWithImpl<$Res>
     Object? mnemonic = null,
     Object? traceId = freezed,
   }) {
-    return _then(_$MnemonicsStateLoaded(
+    return _then(_$MnemonicsStateLoadedImpl(
       mnemonic: null == mnemonic
           ? _value.mnemonic
           : mnemonic // ignore: cast_nullable_to_non_nullable
@@ -501,8 +505,9 @@ class __$$MnemonicsStateLoadedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MnemonicsStateLoaded implements MnemonicsStateLoaded {
-  const _$MnemonicsStateLoaded({required this.mnemonic, required this.traceId});
+class _$MnemonicsStateLoadedImpl implements MnemonicsStateLoaded {
+  const _$MnemonicsStateLoadedImpl(
+      {required this.mnemonic, required this.traceId});
 
   @override
   final String mnemonic;
@@ -515,10 +520,10 @@ class _$MnemonicsStateLoaded implements MnemonicsStateLoaded {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MnemonicsStateLoaded &&
+            other is _$MnemonicsStateLoadedImpl &&
             (identical(other.mnemonic, mnemonic) ||
                 other.mnemonic == mnemonic) &&
             (identical(other.traceId, traceId) || other.traceId == traceId));
@@ -530,9 +535,10 @@ class _$MnemonicsStateLoaded implements MnemonicsStateLoaded {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MnemonicsStateLoadedCopyWith<_$MnemonicsStateLoaded> get copyWith =>
-      __$$MnemonicsStateLoadedCopyWithImpl<_$MnemonicsStateLoaded>(
-          this, _$identity);
+  _$$MnemonicsStateLoadedImplCopyWith<_$MnemonicsStateLoadedImpl>
+      get copyWith =>
+          __$$MnemonicsStateLoadedImplCopyWithImpl<_$MnemonicsStateLoadedImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -612,11 +618,11 @@ class _$MnemonicsStateLoaded implements MnemonicsStateLoaded {
 abstract class MnemonicsStateLoaded implements MnemonicsState {
   const factory MnemonicsStateLoaded(
       {required final String mnemonic,
-      required final String? traceId}) = _$MnemonicsStateLoaded;
+      required final String? traceId}) = _$MnemonicsStateLoadedImpl;
 
   String get mnemonic;
   String? get traceId;
   @JsonKey(ignore: true)
-  _$$MnemonicsStateLoadedCopyWith<_$MnemonicsStateLoaded> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$MnemonicsStateLoadedImplCopyWith<_$MnemonicsStateLoadedImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

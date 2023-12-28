@@ -138,11 +138,11 @@ class _$DeckPreviewCopyWithImpl<$Res, $Val extends DeckPreview>
 }
 
 /// @nodoc
-abstract class _$$DeckPreviewCreatedCopyWith<$Res>
+abstract class _$$DeckPreviewCreatedImplCopyWith<$Res>
     implements $DeckPreviewCopyWith<$Res> {
-  factory _$$DeckPreviewCreatedCopyWith(_$DeckPreviewCreated value,
-          $Res Function(_$DeckPreviewCreated) then) =
-      __$$DeckPreviewCreatedCopyWithImpl<$Res>;
+  factory _$$DeckPreviewCreatedImplCopyWith(_$DeckPreviewCreatedImpl value,
+          $Res Function(_$DeckPreviewCreatedImpl) then) =
+      __$$DeckPreviewCreatedImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -154,11 +154,11 @@ abstract class _$$DeckPreviewCreatedCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$DeckPreviewCreatedCopyWithImpl<$Res>
-    extends _$DeckPreviewCopyWithImpl<$Res, _$DeckPreviewCreated>
-    implements _$$DeckPreviewCreatedCopyWith<$Res> {
-  __$$DeckPreviewCreatedCopyWithImpl(
-      _$DeckPreviewCreated _value, $Res Function(_$DeckPreviewCreated) _then)
+class __$$DeckPreviewCreatedImplCopyWithImpl<$Res>
+    extends _$DeckPreviewCopyWithImpl<$Res, _$DeckPreviewCreatedImpl>
+    implements _$$DeckPreviewCreatedImplCopyWith<$Res> {
+  __$$DeckPreviewCreatedImplCopyWithImpl(_$DeckPreviewCreatedImpl _value,
+      $Res Function(_$DeckPreviewCreatedImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -170,7 +170,7 @@ class __$$DeckPreviewCreatedCopyWithImpl<$Res>
     Object? sessionId = null,
     Object? numberOfCards = null,
   }) {
-    return _then(_$DeckPreviewCreated(
+    return _then(_$DeckPreviewCreatedImpl(
       questions: null == questions
           ? _value._questions
           : questions // ignore: cast_nullable_to_non_nullable
@@ -197,8 +197,8 @@ class __$$DeckPreviewCreatedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DeckPreviewCreated implements DeckPreviewCreated {
-  const _$DeckPreviewCreated(
+class _$DeckPreviewCreatedImpl implements DeckPreviewCreated {
+  const _$DeckPreviewCreatedImpl(
       {required final List<String> questions,
       required this.createdAt,
       required this.name,
@@ -229,10 +229,10 @@ class _$DeckPreviewCreated implements DeckPreviewCreated {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DeckPreviewCreated &&
+            other is _$DeckPreviewCreatedImpl &&
             const DeepCollectionEquality()
                 .equals(other._questions, _questions) &&
             (identical(other.createdAt, createdAt) ||
@@ -256,8 +256,8 @@ class _$DeckPreviewCreated implements DeckPreviewCreated {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DeckPreviewCreatedCopyWith<_$DeckPreviewCreated> get copyWith =>
-      __$$DeckPreviewCreatedCopyWithImpl<_$DeckPreviewCreated>(
+  _$$DeckPreviewCreatedImplCopyWith<_$DeckPreviewCreatedImpl> get copyWith =>
+      __$$DeckPreviewCreatedImplCopyWithImpl<_$DeckPreviewCreatedImpl>(
           this, _$identity);
 
   @override
@@ -353,7 +353,7 @@ abstract class DeckPreviewCreated implements DeckPreview {
       required final DateTime createdAt,
       required final String name,
       required final String sessionId,
-      required final int numberOfCards}) = _$DeckPreviewCreated;
+      required final int numberOfCards}) = _$DeckPreviewCreatedImpl;
 
   List<String> get questions;
   @override
@@ -366,16 +366,16 @@ abstract class DeckPreviewCreated implements DeckPreview {
   int get numberOfCards;
   @override
   @JsonKey(ignore: true)
-  _$$DeckPreviewCreatedCopyWith<_$DeckPreviewCreated> get copyWith =>
+  _$$DeckPreviewCreatedImplCopyWith<_$DeckPreviewCreatedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$DeckPreviewLoadingCopyWith<$Res>
+abstract class _$$DeckPreviewLoadingImplCopyWith<$Res>
     implements $DeckPreviewCopyWith<$Res> {
-  factory _$$DeckPreviewLoadingCopyWith(_$DeckPreviewLoading value,
-          $Res Function(_$DeckPreviewLoading) then) =
-      __$$DeckPreviewLoadingCopyWithImpl<$Res>;
+  factory _$$DeckPreviewLoadingImplCopyWith(_$DeckPreviewLoadingImpl value,
+          $Res Function(_$DeckPreviewLoadingImpl) then) =
+      __$$DeckPreviewLoadingImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -383,11 +383,11 @@ abstract class _$$DeckPreviewLoadingCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$DeckPreviewLoadingCopyWithImpl<$Res>
-    extends _$DeckPreviewCopyWithImpl<$Res, _$DeckPreviewLoading>
-    implements _$$DeckPreviewLoadingCopyWith<$Res> {
-  __$$DeckPreviewLoadingCopyWithImpl(
-      _$DeckPreviewLoading _value, $Res Function(_$DeckPreviewLoading) _then)
+class __$$DeckPreviewLoadingImplCopyWithImpl<$Res>
+    extends _$DeckPreviewCopyWithImpl<$Res, _$DeckPreviewLoadingImpl>
+    implements _$$DeckPreviewLoadingImplCopyWith<$Res> {
+  __$$DeckPreviewLoadingImplCopyWithImpl(_$DeckPreviewLoadingImpl _value,
+      $Res Function(_$DeckPreviewLoadingImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -398,7 +398,7 @@ class __$$DeckPreviewLoadingCopyWithImpl<$Res>
     Object? numberOfCards = null,
     Object? sessionId = null,
   }) {
-    return _then(_$DeckPreviewLoading(
+    return _then(_$DeckPreviewLoadingImpl(
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -421,8 +421,8 @@ class __$$DeckPreviewLoadingCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DeckPreviewLoading implements DeckPreviewLoading {
-  const _$DeckPreviewLoading(
+class _$DeckPreviewLoadingImpl implements DeckPreviewLoading {
+  const _$DeckPreviewLoadingImpl(
       {required this.createdAt,
       required this.name,
       required this.numberOfCards,
@@ -443,10 +443,10 @@ class _$DeckPreviewLoading implements DeckPreviewLoading {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DeckPreviewLoading &&
+            other is _$DeckPreviewLoadingImpl &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.name, name) || other.name == name) &&
@@ -463,8 +463,8 @@ class _$DeckPreviewLoading implements DeckPreviewLoading {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DeckPreviewLoadingCopyWith<_$DeckPreviewLoading> get copyWith =>
-      __$$DeckPreviewLoadingCopyWithImpl<_$DeckPreviewLoading>(
+  _$$DeckPreviewLoadingImplCopyWith<_$DeckPreviewLoadingImpl> get copyWith =>
+      __$$DeckPreviewLoadingImplCopyWithImpl<_$DeckPreviewLoadingImpl>(
           this, _$identity);
 
   @override
@@ -559,7 +559,7 @@ abstract class DeckPreviewLoading implements DeckPreview {
       {required final DateTime createdAt,
       required final String name,
       required final int numberOfCards,
-      required final String sessionId}) = _$DeckPreviewLoading;
+      required final String sessionId}) = _$DeckPreviewLoadingImpl;
 
   @override
   DateTime get createdAt;
@@ -571,16 +571,16 @@ abstract class DeckPreviewLoading implements DeckPreview {
   String get sessionId;
   @override
   @JsonKey(ignore: true)
-  _$$DeckPreviewLoadingCopyWith<_$DeckPreviewLoading> get copyWith =>
+  _$$DeckPreviewLoadingImplCopyWith<_$DeckPreviewLoadingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$DeckPreviewErrorCopyWith<$Res>
+abstract class _$$DeckPreviewErrorImplCopyWith<$Res>
     implements $DeckPreviewCopyWith<$Res> {
-  factory _$$DeckPreviewErrorCopyWith(
-          _$DeckPreviewError value, $Res Function(_$DeckPreviewError) then) =
-      __$$DeckPreviewErrorCopyWithImpl<$Res>;
+  factory _$$DeckPreviewErrorImplCopyWith(_$DeckPreviewErrorImpl value,
+          $Res Function(_$DeckPreviewErrorImpl) then) =
+      __$$DeckPreviewErrorImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -592,11 +592,11 @@ abstract class _$$DeckPreviewErrorCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$DeckPreviewErrorCopyWithImpl<$Res>
-    extends _$DeckPreviewCopyWithImpl<$Res, _$DeckPreviewError>
-    implements _$$DeckPreviewErrorCopyWith<$Res> {
-  __$$DeckPreviewErrorCopyWithImpl(
-      _$DeckPreviewError _value, $Res Function(_$DeckPreviewError) _then)
+class __$$DeckPreviewErrorImplCopyWithImpl<$Res>
+    extends _$DeckPreviewCopyWithImpl<$Res, _$DeckPreviewErrorImpl>
+    implements _$$DeckPreviewErrorImplCopyWith<$Res> {
+  __$$DeckPreviewErrorImplCopyWithImpl(_$DeckPreviewErrorImpl _value,
+      $Res Function(_$DeckPreviewErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -608,7 +608,7 @@ class __$$DeckPreviewErrorCopyWithImpl<$Res>
     Object? numberOfCards = null,
     Object? sessionId = null,
   }) {
-    return _then(_$DeckPreviewError(
+    return _then(_$DeckPreviewErrorImpl(
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -635,8 +635,8 @@ class __$$DeckPreviewErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DeckPreviewError implements DeckPreviewError {
-  const _$DeckPreviewError(
+class _$DeckPreviewErrorImpl implements DeckPreviewError {
+  const _$DeckPreviewErrorImpl(
       {required this.message,
       required this.createdAt,
       required this.name,
@@ -660,10 +660,10 @@ class _$DeckPreviewError implements DeckPreviewError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DeckPreviewError &&
+            other is _$DeckPreviewErrorImpl &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -681,8 +681,9 @@ class _$DeckPreviewError implements DeckPreviewError {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DeckPreviewErrorCopyWith<_$DeckPreviewError> get copyWith =>
-      __$$DeckPreviewErrorCopyWithImpl<_$DeckPreviewError>(this, _$identity);
+  _$$DeckPreviewErrorImplCopyWith<_$DeckPreviewErrorImpl> get copyWith =>
+      __$$DeckPreviewErrorImplCopyWithImpl<_$DeckPreviewErrorImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -777,7 +778,7 @@ abstract class DeckPreviewError implements DeckPreview {
       required final DateTime createdAt,
       required final String name,
       required final int numberOfCards,
-      required final String sessionId}) = _$DeckPreviewError;
+      required final String sessionId}) = _$DeckPreviewErrorImpl;
 
   String get message;
   @override
@@ -790,6 +791,6 @@ abstract class DeckPreviewError implements DeckPreview {
   String get sessionId;
   @override
   @JsonKey(ignore: true)
-  _$$DeckPreviewErrorCopyWith<_$DeckPreviewError> get copyWith =>
+  _$$DeckPreviewErrorImplCopyWith<_$DeckPreviewErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

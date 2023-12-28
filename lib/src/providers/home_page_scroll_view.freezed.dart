@@ -100,11 +100,12 @@ class _$HomePageScrollViewDataCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_HomePageScrollViewDataCopyWith<$Res>
+abstract class _$$HomePageScrollViewDataImplCopyWith<$Res>
     implements $HomePageScrollViewDataCopyWith<$Res> {
-  factory _$$_HomePageScrollViewDataCopyWith(_$_HomePageScrollViewData value,
-          $Res Function(_$_HomePageScrollViewData) then) =
-      __$$_HomePageScrollViewDataCopyWithImpl<$Res>;
+  factory _$$HomePageScrollViewDataImplCopyWith(
+          _$HomePageScrollViewDataImpl value,
+          $Res Function(_$HomePageScrollViewDataImpl) then) =
+      __$$HomePageScrollViewDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -117,12 +118,13 @@ abstract class _$$_HomePageScrollViewDataCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_HomePageScrollViewDataCopyWithImpl<$Res>
+class __$$HomePageScrollViewDataImplCopyWithImpl<$Res>
     extends _$HomePageScrollViewDataCopyWithImpl<$Res,
-        _$_HomePageScrollViewData>
-    implements _$$_HomePageScrollViewDataCopyWith<$Res> {
-  __$$_HomePageScrollViewDataCopyWithImpl(_$_HomePageScrollViewData _value,
-      $Res Function(_$_HomePageScrollViewData) _then)
+        _$HomePageScrollViewDataImpl>
+    implements _$$HomePageScrollViewDataImplCopyWith<$Res> {
+  __$$HomePageScrollViewDataImplCopyWithImpl(
+      _$HomePageScrollViewDataImpl _value,
+      $Res Function(_$HomePageScrollViewDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -135,7 +137,7 @@ class __$$_HomePageScrollViewDataCopyWithImpl<$Res>
     Object? faqSectionKey = null,
     Object? myDecksSectionKey = null,
   }) {
-    return _then(_$_HomePageScrollViewData(
+    return _then(_$HomePageScrollViewDataImpl(
       inputSectionKey: null == inputSectionKey
           ? _value.inputSectionKey
           : inputSectionKey // ignore: cast_nullable_to_non_nullable
@@ -166,8 +168,8 @@ class __$$_HomePageScrollViewDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_HomePageScrollViewData implements _HomePageScrollViewData {
-  const _$_HomePageScrollViewData(
+class _$HomePageScrollViewDataImpl implements _HomePageScrollViewData {
+  const _$HomePageScrollViewDataImpl(
       {required this.inputSectionKey,
       required this.demoSectionKey,
       required this.aboutSectionKey,
@@ -194,10 +196,10 @@ class _$_HomePageScrollViewData implements _HomePageScrollViewData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HomePageScrollViewData &&
+            other is _$HomePageScrollViewDataImpl &&
             (identical(other.inputSectionKey, inputSectionKey) ||
                 other.inputSectionKey == inputSectionKey) &&
             (identical(other.demoSectionKey, demoSectionKey) ||
@@ -219,9 +221,9 @@ class _$_HomePageScrollViewData implements _HomePageScrollViewData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HomePageScrollViewDataCopyWith<_$_HomePageScrollViewData> get copyWith =>
-      __$$_HomePageScrollViewDataCopyWithImpl<_$_HomePageScrollViewData>(
-          this, _$identity);
+  _$$HomePageScrollViewDataImplCopyWith<_$HomePageScrollViewDataImpl>
+      get copyWith => __$$HomePageScrollViewDataImplCopyWithImpl<
+          _$HomePageScrollViewDataImpl>(this, _$identity);
 }
 
 abstract class _HomePageScrollViewData implements HomePageScrollViewData {
@@ -232,7 +234,7 @@ abstract class _HomePageScrollViewData implements HomePageScrollViewData {
           required final GlobalKey<State<StatefulWidget>> pricingSectionKey,
           required final GlobalKey<State<StatefulWidget>> faqSectionKey,
           required final GlobalKey<State<StatefulWidget>> myDecksSectionKey}) =
-      _$_HomePageScrollViewData;
+      _$HomePageScrollViewDataImpl;
 
   @override
   GlobalKey<State<StatefulWidget>> get inputSectionKey;
@@ -248,6 +250,6 @@ abstract class _HomePageScrollViewData implements HomePageScrollViewData {
   GlobalKey<State<StatefulWidget>> get myDecksSectionKey;
   @override
   @JsonKey(ignore: true)
-  _$$_HomePageScrollViewDataCopyWith<_$_HomePageScrollViewData> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$HomePageScrollViewDataImplCopyWith<_$HomePageScrollViewDataImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

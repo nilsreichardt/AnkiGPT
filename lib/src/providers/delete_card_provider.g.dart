@@ -7,7 +7,7 @@ part of 'delete_card_provider.dart';
 // **************************************************************************
 
 String _$deleteCardControllerHash() =>
-    r'7b376a0396d4f6efb5f4d39b0c4d8b3ed7faee8b';
+    r'ef2fb901fb97c64775bc776c42fc9788419fe4c6';
 
 /// `DeleteCardController` provides a mechanism to manage card deletions in an
 /// Anki session.
@@ -38,4 +38,4 @@ final deleteCardControllerProvider =
 
 typedef _$DeleteCardController = Notifier<void>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

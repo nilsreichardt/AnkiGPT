@@ -6,7 +6,8 @@ part of 'app_user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AppUser _$$_AppUserFromJson(Map<String, dynamic> json) => _$_AppUser(
+_$AppUserImpl _$$AppUserImplFromJson(Map<String, dynamic> json) =>
+    _$AppUserImpl(
       hasPlus: json['hasPlus'] as bool? ?? false,
       usage: json['usage'] == null
           ? const Usage(
@@ -14,20 +15,21 @@ _$_AppUser _$$_AppUserFromJson(Map<String, dynamic> json) => _$_AppUser(
           : Usage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
+Map<String, dynamic> _$$AppUserImplToJson(_$AppUserImpl instance) =>
     <String, dynamic>{
       'hasPlus': instance.hasPlus,
       'usage': instance.usage.toJson(),
     };
 
-_$_Usage _$$_UsageFromJson(Map<String, dynamic> json) => _$_Usage(
+_$UsageImpl _$$UsageImplFromJson(Map<String, dynamic> json) => _$UsageImpl(
       generatedCardsCurrentMonth:
           json['generatedCardsCurrentMonth'] as int? ?? 0,
       generatedMnemonicsCurrentMonth:
           json['generatedMnemonicsCurrentMonth'] as int? ?? 0,
     );
 
-Map<String, dynamic> _$$_UsageToJson(_$_Usage instance) => <String, dynamic>{
+Map<String, dynamic> _$$UsageImplToJson(_$UsageImpl instance) =>
+    <String, dynamic>{
       'generatedCardsCurrentMonth': instance.generatedCardsCurrentMonth,
       'generatedMnemonicsCurrentMonth': instance.generatedMnemonicsCurrentMonth,
     };

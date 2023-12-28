@@ -26,7 +26,7 @@ class EditAnswer extends _$EditAnswer {
     required String answer,
   }) {
     EasyDebounce.debounce(_debounceKey, _debounceDuration, () {
-      ref.read(loggerProvider).v('Edit answer of card $cardId');
+      ref.read(loggerProvider).t('Edit answer of card $cardId');
       _queue.add(() async {
         final repository = ref.read(sessionRepositoryProvider);
         await repository.editAnswer(

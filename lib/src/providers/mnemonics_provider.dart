@@ -121,7 +121,9 @@ class MnemonicsController extends _$MnemonicsController {
       final repository = ref.read(mnemonicsRepositoryProvider);
       await repository.dislike(langfuseTraceId: traceId);
     } on Exception catch (e, s) {
-      ref.read(loggerProvider).e('Could not dislike mnemonic', e, s);
+      ref
+          .read(loggerProvider)
+          .e('Could not dislike mnemonic', error: e, stackTrace: s);
     }
   }
 }

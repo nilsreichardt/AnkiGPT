@@ -14,7 +14,7 @@ class ProviderLoggerObserver extends ProviderObserver {
     Object? newValue,
     ProviderContainer container,
   ) {
-    logger.v(
+    logger.t(
         'Provider "${provider.name ?? provider.runtimeType}" updated: $newValue');
   }
 
@@ -25,7 +25,7 @@ class ProviderLoggerObserver extends ProviderObserver {
     ProviderContainer container,
   ) {
     logger
-        .v('Provider "${provider.name ?? provider.runtimeType}" added: $value');
+        .t('Provider "${provider.name ?? provider.runtimeType}" added: $value');
   }
 
   @override
@@ -33,6 +33,6 @@ class ProviderLoggerObserver extends ProviderObserver {
     ProviderBase provider,
     ProviderContainer container,
   ) {
-    logger.v('Provider "${provider.name ?? provider.runtimeType}" disposed');
+    logger.t('Provider "${provider.name ?? provider.runtimeType}" disposed');
   }
 }

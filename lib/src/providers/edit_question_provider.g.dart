@@ -6,7 +6,7 @@ part of 'edit_question_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$editQuestionHash() => r'c812f6763d88c2727fbf1622a70894247b890ff8';
+String _$editQuestionHash() => r'7e989a8e777328096b7673572d8b28c7384cce5d';
 
 /// See also [EditQuestion].
 @ProviderFor(EditQuestion)
@@ -21,4 +21,4 @@ final editQuestionProvider = NotifierProvider<EditQuestion, void>.internal(
 
 typedef _$EditQuestion = Notifier<void>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

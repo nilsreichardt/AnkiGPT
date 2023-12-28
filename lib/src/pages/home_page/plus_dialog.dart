@@ -211,7 +211,7 @@ class _BuyButtonState extends ConsumerState<_BuyButton> {
 }
 
 class TooLongInputDialog extends StatelessWidget {
-  const TooLongInputDialog({Key? key}) : super(key: key);
+  const TooLongInputDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -35,7 +35,8 @@ Future<void> main() async {
   final flavor = _getFlavor(logger);
 
   FlutterError.onError = (details) {
-    logger.e('FlutterError.onError', details.exception, details.stack);
+    logger.e('FlutterError.onError',
+        error: details.exception, stackTrace: details.stack);
   };
 
   await _initFirebase(flavor);
@@ -92,7 +93,7 @@ Future<void> zeroFlagSetter(Logger logger) async {
         return;
       }
     } catch (e) {
-      logger.e('Could not set has0 flag for user ${user.uid}', e);
+      logger.e('Could not set has0 flag for user ${user.uid}', error: e);
     }
   });
 }

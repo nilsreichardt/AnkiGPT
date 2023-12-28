@@ -12,7 +12,7 @@ String _$inputTextFieldControllerHash() =>
 /// See also [inputTextFieldController].
 @ProviderFor(inputTextFieldController)
 final inputTextFieldControllerProvider =
-    Provider<TextEditingController>.internal(
+    Provider<Raw<TextEditingController>>.internal(
   inputTextFieldController,
   name: r'inputTextFieldControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final inputTextFieldControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef InputTextFieldControllerRef = ProviderRef<TextEditingController>;
+typedef InputTextFieldControllerRef = ProviderRef<Raw<TextEditingController>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

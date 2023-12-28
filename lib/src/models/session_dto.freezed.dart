@@ -145,11 +145,11 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
 }
 
 /// @nodoc
-abstract class _$$_SessionDtoCopyWith<$Res>
+abstract class _$$SessionDtoImplCopyWith<$Res>
     implements $SessionDtoCopyWith<$Res> {
-  factory _$$_SessionDtoCopyWith(
-          _$_SessionDto value, $Res Function(_$_SessionDto) then) =
-      __$$_SessionDtoCopyWithImpl<$Res>;
+  factory _$$SessionDtoImplCopyWith(
+          _$SessionDtoImpl value, $Res Function(_$SessionDtoImpl) then) =
+      __$$SessionDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -170,11 +170,11 @@ abstract class _$$_SessionDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SessionDtoCopyWithImpl<$Res>
-    extends _$SessionDtoCopyWithImpl<$Res, _$_SessionDto>
-    implements _$$_SessionDtoCopyWith<$Res> {
-  __$$_SessionDtoCopyWithImpl(
-      _$_SessionDto _value, $Res Function(_$_SessionDto) _then)
+class __$$SessionDtoImplCopyWithImpl<$Res>
+    extends _$SessionDtoCopyWithImpl<$Res, _$SessionDtoImpl>
+    implements _$$SessionDtoImplCopyWith<$Res> {
+  __$$SessionDtoImplCopyWithImpl(
+      _$SessionDtoImpl _value, $Res Function(_$SessionDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -190,7 +190,7 @@ class __$$_SessionDtoCopyWithImpl<$Res>
     Object? error = freezed,
     Object? numberOfCards = null,
   }) {
-    return _then(_$_SessionDto(
+    return _then(_$SessionDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -233,8 +233,8 @@ class __$$_SessionDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SessionDto implements _SessionDto {
-  const _$_SessionDto(
+class _$SessionDtoImpl implements _SessionDto {
+  const _$SessionDtoImpl(
       {required this.id,
       required this.language,
       required this.input,
@@ -247,8 +247,8 @@ class _$_SessionDto implements _SessionDto {
       required this.numberOfCards})
       : _cards = cards;
 
-  factory _$_SessionDto.fromJson(Map<String, dynamic> json) =>
-      _$$_SessionDtoFromJson(json);
+  factory _$SessionDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SessionDtoImplFromJson(json);
 
   @override
   final String id;
@@ -286,10 +286,10 @@ class _$_SessionDto implements _SessionDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SessionDto &&
+            other is _$SessionDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.language, language) ||
                 other.language == language) &&
@@ -321,12 +321,12 @@ class _$_SessionDto implements _SessionDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SessionDtoCopyWith<_$_SessionDto> get copyWith =>
-      __$$_SessionDtoCopyWithImpl<_$_SessionDto>(this, _$identity);
+  _$$SessionDtoImplCopyWith<_$SessionDtoImpl> get copyWith =>
+      __$$SessionDtoImplCopyWithImpl<_$SessionDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SessionDtoToJson(
+    return _$$SessionDtoImplToJson(
       this,
     );
   }
@@ -343,10 +343,10 @@ abstract class _SessionDto implements SessionDto {
       required final Map<String, AnkiCard>? cards,
       required final SessionStatus status,
       @JsonKey(fromJson: parseError) final String? error,
-      required final int numberOfCards}) = _$_SessionDto;
+      required final int numberOfCards}) = _$SessionDtoImpl;
 
   factory _SessionDto.fromJson(Map<String, dynamic> json) =
-      _$_SessionDto.fromJson;
+      _$SessionDtoImpl.fromJson;
 
   @override
   String get id;
@@ -371,7 +371,7 @@ abstract class _SessionDto implements SessionDto {
   int get numberOfCards;
   @override
   @JsonKey(ignore: true)
-  _$$_SessionDtoCopyWith<_$_SessionDto> get copyWith =>
+  _$$SessionDtoImplCopyWith<_$SessionDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -447,9 +447,10 @@ class _$InputCopyWithImpl<$Res, $Val extends Input>
 }
 
 /// @nodoc
-abstract class _$$_InputCopyWith<$Res> implements $InputCopyWith<$Res> {
-  factory _$$_InputCopyWith(_$_Input value, $Res Function(_$_Input) then) =
-      __$$_InputCopyWithImpl<$Res>;
+abstract class _$$InputImplCopyWith<$Res> implements $InputCopyWith<$Res> {
+  factory _$$InputImplCopyWith(
+          _$InputImpl value, $Res Function(_$InputImpl) then) =
+      __$$InputImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? text, InputType type, FileInput? file});
@@ -459,9 +460,11 @@ abstract class _$$_InputCopyWith<$Res> implements $InputCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_InputCopyWithImpl<$Res> extends _$InputCopyWithImpl<$Res, _$_Input>
-    implements _$$_InputCopyWith<$Res> {
-  __$$_InputCopyWithImpl(_$_Input _value, $Res Function(_$_Input) _then)
+class __$$InputImplCopyWithImpl<$Res>
+    extends _$InputCopyWithImpl<$Res, _$InputImpl>
+    implements _$$InputImplCopyWith<$Res> {
+  __$$InputImplCopyWithImpl(
+      _$InputImpl _value, $Res Function(_$InputImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -471,7 +474,7 @@ class __$$_InputCopyWithImpl<$Res> extends _$InputCopyWithImpl<$Res, _$_Input>
     Object? type = null,
     Object? file = freezed,
   }) {
-    return _then(_$_Input(
+    return _then(_$InputImpl(
       text: freezed == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -490,12 +493,13 @@ class __$$_InputCopyWithImpl<$Res> extends _$InputCopyWithImpl<$Res, _$_Input>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Input extends _Input {
-  const _$_Input({required this.text, required this.type, required this.file})
+class _$InputImpl extends _Input {
+  const _$InputImpl(
+      {required this.text, required this.type, required this.file})
       : super._();
 
-  factory _$_Input.fromJson(Map<String, dynamic> json) =>
-      _$$_InputFromJson(json);
+  factory _$InputImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InputImplFromJson(json);
 
   @override
   final String? text;
@@ -505,10 +509,10 @@ class _$_Input extends _Input {
   final FileInput? file;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Input &&
+            other is _$InputImpl &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.file, file) || other.file == file));
@@ -521,12 +525,12 @@ class _$_Input extends _Input {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_InputCopyWith<_$_Input> get copyWith =>
-      __$$_InputCopyWithImpl<_$_Input>(this, _$identity);
+  _$$InputImplCopyWith<_$InputImpl> get copyWith =>
+      __$$InputImplCopyWithImpl<_$InputImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_InputToJson(
+    return _$$InputImplToJson(
       this,
     );
   }
@@ -536,10 +540,10 @@ abstract class _Input extends Input {
   const factory _Input(
       {required final String? text,
       required final InputType type,
-      required final FileInput? file}) = _$_Input;
+      required final FileInput? file}) = _$InputImpl;
   const _Input._() : super._();
 
-  factory _Input.fromJson(Map<String, dynamic> json) = _$_Input.fromJson;
+  factory _Input.fromJson(Map<String, dynamic> json) = _$InputImpl.fromJson;
 
   @override
   String? get text;
@@ -549,7 +553,7 @@ abstract class _Input extends Input {
   FileInput? get file;
   @override
   @JsonKey(ignore: true)
-  _$$_InputCopyWith<_$_Input> get copyWith =>
+  _$$InputImplCopyWith<_$InputImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -600,21 +604,22 @@ class _$FileInputCopyWithImpl<$Res, $Val extends FileInput>
 }
 
 /// @nodoc
-abstract class _$$_FileInputCopyWith<$Res> implements $FileInputCopyWith<$Res> {
-  factory _$$_FileInputCopyWith(
-          _$_FileInput value, $Res Function(_$_FileInput) then) =
-      __$$_FileInputCopyWithImpl<$Res>;
+abstract class _$$FileInputImplCopyWith<$Res>
+    implements $FileInputCopyWith<$Res> {
+  factory _$$FileInputImplCopyWith(
+          _$FileInputImpl value, $Res Function(_$FileInputImpl) then) =
+      __$$FileInputImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String name});
 }
 
 /// @nodoc
-class __$$_FileInputCopyWithImpl<$Res>
-    extends _$FileInputCopyWithImpl<$Res, _$_FileInput>
-    implements _$$_FileInputCopyWith<$Res> {
-  __$$_FileInputCopyWithImpl(
-      _$_FileInput _value, $Res Function(_$_FileInput) _then)
+class __$$FileInputImplCopyWithImpl<$Res>
+    extends _$FileInputCopyWithImpl<$Res, _$FileInputImpl>
+    implements _$$FileInputImplCopyWith<$Res> {
+  __$$FileInputImplCopyWithImpl(
+      _$FileInputImpl _value, $Res Function(_$FileInputImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -622,7 +627,7 @@ class __$$_FileInputCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
   }) {
-    return _then(_$_FileInput(
+    return _then(_$FileInputImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -633,11 +638,11 @@ class __$$_FileInputCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_FileInput implements _FileInput {
-  const _$_FileInput({required this.name});
+class _$FileInputImpl implements _FileInput {
+  const _$FileInputImpl({required this.name});
 
-  factory _$_FileInput.fromJson(Map<String, dynamic> json) =>
-      _$$_FileInputFromJson(json);
+  factory _$FileInputImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FileInputImplFromJson(json);
 
   @override
   final String name;
@@ -648,10 +653,10 @@ class _$_FileInput implements _FileInput {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FileInput &&
+            other is _$FileInputImpl &&
             (identical(other.name, name) || other.name == name));
   }
 
@@ -662,27 +667,27 @@ class _$_FileInput implements _FileInput {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FileInputCopyWith<_$_FileInput> get copyWith =>
-      __$$_FileInputCopyWithImpl<_$_FileInput>(this, _$identity);
+  _$$FileInputImplCopyWith<_$FileInputImpl> get copyWith =>
+      __$$FileInputImplCopyWithImpl<_$FileInputImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FileInputToJson(
+    return _$$FileInputImplToJson(
       this,
     );
   }
 }
 
 abstract class _FileInput implements FileInput {
-  const factory _FileInput({required final String name}) = _$_FileInput;
+  const factory _FileInput({required final String name}) = _$FileInputImpl;
 
   factory _FileInput.fromJson(Map<String, dynamic> json) =
-      _$_FileInput.fromJson;
+      _$FileInputImpl.fromJson;
 
   @override
   String get name;
   @override
   @JsonKey(ignore: true)
-  _$$_FileInputCopyWith<_$_FileInput> get copyWith =>
+  _$$FileInputImplCopyWith<_$FileInputImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

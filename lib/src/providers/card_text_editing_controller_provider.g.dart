@@ -30,9 +30,6 @@ class _SystemHash {
   }
 }
 
-typedef AnswerTextEditingControllerProviderRef
-    = ProviderRef<TextEditingController>;
-
 /// See also [answerTextEditingControllerProvider].
 @ProviderFor(answerTextEditingControllerProvider)
 const answerTextEditingControllerProviderProvider =
@@ -40,7 +37,7 @@ const answerTextEditingControllerProviderProvider =
 
 /// See also [answerTextEditingControllerProvider].
 class AnswerTextEditingControllerProviderFamily
-    extends Family<TextEditingController> {
+    extends Family<Raw<TextEditingController>> {
   /// See also [answerTextEditingControllerProvider].
   const AnswerTextEditingControllerProviderFamily();
 
@@ -79,13 +76,13 @@ class AnswerTextEditingControllerProviderFamily
 
 /// See also [answerTextEditingControllerProvider].
 class AnswerTextEditingControllerProviderProvider
-    extends Provider<TextEditingController> {
+    extends Provider<Raw<TextEditingController>> {
   /// See also [answerTextEditingControllerProvider].
   AnswerTextEditingControllerProviderProvider(
-    this.cardId,
-  ) : super.internal(
+    String cardId,
+  ) : this._internal(
           (ref) => answerTextEditingControllerProvider(
-            ref,
+            ref as AnswerTextEditingControllerProviderRef,
             cardId,
           ),
           from: answerTextEditingControllerProviderProvider,
@@ -97,9 +94,45 @@ class AnswerTextEditingControllerProviderProvider
           dependencies: AnswerTextEditingControllerProviderFamily._dependencies,
           allTransitiveDependencies: AnswerTextEditingControllerProviderFamily
               ._allTransitiveDependencies,
+          cardId: cardId,
         );
 
+  AnswerTextEditingControllerProviderProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.cardId,
+  }) : super.internal();
+
   final String cardId;
+
+  @override
+  Override overrideWith(
+    Raw<TextEditingController> Function(
+            AnswerTextEditingControllerProviderRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: AnswerTextEditingControllerProviderProvider._internal(
+        (ref) => create(ref as AnswerTextEditingControllerProviderRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        cardId: cardId,
+      ),
+    );
+  }
+
+  @override
+  ProviderElement<Raw<TextEditingController>> createElement() {
+    return _AnswerTextEditingControllerProviderProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -115,5 +148,21 @@ class AnswerTextEditingControllerProviderProvider
     return _SystemHash.finish(hash);
   }
 }
+
+mixin AnswerTextEditingControllerProviderRef
+    on ProviderRef<Raw<TextEditingController>> {
+  /// The parameter `cardId` of this provider.
+  String get cardId;
+}
+
+class _AnswerTextEditingControllerProviderProviderElement
+    extends ProviderElement<Raw<TextEditingController>>
+    with AnswerTextEditingControllerProviderRef {
+  _AnswerTextEditingControllerProviderProviderElement(super.provider);
+
+  @override
+  String get cardId =>
+      (origin as AnswerTextEditingControllerProviderProvider).cardId;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

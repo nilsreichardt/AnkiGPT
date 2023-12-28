@@ -12,7 +12,7 @@ String _$deckPageScrollControllerHash() =>
 /// See also [deckPageScrollController].
 @ProviderFor(deckPageScrollController)
 final deckPageScrollControllerProvider =
-    AutoDisposeProvider<ScrollController>.internal(
+    AutoDisposeProvider<Raw<ScrollController>>.internal(
   deckPageScrollController,
   name: r'deckPageScrollControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,7 @@ final deckPageScrollControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef DeckPageScrollControllerRef = AutoDisposeProviderRef<ScrollController>;
+typedef DeckPageScrollControllerRef
+    = AutoDisposeProviderRef<Raw<ScrollController>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

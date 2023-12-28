@@ -57,7 +57,7 @@ class _HomePage2State extends ConsumerState<HomePage> {
         'counter': FieldValue.increment(1),
       });
     } on Exception catch (e) {
-      ref.read(loggerProvider).i('Could not increase zero counter', e);
+      ref.read(loggerProvider).i('Could not increase zero counter', error: e);
     }
   }
 
@@ -66,7 +66,7 @@ class _HomePage2State extends ConsumerState<HomePage> {
       final sharedPreferences = await SharedPreferences.getInstance();
       await sharedPreferences.setBool('0', true);
     } catch (e) {
-      ref.read(loggerProvider).i('Could not set zero flag', e);
+      ref.read(loggerProvider).i('Could not set zero flag', error: e);
     }
   }
 

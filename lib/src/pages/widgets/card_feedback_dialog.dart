@@ -96,13 +96,12 @@ class CardDislikeDialog extends ConsumerWidget {
 
 class _CardFeedbackBaseDialog extends StatefulWidget {
   const _CardFeedbackBaseDialog({
-    Key? key,
     required this.iconColor,
     required this.icon,
     required this.onSubmit,
     required this.textfieldHint,
     this.feedbackTypes = const [],
-  }) : super(key: key);
+  });
 
   final Color iconColor;
   final Widget icon;

@@ -6,8 +6,8 @@ part of 'session_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_SessionDto _$$_SessionDtoFromJson(Map<String, dynamic> json) =>
-    _$_SessionDto(
+_$SessionDtoImpl _$$SessionDtoImplFromJson(Map<String, dynamic> json) =>
+    _$SessionDtoImpl(
       id: json['id'] as String,
       language: $enumDecodeNullable(_$LanguageEnumMap, json['language']),
       input: Input.fromJson(json['input'] as Map<String, dynamic>),
@@ -21,7 +21,7 @@ _$_SessionDto _$$_SessionDtoFromJson(Map<String, dynamic> json) =>
       numberOfCards: json['numberOfCards'] as int,
     );
 
-Map<String, dynamic> _$$_SessionDtoToJson(_$_SessionDto instance) =>
+Map<String, dynamic> _$$SessionDtoImplToJson(_$SessionDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'language': _$LanguageEnumMap[instance.language],
@@ -181,7 +181,7 @@ const _$SessionStatusEnumMap = {
   SessionStatus.stopped: 'stopped',
 };
 
-_$_Input _$$_InputFromJson(Map<String, dynamic> json) => _$_Input(
+_$InputImpl _$$InputImplFromJson(Map<String, dynamic> json) => _$InputImpl(
       text: json['text'] as String?,
       type: $enumDecode(_$InputTypeEnumMap, json['type']),
       file: json['file'] == null
@@ -189,7 +189,8 @@ _$_Input _$$_InputFromJson(Map<String, dynamic> json) => _$_Input(
           : FileInput.fromJson(json['file'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_InputToJson(_$_Input instance) => <String, dynamic>{
+Map<String, dynamic> _$$InputImplToJson(_$InputImpl instance) =>
+    <String, dynamic>{
       'text': instance.text,
       'type': _$InputTypeEnumMap[instance.type]!,
       'file': instance.file?.toJson(),
@@ -200,11 +201,12 @@ const _$InputTypeEnumMap = {
   InputType.file: 'file',
 };
 
-_$_FileInput _$$_FileInputFromJson(Map<String, dynamic> json) => _$_FileInput(
+_$FileInputImpl _$$FileInputImplFromJson(Map<String, dynamic> json) =>
+    _$FileInputImpl(
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$$_FileInputToJson(_$_FileInput instance) =>
+Map<String, dynamic> _$$FileInputImplToJson(_$FileInputImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
     };

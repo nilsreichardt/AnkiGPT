@@ -122,7 +122,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       final router = ref.read(routerProvider);
       router.go('/deck/$sessionId');
     } catch (e, s) {
-      _logger.e("Failed to generate cards", e, s);
+      _logger.e("Failed to generate cards", error: e, stackTrace: s);
 
       if (e is FirebaseFunctionsException) {
         state = GenerateState.error(
@@ -240,7 +240,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       return true;
     } catch (e) {
       if (e is FirebaseException && e.code == 'unauthorized') {
-        _logger.e('Unauthorized to upload file', e);
+        _logger.e('Unauthorized to upload file', error: e);
         state = const GenerateState.error(
             message:
                 'Uploading the file was blocked. This could be because your file is too large. Please try again with a smaller file (< 100 MB).');
@@ -248,7 +248,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       }
 
       state = GenerateState.error(message: 'Failed to upload file: $e');
-      _logger.e('Failed to upload file', e);
+      _logger.e('Failed to upload file', error: e);
       return false;
     }
   }

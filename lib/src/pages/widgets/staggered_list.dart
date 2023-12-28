@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class StaggeredList extends StatelessWidget {
-  const StaggeredList({Key? key, required this.children}) : super(key: key);
+  const StaggeredList({super.key, required this.children});
 
   final List<Widget> children;
 

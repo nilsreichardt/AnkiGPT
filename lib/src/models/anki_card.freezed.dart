@@ -124,10 +124,11 @@ class _$AnkiCardCopyWithImpl<$Res, $Val extends AnkiCard>
 }
 
 /// @nodoc
-abstract class _$$_AnkiCardCopyWith<$Res> implements $AnkiCardCopyWith<$Res> {
-  factory _$$_AnkiCardCopyWith(
-          _$_AnkiCard value, $Res Function(_$_AnkiCard) then) =
-      __$$_AnkiCardCopyWithImpl<$Res>;
+abstract class _$$AnkiCardImplCopyWith<$Res>
+    implements $AnkiCardCopyWith<$Res> {
+  factory _$$AnkiCardImplCopyWith(
+          _$AnkiCardImpl value, $Res Function(_$AnkiCardImpl) then) =
+      __$$AnkiCardImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -144,11 +145,11 @@ abstract class _$$_AnkiCardCopyWith<$Res> implements $AnkiCardCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_AnkiCardCopyWithImpl<$Res>
-    extends _$AnkiCardCopyWithImpl<$Res, _$_AnkiCard>
-    implements _$$_AnkiCardCopyWith<$Res> {
-  __$$_AnkiCardCopyWithImpl(
-      _$_AnkiCard _value, $Res Function(_$_AnkiCard) _then)
+class __$$AnkiCardImplCopyWithImpl<$Res>
+    extends _$AnkiCardCopyWithImpl<$Res, _$AnkiCardImpl>
+    implements _$$AnkiCardImplCopyWith<$Res> {
+  __$$AnkiCardImplCopyWithImpl(
+      _$AnkiCardImpl _value, $Res Function(_$AnkiCardImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -162,7 +163,7 @@ class __$$_AnkiCardCopyWithImpl<$Res>
     Object? hasDisliked = null,
     Object? job = freezed,
   }) {
-    return _then(_$_AnkiCard(
+    return _then(_$AnkiCardImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -197,8 +198,8 @@ class __$$_AnkiCardCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AnkiCard extends _AnkiCard {
-  const _$_AnkiCard(
+class _$AnkiCardImpl extends _AnkiCard {
+  const _$AnkiCardImpl(
       {required this.id,
       required this.question,
       required this.answer,
@@ -208,8 +209,8 @@ class _$_AnkiCard extends _AnkiCard {
       this.job})
       : super._();
 
-  factory _$_AnkiCard.fromJson(Map<String, dynamic> json) =>
-      _$$_AnkiCardFromJson(json);
+  factory _$AnkiCardImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AnkiCardImplFromJson(json);
 
   @override
   final String id;
@@ -235,10 +236,10 @@ class _$_AnkiCard extends _AnkiCard {
   final Job? job;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AnkiCard &&
+            other is _$AnkiCardImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.question, question) ||
                 other.question == question) &&
@@ -260,12 +261,12 @@ class _$_AnkiCard extends _AnkiCard {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AnkiCardCopyWith<_$_AnkiCard> get copyWith =>
-      __$$_AnkiCardCopyWithImpl<_$_AnkiCard>(this, _$identity);
+  _$$AnkiCardImplCopyWith<_$AnkiCardImpl> get copyWith =>
+      __$$AnkiCardImplCopyWithImpl<_$AnkiCardImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AnkiCardToJson(
+    return _$$AnkiCardImplToJson(
       this,
     );
   }
@@ -280,10 +281,11 @@ abstract class _AnkiCard extends AnkiCard {
       required final DateTime createdAt,
       final bool hasLiked,
       final bool hasDisliked,
-      final Job? job}) = _$_AnkiCard;
+      final Job? job}) = _$AnkiCardImpl;
   const _AnkiCard._() : super._();
 
-  factory _AnkiCard.fromJson(Map<String, dynamic> json) = _$_AnkiCard.fromJson;
+  factory _AnkiCard.fromJson(Map<String, dynamic> json) =
+      _$AnkiCardImpl.fromJson;
 
   @override
   String get id;
@@ -307,7 +309,7 @@ abstract class _AnkiCard extends AnkiCard {
   Job? get job;
   @override
   @JsonKey(ignore: true)
-  _$$_AnkiCardCopyWith<_$_AnkiCard> get copyWith =>
+  _$$AnkiCardImplCopyWith<_$AnkiCardImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -362,18 +364,18 @@ class _$JobCopyWithImpl<$Res, $Val extends Job> implements $JobCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_JobCopyWith<$Res> implements $JobCopyWith<$Res> {
-  factory _$$_JobCopyWith(_$_Job value, $Res Function(_$_Job) then) =
-      __$$_JobCopyWithImpl<$Res>;
+abstract class _$$JobImplCopyWith<$Res> implements $JobCopyWith<$Res> {
+  factory _$$JobImplCopyWith(_$JobImpl value, $Res Function(_$JobImpl) then) =
+      __$$JobImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, int index});
 }
 
 /// @nodoc
-class __$$_JobCopyWithImpl<$Res> extends _$JobCopyWithImpl<$Res, _$_Job>
-    implements _$$_JobCopyWith<$Res> {
-  __$$_JobCopyWithImpl(_$_Job _value, $Res Function(_$_Job) _then)
+class __$$JobImplCopyWithImpl<$Res> extends _$JobCopyWithImpl<$Res, _$JobImpl>
+    implements _$$JobImplCopyWith<$Res> {
+  __$$JobImplCopyWithImpl(_$JobImpl _value, $Res Function(_$JobImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -382,7 +384,7 @@ class __$$_JobCopyWithImpl<$Res> extends _$JobCopyWithImpl<$Res, _$_Job>
     Object? id = null,
     Object? index = null,
   }) {
-    return _then(_$_Job(
+    return _then(_$JobImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -397,10 +399,11 @@ class __$$_JobCopyWithImpl<$Res> extends _$JobCopyWithImpl<$Res, _$_Job>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Job implements _Job {
-  const _$_Job({required this.id, required this.index});
+class _$JobImpl implements _Job {
+  const _$JobImpl({required this.id, required this.index});
 
-  factory _$_Job.fromJson(Map<String, dynamic> json) => _$$_JobFromJson(json);
+  factory _$JobImpl.fromJson(Map<String, dynamic> json) =>
+      _$$JobImplFromJson(json);
 
   @override
   final String id;
@@ -413,10 +416,10 @@ class _$_Job implements _Job {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Job &&
+            other is _$JobImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.index, index) || other.index == index));
   }
@@ -428,12 +431,12 @@ class _$_Job implements _Job {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_JobCopyWith<_$_Job> get copyWith =>
-      __$$_JobCopyWithImpl<_$_Job>(this, _$identity);
+  _$$JobImplCopyWith<_$JobImpl> get copyWith =>
+      __$$JobImplCopyWithImpl<_$JobImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_JobToJson(
+    return _$$JobImplToJson(
       this,
     );
   }
@@ -441,9 +444,9 @@ class _$_Job implements _Job {
 
 abstract class _Job implements Job {
   const factory _Job({required final String id, required final int index}) =
-      _$_Job;
+      _$JobImpl;
 
-  factory _Job.fromJson(Map<String, dynamic> json) = _$_Job.fromJson;
+  factory _Job.fromJson(Map<String, dynamic> json) = _$JobImpl.fromJson;
 
   @override
   String get id;
@@ -451,5 +454,6 @@ abstract class _Job implements Job {
   int get index;
   @override
   @JsonKey(ignore: true)
-  _$$_JobCopyWith<_$_Job> get copyWith => throw _privateConstructorUsedError;
+  _$$JobImplCopyWith<_$JobImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

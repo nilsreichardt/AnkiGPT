@@ -29,8 +29,6 @@ class _SystemHash {
   }
 }
 
-typedef LikeCardRef = AutoDisposeFutureProviderRef<void>;
-
 /// See also [likeCard].
 @ProviderFor(likeCard)
 const likeCardProvider = LikeCardFamily();
@@ -83,12 +81,12 @@ class LikeCardFamily extends Family<AsyncValue<void>> {
 class LikeCardProvider extends AutoDisposeFutureProvider<void> {
   /// See also [likeCard].
   LikeCardProvider({
-    required this.sessionId,
-    required this.cardId,
-    this.text,
-  }) : super.internal(
+    required String sessionId,
+    required String cardId,
+    String? text,
+  }) : this._internal(
           (ref) => likeCard(
-            ref,
+            ref as LikeCardRef,
             sessionId: sessionId,
             cardId: cardId,
             text: text,
@@ -101,11 +99,51 @@ class LikeCardProvider extends AutoDisposeFutureProvider<void> {
                   : _$likeCardHash,
           dependencies: LikeCardFamily._dependencies,
           allTransitiveDependencies: LikeCardFamily._allTransitiveDependencies,
+          sessionId: sessionId,
+          cardId: cardId,
+          text: text,
         );
+
+  LikeCardProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.sessionId,
+    required this.cardId,
+    required this.text,
+  }) : super.internal();
 
   final String sessionId;
   final String cardId;
   final String? text;
+
+  @override
+  Override overrideWith(
+    FutureOr<void> Function(LikeCardRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: LikeCardProvider._internal(
+        (ref) => create(ref as LikeCardRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        sessionId: sessionId,
+        cardId: cardId,
+        text: text,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<void> createElement() {
+    return _LikeCardProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -126,8 +164,30 @@ class LikeCardProvider extends AutoDisposeFutureProvider<void> {
   }
 }
 
+mixin LikeCardRef on AutoDisposeFutureProviderRef<void> {
+  /// The parameter `sessionId` of this provider.
+  String get sessionId;
+
+  /// The parameter `cardId` of this provider.
+  String get cardId;
+
+  /// The parameter `text` of this provider.
+  String? get text;
+}
+
+class _LikeCardProviderElement extends AutoDisposeFutureProviderElement<void>
+    with LikeCardRef {
+  _LikeCardProviderElement(super.provider);
+
+  @override
+  String get sessionId => (origin as LikeCardProvider).sessionId;
+  @override
+  String get cardId => (origin as LikeCardProvider).cardId;
+  @override
+  String? get text => (origin as LikeCardProvider).text;
+}
+
 String _$undoLikeCardHash() => r'de3bb095eaaf29f47b13041d2b82dc45bab93a8f';
-typedef UndoLikeCardRef = AutoDisposeFutureProviderRef<void>;
 
 /// See also [undoLikeCard].
 @ProviderFor(undoLikeCard)
@@ -178,11 +238,11 @@ class UndoLikeCardFamily extends Family<AsyncValue<void>> {
 class UndoLikeCardProvider extends AutoDisposeFutureProvider<void> {
   /// See also [undoLikeCard].
   UndoLikeCardProvider({
-    required this.sessionId,
-    required this.cardId,
-  }) : super.internal(
+    required String sessionId,
+    required String cardId,
+  }) : this._internal(
           (ref) => undoLikeCard(
-            ref,
+            ref as UndoLikeCardRef,
             sessionId: sessionId,
             cardId: cardId,
           ),
@@ -195,10 +255,47 @@ class UndoLikeCardProvider extends AutoDisposeFutureProvider<void> {
           dependencies: UndoLikeCardFamily._dependencies,
           allTransitiveDependencies:
               UndoLikeCardFamily._allTransitiveDependencies,
+          sessionId: sessionId,
+          cardId: cardId,
         );
+
+  UndoLikeCardProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.sessionId,
+    required this.cardId,
+  }) : super.internal();
 
   final String sessionId;
   final String cardId;
+
+  @override
+  Override overrideWith(
+    FutureOr<void> Function(UndoLikeCardRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: UndoLikeCardProvider._internal(
+        (ref) => create(ref as UndoLikeCardRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        sessionId: sessionId,
+        cardId: cardId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<void> createElement() {
+    return _UndoLikeCardProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -216,5 +313,23 @@ class UndoLikeCardProvider extends AutoDisposeFutureProvider<void> {
     return _SystemHash.finish(hash);
   }
 }
+
+mixin UndoLikeCardRef on AutoDisposeFutureProviderRef<void> {
+  /// The parameter `sessionId` of this provider.
+  String get sessionId;
+
+  /// The parameter `cardId` of this provider.
+  String get cardId;
+}
+
+class _UndoLikeCardProviderElement
+    extends AutoDisposeFutureProviderElement<void> with UndoLikeCardRef {
+  _UndoLikeCardProviderElement(super.provider);
+
+  @override
+  String get sessionId => (origin as UndoLikeCardProvider).sessionId;
+  @override
+  String get cardId => (origin as UndoLikeCardProvider).cardId;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

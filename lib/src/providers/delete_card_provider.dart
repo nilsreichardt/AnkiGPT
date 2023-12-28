@@ -49,7 +49,7 @@ class DeleteCardController extends _$DeleteCardController {
     _queue.add(
       () async {
         final repository = ref.read(sessionRepositoryProvider);
-        ref.read(loggerProvider).v('Delete card "$cardId"');
+        ref.read(loggerProvider).t('Delete card "$cardId"');
         await repository.deleteCard(
           sessionId: sessionId,
           cardId: cardId,
@@ -89,7 +89,7 @@ class DeleteCardController extends _$DeleteCardController {
     } else {
       _queue.add(() async {
         final repository = ref.read(sessionRepositoryProvider);
-        ref.read(loggerProvider).v('Undo delete card "$id"');
+        ref.read(loggerProvider).t('Undo delete card "$id"');
         await repository.undoDeleteCard(
           sessionId: sessionId,
           cardId: id,

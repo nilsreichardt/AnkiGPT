@@ -10,7 +10,7 @@ String _$sessionIdHash() => r'a5a4551f5ffac0c3e73821cc0ad4164f0293384f';
 
 /// See also [sessionId].
 @ProviderFor(sessionId)
-final sessionIdProvider = AutoDisposeProvider<String?>.internal(
+final sessionIdProvider = AutoDisposeProvider<SessionId?>.internal(
   sessionId,
   name: r'sessionIdProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final sessionIdProvider = AutoDisposeProvider<String?>.internal(
   allTransitiveDependencies: const <ProviderOrFamily>{},
 );
 
-typedef SessionIdRef = AutoDisposeProviderRef<String?>;
+typedef SessionIdRef = AutoDisposeProviderRef<SessionId?>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

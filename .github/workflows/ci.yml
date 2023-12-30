@@ -100,6 +100,8 @@ jobs:
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
+      contents: "read" # for google-github-actions/auth
+      id-token: "write" # for google-github-actions/auth
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 

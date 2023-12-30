@@ -21,6 +21,9 @@
       "hosting": {
         "ankigpt-app": [
           "ankigpt-dev"
+        ],
+        "ankigpt-api": [
+          "ankigpt-dev-api"
         ]
       }
     }

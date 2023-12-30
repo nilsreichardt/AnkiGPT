@@ -53,6 +53,13 @@
       "target": "ankigpt-api",
       "rewrites": [
         {
+          "source": "/v1/tokenizer",
+          "run": {
+            "serviceId": "tokenizer",
+            "region": "europe-west1"
+          }
+        },
+        {
           "source": "**",
           "run": {
             "serviceId": "routehttp",

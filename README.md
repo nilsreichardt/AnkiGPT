@@ -13,6 +13,7 @@ https://github.com/nilsreichardt/ankigpt/assets/24459435/853dee68-d634-48e4-93fe
 - 📤 Export generated flashcards by GPT (ChatGPT) to [Anki](https://apps.ankiweb.net/) with CSV file
 - ✏️ Edit flashcards, in case you want to change something
 - 🗑️ Delete flashcards, in case GPT (ChatGPT) generated something wrong or useless card
+- 💡 Generate mnemonics for your flashcards
 
 Try it out:
 

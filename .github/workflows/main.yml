@@ -16,6 +16,8 @@ on:
       - "pubspec.yaml"
       - "pubspec.lock"
       - ".github/workflows/main.yml"
+      - "firebase.json"
+      - ".firebaserc"
 
 # Set permissions to none.
 #

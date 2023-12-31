@@ -9,9 +9,6 @@
         "ankigpt-app": [
           "ankigpt-prod"
         ],
-        "ankigpt-prod-playground": [
-          "ankigpt-prod-playground"
-        ],
         "ankigpt-api": [
           "ankigpt-prod-api"
         ]

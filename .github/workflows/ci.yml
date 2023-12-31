@@ -82,7 +82,7 @@ jobs:
       # this workflows finished.
       - name: Upload failed golden tests
         if: failure()
-        uses: actions/upload-artifact@65d862660abb392b8c4a3d1195a2108db131dd05
+        uses: actions/upload-artifact@cf8714cfeaba5687a442b9bcb85b29e23f468dfa
         with:
           name: failed-golden-tests
           # When a golden test failed, are the results stored in the "failures"

@@ -47,7 +47,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Install Dart
-        uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
+        uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
         with:
           sdk: beta
 
@@ -85,7 +85,7 @@ jobs:
       # this workflows finished.
       - name: Upload failed golden tests
         if: failure()
-        uses: actions/upload-artifact@65d862660abb392b8c4a3d1195a2108db131dd05
+        uses: actions/upload-artifact@cf8714cfeaba5687a442b9bcb85b29e23f468dfa
         with:
           name: failed-golden-tests
           # When a golden test failed, are the results stored in the "failures"

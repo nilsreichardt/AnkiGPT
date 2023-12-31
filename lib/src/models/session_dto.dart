@@ -24,6 +24,11 @@ class SessionDto with _$SessionDto {
     required SessionStatus status,
     @JsonKey(fromJson: parseError) String? error,
     required int numberOfCards,
+    @JsonKey(
+      unknownEnumValue: Visibility.private,
+      defaultValue: Visibility.private,
+    )
+    required Visibility visibility,
   }) = _SessionDto;
 
   factory SessionDto.fromJson(Map<String, dynamic> json) =>
@@ -68,6 +73,11 @@ enum SessionStatus {
   error,
   completed,
   stopped,
+}
+
+enum Visibility {
+  private,
+  anyoneWithLink,
 }
 
 @Freezed(fromJson: true, toStringOverride: false)

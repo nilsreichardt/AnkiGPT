@@ -19,6 +19,9 @@ _$SessionDtoImpl _$$SessionDtoImplFromJson(Map<String, dynamic> json) =>
       status: $enumDecode(_$SessionStatusEnumMap, json['status']),
       error: parseError(json['error']),
       numberOfCards: json['numberOfCards'] as int,
+      visibility: $enumDecodeNullable(_$VisibilityEnumMap, json['visibility'],
+              unknownValue: Visibility.private) ??
+          Visibility.private,
     );
 
 Map<String, dynamic> _$$SessionDtoImplToJson(_$SessionDtoImpl instance) =>
@@ -32,6 +35,7 @@ Map<String, dynamic> _$$SessionDtoImplToJson(_$SessionDtoImpl instance) =>
       'status': _$SessionStatusEnumMap[instance.status]!,
       'error': instance.error,
       'numberOfCards': instance.numberOfCards,
+      'visibility': _$VisibilityEnumMap[instance.visibility]!,
     };
 
 const _$LanguageEnumMap = {
@@ -179,6 +183,11 @@ const _$SessionStatusEnumMap = {
   SessionStatus.error: 'error',
   SessionStatus.completed: 'completed',
   SessionStatus.stopped: 'stopped',
+};
+
+const _$VisibilityEnumMap = {
+  Visibility.private: 'private',
+  Visibility.anyoneWithLink: 'anyoneWithLink',
 };
 
 _$InputImpl _$$InputImplFromJson(Map<String, dynamic> json) => _$InputImpl(

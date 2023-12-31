@@ -1,5 +1,4 @@
 import 'package:ankigpt/src/models/language.dart';
-import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

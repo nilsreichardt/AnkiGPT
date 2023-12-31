@@ -31,6 +31,17 @@ class ShareController extends _$ShareController {
         return;
       }
 
+      _initialVisibility = session.visibility;
+
+      final isDeckGeneratedByCustomGpt = session.userId == 'gpts';
+      if (isDeckGeneratedByCustomGpt) {
+        state = ShareStateGpt(
+          sessionId: sessionId,
+          url: _getShareUrl(sessionId),
+        );
+        return;
+      }
+
       state = ShareStateLoaded(
         sessionId: sessionId,
         visibility: session.visibility,
@@ -39,7 +50,6 @@ class ShareController extends _$ShareController {
           Visibility.anyoneWithLink => _getShareUrl(sessionId),
         },
       );
-      _initialVisibility = session.visibility;
     } catch (e) {
       state = ShareStateError(
         sessionId: sessionId,
@@ -163,4 +173,15 @@ class ShareStateUpdating extends ShareState {
   });
 
   final Visibility visibility;
+}
+
+/// When the generated a deck with custom GPTs, these deck are always public.
+class ShareStateGpt extends ShareState {
+  const ShareStateGpt({
+    required super.sessionId,
+    required this.url,
+  });
+
+  final Visibility visibility = Visibility.anyoneWithLink;
+  final Uri url;
 }

@@ -6,7 +6,7 @@ part of 'share_controller_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$shareControllerHash() => r'73e6de781f5f620238b642e766a9ab5cf31a17bb';
+String _$shareControllerHash() => r'99b4c9dde7ad205f40db5c98377ba8a10ab2a86b';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -50,6 +50,7 @@ class _ShareDialogState extends ConsumerState<ShareDialog> {
             child: const Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                _CustomGptNote(),
                 _VisibilityButtons(),
                 _CopyLinkCard(),
                 _ErrorCard(),
@@ -60,6 +61,38 @@ class _ShareDialogState extends ConsumerState<ShareDialog> {
             const _CancelButton(),
             _SaveButton(visibility: visibility),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CustomGptNote extends ConsumerWidget {
+  const _CustomGptNote();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionId = ref.watch(sessionIdProvider)!;
+    final state = ref.watch(shareControllerProvider(sessionId));
+    final isGeneratedByCustomGpt = switch (state) {
+      ShareStateGpt() => true,
+      _ => false,
+    };
+
+    if (!isGeneratedByCustomGpt) {
+      return const SizedBox();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: AnkiGptCard(
+        color: Colors.orange.withOpacity(0.1),
+        child: const Text(
+          'This deck is generated with the a GPT using ChatGPT. These decks are always public and can not be made private.',
+          style: TextStyle(
+            color: Colors.deepOrange,
+            fontSize: 16,
+          ),
         ),
       ),
     );
@@ -83,7 +116,13 @@ class _VisibilityButtons extends ConsumerWidget {
       ShareStateError(visibility: final visibility) => visibility,
       ShareStateUpdating(visibility: final visibility) => visibility,
       ShareStateLoaded(visibility: final visibility) => visibility,
+      ShareStateGpt(visibility: final visibility) => visibility,
       ShareStateLoading() => null,
+    };
+
+    final isGeneratedByCustomGpt = switch (state) {
+      ShareStateGpt() => true,
+      _ => false,
     };
 
     return Column(
@@ -107,7 +146,7 @@ class _VisibilityButtons extends ConsumerWidget {
               }),
               value: v,
               groupValue: currentVisibility,
-              onChanged: isLoading
+              onChanged: isLoading || isGeneratedByCustomGpt
                   ? null
                   : (v) {
                       if (v == null) return;
@@ -133,6 +172,7 @@ class _CopyLinkCard extends ConsumerWidget {
 
     final url = switch (state) {
       ShareStateLoaded(url: final url) => url,
+      ShareStateGpt(url: final url) => url,
       _ => null,
     };
 

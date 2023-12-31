@@ -6,6 +6,7 @@ extension SnackBarExtension on BuildContext {
     String text, {
     SnackBarAction? action,
     bool withLoadingCircle = false,
+    Duration? duration,
   }) {
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
@@ -33,7 +34,7 @@ extension SnackBarExtension on BuildContext {
         // Therefore, we we set the width only form devices with with > 420.
         width: MediaQuery.of(this).size.width < 420 ? null : 400,
         action: action,
-        duration: Duration(seconds: withLoadingCircle ? 60 : 4),
+        duration: duration ?? Duration(seconds: withLoadingCircle ? 60 : 4),
       ),
     );
   }

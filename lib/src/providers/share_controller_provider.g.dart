@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'watch_provider.dart';
+part of 'share_controller_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$watchHash() => r'11ab676f96d613b0d68f8bc4555fcf18e3bd3bde';
+String _$shareControllerHash() => r'99b4c9dde7ad205f40db5c98377ba8a10ab2a86b';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,35 +29,36 @@ class _SystemHash {
   }
 }
 
-abstract class _$Watch extends BuildlessAutoDisposeNotifier<WatchView> {
+abstract class _$ShareController
+    extends BuildlessAutoDisposeNotifier<ShareState> {
   late final String sessionId;
 
-  WatchView build(
+  ShareState build(
     String sessionId,
   );
 }
 
-/// See also [Watch].
-@ProviderFor(Watch)
-const watchProvider = WatchFamily();
+/// See also [ShareController].
+@ProviderFor(ShareController)
+const shareControllerProvider = ShareControllerFamily();
 
-/// See also [Watch].
-class WatchFamily extends Family<WatchView> {
-  /// See also [Watch].
-  const WatchFamily();
+/// See also [ShareController].
+class ShareControllerFamily extends Family<ShareState> {
+  /// See also [ShareController].
+  const ShareControllerFamily();
 
-  /// See also [Watch].
-  WatchProvider call(
+  /// See also [ShareController].
+  ShareControllerProvider call(
     String sessionId,
   ) {
-    return WatchProvider(
+    return ShareControllerProvider(
       sessionId,
     );
   }
 
   @override
-  WatchProvider getProviderOverride(
-    covariant WatchProvider provider,
+  ShareControllerProvider getProviderOverride(
+    covariant ShareControllerProvider provider,
   ) {
     return call(
       provider.sessionId,
@@ -76,28 +77,30 @@ class WatchFamily extends Family<WatchView> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'watchProvider';
+  String? get name => r'shareControllerProvider';
 }
 
-/// See also [Watch].
-class WatchProvider extends AutoDisposeNotifierProviderImpl<Watch, WatchView> {
-  /// See also [Watch].
-  WatchProvider(
+/// See also [ShareController].
+class ShareControllerProvider
+    extends AutoDisposeNotifierProviderImpl<ShareController, ShareState> {
+  /// See also [ShareController].
+  ShareControllerProvider(
     String sessionId,
   ) : this._internal(
-          () => Watch()..sessionId = sessionId,
-          from: watchProvider,
-          name: r'watchProvider',
+          () => ShareController()..sessionId = sessionId,
+          from: shareControllerProvider,
+          name: r'shareControllerProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$watchHash,
-          dependencies: WatchFamily._dependencies,
-          allTransitiveDependencies: WatchFamily._allTransitiveDependencies,
+                  : _$shareControllerHash,
+          dependencies: ShareControllerFamily._dependencies,
+          allTransitiveDependencies:
+              ShareControllerFamily._allTransitiveDependencies,
           sessionId: sessionId,
         );
 
-  WatchProvider._internal(
+  ShareControllerProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -110,8 +113,8 @@ class WatchProvider extends AutoDisposeNotifierProviderImpl<Watch, WatchView> {
   final String sessionId;
 
   @override
-  WatchView runNotifierBuild(
-    covariant Watch notifier,
+  ShareState runNotifierBuild(
+    covariant ShareController notifier,
   ) {
     return notifier.build(
       sessionId,
@@ -119,10 +122,10 @@ class WatchProvider extends AutoDisposeNotifierProviderImpl<Watch, WatchView> {
   }
 
   @override
-  Override overrideWith(Watch Function() create) {
+  Override overrideWith(ShareController Function() create) {
     return ProviderOverride(
       origin: this,
-      override: WatchProvider._internal(
+      override: ShareControllerProvider._internal(
         () => create()..sessionId = sessionId,
         from: from,
         name: null,
@@ -135,13 +138,14 @@ class WatchProvider extends AutoDisposeNotifierProviderImpl<Watch, WatchView> {
   }
 
   @override
-  AutoDisposeNotifierProviderElement<Watch, WatchView> createElement() {
-    return _WatchProviderElement(this);
+  AutoDisposeNotifierProviderElement<ShareController, ShareState>
+      createElement() {
+    return _ShareControllerProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is WatchProvider && other.sessionId == sessionId;
+    return other is ShareControllerProvider && other.sessionId == sessionId;
   }
 
   @override
@@ -153,17 +157,18 @@ class WatchProvider extends AutoDisposeNotifierProviderImpl<Watch, WatchView> {
   }
 }
 
-mixin WatchRef on AutoDisposeNotifierProviderRef<WatchView> {
+mixin ShareControllerRef on AutoDisposeNotifierProviderRef<ShareState> {
   /// The parameter `sessionId` of this provider.
   String get sessionId;
 }
 
-class _WatchProviderElement
-    extends AutoDisposeNotifierProviderElement<Watch, WatchView> with WatchRef {
-  _WatchProviderElement(super.provider);
+class _ShareControllerProviderElement
+    extends AutoDisposeNotifierProviderElement<ShareController, ShareState>
+    with ShareControllerRef {
+  _ShareControllerProviderElement(super.provider);
 
   @override
-  String get sessionId => (origin as WatchProvider).sessionId;
+  String get sessionId => (origin as ShareControllerProvider).sessionId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

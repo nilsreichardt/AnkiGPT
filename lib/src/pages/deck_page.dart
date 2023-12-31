@@ -1,4 +1,6 @@
+import 'package:animations/animations.dart';
 import 'package:ankigpt/src/models/session_id.dart';
+import 'package:ankigpt/src/pages/deck_page/share_dialog.dart';
 import 'package:ankigpt/src/pages/home_page/controls.dart';
 import 'package:ankigpt/src/pages/deck_page/result_section.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
@@ -43,33 +45,64 @@ class _SessionPageState extends ConsumerState<DeckPage> {
 
   @override
   Widget build(BuildContext context) {
+    final sessionId = widget.sessionId ?? "does-not-exist";
     // Keep provider alive.
-    ref.watch(watchProvider(widget.sessionId ?? 'does-not-exist'));
+    ref.watch(watchProvider(sessionId));
 
     return ProviderScope(
       overrides: [
         sessionIdProvider.overrideWithValue(widget.sessionId),
       ],
-      child: Scaffold(
-        appBar: AppBar(),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            controller: ref.watch(deckPageScrollControllerProvider),
-            child: Column(
-              children: [
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: MediaQuery.of(context).size.height,
-                    maxWidth: 900,
+      child: SelectionArea(
+        child: Scaffold(
+          appBar: AppBar(
+            actions: [
+              _ShareIconButton(sessionId: sessionId),
+            ],
+          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              controller: ref.watch(deckPageScrollControllerProvider),
+              child: Column(
+                children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: MediaQuery.of(context).size.height,
+                      maxWidth: 900,
+                    ),
+                    child: const _Body(),
                   ),
-                  child: const _Body(),
-                ),
-                const Footer(),
-              ],
+                  const Footer(),
+                ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ShareIconButton extends StatelessWidget {
+  const _ShareIconButton({
+    required this.sessionId,
+  });
+
+  final SessionId sessionId;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: 'Share',
+      icon: const Icon(Icons.ios_share),
+      onPressed: () {
+        showModal(
+          context: context,
+          builder: (context) => ShareDialog(
+            sessionId: sessionId,
+          ),
+        );
+      },
     );
   }
 }

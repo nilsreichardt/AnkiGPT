@@ -32,6 +32,9 @@ mixin _$SessionDto {
   @JsonKey(fromJson: parseError)
   String? get error => throw _privateConstructorUsedError;
   int get numberOfCards => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: parseVisibility)
+  Visibility get visibility => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,7 +57,9 @@ abstract class $SessionDtoCopyWith<$Res> {
       @JsonKey(fromJson: parseCards) Map<String, AnkiCard>? cards,
       SessionStatus status,
       @JsonKey(fromJson: parseError) String? error,
-      int numberOfCards});
+      int numberOfCards,
+      @JsonKey(fromJson: parseVisibility) Visibility visibility,
+      String userId});
 
   $InputCopyWith<$Res> get input;
   $CsvMetadataCopyWith<$Res>? get csv;
@@ -82,6 +87,8 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
     Object? status = null,
     Object? error = freezed,
     Object? numberOfCards = null,
+    Object? visibility = null,
+    Object? userId = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -120,6 +127,14 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
           ? _value.numberOfCards
           : numberOfCards // ignore: cast_nullable_to_non_nullable
               as int,
+      visibility: null == visibility
+          ? _value.visibility
+          : visibility // ignore: cast_nullable_to_non_nullable
+              as Visibility,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 
@@ -161,7 +176,9 @@ abstract class _$$SessionDtoImplCopyWith<$Res>
       @JsonKey(fromJson: parseCards) Map<String, AnkiCard>? cards,
       SessionStatus status,
       @JsonKey(fromJson: parseError) String? error,
-      int numberOfCards});
+      int numberOfCards,
+      @JsonKey(fromJson: parseVisibility) Visibility visibility,
+      String userId});
 
   @override
   $InputCopyWith<$Res> get input;
@@ -189,6 +206,8 @@ class __$$SessionDtoImplCopyWithImpl<$Res>
     Object? status = null,
     Object? error = freezed,
     Object? numberOfCards = null,
+    Object? visibility = null,
+    Object? userId = null,
   }) {
     return _then(_$SessionDtoImpl(
       id: null == id
@@ -227,6 +246,14 @@ class __$$SessionDtoImplCopyWithImpl<$Res>
           ? _value.numberOfCards
           : numberOfCards // ignore: cast_nullable_to_non_nullable
               as int,
+      visibility: null == visibility
+          ? _value.visibility
+          : visibility // ignore: cast_nullable_to_non_nullable
+              as Visibility,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -244,7 +271,9 @@ class _$SessionDtoImpl implements _SessionDto {
       required final Map<String, AnkiCard>? cards,
       required this.status,
       @JsonKey(fromJson: parseError) this.error,
-      required this.numberOfCards})
+      required this.numberOfCards,
+      @JsonKey(fromJson: parseVisibility) required this.visibility,
+      required this.userId})
       : _cards = cards;
 
   factory _$SessionDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -279,10 +308,15 @@ class _$SessionDtoImpl implements _SessionDto {
   final String? error;
   @override
   final int numberOfCards;
+  @override
+  @JsonKey(fromJson: parseVisibility)
+  final Visibility visibility;
+  @override
+  final String userId;
 
   @override
   String toString() {
-    return 'SessionDto(id: $id, language: $language, input: $input, createdAt: $createdAt, csv: $csv, cards: $cards, status: $status, error: $error, numberOfCards: $numberOfCards)';
+    return 'SessionDto(id: $id, language: $language, input: $input, createdAt: $createdAt, csv: $csv, cards: $cards, status: $status, error: $error, numberOfCards: $numberOfCards, visibility: $visibility, userId: $userId)';
   }
 
   @override
@@ -301,7 +335,10 @@ class _$SessionDtoImpl implements _SessionDto {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.numberOfCards, numberOfCards) ||
-                other.numberOfCards == numberOfCards));
+                other.numberOfCards == numberOfCards) &&
+            (identical(other.visibility, visibility) ||
+                other.visibility == visibility) &&
+            (identical(other.userId, userId) || other.userId == userId));
   }
 
   @JsonKey(ignore: true)
@@ -316,7 +353,9 @@ class _$SessionDtoImpl implements _SessionDto {
       const DeepCollectionEquality().hash(_cards),
       status,
       error,
-      numberOfCards);
+      numberOfCards,
+      visibility,
+      userId);
 
   @JsonKey(ignore: true)
   @override
@@ -343,7 +382,9 @@ abstract class _SessionDto implements SessionDto {
       required final Map<String, AnkiCard>? cards,
       required final SessionStatus status,
       @JsonKey(fromJson: parseError) final String? error,
-      required final int numberOfCards}) = _$SessionDtoImpl;
+      required final int numberOfCards,
+      @JsonKey(fromJson: parseVisibility) required final Visibility visibility,
+      required final String userId}) = _$SessionDtoImpl;
 
   factory _SessionDto.fromJson(Map<String, dynamic> json) =
       _$SessionDtoImpl.fromJson;
@@ -369,6 +410,11 @@ abstract class _SessionDto implements SessionDto {
   String? get error;
   @override
   int get numberOfCards;
+  @override
+  @JsonKey(fromJson: parseVisibility)
+  Visibility get visibility;
+  @override
+  String get userId;
   @override
   @JsonKey(ignore: true)
   _$$SessionDtoImplCopyWith<_$SessionDtoImpl> get copyWith =>

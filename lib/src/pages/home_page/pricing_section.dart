@@ -89,6 +89,7 @@ class _FreeTier extends ConsumerWidget {
           trailing: _HelpMnemonicsIconButton(),
         ),
         PointData('Delete, edit & search cards'),
+        PointData('Share decks with a link'),
       ],
       onPressedCallToAction: () {
         final key = ref.read(homePageScollViewProvider).inputSectionKey;

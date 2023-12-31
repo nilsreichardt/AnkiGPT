@@ -6,6 +6,7 @@ import 'package:ankigpt/src/models/csv_metadata.dart';
 import 'package:ankigpt/src/models/input_type.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
+import 'package:ankigpt/src/models/user_id.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -24,6 +25,8 @@ class SessionDto with _$SessionDto {
     required SessionStatus status,
     @JsonKey(fromJson: parseError) String? error,
     required int numberOfCards,
+    @JsonKey(fromJson: parseVisibility) required Visibility visibility,
+    required UserId userId,
   }) = _SessionDto;
 
   factory SessionDto.fromJson(Map<String, dynamic> json) =>
@@ -53,6 +56,40 @@ Map<String, AnkiCard>? parseCards(Map<String, dynamic>? json) {
   );
 }
 
+Visibility parseVisibility(Map<String, dynamic>? json) {
+  const defaultValue = Visibility.private;
+
+  if (json == null) {
+    return defaultValue;
+  }
+
+  final value = json['value'];
+  if (value is! String?) {
+    return defaultValue;
+  }
+
+  return Visibility.values.tryByName(json['value']);
+}
+
+extension EnumByNameWithDefault<T extends Enum> on Iterable<T> {
+  T tryByName(String? name, {T? defaultValue}) {
+    for (T value in this) {
+      if (value.name == name) return value;
+    }
+
+    if (defaultValue != null) return defaultValue;
+    throw ArgumentError.value(name, "name", "No enum value with that name");
+  }
+
+  T? byNameOrNull(String? name) {
+    for (T value in this) {
+      if (value.name == name) return value;
+    }
+
+    return null;
+  }
+}
+
 String? parseError(dynamic data) {
   if (data == null) null;
 
@@ -68,6 +105,11 @@ enum SessionStatus {
   error,
   completed,
   stopped,
+}
+
+enum Visibility {
+  private,
+  anyoneWithLink,
 }
 
 @Freezed(fromJson: true, toStringOverride: false)

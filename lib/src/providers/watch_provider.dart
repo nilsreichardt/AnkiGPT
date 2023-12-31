@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:ankigpt/src/infrastructure/session_repository.dart';
 import 'package:ankigpt/src/models/session_dto.dart';
+import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/models/watch_view.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
+import 'package:ankigpt/src/providers/user_id_provider.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -31,6 +33,7 @@ class Watch extends _$Watch {
       sessionId: sessionId,
     );
 
+    final userId = ref.read(userIdProvider);
     _subscription = _repository.streamSession(sessionId).listen(
       (dto) {
         if (dto == null) {
@@ -53,6 +56,7 @@ class Watch extends _$Watch {
           language: dto.language,
           fileName: dto.input.file?.name,
           inputText: dto.input.text,
+          isOwner: _isOwner(userId, dto),
         );
       },
       onError: (error, stackTrace) {
@@ -64,6 +68,14 @@ class Watch extends _$Watch {
         );
       },
     );
+  }
+
+  bool _isOwner(UserId? userId, SessionDto dto) {
+    if (userId == null) return false;
+
+    // Decks created with custom GPTs are owned by the user 'gpts' and everyone
+    // can see/edit them.
+    return dto.userId == userId || dto.userId == 'gpts';
   }
 
   void _stopSubscription() {

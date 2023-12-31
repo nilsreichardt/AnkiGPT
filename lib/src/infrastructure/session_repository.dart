@@ -126,4 +126,30 @@ class SessionRepository {
         .snapshots()
         .map((event) => event.data());
   }
+
+  Future<SessionDto?> getSession(SessionId sessionId) async {
+    final doc = await firestore
+        .collection('Sessions')
+        .doc(sessionId)
+        .withConverter(
+          fromFirestore: (doc, options) =>
+              SessionDto.fromJsonWithInjectedId(sessionId, doc.data()!),
+          toFirestore: (_, __) => throw UnimplementedError(),
+        )
+        .get();
+    return doc.data();
+  }
+
+  Future<void> setVisibility(
+    SessionId sessionId,
+    Visibility visibility,
+  ) async {
+    await functions.httpsCallableFromUrl(routeFunctionsUrl).call({
+      'destination': 'setVisibility',
+      'payload': {
+        'sessionId': sessionId,
+        'visibility': visibility.name,
+      }
+    });
+  }
 }

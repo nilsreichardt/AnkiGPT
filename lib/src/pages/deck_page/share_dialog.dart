@@ -145,36 +145,31 @@ class _CopyLinkCard extends ConsumerWidget {
           opacity: url == null ? 0.5 : 1,
           child: Padding(
             padding: const EdgeInsets.only(top: 16),
-            child: Material(
-              color:
-                  Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1),
-              borderRadius: defaultAnkiGptBorderRadius,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: url == null
-                          ? const Align(
-                              alignment: Alignment.centerLeft,
-                              child: Icon(Icons.lock),
-                            )
-                          : MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: Text(
-                                '$url',
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                              ),
+            child: AnkiGptCard(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: url == null
+                        ? const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Icon(Icons.lock),
+                          )
+                        : MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: Text(
+                              '$url',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
                             ),
-                    ),
-                    const SizedBox(width: 16),
-                    _CopyIconButton(
-                      url: url,
-                    ),
-                  ],
-                ),
+                          ),
+                  ),
+                  const SizedBox(width: 16),
+                  _CopyIconButton(
+                    url: url,
+                  ),
+                ],
               ),
             ),
           ),
@@ -272,6 +267,12 @@ class _SaveButton extends ConsumerWidget {
               final controller =
                   ref.read(shareControllerProvider(sessionId).notifier);
               await controller.save();
+
+              if (!context.mounted) return;
+              context.showTextSnackBar(
+                'Saved',
+                duration: const Duration(seconds: 2),
+              );
             }
           : null,
       child: AnimatedSwitcher(

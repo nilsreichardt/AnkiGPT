@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 final defaultAnkiGptBorderRadius = BorderRadius.circular(15);
@@ -35,8 +33,6 @@ class AnkiGptCard extends StatefulWidget {
 }
 
 class _AnkiGptCardState extends State<AnkiGptCard> {
-  int randomInt = 0;
-
   Color? _getColor(BuildContext context) {
     if (widget.color == null) {
       return Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1);
@@ -47,15 +43,6 @@ class _AnkiGptCardState extends State<AnkiGptCard> {
     }
 
     return widget.color;
-  }
-
-  @override
-  void didUpdateWidget(AnkiGptCard oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.color != widget.color) {
-      randomInt = Random().nextInt(1000000);
-    }
   }
 
   @override
@@ -72,9 +59,18 @@ class _AnkiGptCardState extends State<AnkiGptCard> {
         0.5,
         curve: Curves.linear,
       ),
+      // Adding the default transitionBuilder here fixes
+      // https://github.com/flutter/flutter/issues/121336. The bug can occur
+      // when clicking the card very quickly.
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
       duration: const Duration(milliseconds: 275),
       child: Container(
-        key: ValueKey(randomInt),
+        key: ValueKey(widget.color),
         decoration: BoxDecoration(
           borderRadius: widget.borderRadius ?? defaultAnkiGptBorderRadius,
           color: _getColor(context),
@@ -83,16 +79,24 @@ class _AnkiGptCardState extends State<AnkiGptCard> {
         child: Material(
           type: MaterialType.button,
           color: Colors.transparent,
-          child: InkWell(
-            borderRadius: widget.borderRadius ?? defaultAnkiGptBorderRadius,
-            onTap: widget.onPressed,
-            hoverColor: widget.hoverColor,
-            splashColor: widget.splashColor,
-            child: Padding(
-              padding: widget.padding,
-              child: widget.child,
-            ),
-          ),
+          // When using InkWell with onPressed null and a text + SelectionArea
+          // is used as child, the cursor is not a pointer.
+          child: widget.onPressed == null
+              ? Padding(
+                  padding: widget.padding,
+                  child: widget.child,
+                )
+              : InkWell(
+                  borderRadius:
+                      widget.borderRadius ?? defaultAnkiGptBorderRadius,
+                  onTap: widget.onPressed,
+                  hoverColor: widget.hoverColor,
+                  splashColor: widget.splashColor,
+                  child: Padding(
+                    padding: widget.padding,
+                    child: widget.child,
+                  ),
+                ),
         ),
       ),
     );

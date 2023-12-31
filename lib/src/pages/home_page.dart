@@ -83,37 +83,39 @@ class _HomePage2State extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final isSignedIn = ref.watch(isSignedInProvider);
-    return Scaffold(
-      appBar: const HomePageAppBar2(),
-      drawer: context.isMobile ? const HomePageDrawer() : null,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              // Wrapping the widgets around a ConstrainedBox always show the
-              // footer at the bottom of the page.
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height,
+    return SelectionArea(
+      child: Scaffold(
+        appBar: const HomePageAppBar2(),
+        drawer: context.isMobile ? const HomePageDrawer() : null,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: [
+                // Wrapping the widgets around a ConstrainedBox always show the
+                // footer at the bottom of the page.
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height,
+                  ),
+                  child: Column(
+                    children: [
+                      const NewCard(),
+                      const InputSection(),
+                      const SizedBox(height: 50),
+                      isSignedIn ? const MyDecksSection() : const DemoSection(),
+                      const SizedBox(height: 100),
+                      const PricingSection(),
+                      const SizedBox(height: 100),
+                      const AboutSection(),
+                      const SizedBox(height: 100),
+                      const FaqSection(),
+                      const SizedBox(height: 100),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    const NewCard(),
-                    const InputSection(),
-                    const SizedBox(height: 50),
-                    isSignedIn ? const MyDecksSection() : const DemoSection(),
-                    const SizedBox(height: 100),
-                    const PricingSection(),
-                    const SizedBox(height: 100),
-                    const AboutSection(),
-                    const SizedBox(height: 100),
-                    const FaqSection(),
-                    const SizedBox(height: 100),
-                  ],
-                ),
-              ),
-              const Footer(),
-            ],
+                const Footer(),
+              ],
+            ),
           ),
         ),
       ),

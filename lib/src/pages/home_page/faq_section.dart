@@ -195,76 +195,78 @@ class _FaqCardState extends State<_FaqCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: GestureDetector(
-          key: ValueKey(widget.question),
-          onTap: () {
-            setState(() => isExpanded = !isExpanded);
-          },
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: Container(
-              decoration: BoxDecoration(
-                color: lightGreen,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: AnimatedSize(
-                duration: const Duration(milliseconds: 400),
-                curve: Curves.easeInOutQuart,
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 18,
-                  ),
-                  child: DefaultTextStyle(
-                    style: DefaultTextStyle.of(context).style.copyWith(
-                          fontSize: 18,
-                        ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(child: widget.question),
-                            const SizedBox(width: 8),
-                            AnimatedSwap(
-                              duration: const Duration(milliseconds: 275),
-                              child: isExpanded
-                                  ? const _HideAnswerIcon()
-                                  : const _ShowAnswerIcon(),
-                            ),
-                          ],
-                        ),
-                        AnimatedSwitcher(
-                          // Adding the default transitionBuilder here fixes
-                          // https://github.com/flutter/flutter/issues/121336. The bug can occur
-                          // when clicking the card very quickly.
-                          transitionBuilder:
-                              (Widget child, Animation<double> animation) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                          duration:
-                              Duration(milliseconds: isExpanded ? 100 : 500),
-                          child: isExpanded
-                              ? Column(
-                                  children: [
-                                    const SizedBox(height: 18),
-                                    DefaultTextStyle(
-                                      style: _getAnswerTextStyle(context),
-                                      child: widget.answer,
-                                    ),
-                                  ],
-                                )
-                              : const SizedBox(),
-                        )
-                      ],
+    return SelectionContainer.disabled(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: GestureDetector(
+            key: ValueKey(widget.question),
+            onTap: () {
+              setState(() => isExpanded = !isExpanded);
+            },
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: lightGreen,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: AnimatedSize(
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.easeInOutQuart,
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 18,
+                    ),
+                    child: DefaultTextStyle(
+                      style: DefaultTextStyle.of(context).style.copyWith(
+                            fontSize: 18,
+                          ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(child: widget.question),
+                              const SizedBox(width: 8),
+                              AnimatedSwap(
+                                duration: const Duration(milliseconds: 275),
+                                child: isExpanded
+                                    ? const _HideAnswerIcon()
+                                    : const _ShowAnswerIcon(),
+                              ),
+                            ],
+                          ),
+                          AnimatedSwitcher(
+                            // Adding the default transitionBuilder here fixes
+                            // https://github.com/flutter/flutter/issues/121336. The bug can occur
+                            // when clicking the card very quickly.
+                            transitionBuilder:
+                                (Widget child, Animation<double> animation) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            },
+                            duration:
+                                Duration(milliseconds: isExpanded ? 100 : 500),
+                            child: isExpanded
+                                ? Column(
+                                    children: [
+                                      const SizedBox(height: 18),
+                                      DefaultTextStyle(
+                                        style: _getAnswerTextStyle(context),
+                                        child: widget.answer,
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox(),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

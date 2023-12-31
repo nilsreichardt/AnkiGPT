@@ -19,9 +19,7 @@ _$SessionDtoImpl _$$SessionDtoImplFromJson(Map<String, dynamic> json) =>
       status: $enumDecode(_$SessionStatusEnumMap, json['status']),
       error: parseError(json['error']),
       numberOfCards: json['numberOfCards'] as int,
-      visibility: $enumDecodeNullable(_$VisibilityEnumMap, json['visibility'],
-              unknownValue: Visibility.private) ??
-          Visibility.private,
+      visibility: parseVisibility(json['visibility'] as Map<String, dynamic>?),
     );
 
 Map<String, dynamic> _$$SessionDtoImplToJson(_$SessionDtoImpl instance) =>

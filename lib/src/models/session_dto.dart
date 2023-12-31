@@ -24,11 +24,7 @@ class SessionDto with _$SessionDto {
     required SessionStatus status,
     @JsonKey(fromJson: parseError) String? error,
     required int numberOfCards,
-    @JsonKey(
-      unknownEnumValue: Visibility.private,
-      defaultValue: Visibility.private,
-    )
-    required Visibility visibility,
+    @JsonKey(fromJson: parseVisibility) required Visibility visibility,
   }) = _SessionDto;
 
   factory SessionDto.fromJson(Map<String, dynamic> json) =>
@@ -56,6 +52,40 @@ Map<String, AnkiCard>? parseCards(Map<String, dynamic>? json) {
       AnkiCard.fromJsonInjection(k, e as Map<String, dynamic>),
     ),
   );
+}
+
+Visibility parseVisibility(Map<String, dynamic>? json) {
+  const defaultValue = Visibility.private;
+
+  if (json == null) {
+    return defaultValue;
+  }
+
+  final value = json['value'];
+  if (value is! String?) {
+    return defaultValue;
+  }
+
+  return Visibility.values.tryByName(json['value']);
+}
+
+extension EnumByNameWithDefault<T extends Enum> on Iterable<T> {
+  T tryByName(String? name, {T? defaultValue}) {
+    for (T value in this) {
+      if (value.name == name) return value;
+    }
+
+    if (defaultValue != null) return defaultValue;
+    throw ArgumentError.value(name, "name", "No enum value with that name");
+  }
+
+  T? byNameOrNull(String? name) {
+    for (T value in this) {
+      if (value.name == name) return value;
+    }
+
+    return null;
+  }
 }
 
 String? parseError(dynamic data) {

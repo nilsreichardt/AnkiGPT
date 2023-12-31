@@ -206,7 +206,7 @@ class _GenerateButton extends ConsumerWidget {
   }
 }
 
-class _GenerationErrorCard extends StatelessWidget {
+class _GenerationErrorCard extends ConsumerWidget {
   const _GenerationErrorCard({
     required this.message,
   });
@@ -214,10 +214,13 @@ class _GenerationErrorCard extends StatelessWidget {
   final String message;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: ErrorCard(text: message),
+      child: ErrorCard(
+        text: message,
+        onRetry: () => ref.read(generateNotifierProvider.notifier).submit(),
+      ),
     );
   }
 }

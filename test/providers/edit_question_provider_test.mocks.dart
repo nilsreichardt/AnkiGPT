@@ -267,6 +267,34 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
         returnValue: _i7.Stream<_i8.SessionDto?>.empty(),
         returnValueForMissingStub: _i7.Stream<_i8.SessionDto?>.empty(),
       ) as _i7.Stream<_i8.SessionDto?>);
+
+  @override
+  _i7.Future<_i8.SessionDto?> getSession(String? sessionId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getSession,
+          [sessionId],
+        ),
+        returnValue: _i7.Future<_i8.SessionDto?>.value(),
+        returnValueForMissingStub: _i7.Future<_i8.SessionDto?>.value(),
+      ) as _i7.Future<_i8.SessionDto?>);
+
+  @override
+  _i7.Future<void> setVisibility(
+    String? sessionId,
+    _i8.Visibility? visibility,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setVisibility,
+          [
+            sessionId,
+            visibility,
+          ],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [Logger].

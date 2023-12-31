@@ -1,5 +1,4 @@
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
-import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,9 +7,11 @@ class ErrorCard extends ConsumerWidget {
   const ErrorCard({
     super.key,
     required this.text,
+    this.onRetry,
   });
 
   final String? text;
+  final VoidCallback? onRetry;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,15 +57,15 @@ class ErrorCard extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      TextButton(
-                        onPressed: () {
-                          ref.read(generateNotifierProvider.notifier).submit();
-                        },
-                        style: TextButton.styleFrom(
-                          foregroundColor: Theme.of(context).colorScheme.error,
+                      if (onRetry != null)
+                        TextButton(
+                          onPressed: onRetry,
+                          style: TextButton.styleFrom(
+                            foregroundColor:
+                                Theme.of(context).colorScheme.error,
+                          ),
+                          child: const Text('RETRY'),
                         ),
-                        child: const Text('RETRY'),
-                      ),
                       const SizedBox(width: 12),
                       TextButton(
                         onPressed: () => launchUrl(

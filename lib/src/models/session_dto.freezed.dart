@@ -32,8 +32,7 @@ mixin _$SessionDto {
   @JsonKey(fromJson: parseError)
   String? get error => throw _privateConstructorUsedError;
   int get numberOfCards => throw _privateConstructorUsedError;
-  @JsonKey(
-      unknownEnumValue: Visibility.private, defaultValue: Visibility.private)
+  @JsonKey(fromJson: parseVisibility)
   Visibility get visibility => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -58,10 +57,7 @@ abstract class $SessionDtoCopyWith<$Res> {
       SessionStatus status,
       @JsonKey(fromJson: parseError) String? error,
       int numberOfCards,
-      @JsonKey(
-          unknownEnumValue: Visibility.private,
-          defaultValue: Visibility.private)
-      Visibility visibility});
+      @JsonKey(fromJson: parseVisibility) Visibility visibility});
 
   $InputCopyWith<$Res> get input;
   $CsvMetadataCopyWith<$Res>? get csv;
@@ -174,10 +170,7 @@ abstract class _$$SessionDtoImplCopyWith<$Res>
       SessionStatus status,
       @JsonKey(fromJson: parseError) String? error,
       int numberOfCards,
-      @JsonKey(
-          unknownEnumValue: Visibility.private,
-          defaultValue: Visibility.private)
-      Visibility visibility});
+      @JsonKey(fromJson: parseVisibility) Visibility visibility});
 
   @override
   $InputCopyWith<$Res> get input;
@@ -266,10 +259,7 @@ class _$SessionDtoImpl implements _SessionDto {
       required this.status,
       @JsonKey(fromJson: parseError) this.error,
       required this.numberOfCards,
-      @JsonKey(
-          unknownEnumValue: Visibility.private,
-          defaultValue: Visibility.private)
-      required this.visibility})
+      @JsonKey(fromJson: parseVisibility) required this.visibility})
       : _cards = cards;
 
   factory _$SessionDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -305,8 +295,7 @@ class _$SessionDtoImpl implements _SessionDto {
   @override
   final int numberOfCards;
   @override
-  @JsonKey(
-      unknownEnumValue: Visibility.private, defaultValue: Visibility.private)
+  @JsonKey(fromJson: parseVisibility)
   final Visibility visibility;
 
   @override
@@ -376,9 +365,7 @@ abstract class _SessionDto implements SessionDto {
       required final SessionStatus status,
       @JsonKey(fromJson: parseError) final String? error,
       required final int numberOfCards,
-      @JsonKey(
-          unknownEnumValue: Visibility.private,
-          defaultValue: Visibility.private)
+      @JsonKey(fromJson: parseVisibility)
       required final Visibility visibility}) = _$SessionDtoImpl;
 
   factory _SessionDto.fromJson(Map<String, dynamic> json) =
@@ -406,8 +393,7 @@ abstract class _SessionDto implements SessionDto {
   @override
   int get numberOfCards;
   @override
-  @JsonKey(
-      unknownEnumValue: Visibility.private, defaultValue: Visibility.private)
+  @JsonKey(fromJson: parseVisibility)
   Visibility get visibility;
   @override
   @JsonKey(ignore: true)

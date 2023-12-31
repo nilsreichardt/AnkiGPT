@@ -44,6 +44,7 @@ dependencies:
       ref: a535dcc522d7104c2719cc6f9c4d198c6501c443
   riverpod_annotation: ^2.1.1
   shared_preferences: ^2.2.2
+  shimmer: ^3.0.0
   universal_platform: ^1.0.0+1
   url_launcher: ^6.1.14
   uuid: ^4.2.2

@@ -23,6 +23,7 @@ import 'package:ankigpt/src/providers/delete_card_provider.dart';
 import 'package:ankigpt/src/providers/dislike_provider.dart';
 import 'package:ankigpt/src/providers/edit_answer_provider.dart';
 import 'package:ankigpt/src/providers/edit_question_provider.dart';
+import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/like_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
@@ -58,7 +59,13 @@ class ResultSection extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _Subtitle(language: view.language),
-                if (view.hasError) ErrorCard(text: view.error),
+                if (view.hasError)
+                  ErrorCard(
+                    text: view.error,
+                    onRetry: () {
+                      ref.read(generateNotifierProvider.notifier).submit();
+                    },
+                  ),
                 const CardsSearchBar(),
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 275),

@@ -3,7 +3,7 @@ import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/watch_view.dart';
-import 'package:ankigpt/src/pages/session_page/result_section.dart';
+import 'package:ankigpt/src/pages/deck_page/result_section.dart';
 import 'package:ankigpt/src/providers/cards_list_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/shared_preferences_provider.dart';

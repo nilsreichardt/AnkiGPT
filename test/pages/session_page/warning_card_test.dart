@@ -1,5 +1,5 @@
 import 'package:adaptive_test/adaptive_test.dart';
-import 'package:ankigpt/src/pages/session_page/warning_card.dart';
+import 'package:ankigpt/src/pages/deck_page/warning_card.dart';
 import 'package:ankigpt/src/providers/shared_preferences_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

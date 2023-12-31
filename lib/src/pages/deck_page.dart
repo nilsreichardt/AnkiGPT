@@ -1,6 +1,6 @@
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/home_page/controls.dart';
-import 'package:ankigpt/src/pages/session_page/result_section.dart';
+import 'package:ankigpt/src/pages/deck_page/result_section.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/input_text_field.dart';

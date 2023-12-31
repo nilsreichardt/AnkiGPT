@@ -4,7 +4,7 @@ import 'package:animations/animations.dart';
 import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
-import 'package:ankigpt/src/pages/session_page/error_card.dart';
+import 'package:ankigpt/src/pages/deck_page/error_card.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/cancel_text_button.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';

@@ -29,7 +29,7 @@ import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/total_cards_counter_provider.dart';
 import 'package:ankigpt/src/providers/watch_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Visibility;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -151,6 +151,9 @@ class _ResultList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final sessionId = ref.watch(sessionIdProvider)!;
+    final isOwner =
+        ref.watch(watchProvider(sessionId).select((v) => v.isOwner)) ?? true;
     final totalCardsCount = ref.watch(totalCardsCountProvider);
     if (totalCardsCount == 0) {
       return const _EmptyList();
@@ -173,6 +176,7 @@ class _ResultList extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: ResultCard(
+                    allowEdit: isOwner,
                     key: ValueKey(card.id),
                     card: card,
                     onDeleted: (cardId) {
@@ -273,10 +277,12 @@ class ResultCard extends ConsumerStatefulWidget {
     super.key,
     required this.card,
     required this.onDeleted,
+    required this.allowEdit,
   });
 
   final AnkiCard card;
   final ValueChanged<CardId> onDeleted;
+  final bool allowEdit;
 
   @override
   ConsumerState<ResultCard> createState() => _ResultCardState();
@@ -308,20 +314,23 @@ class _ResultCardState extends ConsumerState<ResultCard> {
                   _CardQuestion(
                     question: widget.card.question,
                     cardId: widget.card.id,
+                    allowEdit: widget.allowEdit,
                   ),
-                  _Controls(
-                    // We always show the controls on mobile because there is no
-                    // hover state.
-                    isVisible: hovering || isMobile,
-                    cardId: widget.card.id,
-                    onDeleted: widget.onDeleted,
-                    answer: widget.card.answer,
-                    question: widget.card.question,
-                  )
+                  if (widget.allowEdit)
+                    _Controls(
+                      // We always show the controls on mobile because there is no
+                      // hover state.
+                      isVisible: hovering || isMobile,
+                      cardId: widget.card.id,
+                      onDeleted: widget.onDeleted,
+                      answer: widget.card.answer,
+                      question: widget.card.question,
+                    )
                 ],
               ),
               const SizedBox(height: 4),
               _CardAnswer(
+                allowEdit: widget.allowEdit,
                 answer: widget.card.answer,
                 cardId: widget.card.id,
               ),
@@ -339,12 +348,14 @@ class _CardTextField extends StatefulWidget {
     required this.onChanged,
     required this.style,
     required this.controller,
+    required this.allowEdit,
   });
 
   final ValueChanged<String> onChanged;
   final String text;
   final TextStyle style;
   final TextEditingController controller;
+  final bool allowEdit;
 
   @override
   State<_CardTextField> createState() => _CardTextFieldState();
@@ -361,6 +372,16 @@ class _CardTextFieldState extends State<_CardTextField> {
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.allowEdit) {
+      return Padding(
+        padding: const EdgeInsets.all(12),
+        child: Text(
+          widget.text,
+          style: Theme.of(context).textTheme.bodyLarge?.merge(widget.style),
+        ),
+      );
+    }
+
     return MouseRegion(
       onEnter: (_) => switchHovering(),
       onExit: (_) => switchHovering(),
@@ -385,10 +406,12 @@ class _CardAnswer extends ConsumerStatefulWidget {
   const _CardAnswer({
     required this.cardId,
     required this.answer,
+    required this.allowEdit,
   });
 
   final CardId cardId;
   final String answer;
+  final bool allowEdit;
 
   @override
   ConsumerState<_CardAnswer> createState() => _CardAnswerState();
@@ -414,6 +437,7 @@ class _CardAnswerState extends ConsumerState<_CardAnswer> {
   @override
   Widget build(BuildContext context) {
     return _CardTextField(
+      allowEdit: widget.allowEdit,
       controller: controller,
       onChanged: (text) {
         final sessionId = ref.read(sessionIdProvider)!;
@@ -436,10 +460,12 @@ class _CardQuestion extends ConsumerStatefulWidget {
   const _CardQuestion({
     required this.cardId,
     required this.question,
+    required this.allowEdit,
   });
 
   final CardId cardId;
   final String question;
+  final bool allowEdit;
 
   @override
   ConsumerState<_CardQuestion> createState() => _CardQuestionState();
@@ -458,6 +484,7 @@ class _CardQuestionState extends ConsumerState<_CardQuestion> {
   Widget build(BuildContext context) {
     return Expanded(
       child: _CardTextField(
+        allowEdit: widget.allowEdit,
         controller: controller,
         text: widget.question,
         onChanged: (text) {

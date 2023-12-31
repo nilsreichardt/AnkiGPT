@@ -6,6 +6,7 @@ import 'package:ankigpt/src/models/csv_metadata.dart';
 import 'package:ankigpt/src/models/input_type.dart';
 import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_id.dart';
+import 'package:ankigpt/src/models/user_id.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -25,6 +26,7 @@ class SessionDto with _$SessionDto {
     @JsonKey(fromJson: parseError) String? error,
     required int numberOfCards,
     @JsonKey(fromJson: parseVisibility) required Visibility visibility,
+    required UserId userId,
   }) = _SessionDto;
 
   factory SessionDto.fromJson(Map<String, dynamic> json) =>

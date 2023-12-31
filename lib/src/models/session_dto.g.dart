@@ -20,6 +20,7 @@ _$SessionDtoImpl _$$SessionDtoImplFromJson(Map<String, dynamic> json) =>
       error: parseError(json['error']),
       numberOfCards: json['numberOfCards'] as int,
       visibility: parseVisibility(json['visibility'] as Map<String, dynamic>?),
+      userId: json['userId'] as String,
     );
 
 Map<String, dynamic> _$$SessionDtoImplToJson(_$SessionDtoImpl instance) =>
@@ -34,6 +35,7 @@ Map<String, dynamic> _$$SessionDtoImplToJson(_$SessionDtoImpl instance) =>
       'error': instance.error,
       'numberOfCards': instance.numberOfCards,
       'visibility': _$VisibilityEnumMap[instance.visibility]!,
+      'userId': instance.userId,
     };
 
 const _$LanguageEnumMap = {

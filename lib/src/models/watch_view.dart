@@ -1,4 +1,5 @@
 import 'package:ankigpt/src/models/language.dart';
+import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -16,6 +17,8 @@ class WatchView with _$WatchView {
     String? fileName,
     SessionId? sessionId,
     String? inputText,
+    // Defines if the user is the owner of the session.
+    bool? isOwner,
   }) = _WatchView;
 
   bool get hasFile => fileName != null;

@@ -55,6 +55,9 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
 
+      - name: Install Firebase CLI
+        run: npm install firebase-tools@13.0.2
+
       - name: Build
         run: |
           flutter build web \
@@ -62,21 +65,14 @@ jobs:
             --dart-define=RELEASE_DATE="$(date +"%B %e %Y")" \
             --dart-define=FLAVOR="${{ matrix.environment.flavor }}"
 
-      - id: "auth"
-        uses: "google-github-actions/auth@67e9c72af6e0492df856527b474995862b7b6591"
+      - id: auth
+        uses: google-github-actions/auth@67e9c72af6e0492df856527b474995862b7b6591
         with:
           workload_identity_provider: "projects/${{ matrix.environment.projectNumber }}/locations/global/workloadIdentityPools/github/providers/github-provider"
-          service_account: "github-action-644087301@${{ matrix.environment.projectId }}.iam.gserviceaccount.com"
+          service_account: "firebase-hosting-deployer@${{ matrix.environment.projectId }}.iam.gserviceaccount.com"
 
-      # From https://github.com/FirebaseExtended/action-hosting-deploy/issues/174#issuecomment-1312272238
-      - name: Set SERVICE_ACCOUNT_KEY to environment variables
+      - name: Deploy
         run: |
-          echo "SERVICE_ACCOUNT_KEY=$(cat "${{ steps.auth.outputs.credentials_file_path }}" | tr -d '\n')" >> $GITHUB_ENV
-
-      - uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
-        with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ env.SERVICE_ACCOUNT_KEY }}"
-          channelId: live
-          target: ankigpt-app
-          projectId: "${{ matrix.environment.projectId }}"
+          firebase deploy \
+            -P ${{ matrix.environment.projectId }} \
+            -m "Deploy from ${{ github.repository }} ${{ github.sha }}"

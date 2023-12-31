@@ -14,7 +14,7 @@ jobs:
 
       - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
       - name: Analyze
@@ -35,7 +35,7 @@ jobs:
 
       - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
       - name: Custom Lint
@@ -73,7 +73,7 @@ jobs:
 
       - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
       - name: Test
@@ -114,7 +114,7 @@ jobs:
 
       - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
       - name: Build

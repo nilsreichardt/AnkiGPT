@@ -200,7 +200,7 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
     return _TierBase(
       name: 'Plus',
       price: '€9.99',
-      priceDescription: 'Lifetime',
+      priceDescription: 'Lifetime (one-time payment)',
       points: const [
         PointData('Unlimited cards per month'),
         PointData('Up to 150 cards per request'),

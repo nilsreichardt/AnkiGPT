@@ -3,6 +3,7 @@ import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/cancel_text_button.dart';
 import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
+import 'package:ankigpt/src/providers/app_user_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/options_provider.dart';
@@ -155,7 +156,14 @@ class _ModelOption extends StatelessWidget {
       title: Text('Model'),
       subtitle: Text(
           'Specify the LLM model that will be used to generate the flashcards. A better model will generate better flashcards, but will take longer to generate.'),
-      child: ModelDropdown(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ModelDropdown(),
+          _Gpt4Usage(),
+        ],
+      ),
     );
   }
 }
@@ -183,15 +191,13 @@ class ModelDropdown extends ConsumerWidget {
                     const SizedBox(width: 12),
                     const SizedBox(
                       width: 38,
-                      child: PlusBadge(
-                        withText: false,
-                      ),
+                      child: PlusBadge(withText: false),
                     )
                   ]
                 ],
               ),
             ),
-          )
+          ),
         ],
         onChanged: (v) {
           if (v != null) {
@@ -203,6 +209,40 @@ class ModelDropdown extends ConsumerWidget {
           }
         },
       ),
+    );
+  }
+}
+
+class _Gpt4Usage extends ConsumerWidget {
+  const _Gpt4Usage();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final hasPlus = ref.watch(hasPlusProvider);
+    if (!hasPlus) return const SizedBox();
+
+    final gpt4Usage = ref.watch(appUserProvider
+        .select((v) => v.value?.usage.generatedCardsWithGpt4CurrentMonth));
+    if (gpt4Usage == null) return const SizedBox();
+
+    final selectedModel =
+        ref.watch(optionsControllerProvider.select((v) => v.model));
+    if (selectedModel != Model.gpt4) return const SizedBox();
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: selectedModel == Model.gpt4
+          ? Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                'You have used $gpt4Usage of your $plusGpt4UsageLimitPerMonth monthly GPT-4 limit.',
+                style: TextStyle(
+                  color: Colors.grey[600]!,
+                  fontSize: 12,
+                ),
+              ),
+            )
+          : const SizedBox(),
     );
   }
 }

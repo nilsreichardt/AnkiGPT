@@ -204,7 +204,7 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
       priceDescription: 'Lifetime (one-time payment)',
       points: const [
         PointData('Unlimited cards with GPT-3.5 per month'),
-        PointData('150 cards with GPT-4 per month'),
+        PointData('$plusGpt4UsageLimitPerMonth cards with GPT-4 per month'),
         PointData('Up to 150 cards per deck'),
         PointData('Up to 500,000 input characters (~ 200 pages) per request'),
         PointData(

@@ -6,6 +6,7 @@ import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
+import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
@@ -86,7 +87,8 @@ class PlusAdvantages extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SellingPoint(text: 'Unlimited cards with GPT-3.5 per month'),
-        SellingPoint(text: '150 cards with GPT-4 per month'),
+        SellingPoint(
+            text: '$plusGpt4UsageLimitPerMonth cards with GPT-4 per month'),
         SellingPoint(text: 'Up to 150 cards per deck'),
         SellingPoint(
             text: 'Up to 500,000 input characters (~ 200 pages) per request'),

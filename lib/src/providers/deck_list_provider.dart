@@ -26,6 +26,7 @@ Stream<List<DeckPreview>> deckList(DeckListRef ref) {
               name: name,
               numberOfCards: dto.numberOfCards,
               sessionId: dto.id,
+              model: dto.model,
             );
           }
 
@@ -35,6 +36,7 @@ Stream<List<DeckPreview>> deckList(DeckListRef ref) {
               name: name,
               numberOfCards: dto.numberOfCards,
               sessionId: dto.id,
+              model: dto.model,
             );
           }
 
@@ -47,6 +49,7 @@ Stream<List<DeckPreview>> deckList(DeckListRef ref) {
             questions:
                 questions.length < 5 ? questions : questions.sublist(0, 5),
             sessionId: dto.id,
+            model: dto.model,
           );
         }).toList() ??
         [],

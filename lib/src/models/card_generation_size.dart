@@ -30,7 +30,7 @@ enum CardGenrationSize {
   }
 
   String getUiText() {
-    return '${toInt()} cards';
+    return '${toInt()}';
   }
 
   String getDurationText() {

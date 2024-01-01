@@ -520,7 +520,7 @@ class _AvatarCard extends ConsumerWidget {
                     ),
                     if (!view.hasPlus) ...[
                       const SizedBox(height: 32),
-                      _Usage(
+                      _FreeUsage(
                         generatedCardsCurrentMonth:
                             view.generatedCardsCurrentMonth,
                         generatedMnemonicsCurrentMonth:
@@ -568,8 +568,8 @@ class _AvatarCard extends ConsumerWidget {
   }
 }
 
-class _Usage extends StatelessWidget {
-  const _Usage({
+class _FreeUsage extends StatelessWidget {
+  const _FreeUsage({
     required this.generatedCardsCurrentMonth,
     required this.generatedMnemonicsCurrentMonth,
   });
@@ -597,7 +597,7 @@ class _Usage extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-              'Limit: $freeUsageLimitPerMonth cards per month, ${(percentage * 100).toStringAsFixed(0)}% used'),
+              'Limit: $freeUsageLimitPerMonth cards with per month, ${(percentage * 100).toStringAsFixed(0)}% used'),
           const SizedBox(height: 6),
           LinearProgressIndicator(
             value: percentage,

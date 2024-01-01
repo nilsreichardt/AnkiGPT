@@ -21,7 +21,7 @@ final hasPickedFileProvider = AutoDisposeProvider<bool>.internal(
 );
 
 typedef HasPickedFileRef = AutoDisposeProviderRef<bool>;
-String _$generateNotifierHash() => r'cdea7e3551bbab66938aa375a69264d445ed904d';
+String _$generateNotifierHash() => r'51f355ad48784a3d032938c347068ebaf6e2c3f8';
 
 /// See also [GenerateNotifier].
 @ProviderFor(GenerateNotifier)

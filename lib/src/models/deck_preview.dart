@@ -1,3 +1,4 @@
+import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -10,6 +11,7 @@ class DeckPreview with _$DeckPreview {
     required DateTime createdAt,
     required String name,
     required SessionId sessionId,
+    required Model model,
     required int numberOfCards,
   }) = DeckPreviewCreated;
   const factory DeckPreview.loading({
@@ -17,6 +19,7 @@ class DeckPreview with _$DeckPreview {
     required String name,
     required int numberOfCards,
     required SessionId sessionId,
+    required Model model,
   }) = DeckPreviewLoading;
   const factory DeckPreview.error({
     required String message,
@@ -24,5 +27,6 @@ class DeckPreview with _$DeckPreview {
     required String name,
     required int numberOfCards,
     required SessionId sessionId,
+    required Model model,
   }) = DeckPreviewError;
 }

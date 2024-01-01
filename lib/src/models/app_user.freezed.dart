@@ -121,7 +121,9 @@ class _$AppUserImpl extends _AppUser {
   const _$AppUserImpl(
       {this.hasPlus = false,
       this.usage = const Usage(
-          generatedCardsCurrentMonth: 0, generatedMnemonicsCurrentMonth: 0)})
+          generatedCardsCurrentMonth: 0,
+          generatedMnemonicsCurrentMonth: 0,
+          generatedCardsWithGpt4CurrentMonth: 0)})
       : super._();
 
   factory _$AppUserImpl.fromJson(Map<String, dynamic> json) =>
@@ -191,6 +193,8 @@ Usage _$UsageFromJson(Map<String, dynamic> json) {
 mixin _$Usage {
   int get generatedCardsCurrentMonth => throw _privateConstructorUsedError;
   int get generatedMnemonicsCurrentMonth => throw _privateConstructorUsedError;
+  int get generatedCardsWithGpt4CurrentMonth =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -203,7 +207,9 @@ abstract class $UsageCopyWith<$Res> {
       _$UsageCopyWithImpl<$Res, Usage>;
   @useResult
   $Res call(
-      {int generatedCardsCurrentMonth, int generatedMnemonicsCurrentMonth});
+      {int generatedCardsCurrentMonth,
+      int generatedMnemonicsCurrentMonth,
+      int generatedCardsWithGpt4CurrentMonth});
 }
 
 /// @nodoc
@@ -221,6 +227,7 @@ class _$UsageCopyWithImpl<$Res, $Val extends Usage>
   $Res call({
     Object? generatedCardsCurrentMonth = null,
     Object? generatedMnemonicsCurrentMonth = null,
+    Object? generatedCardsWithGpt4CurrentMonth = null,
   }) {
     return _then(_value.copyWith(
       generatedCardsCurrentMonth: null == generatedCardsCurrentMonth
@@ -230,6 +237,11 @@ class _$UsageCopyWithImpl<$Res, $Val extends Usage>
       generatedMnemonicsCurrentMonth: null == generatedMnemonicsCurrentMonth
           ? _value.generatedMnemonicsCurrentMonth
           : generatedMnemonicsCurrentMonth // ignore: cast_nullable_to_non_nullable
+              as int,
+      generatedCardsWithGpt4CurrentMonth: null ==
+              generatedCardsWithGpt4CurrentMonth
+          ? _value.generatedCardsWithGpt4CurrentMonth
+          : generatedCardsWithGpt4CurrentMonth // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -243,7 +255,9 @@ abstract class _$$UsageImplCopyWith<$Res> implements $UsageCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int generatedCardsCurrentMonth, int generatedMnemonicsCurrentMonth});
+      {int generatedCardsCurrentMonth,
+      int generatedMnemonicsCurrentMonth,
+      int generatedCardsWithGpt4CurrentMonth});
 }
 
 /// @nodoc
@@ -259,6 +273,7 @@ class __$$UsageImplCopyWithImpl<$Res>
   $Res call({
     Object? generatedCardsCurrentMonth = null,
     Object? generatedMnemonicsCurrentMonth = null,
+    Object? generatedCardsWithGpt4CurrentMonth = null,
   }) {
     return _then(_$UsageImpl(
       generatedCardsCurrentMonth: null == generatedCardsCurrentMonth
@@ -269,6 +284,11 @@ class __$$UsageImplCopyWithImpl<$Res>
           ? _value.generatedMnemonicsCurrentMonth
           : generatedMnemonicsCurrentMonth // ignore: cast_nullable_to_non_nullable
               as int,
+      generatedCardsWithGpt4CurrentMonth: null ==
+              generatedCardsWithGpt4CurrentMonth
+          ? _value.generatedCardsWithGpt4CurrentMonth
+          : generatedCardsWithGpt4CurrentMonth // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -278,7 +298,8 @@ class __$$UsageImplCopyWithImpl<$Res>
 class _$UsageImpl implements _Usage {
   const _$UsageImpl(
       {this.generatedCardsCurrentMonth = 0,
-      this.generatedMnemonicsCurrentMonth = 0});
+      this.generatedMnemonicsCurrentMonth = 0,
+      this.generatedCardsWithGpt4CurrentMonth = 0});
 
   factory _$UsageImpl.fromJson(Map<String, dynamic> json) =>
       _$$UsageImplFromJson(json);
@@ -289,10 +310,13 @@ class _$UsageImpl implements _Usage {
   @override
   @JsonKey()
   final int generatedMnemonicsCurrentMonth;
+  @override
+  @JsonKey()
+  final int generatedCardsWithGpt4CurrentMonth;
 
   @override
   String toString() {
-    return 'Usage(generatedCardsCurrentMonth: $generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth: $generatedMnemonicsCurrentMonth)';
+    return 'Usage(generatedCardsCurrentMonth: $generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth: $generatedMnemonicsCurrentMonth, generatedCardsWithGpt4CurrentMonth: $generatedCardsWithGpt4CurrentMonth)';
   }
 
   @override
@@ -307,13 +331,17 @@ class _$UsageImpl implements _Usage {
             (identical(other.generatedMnemonicsCurrentMonth,
                     generatedMnemonicsCurrentMonth) ||
                 other.generatedMnemonicsCurrentMonth ==
-                    generatedMnemonicsCurrentMonth));
+                    generatedMnemonicsCurrentMonth) &&
+            (identical(other.generatedCardsWithGpt4CurrentMonth,
+                    generatedCardsWithGpt4CurrentMonth) ||
+                other.generatedCardsWithGpt4CurrentMonth ==
+                    generatedCardsWithGpt4CurrentMonth));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth);
+  int get hashCode => Object.hash(runtimeType, generatedCardsCurrentMonth,
+      generatedMnemonicsCurrentMonth, generatedCardsWithGpt4CurrentMonth);
 
   @JsonKey(ignore: true)
   @override
@@ -332,7 +360,8 @@ class _$UsageImpl implements _Usage {
 abstract class _Usage implements Usage {
   const factory _Usage(
       {final int generatedCardsCurrentMonth,
-      final int generatedMnemonicsCurrentMonth}) = _$UsageImpl;
+      final int generatedMnemonicsCurrentMonth,
+      final int generatedCardsWithGpt4CurrentMonth}) = _$UsageImpl;
 
   factory _Usage.fromJson(Map<String, dynamic> json) = _$UsageImpl.fromJson;
 
@@ -340,6 +369,8 @@ abstract class _Usage implements Usage {
   int get generatedCardsCurrentMonth;
   @override
   int get generatedMnemonicsCurrentMonth;
+  @override
+  int get generatedCardsWithGpt4CurrentMonth;
   @override
   @JsonKey(ignore: true)
   _$$UsageImplCopyWith<_$UsageImpl> get copyWith =>

@@ -9,7 +9,7 @@ import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/analytics_provider.dart';
-import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
+import 'package:ankigpt/src/providers/options_provider.dart';
 import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
 import 'package:ankigpt/src/providers/current_month_usage_provider.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
@@ -58,11 +58,11 @@ class GenerateNotifier extends _$GenerateNotifier {
   }
 
   Future<void> submit() async {
-    final size = ref.read(generationSizeProvider);
+    final options = ref.read(optionsControllerProvider);
 
     _logger.d("Generating cards...");
 
-    if (!_hasPlus && size.isPlus()) {
+    if (!_hasPlus && options.hasPlusOption()) {
       _logPlusRequiredToGenerate();
       throw PlusMembershipRequiredException();
     }
@@ -72,7 +72,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       _throwIfTextInputIsInvalid(text);
     }
 
-    _throwIfFreeLimitReached(size);
+    _throwIfFreeLimitReached(options.size);
 
     if (!ref.read(hasAccount2Provider)) {
       ref.read(wantsToGenerateProvider.notifier).set(true);
@@ -101,8 +101,9 @@ class GenerateNotifier extends _$GenerateNotifier {
       }
 
       await _sessionRepository.startSession(
-        numberOfCards: size.toInt(),
+        numberOfCards: options.size.toInt(),
         sessionId: sessionId,
+        model: options.model,
         input: Input(
           text: text.isEmpty ? null : text,
           type: _hasPickedFile ? InputType.file : InputType.text,
@@ -114,7 +115,7 @@ class GenerateNotifier extends _$GenerateNotifier {
               : null,
         ),
       );
-      _logStartSession(size);
+      _logStartSession(options.size);
 
       _logger.d("Started session with id: $sessionId");
 
@@ -124,7 +125,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       _pickedFile = null;
       _textEditingController.clear();
       _pdfPassword = null;
-      ref.read(generationSizeProvider.notifier).set(GenerationSize.defaultSize);
+      ref.read(optionsControllerProvider.notifier).reset();
 
       final router = ref.read(routerProvider);
       router.go('/deck/$sessionId');
@@ -293,11 +294,10 @@ class GenerateNotifier extends _$GenerateNotifier {
 
     // Maybe increase the size, when the current size is the default one. Slides are usually longer so we can assume
     // that the user wants to generate more cards.
-    final size = ref.read(generationSizeProvider);
+    final size = ref.read(optionsControllerProvider).size;
     if (!size.isAvailableForFiles()) {
-      ref
-          .read(generationSizeProvider.notifier)
-          .set(_hasPlus ? CardGenrationSize.fifty : CardGenrationSize.twenty);
+      ref.read(optionsControllerProvider.notifier).setSize(
+          _hasPlus ? CardGenrationSize.fifty : CardGenrationSize.twenty);
     }
   }
 

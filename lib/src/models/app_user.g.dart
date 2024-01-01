@@ -11,7 +11,9 @@ _$AppUserImpl _$$AppUserImplFromJson(Map<String, dynamic> json) =>
       hasPlus: json['hasPlus'] as bool? ?? false,
       usage: json['usage'] == null
           ? const Usage(
-              generatedCardsCurrentMonth: 0, generatedMnemonicsCurrentMonth: 0)
+              generatedCardsCurrentMonth: 0,
+              generatedMnemonicsCurrentMonth: 0,
+              generatedCardsWithGpt4CurrentMonth: 0)
           : Usage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
@@ -26,10 +28,14 @@ _$UsageImpl _$$UsageImplFromJson(Map<String, dynamic> json) => _$UsageImpl(
           json['generatedCardsCurrentMonth'] as int? ?? 0,
       generatedMnemonicsCurrentMonth:
           json['generatedMnemonicsCurrentMonth'] as int? ?? 0,
+      generatedCardsWithGpt4CurrentMonth:
+          json['generatedCardsWithGpt4CurrentMonth'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$UsageImplToJson(_$UsageImpl instance) =>
     <String, dynamic>{
       'generatedCardsCurrentMonth': instance.generatedCardsCurrentMonth,
       'generatedMnemonicsCurrentMonth': instance.generatedMnemonicsCurrentMonth,
+      'generatedCardsWithGpt4CurrentMonth':
+          instance.generatedCardsWithGpt4CurrentMonth,
     };

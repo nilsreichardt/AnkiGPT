@@ -5,6 +5,7 @@ import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/csv_metadata.dart';
 import 'package:ankigpt/src/models/input_type.dart';
 import 'package:ankigpt/src/models/language.dart';
+import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,6 +28,8 @@ class SessionDto with _$SessionDto {
     required int numberOfCards,
     @JsonKey(fromJson: parseVisibility) required Visibility visibility,
     required UserId userId,
+    @JsonKey(defaultValue: Model.gpt3_5, unknownEnumValue: Model.gpt3_5)
+    required Model model,
   }) = _SessionDto;
 
   factory SessionDto.fromJson(Map<String, dynamic> json) =>

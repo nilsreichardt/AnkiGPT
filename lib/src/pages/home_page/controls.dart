@@ -1,20 +1,17 @@
 import 'dart:math';
 
 import 'package:animations/animations.dart';
-import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
-import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/deck_page/error_card.dart';
+import 'package:ankigpt/src/pages/home_page/options_dialog.dart';
+import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
-import 'package:ankigpt/src/pages/widgets/cancel_text_button.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
-import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
-import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
+import 'package:ankigpt/src/providers/options_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
-import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/total_cards_counter_provider.dart';
@@ -117,10 +114,10 @@ class _OptionsButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Keep the provider alive
-    ref.watch(generationSizeProvider);
+    ref.watch(optionsControllerProvider);
 
     return AnkiGptElevatedButton.icon(
-      tooltip: 'Edit options (e.g. number of cards)',
+      tooltip: 'Edit options (e.g. number of cards, model)',
       icon: const Icon(Icons.tune),
       label: const Text('Options'),
       border: Border.all(
@@ -132,7 +129,7 @@ class _OptionsButton extends ConsumerWidget {
       onPressed: () {
         showModal(
           context: context,
-          builder: (context) => const _OptionsDialog(),
+          builder: (context) => const OptionsDialog(),
           routeSettings: const RouteSettings(name: '/options'),
         );
       },
@@ -187,14 +184,14 @@ class _GenerateButton extends ConsumerWidget {
     final isGenerating =
         ref.watch(generateNotifierProvider) is GenerationStateLoading;
 
-    final size = ref.watch(generationSizeProvider);
+    final options = ref.watch(optionsControllerProvider);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       child: AnkiGptElevatedButton.icon(
         key: ValueKey(isGenerating),
         tooltip: isGenerating
             ? 'Generating...'
-            : 'Generate ${size.getUiText()} flashcards',
+            : 'Generate ${options.size.getUiText()} flashcards (${options.model.getUiText()})',
         icon: isGenerating ? null : const Icon(Icons.play_arrow),
         label: isGenerating
             ? const _GenerateButtonLoadingIndicator()
@@ -383,106 +380,6 @@ class _WarningAfterDownload extends ConsumerWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _OptionsDialog extends StatelessWidget {
-  const _OptionsDialog();
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Options'),
-      content: ConstrainedBox(
-        constraints: const BoxConstraints(
-          minWidth: 300,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'Number of cards',
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              'Specify the number of cards to generate.',
-              style: TextStyle(
-                color: Colors.grey[600]!,
-                fontSize: 12,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const NumberOfCardsDropdown(),
-          ],
-        ),
-      ),
-      actions: [
-        const CancelTextButton(),
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text('OK'),
-        ),
-      ],
-    );
-  }
-}
-
-class NumberOfCardsDropdown extends ConsumerWidget {
-  const NumberOfCardsDropdown({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final hasPlus = ref.watch(hasPlusProvider);
-    final hasPickedFile = ref.watch(pickedFileProvider) != null;
-
-    final availableSizes = CardGenrationSize.values
-        .where((c) => hasPickedFile ? c.isAvailableForFiles() : true)
-        .toList();
-
-    return SizedBox(
-      width: double.infinity,
-      child: DropdownButtonFormField<CardGenrationSize>(
-        value: ref.watch(generationSizeProvider),
-        items: [
-          ...availableSizes.map(
-            (c) => DropdownMenuItem(
-              value: c,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(c.getUiText()),
-                  if (!hasPlus && c.isPlus()) ...[
-                    const SizedBox(width: 12),
-                    const SizedBox(
-                      width: 38,
-                      child: PlusBadge(
-                        withText: false,
-                      ),
-                    )
-                  ]
-                ],
-              ),
-            ),
-          )
-        ],
-        onChanged: (v) {
-          if (v != null) {
-            if (!hasPlus && v.isPlus()) {
-              showPlusDialog(context);
-            }
-
-            ref.read(generationSizeProvider.notifier).set(v);
-          }
-        },
       ),
     );
   }

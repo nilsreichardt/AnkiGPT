@@ -6,7 +6,7 @@ part of 'watch_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$watchHash() => r'11ab676f96d613b0d68f8bc4555fcf18e3bd3bde';
+String _$watchHash() => r'165a61bc01459c1924f3437a6d99fb1cc487e2e0';
 
 /// Copied from Dart SDK
 class _SystemHash {

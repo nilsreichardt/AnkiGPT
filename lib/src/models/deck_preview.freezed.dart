@@ -19,43 +19,44 @@ mixin _$DeckPreview {
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get sessionId => throw _privateConstructorUsedError;
+  Model get model => throw _privateConstructorUsedError;
   int get numberOfCards => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<String> questions, DateTime createdAt,
-            String name, String sessionId, int numberOfCards)
+            String name, String sessionId, Model model, int numberOfCards)
         created,
     required TResult Function(DateTime createdAt, String name,
-            int numberOfCards, String sessionId)
+            int numberOfCards, String sessionId, Model model)
         loading,
     required TResult Function(String message, DateTime createdAt, String name,
-            int numberOfCards, String sessionId)
+            int numberOfCards, String sessionId, Model model)
         error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<String> questions, DateTime createdAt, String name,
-            String sessionId, int numberOfCards)?
+            String sessionId, Model model, int numberOfCards)?
         created,
     TResult? Function(DateTime createdAt, String name, int numberOfCards,
-            String sessionId)?
+            String sessionId, Model model)?
         loading,
     TResult? Function(String message, DateTime createdAt, String name,
-            int numberOfCards, String sessionId)?
+            int numberOfCards, String sessionId, Model model)?
         error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<String> questions, DateTime createdAt, String name,
-            String sessionId, int numberOfCards)?
+            String sessionId, Model model, int numberOfCards)?
         created,
     TResult Function(DateTime createdAt, String name, int numberOfCards,
-            String sessionId)?
+            String sessionId, Model model)?
         loading,
     TResult Function(String message, DateTime createdAt, String name,
-            int numberOfCards, String sessionId)?
+            int numberOfCards, String sessionId, Model model)?
         error,
     required TResult orElse(),
   }) =>
@@ -95,7 +96,11 @@ abstract class $DeckPreviewCopyWith<$Res> {
       _$DeckPreviewCopyWithImpl<$Res, DeckPreview>;
   @useResult
   $Res call(
-      {DateTime createdAt, String name, String sessionId, int numberOfCards});
+      {DateTime createdAt,
+      String name,
+      String sessionId,
+      Model model,
+      int numberOfCards});
 }
 
 /// @nodoc
@@ -114,6 +119,7 @@ class _$DeckPreviewCopyWithImpl<$Res, $Val extends DeckPreview>
     Object? createdAt = null,
     Object? name = null,
     Object? sessionId = null,
+    Object? model = null,
     Object? numberOfCards = null,
   }) {
     return _then(_value.copyWith(
@@ -129,6 +135,10 @@ class _$DeckPreviewCopyWithImpl<$Res, $Val extends DeckPreview>
           ? _value.sessionId
           : sessionId // ignore: cast_nullable_to_non_nullable
               as String,
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as Model,
       numberOfCards: null == numberOfCards
           ? _value.numberOfCards
           : numberOfCards // ignore: cast_nullable_to_non_nullable
@@ -150,6 +160,7 @@ abstract class _$$DeckPreviewCreatedImplCopyWith<$Res>
       DateTime createdAt,
       String name,
       String sessionId,
+      Model model,
       int numberOfCards});
 }
 
@@ -168,6 +179,7 @@ class __$$DeckPreviewCreatedImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? name = null,
     Object? sessionId = null,
+    Object? model = null,
     Object? numberOfCards = null,
   }) {
     return _then(_$DeckPreviewCreatedImpl(
@@ -187,6 +199,10 @@ class __$$DeckPreviewCreatedImplCopyWithImpl<$Res>
           ? _value.sessionId
           : sessionId // ignore: cast_nullable_to_non_nullable
               as String,
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as Model,
       numberOfCards: null == numberOfCards
           ? _value.numberOfCards
           : numberOfCards // ignore: cast_nullable_to_non_nullable
@@ -203,6 +219,7 @@ class _$DeckPreviewCreatedImpl implements DeckPreviewCreated {
       required this.createdAt,
       required this.name,
       required this.sessionId,
+      required this.model,
       required this.numberOfCards})
       : _questions = questions;
 
@@ -221,11 +238,13 @@ class _$DeckPreviewCreatedImpl implements DeckPreviewCreated {
   @override
   final String sessionId;
   @override
+  final Model model;
+  @override
   final int numberOfCards;
 
   @override
   String toString() {
-    return 'DeckPreview.created(questions: $questions, createdAt: $createdAt, name: $name, sessionId: $sessionId, numberOfCards: $numberOfCards)';
+    return 'DeckPreview.created(questions: $questions, createdAt: $createdAt, name: $name, sessionId: $sessionId, model: $model, numberOfCards: $numberOfCards)';
   }
 
   @override
@@ -240,6 +259,7 @@ class _$DeckPreviewCreatedImpl implements DeckPreviewCreated {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.sessionId, sessionId) ||
                 other.sessionId == sessionId) &&
+            (identical(other.model, model) || other.model == model) &&
             (identical(other.numberOfCards, numberOfCards) ||
                 other.numberOfCards == numberOfCards));
   }
@@ -251,6 +271,7 @@ class _$DeckPreviewCreatedImpl implements DeckPreviewCreated {
       createdAt,
       name,
       sessionId,
+      model,
       numberOfCards);
 
   @JsonKey(ignore: true)
@@ -264,50 +285,52 @@ class _$DeckPreviewCreatedImpl implements DeckPreviewCreated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<String> questions, DateTime createdAt,
-            String name, String sessionId, int numberOfCards)
+            String name, String sessionId, Model model, int numberOfCards)
         created,
     required TResult Function(DateTime createdAt, String name,
-            int numberOfCards, String sessionId)
+            int numberOfCards, String sessionId, Model model)
         loading,
     required TResult Function(String message, DateTime createdAt, String name,
-            int numberOfCards, String sessionId)
+            int numberOfCards, String sessionId, Model model)
         error,
   }) {
-    return created(questions, createdAt, name, sessionId, numberOfCards);
+    return created(questions, createdAt, name, sessionId, model, numberOfCards);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<String> questions, DateTime createdAt, String name,
-            String sessionId, int numberOfCards)?
+            String sessionId, Model model, int numberOfCards)?
         created,
     TResult? Function(DateTime createdAt, String name, int numberOfCards,
-            String sessionId)?
+            String sessionId, Model model)?
         loading,
     TResult? Function(String message, DateTime createdAt, String name,
-            int numberOfCards, String sessionId)?
+            int numberOfCards, String sessionId, Model model)?
         error,
   }) {
-    return created?.call(questions, createdAt, name, sessionId, numberOfCards);
+    return created?.call(
+        questions, createdAt, name, sessionId, model, numberOfCards);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<String> questions, DateTime createdAt, String name,
-            String sessionId, int numberOfCards)?
+            String sessionId, Model model, int numberOfCards)?
         created,
     TResult Function(DateTime createdAt, String name, int numberOfCards,
-            String sessionId)?
+            String sessionId, Model model)?
         loading,
     TResult Function(String message, DateTime createdAt, String name,
-            int numberOfCards, String sessionId)?
+            int numberOfCards, String sessionId, Model model)?
         error,
     required TResult orElse(),
   }) {
     if (created != null) {
-      return created(questions, createdAt, name, sessionId, numberOfCards);
+      return created(
+          questions, createdAt, name, sessionId, model, numberOfCards);
     }
     return orElse();
   }
@@ -353,6 +376,7 @@ abstract class DeckPreviewCreated implements DeckPreview {
       required final DateTime createdAt,
       required final String name,
       required final String sessionId,
+      required final Model model,
       required final int numberOfCards}) = _$DeckPreviewCreatedImpl;
 
   List<String> get questions;
@@ -362,6 +386,8 @@ abstract class DeckPreviewCreated implements DeckPreview {
   String get name;
   @override
   String get sessionId;
+  @override
+  Model get model;
   @override
   int get numberOfCards;
   @override
@@ -379,7 +405,11 @@ abstract class _$$DeckPreviewLoadingImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DateTime createdAt, String name, int numberOfCards, String sessionId});
+      {DateTime createdAt,
+      String name,
+      int numberOfCards,
+      String sessionId,
+      Model model});
 }
 
 /// @nodoc
@@ -397,6 +427,7 @@ class __$$DeckPreviewLoadingImplCopyWithImpl<$Res>
     Object? name = null,
     Object? numberOfCards = null,
     Object? sessionId = null,
+    Object? model = null,
   }) {
     return _then(_$DeckPreviewLoadingImpl(
       createdAt: null == createdAt
@@ -415,6 +446,10 @@ class __$$DeckPreviewLoadingImplCopyWithImpl<$Res>
           ? _value.sessionId
           : sessionId // ignore: cast_nullable_to_non_nullable
               as String,
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as Model,
     ));
   }
 }
@@ -426,7 +461,8 @@ class _$DeckPreviewLoadingImpl implements DeckPreviewLoading {
       {required this.createdAt,
       required this.name,
       required this.numberOfCards,
-      required this.sessionId});
+      required this.sessionId,
+      required this.model});
 
   @override
   final DateTime createdAt;
@@ -436,10 +472,12 @@ class _$DeckPreviewLoadingImpl implements DeckPreviewLoading {
   final int numberOfCards;
   @override
   final String sessionId;
+  @override
+  final Model model;
 
   @override
   String toString() {
-    return 'DeckPreview.loading(createdAt: $createdAt, name: $name, numberOfCards: $numberOfCards, sessionId: $sessionId)';
+    return 'DeckPreview.loading(createdAt: $createdAt, name: $name, numberOfCards: $numberOfCards, sessionId: $sessionId, model: $model)';
   }
 
   @override
@@ -453,12 +491,13 @@ class _$DeckPreviewLoadingImpl implements DeckPreviewLoading {
             (identical(other.numberOfCards, numberOfCards) ||
                 other.numberOfCards == numberOfCards) &&
             (identical(other.sessionId, sessionId) ||
-                other.sessionId == sessionId));
+                other.sessionId == sessionId) &&
+            (identical(other.model, model) || other.model == model));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, createdAt, name, numberOfCards, sessionId);
+  int get hashCode => Object.hash(
+      runtimeType, createdAt, name, numberOfCards, sessionId, model);
 
   @JsonKey(ignore: true)
   @override
@@ -471,50 +510,50 @@ class _$DeckPreviewLoadingImpl implements DeckPreviewLoading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<String> questions, DateTime createdAt,
-            String name, String sessionId, int numberOfCards)
+            String name, String sessionId, Model model, int numberOfCards)
         created,
     required TResult Function(DateTime createdAt, String name,
-            int numberOfCards, String sessionId)
+            int numberOfCards, String sessionId, Model model)
         loading,
     required TResult Function(String message, DateTime createdAt, String name,
-            int numberOfCards, String sessionId)
+            int numberOfCards, String sessionId, Model model)
         error,
   }) {
-    return loading(createdAt, name, numberOfCards, sessionId);
+    return loading(createdAt, name, numberOfCards, sessionId, model);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<String> questions, DateTime createdAt, String name,
-            String sessionId, int numberOfCards)?
+            String sessionId, Model model, int numberOfCards)?
         created,
     TResult? Function(DateTime createdAt, String name, int numberOfCards,
-            String sessionId)?
+            String sessionId, Model model)?
         loading,
     TResult? Function(String message, DateTime createdAt, String name,
-            int numberOfCards, String sessionId)?
+            int numberOfCards, String sessionId, Model model)?
         error,
   }) {
-    return loading?.call(createdAt, name, numberOfCards, sessionId);
+    return loading?.call(createdAt, name, numberOfCards, sessionId, model);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<String> questions, DateTime createdAt, String name,
-            String sessionId, int numberOfCards)?
+            String sessionId, Model model, int numberOfCards)?
         created,
     TResult Function(DateTime createdAt, String name, int numberOfCards,
-            String sessionId)?
+            String sessionId, Model model)?
         loading,
     TResult Function(String message, DateTime createdAt, String name,
-            int numberOfCards, String sessionId)?
+            int numberOfCards, String sessionId, Model model)?
         error,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading(createdAt, name, numberOfCards, sessionId);
+      return loading(createdAt, name, numberOfCards, sessionId, model);
     }
     return orElse();
   }
@@ -559,7 +598,8 @@ abstract class DeckPreviewLoading implements DeckPreview {
       {required final DateTime createdAt,
       required final String name,
       required final int numberOfCards,
-      required final String sessionId}) = _$DeckPreviewLoadingImpl;
+      required final String sessionId,
+      required final Model model}) = _$DeckPreviewLoadingImpl;
 
   @override
   DateTime get createdAt;
@@ -569,6 +609,8 @@ abstract class DeckPreviewLoading implements DeckPreview {
   int get numberOfCards;
   @override
   String get sessionId;
+  @override
+  Model get model;
   @override
   @JsonKey(ignore: true)
   _$$DeckPreviewLoadingImplCopyWith<_$DeckPreviewLoadingImpl> get copyWith =>
@@ -588,7 +630,8 @@ abstract class _$$DeckPreviewErrorImplCopyWith<$Res>
       DateTime createdAt,
       String name,
       int numberOfCards,
-      String sessionId});
+      String sessionId,
+      Model model});
 }
 
 /// @nodoc
@@ -607,6 +650,7 @@ class __$$DeckPreviewErrorImplCopyWithImpl<$Res>
     Object? name = null,
     Object? numberOfCards = null,
     Object? sessionId = null,
+    Object? model = null,
   }) {
     return _then(_$DeckPreviewErrorImpl(
       message: null == message
@@ -629,6 +673,10 @@ class __$$DeckPreviewErrorImplCopyWithImpl<$Res>
           ? _value.sessionId
           : sessionId // ignore: cast_nullable_to_non_nullable
               as String,
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as Model,
     ));
   }
 }
@@ -641,7 +689,8 @@ class _$DeckPreviewErrorImpl implements DeckPreviewError {
       required this.createdAt,
       required this.name,
       required this.numberOfCards,
-      required this.sessionId});
+      required this.sessionId,
+      required this.model});
 
   @override
   final String message;
@@ -653,10 +702,12 @@ class _$DeckPreviewErrorImpl implements DeckPreviewError {
   final int numberOfCards;
   @override
   final String sessionId;
+  @override
+  final Model model;
 
   @override
   String toString() {
-    return 'DeckPreview.error(message: $message, createdAt: $createdAt, name: $name, numberOfCards: $numberOfCards, sessionId: $sessionId)';
+    return 'DeckPreview.error(message: $message, createdAt: $createdAt, name: $name, numberOfCards: $numberOfCards, sessionId: $sessionId, model: $model)';
   }
 
   @override
@@ -671,12 +722,13 @@ class _$DeckPreviewErrorImpl implements DeckPreviewError {
             (identical(other.numberOfCards, numberOfCards) ||
                 other.numberOfCards == numberOfCards) &&
             (identical(other.sessionId, sessionId) ||
-                other.sessionId == sessionId));
+                other.sessionId == sessionId) &&
+            (identical(other.model, model) || other.model == model));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, message, createdAt, name, numberOfCards, sessionId);
+      runtimeType, message, createdAt, name, numberOfCards, sessionId, model);
 
   @JsonKey(ignore: true)
   @override
@@ -689,50 +741,51 @@ class _$DeckPreviewErrorImpl implements DeckPreviewError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<String> questions, DateTime createdAt,
-            String name, String sessionId, int numberOfCards)
+            String name, String sessionId, Model model, int numberOfCards)
         created,
     required TResult Function(DateTime createdAt, String name,
-            int numberOfCards, String sessionId)
+            int numberOfCards, String sessionId, Model model)
         loading,
     required TResult Function(String message, DateTime createdAt, String name,
-            int numberOfCards, String sessionId)
+            int numberOfCards, String sessionId, Model model)
         error,
   }) {
-    return error(message, createdAt, name, numberOfCards, sessionId);
+    return error(message, createdAt, name, numberOfCards, sessionId, model);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<String> questions, DateTime createdAt, String name,
-            String sessionId, int numberOfCards)?
+            String sessionId, Model model, int numberOfCards)?
         created,
     TResult? Function(DateTime createdAt, String name, int numberOfCards,
-            String sessionId)?
+            String sessionId, Model model)?
         loading,
     TResult? Function(String message, DateTime createdAt, String name,
-            int numberOfCards, String sessionId)?
+            int numberOfCards, String sessionId, Model model)?
         error,
   }) {
-    return error?.call(message, createdAt, name, numberOfCards, sessionId);
+    return error?.call(
+        message, createdAt, name, numberOfCards, sessionId, model);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<String> questions, DateTime createdAt, String name,
-            String sessionId, int numberOfCards)?
+            String sessionId, Model model, int numberOfCards)?
         created,
     TResult Function(DateTime createdAt, String name, int numberOfCards,
-            String sessionId)?
+            String sessionId, Model model)?
         loading,
     TResult Function(String message, DateTime createdAt, String name,
-            int numberOfCards, String sessionId)?
+            int numberOfCards, String sessionId, Model model)?
         error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(message, createdAt, name, numberOfCards, sessionId);
+      return error(message, createdAt, name, numberOfCards, sessionId, model);
     }
     return orElse();
   }
@@ -778,7 +831,8 @@ abstract class DeckPreviewError implements DeckPreview {
       required final DateTime createdAt,
       required final String name,
       required final int numberOfCards,
-      required final String sessionId}) = _$DeckPreviewErrorImpl;
+      required final String sessionId,
+      required final Model model}) = _$DeckPreviewErrorImpl;
 
   String get message;
   @override
@@ -789,6 +843,8 @@ abstract class DeckPreviewError implements DeckPreview {
   int get numberOfCards;
   @override
   String get sessionId;
+  @override
+  Model get model;
   @override
   @JsonKey(ignore: true)
   _$$DeckPreviewErrorImplCopyWith<_$DeckPreviewErrorImpl> get copyWith =>

@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:ankigpt/src/models/card_id.dart';
+import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
@@ -26,6 +27,7 @@ class SessionRepository {
   Future<SessionId> startSession({
     required Input input,
     required int numberOfCards,
+    required Model model,
     required SessionId? sessionId,
   }) async {
     final result = await functions
@@ -36,6 +38,7 @@ class SessionRepository {
         'input': input.toJson(),
         'sessionId': sessionId,
         'numberOfCards': numberOfCards,
+        'model': model.name,
       }
     });
     return result.data['id'];

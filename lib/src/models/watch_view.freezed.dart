@@ -25,6 +25,7 @@ mixin _$WatchView {
   String? get inputText =>
       throw _privateConstructorUsedError; // Defines if the user is the owner of the session.
   bool? get isOwner => throw _privateConstructorUsedError;
+  Model? get model => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WatchViewCopyWith<WatchView> get copyWith =>
@@ -44,7 +45,8 @@ abstract class $WatchViewCopyWith<$Res> {
       String? fileName,
       String? sessionId,
       String? inputText,
-      bool? isOwner});
+      bool? isOwner,
+      Model? model});
 }
 
 /// @nodoc
@@ -68,6 +70,7 @@ class _$WatchViewCopyWithImpl<$Res, $Val extends WatchView>
     Object? sessionId = freezed,
     Object? inputText = freezed,
     Object? isOwner = freezed,
+    Object? model = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -102,6 +105,10 @@ class _$WatchViewCopyWithImpl<$Res, $Val extends WatchView>
           ? _value.isOwner
           : isOwner // ignore: cast_nullable_to_non_nullable
               as bool?,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as Model?,
     ) as $Val);
   }
 }
@@ -122,7 +129,8 @@ abstract class _$$WatchViewImplCopyWith<$Res>
       String? fileName,
       String? sessionId,
       String? inputText,
-      bool? isOwner});
+      bool? isOwner,
+      Model? model});
 }
 
 /// @nodoc
@@ -144,6 +152,7 @@ class __$$WatchViewImplCopyWithImpl<$Res>
     Object? sessionId = freezed,
     Object? inputText = freezed,
     Object? isOwner = freezed,
+    Object? model = freezed,
   }) {
     return _then(_$WatchViewImpl(
       isLoading: null == isLoading
@@ -178,6 +187,10 @@ class __$$WatchViewImplCopyWithImpl<$Res>
           ? _value.isOwner
           : isOwner // ignore: cast_nullable_to_non_nullable
               as bool?,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as Model?,
     ));
   }
 }
@@ -193,7 +206,8 @@ class _$WatchViewImpl extends _WatchView {
       this.fileName,
       this.sessionId,
       this.inputText,
-      this.isOwner})
+      this.isOwner,
+      this.model})
       : super._();
 
   @override
@@ -214,10 +228,12 @@ class _$WatchViewImpl extends _WatchView {
 // Defines if the user is the owner of the session.
   @override
   final bool? isOwner;
+  @override
+  final Model? model;
 
   @override
   String toString() {
-    return 'WatchView(isLoading: $isLoading, downloadUrl: $downloadUrl, language: $language, error: $error, fileName: $fileName, sessionId: $sessionId, inputText: $inputText, isOwner: $isOwner)';
+    return 'WatchView(isLoading: $isLoading, downloadUrl: $downloadUrl, language: $language, error: $error, fileName: $fileName, sessionId: $sessionId, inputText: $inputText, isOwner: $isOwner, model: $model)';
   }
 
   @override
@@ -238,12 +254,13 @@ class _$WatchViewImpl extends _WatchView {
                 other.sessionId == sessionId) &&
             (identical(other.inputText, inputText) ||
                 other.inputText == inputText) &&
-            (identical(other.isOwner, isOwner) || other.isOwner == isOwner));
+            (identical(other.isOwner, isOwner) || other.isOwner == isOwner) &&
+            (identical(other.model, model) || other.model == model));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, downloadUrl, language,
-      error, fileName, sessionId, inputText, isOwner);
+      error, fileName, sessionId, inputText, isOwner, model);
 
   @JsonKey(ignore: true)
   @override
@@ -261,7 +278,8 @@ abstract class _WatchView extends WatchView {
       final String? fileName,
       final String? sessionId,
       final String? inputText,
-      final bool? isOwner}) = _$WatchViewImpl;
+      final bool? isOwner,
+      final Model? model}) = _$WatchViewImpl;
   const _WatchView._() : super._();
 
   @override
@@ -280,6 +298,8 @@ abstract class _WatchView extends WatchView {
   String? get inputText;
   @override // Defines if the user is the owner of the session.
   bool? get isOwner;
+  @override
+  Model? get model;
   @override
   @JsonKey(ignore: true)
   _$$WatchViewImplCopyWith<_$WatchViewImpl> get copyWith =>

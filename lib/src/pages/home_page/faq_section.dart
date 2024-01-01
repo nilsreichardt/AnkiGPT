@@ -75,8 +75,9 @@ class _WhichModelIsUsed extends StatelessWidget {
   Widget build(BuildContext context) {
     return const _FaqCard(
       question: Text('Which model is used for AnkiGPT?'),
-      answer: Text(
-        "AnkiGPT uses as underlaying AI model GPT-3.5 by OpenAI.",
+      answer: _MarkdownAnswer(
+        text:
+            "AnkiGPT primarily utilizes the GPT-3.5 by OpenAI model to generate flashcards, offering a seamless integration of advanced AI technology for effective learning. For users who opt for the AnkiGPT Plus version, they gain the enhanced capability to generate up to 150 flashcards per month using the more advanced [GPT-4 model](https://openai.com/gpt-4), ensuring even more sophisticated and nuanced content creation.",
       ),
     );
   }

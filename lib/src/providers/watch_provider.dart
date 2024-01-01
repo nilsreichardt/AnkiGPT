@@ -57,6 +57,7 @@ class Watch extends _$Watch {
           fileName: dto.input.file?.name,
           inputText: dto.input.text,
           isOwner: _isOwner(userId, dto),
+          model: dto.model,
         );
       },
       onError: (error, stackTrace) {

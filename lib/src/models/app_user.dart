@@ -13,6 +13,7 @@ class AppUser with _$AppUser {
     @Default(Usage(
       generatedCardsCurrentMonth: 0,
       generatedMnemonicsCurrentMonth: 0,
+      generatedCardsWithGpt4CurrentMonth: 0,
     ))
     Usage usage,
   }) = _AppUser;
@@ -37,6 +38,7 @@ class Usage with _$Usage {
   const factory Usage({
     @Default(0) int generatedCardsCurrentMonth,
     @Default(0) int generatedMnemonicsCurrentMonth,
+    @Default(0) int generatedCardsWithGpt4CurrentMonth,
   }) = _Usage;
 
   factory Usage.fromJson(Map<String, dynamic> json) => _$UsageFromJson(json);

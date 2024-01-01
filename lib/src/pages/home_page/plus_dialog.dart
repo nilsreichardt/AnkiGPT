@@ -114,7 +114,7 @@ class _PlusPrice extends StatelessWidget {
             ),
           ),
           Text(
-            'Lifetime',
+            'Lifetime (one-time payment)',
             style: TextStyle(
               color: Colors.grey[600]!,
             ),

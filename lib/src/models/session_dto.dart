@@ -136,6 +136,7 @@ class Input with _$Input {
 class FileInput with _$FileInput {
   const factory FileInput({
     required String name,
+    String? pdfPassword,
   }) = _FileInput;
 
   factory FileInput.fromJson(Map<String, dynamic> json) =>

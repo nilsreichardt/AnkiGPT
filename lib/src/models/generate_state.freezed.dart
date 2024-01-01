@@ -21,6 +21,7 @@ mixin _$GenerateState {
     required TResult Function() initial,
     required TResult Function(String message) error,
     required TResult Function() loading,
+    required TResult Function() passwordRequired,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$GenerateState {
     TResult? Function()? initial,
     TResult? Function(String message)? error,
     TResult? Function()? loading,
+    TResult? Function()? passwordRequired,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$GenerateState {
     TResult Function()? initial,
     TResult Function(String message)? error,
     TResult Function()? loading,
+    TResult Function()? passwordRequired,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,8 @@ mixin _$GenerateState {
     required TResult Function(GenerationStateInitial value) initial,
     required TResult Function(GenerationStateError value) error,
     required TResult Function(GenerationStateLoading value) loading,
+    required TResult Function(GenerationStatePasswordRequired value)
+        passwordRequired,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +55,7 @@ mixin _$GenerateState {
     TResult? Function(GenerationStateInitial value)? initial,
     TResult? Function(GenerationStateError value)? error,
     TResult? Function(GenerationStateLoading value)? loading,
+    TResult? Function(GenerationStatePasswordRequired value)? passwordRequired,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +63,7 @@ mixin _$GenerateState {
     TResult Function(GenerationStateInitial value)? initial,
     TResult Function(GenerationStateError value)? error,
     TResult Function(GenerationStateLoading value)? loading,
+    TResult Function(GenerationStatePasswordRequired value)? passwordRequired,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -124,6 +131,7 @@ class _$GenerationStateInitialImpl implements GenerationStateInitial {
     required TResult Function() initial,
     required TResult Function(String message) error,
     required TResult Function() loading,
+    required TResult Function() passwordRequired,
   }) {
     return initial();
   }
@@ -134,6 +142,7 @@ class _$GenerationStateInitialImpl implements GenerationStateInitial {
     TResult? Function()? initial,
     TResult? Function(String message)? error,
     TResult? Function()? loading,
+    TResult? Function()? passwordRequired,
   }) {
     return initial?.call();
   }
@@ -144,6 +153,7 @@ class _$GenerationStateInitialImpl implements GenerationStateInitial {
     TResult Function()? initial,
     TResult Function(String message)? error,
     TResult Function()? loading,
+    TResult Function()? passwordRequired,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -158,6 +168,8 @@ class _$GenerationStateInitialImpl implements GenerationStateInitial {
     required TResult Function(GenerationStateInitial value) initial,
     required TResult Function(GenerationStateError value) error,
     required TResult Function(GenerationStateLoading value) loading,
+    required TResult Function(GenerationStatePasswordRequired value)
+        passwordRequired,
   }) {
     return initial(this);
   }
@@ -168,6 +180,7 @@ class _$GenerationStateInitialImpl implements GenerationStateInitial {
     TResult? Function(GenerationStateInitial value)? initial,
     TResult? Function(GenerationStateError value)? error,
     TResult? Function(GenerationStateLoading value)? loading,
+    TResult? Function(GenerationStatePasswordRequired value)? passwordRequired,
   }) {
     return initial?.call(this);
   }
@@ -178,6 +191,7 @@ class _$GenerationStateInitialImpl implements GenerationStateInitial {
     TResult Function(GenerationStateInitial value)? initial,
     TResult Function(GenerationStateError value)? error,
     TResult Function(GenerationStateLoading value)? loading,
+    TResult Function(GenerationStatePasswordRequired value)? passwordRequired,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -260,6 +274,7 @@ class _$GenerationStateErrorImpl implements GenerationStateError {
     required TResult Function() initial,
     required TResult Function(String message) error,
     required TResult Function() loading,
+    required TResult Function() passwordRequired,
   }) {
     return error(message);
   }
@@ -270,6 +285,7 @@ class _$GenerationStateErrorImpl implements GenerationStateError {
     TResult? Function()? initial,
     TResult? Function(String message)? error,
     TResult? Function()? loading,
+    TResult? Function()? passwordRequired,
   }) {
     return error?.call(message);
   }
@@ -280,6 +296,7 @@ class _$GenerationStateErrorImpl implements GenerationStateError {
     TResult Function()? initial,
     TResult Function(String message)? error,
     TResult Function()? loading,
+    TResult Function()? passwordRequired,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -294,6 +311,8 @@ class _$GenerationStateErrorImpl implements GenerationStateError {
     required TResult Function(GenerationStateInitial value) initial,
     required TResult Function(GenerationStateError value) error,
     required TResult Function(GenerationStateLoading value) loading,
+    required TResult Function(GenerationStatePasswordRequired value)
+        passwordRequired,
   }) {
     return error(this);
   }
@@ -304,6 +323,7 @@ class _$GenerationStateErrorImpl implements GenerationStateError {
     TResult? Function(GenerationStateInitial value)? initial,
     TResult? Function(GenerationStateError value)? error,
     TResult? Function(GenerationStateLoading value)? loading,
+    TResult? Function(GenerationStatePasswordRequired value)? passwordRequired,
   }) {
     return error?.call(this);
   }
@@ -314,6 +334,7 @@ class _$GenerationStateErrorImpl implements GenerationStateError {
     TResult Function(GenerationStateInitial value)? initial,
     TResult Function(GenerationStateError value)? error,
     TResult Function(GenerationStateLoading value)? loading,
+    TResult Function(GenerationStatePasswordRequired value)? passwordRequired,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -377,6 +398,7 @@ class _$GenerationStateLoadingImpl implements GenerationStateLoading {
     required TResult Function() initial,
     required TResult Function(String message) error,
     required TResult Function() loading,
+    required TResult Function() passwordRequired,
   }) {
     return loading();
   }
@@ -387,6 +409,7 @@ class _$GenerationStateLoadingImpl implements GenerationStateLoading {
     TResult? Function()? initial,
     TResult? Function(String message)? error,
     TResult? Function()? loading,
+    TResult? Function()? passwordRequired,
   }) {
     return loading?.call();
   }
@@ -397,6 +420,7 @@ class _$GenerationStateLoadingImpl implements GenerationStateLoading {
     TResult Function()? initial,
     TResult Function(String message)? error,
     TResult Function()? loading,
+    TResult Function()? passwordRequired,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -411,6 +435,8 @@ class _$GenerationStateLoadingImpl implements GenerationStateLoading {
     required TResult Function(GenerationStateInitial value) initial,
     required TResult Function(GenerationStateError value) error,
     required TResult Function(GenerationStateLoading value) loading,
+    required TResult Function(GenerationStatePasswordRequired value)
+        passwordRequired,
   }) {
     return loading(this);
   }
@@ -421,6 +447,7 @@ class _$GenerationStateLoadingImpl implements GenerationStateLoading {
     TResult? Function(GenerationStateInitial value)? initial,
     TResult? Function(GenerationStateError value)? error,
     TResult? Function(GenerationStateLoading value)? loading,
+    TResult? Function(GenerationStatePasswordRequired value)? passwordRequired,
   }) {
     return loading?.call(this);
   }
@@ -431,6 +458,7 @@ class _$GenerationStateLoadingImpl implements GenerationStateLoading {
     TResult Function(GenerationStateInitial value)? initial,
     TResult Function(GenerationStateError value)? error,
     TResult Function(GenerationStateLoading value)? loading,
+    TResult Function(GenerationStatePasswordRequired value)? passwordRequired,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -442,4 +470,125 @@ class _$GenerationStateLoadingImpl implements GenerationStateLoading {
 
 abstract class GenerationStateLoading implements GenerateState {
   const factory GenerationStateLoading() = _$GenerationStateLoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$GenerationStatePasswordRequiredImplCopyWith<$Res> {
+  factory _$$GenerationStatePasswordRequiredImplCopyWith(
+          _$GenerationStatePasswordRequiredImpl value,
+          $Res Function(_$GenerationStatePasswordRequiredImpl) then) =
+      __$$GenerationStatePasswordRequiredImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GenerationStatePasswordRequiredImplCopyWithImpl<$Res>
+    extends _$GenerateStateCopyWithImpl<$Res,
+        _$GenerationStatePasswordRequiredImpl>
+    implements _$$GenerationStatePasswordRequiredImplCopyWith<$Res> {
+  __$$GenerationStatePasswordRequiredImplCopyWithImpl(
+      _$GenerationStatePasswordRequiredImpl _value,
+      $Res Function(_$GenerationStatePasswordRequiredImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$GenerationStatePasswordRequiredImpl
+    implements GenerationStatePasswordRequired {
+  const _$GenerationStatePasswordRequiredImpl();
+
+  @override
+  String toString() {
+    return 'GenerateState.passwordRequired()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GenerationStatePasswordRequiredImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(String message) error,
+    required TResult Function() loading,
+    required TResult Function() passwordRequired,
+  }) {
+    return passwordRequired();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(String message)? error,
+    TResult? Function()? loading,
+    TResult? Function()? passwordRequired,
+  }) {
+    return passwordRequired?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(String message)? error,
+    TResult Function()? loading,
+    TResult Function()? passwordRequired,
+    required TResult orElse(),
+  }) {
+    if (passwordRequired != null) {
+      return passwordRequired();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GenerationStateInitial value) initial,
+    required TResult Function(GenerationStateError value) error,
+    required TResult Function(GenerationStateLoading value) loading,
+    required TResult Function(GenerationStatePasswordRequired value)
+        passwordRequired,
+  }) {
+    return passwordRequired(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GenerationStateInitial value)? initial,
+    TResult? Function(GenerationStateError value)? error,
+    TResult? Function(GenerationStateLoading value)? loading,
+    TResult? Function(GenerationStatePasswordRequired value)? passwordRequired,
+  }) {
+    return passwordRequired?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GenerationStateInitial value)? initial,
+    TResult Function(GenerationStateError value)? error,
+    TResult Function(GenerationStateLoading value)? loading,
+    TResult Function(GenerationStatePasswordRequired value)? passwordRequired,
+    required TResult orElse(),
+  }) {
+    if (passwordRequired != null) {
+      return passwordRequired(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GenerationStatePasswordRequired implements GenerateState {
+  const factory GenerationStatePasswordRequired() =
+      _$GenerationStatePasswordRequiredImpl;
 }

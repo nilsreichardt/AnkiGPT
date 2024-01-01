@@ -13,7 +13,7 @@ class AppUser with _$AppUser {
     @Default(Usage(
       generatedCardsCurrentMonth: 0,
       generatedMnemonicsCurrentMonth: 0,
-      generatedCardsWithGpt4CurrentMonth: 0,
+      generatedCardsCurrentMonthByModel: UsagePerMonthPerModel(),
     ))
     Usage usage,
   }) = _AppUser;
@@ -38,8 +38,19 @@ class Usage with _$Usage {
   const factory Usage({
     @Default(0) int generatedCardsCurrentMonth,
     @Default(0) int generatedMnemonicsCurrentMonth,
-    @Default(0) int generatedCardsWithGpt4CurrentMonth,
+    @Default(UsagePerMonthPerModel())
+    UsagePerMonthPerModel generatedCardsCurrentMonthByModel,
   }) = _Usage;
 
   factory Usage.fromJson(Map<String, dynamic> json) => _$UsageFromJson(json);
+}
+
+@freezed
+class UsagePerMonthPerModel with _$UsagePerMonthPerModel {
+  const factory UsagePerMonthPerModel({
+    @JsonKey(name: 'gpt-4-1106-preview') @Default(0) int gpt4_1106Preview,
+  }) = _UsagePerMonthPerModel;
+
+  factory UsagePerMonthPerModel.fromJson(Map<String, dynamic> json) =>
+      _$UsagePerMonthPerModelFromJson(json);
 }

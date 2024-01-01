@@ -1,4 +1,3 @@
-import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/providers/shared_preferences_provider.dart';
 import 'package:flutter/material.dart';

@@ -3,7 +3,7 @@ import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/cancel_text_button.dart';
 import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
-import 'package:ankigpt/src/providers/app_user_provider.dart';
+import 'package:ankigpt/src/providers/current_usage_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/options_provider.dart';
@@ -221,10 +221,7 @@ class _Gpt4Usage extends ConsumerWidget {
     final hasPlus = ref.watch(hasPlusProvider);
     if (!hasPlus) return const SizedBox();
 
-    final gpt4Usage = ref.watch(appUserProvider
-        .select((v) => v.value?.usage.generatedCardsWithGpt4CurrentMonth));
-    if (gpt4Usage == null) return const SizedBox();
-
+    final gpt4Usage = ref.watch(currentGpt4UsageProvider);
     final selectedModel =
         ref.watch(optionsControllerProvider.select((v) => v.model));
     if (selectedModel != Model.gpt4) return const SizedBox();

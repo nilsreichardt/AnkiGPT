@@ -10,8 +10,8 @@ import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
-import 'package:ankigpt/src/providers/options_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
+import 'package:ankigpt/src/providers/options_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/total_cards_counter_provider.dart';
@@ -175,6 +175,17 @@ class _GenerateButton extends ConsumerWidget {
         return;
       }
 
+      if (e is Gpt4LimitExceededException) {
+        showPlusDialog(
+          context,
+          top: _Gpt4LimitExceededCard(
+            currentDeckSize: e.currentDeckSize,
+            remainingCardsForCurrentMonth: e.remainingGpt4Limit,
+          ),
+        );
+        return;
+      }
+
       context.showTextSnackBar('$e');
     }
   }
@@ -233,6 +244,38 @@ class _FreeLimitExceededCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return _LimitExceededCard(text: '''**Limit reached!**
+
+As a free user, you can create a maximum of $freeUsageLimitPerMonth cards per month. You have $remainingCardsForCurrentMonth remaining, but you attempted to generate $currentDeckSize cards. To produce more cards, consider upgrading to Plus.''');
+  }
+}
+
+class _Gpt4LimitExceededCard extends StatelessWidget {
+  const _Gpt4LimitExceededCard({
+    required this.currentDeckSize,
+    required this.remainingCardsForCurrentMonth,
+  });
+
+  final int currentDeckSize;
+  final int remainingCardsForCurrentMonth;
+
+  @override
+  Widget build(BuildContext context) {
+    return _LimitExceededCard(text: '''**Limit reached!**
+
+You can create a maximum of $plusGpt4UsageLimitPerMonth cards with GPT-4 per month. You have $remainingCardsForCurrentMonth remaining, but you attempted to generate $currentDeckSize cards.''');
+  }
+}
+
+class _LimitExceededCard extends StatelessWidget {
+  const _LimitExceededCard({
+    required this.text,
+  });
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: MaxWidthConstrainedBox(
@@ -244,9 +287,7 @@ class _FreeLimitExceededCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: MarkdownBody(
-            data: '''**Limit reached!**
-
-As a free user, you can create a maximum of $freeUsageLimitPerMonth cards per month. You have $remainingCardsForCurrentMonth remaining, but you attempted to generate $currentDeckSize cards. To produce more cards, consider upgrading to Plus.''',
+            data: text,
             styleSheet: MarkdownStyleSheet(
               p: const TextStyle(
                 color: Colors.deepOrange,

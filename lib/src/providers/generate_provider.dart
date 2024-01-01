@@ -5,17 +5,18 @@ import 'package:ankigpt/src/infrastructure/user_repository.dart';
 import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/models/input_type.dart';
+import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/analytics_provider.dart';
-import 'package:ankigpt/src/providers/options_provider.dart';
 import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
-import 'package:ankigpt/src/providers/current_month_usage_provider.dart';
+import 'package:ankigpt/src/providers/current_usage_provider.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/input_text_field_controller.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
+import 'package:ankigpt/src/providers/options_provider.dart';
 import 'package:ankigpt/src/providers/router_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
@@ -47,6 +48,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       ref.read(sessionRepositoryProvider);
   bool get _hasPlus => ref.read(hasPlusProvider);
   int get _currentMonthUsage => ref.read(currentMonthUsageProvider);
+  int get _currentGpt4Usage => ref.read(currentGpt4UsageProvider);
   Analytics get _analytics => ref.read(analyticsProvider);
   static const _analyticsPage = 'generate';
 
@@ -75,6 +77,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     }
 
     _throwIfFreeLimitReached(options.size);
+    _throwIfGpt4LimitReached(options.size, options.model);
 
     if (!ref.read(hasAccount2Provider)) {
       ref.read(wantsToGenerateProvider.notifier).set(true);
@@ -180,6 +183,18 @@ class GenerateNotifier extends _$GenerateNotifier {
         throw FreeLimitExceededException(
           currentDeckSize: size.toInt(),
           remainingFreeLimit: remainingFreeLimit,
+        );
+      }
+    }
+  }
+
+  void _throwIfGpt4LimitReached(CardGenrationSize size, Model model) {
+    if (_hasPlus && model == Model.gpt4) {
+      final remainingGpt4Limit = plusGpt4UsageLimitPerMonth - _currentGpt4Usage;
+      if (remainingGpt4Limit < size.toInt()) {
+        throw Gpt4LimitExceededException(
+          currentDeckSize: size.toInt(),
+          remainingGpt4Limit: remainingGpt4Limit,
         );
       }
     }
@@ -326,6 +341,19 @@ class FreeLimitExceededException implements Exception {
 
   /// The number of cards the user has left in the free version.
   final int remainingFreeLimit;
+}
+
+class Gpt4LimitExceededException implements Exception {
+  const Gpt4LimitExceededException({
+    required this.currentDeckSize,
+    required this.remainingGpt4Limit,
+  });
+
+  /// The deck size that the user tried to generate.
+  final int currentDeckSize;
+
+  /// The number of cards the user has left for GPT-4.
+  final int remainingGpt4Limit;
 }
 
 @riverpod

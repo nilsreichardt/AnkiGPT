@@ -13,7 +13,7 @@ class NewCard extends ConsumerStatefulWidget {
 }
 
 class _NewCardState extends ConsumerState<NewCard> {
-  static const _key = 'shown-mnemonic-card';
+  static const _key = 'shown-gpt4-card';
   bool? shouldShow;
 
   @override
@@ -43,7 +43,6 @@ class _NewCardState extends ConsumerState<NewCard> {
           ? Padding(
               padding: const EdgeInsets.only(top: 24, left: 12, right: 12),
               child: AnkiGptCard(
-                onPressed: () => showMnemonicHelpDialog(context),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 color: Colors.orange.withOpacity(0.2),
@@ -52,7 +51,7 @@ class _NewCardState extends ConsumerState<NewCard> {
                   children: [
                     const Flexible(
                       child: Text(
-                        'New: Generate mnemonics for your flashcards!',
+                        'New: GPT-4 support for AnkiGPT Plus users!',
                         style: TextStyle(
                           color: Colors.deepOrange,
                         ),

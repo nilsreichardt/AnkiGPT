@@ -610,6 +610,7 @@ FileInput _$FileInputFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$FileInput {
   String get name => throw _privateConstructorUsedError;
+  String? get pdfPassword => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -622,7 +623,7 @@ abstract class $FileInputCopyWith<$Res> {
   factory $FileInputCopyWith(FileInput value, $Res Function(FileInput) then) =
       _$FileInputCopyWithImpl<$Res, FileInput>;
   @useResult
-  $Res call({String name});
+  $Res call({String name, String? pdfPassword});
 }
 
 /// @nodoc
@@ -639,12 +640,17 @@ class _$FileInputCopyWithImpl<$Res, $Val extends FileInput>
   @override
   $Res call({
     Object? name = null,
+    Object? pdfPassword = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      pdfPassword: freezed == pdfPassword
+          ? _value.pdfPassword
+          : pdfPassword // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -657,7 +663,7 @@ abstract class _$$FileInputImplCopyWith<$Res>
       __$$FileInputImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name});
+  $Res call({String name, String? pdfPassword});
 }
 
 /// @nodoc
@@ -672,12 +678,17 @@ class __$$FileInputImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
+    Object? pdfPassword = freezed,
   }) {
     return _then(_$FileInputImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      pdfPassword: freezed == pdfPassword
+          ? _value.pdfPassword
+          : pdfPassword // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -685,17 +696,19 @@ class __$$FileInputImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$FileInputImpl implements _FileInput {
-  const _$FileInputImpl({required this.name});
+  const _$FileInputImpl({required this.name, this.pdfPassword});
 
   factory _$FileInputImpl.fromJson(Map<String, dynamic> json) =>
       _$$FileInputImplFromJson(json);
 
   @override
   final String name;
+  @override
+  final String? pdfPassword;
 
   @override
   String toString() {
-    return 'FileInput(name: $name)';
+    return 'FileInput(name: $name, pdfPassword: $pdfPassword)';
   }
 
   @override
@@ -703,12 +716,14 @@ class _$FileInputImpl implements _FileInput {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FileInputImpl &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.pdfPassword, pdfPassword) ||
+                other.pdfPassword == pdfPassword));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name);
+  int get hashCode => Object.hash(runtimeType, name, pdfPassword);
 
   @JsonKey(ignore: true)
   @override
@@ -725,13 +740,17 @@ class _$FileInputImpl implements _FileInput {
 }
 
 abstract class _FileInput implements FileInput {
-  const factory _FileInput({required final String name}) = _$FileInputImpl;
+  const factory _FileInput(
+      {required final String name,
+      final String? pdfPassword}) = _$FileInputImpl;
 
   factory _FileInput.fromJson(Map<String, dynamic> json) =
       _$FileInputImpl.fromJson;
 
   @override
   String get name;
+  @override
+  String? get pdfPassword;
   @override
   @JsonKey(ignore: true)
   _$$FileInputImplCopyWith<_$FileInputImpl> get copyWith =>

@@ -50,6 +50,7 @@ class GenerateNotifier extends _$GenerateNotifier {
 
   PlatformFile? _pickedFile;
   bool get _hasPickedFile => _pickedFile != null;
+  String? _pdfPassword;
 
   @override
   GenerateState build() {
@@ -105,7 +106,12 @@ class GenerateNotifier extends _$GenerateNotifier {
         input: Input(
           text: text.isEmpty ? null : text,
           type: _hasPickedFile ? InputType.file : InputType.text,
-          file: _hasPickedFile ? FileInput(name: _pickedFile!.name) : null,
+          file: _hasPickedFile
+              ? FileInput(
+                  name: _pickedFile!.name,
+                  pdfPassword: _pdfPassword,
+                )
+              : null,
         ),
       );
       _logStartSession(size);
@@ -117,6 +123,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       ref.read(pickedFileProvider.notifier).set(null);
       _pickedFile = null;
       _textEditingController.clear();
+      _pdfPassword = null;
       ref.read(generationSizeProvider.notifier).set(GenerationSize.defaultSize);
 
       final router = ref.read(routerProvider);
@@ -125,6 +132,11 @@ class GenerateNotifier extends _$GenerateNotifier {
       _logger.e("Failed to generate cards", error: e, stackTrace: s);
 
       if (e is FirebaseFunctionsException) {
+        if (e.message == 'password-required-exception') {
+          state = const GenerateState.passwordRequired();
+          return;
+        }
+
         state = GenerateState.error(
             message: _getErrorMessageForFunctionsException(e));
         return;
@@ -147,7 +159,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     }
 
     if (e.message == 'could-not-read-pdf-exception') {
-      return 'The provided file could not be read. Please try again with a different file. Make sure your PDF is not passwort protected. Or copy the text from the file and paste it into the text field.';
+      return 'The provided file could not be read. Please try again with a different file. Or copy the text from the file and paste it into the text field.';
     }
 
     if (e.message == 'unknown-language-exception') {
@@ -223,6 +235,10 @@ class GenerateNotifier extends _$GenerateNotifier {
       'too_short_input',
       page: _analyticsPage,
     ));
+  }
+
+  void setPassword(String? password) {
+    _pdfPassword = password;
   }
 
   Future<bool> _uploadFile({

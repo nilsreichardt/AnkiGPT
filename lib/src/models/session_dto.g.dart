@@ -213,9 +213,11 @@ const _$InputTypeEnumMap = {
 _$FileInputImpl _$$FileInputImplFromJson(Map<String, dynamic> json) =>
     _$FileInputImpl(
       name: json['name'] as String,
+      pdfPassword: json['pdfPassword'] as String?,
     );
 
 Map<String, dynamic> _$$FileInputImplToJson(_$FileInputImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'pdfPassword': instance.pdfPassword,
     };

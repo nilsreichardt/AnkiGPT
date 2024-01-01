@@ -38,6 +38,7 @@ class InputSection extends ConsumerWidget {
                 const _Headline(),
                 const _InputField(),
                 const _FileButton(),
+                const _EnterPdfPassword(),
                 const Controls(),
               ],
             ),
@@ -222,6 +223,66 @@ class _PickedFileButton extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _EnterPdfPassword extends ConsumerWidget {
+  const _EnterPdfPassword();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(generateNotifierProvider);
+    final isPasswordRequired = state is GenerationStatePasswordRequired;
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 275),
+      child: isPasswordRequired
+          ? Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: AnkiGptCard(
+                color: Colors.orange.withOpacity(0.1),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Row(
+                      children: [
+                        Icon(Icons.key),
+                        SizedBox(width: 8),
+                        Text(
+                          'Enter PDF password',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Your PDF file is encrypted. Enter the password to decrypt it. The password will not be stored.',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.6),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                      ),
+                      onChanged: (password) {
+                        ref
+                            .read(generateNotifierProvider.notifier)
+                            .setPassword(password);
+                      },
+                      obscureText: true,
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : const SizedBox(),
     );
   }
 }

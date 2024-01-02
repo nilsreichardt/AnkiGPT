@@ -109,17 +109,14 @@ class _PlusPrice extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '€9.99',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.w600,
-            ),
+          const Price(
+            priceEurPart: '€14',
+            priceCentPart: '.99',
           ),
           Text(
             'Lifetime (one-time payment)',
             style: TextStyle(
-              color: Colors.grey[600]!,
+              color: Colors.grey[700]!,
             ),
           ),
         ],

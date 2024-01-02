@@ -262,28 +262,9 @@ class _TierBase extends StatelessWidget {
                     name,
                     style: const TextStyle(fontSize: 24),
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        priceEurPart,
-                        style: const TextStyle(
-                          fontSize: 48,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      if (priceCentPart != null)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 2, bottom: 11),
-                          child: Text(
-                            priceCentPart!,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[600]!,
-                            ),
-                          ),
-                        )
-                    ],
+                  Price(
+                    priceEurPart: priceEurPart,
+                    priceCentPart: priceCentPart,
                   ),
                   Text(priceDescription ?? ''),
                 ],
@@ -304,6 +285,43 @@ class _TierBase extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class Price extends StatelessWidget {
+  const Price({
+    required this.priceEurPart,
+    required this.priceCentPart,
+  });
+
+  final String priceEurPart;
+  final String? priceCentPart;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          priceEurPart,
+          style: const TextStyle(
+            fontSize: 48,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        if (priceCentPart != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 2, bottom: 11),
+            child: Text(
+              priceCentPart!,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600]!,
+              ),
+            ),
+          )
+      ],
     );
   }
 }

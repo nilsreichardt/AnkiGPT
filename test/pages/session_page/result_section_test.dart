@@ -1,6 +1,7 @@
 import 'package:adaptive_test/adaptive_test.dart';
 import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/language.dart';
+import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/watch_view.dart';
 import 'package:ankigpt/src/pages/deck_page/result_section.dart';
@@ -52,6 +53,7 @@ void main() {
     }) async {
       const sessionId = 'session-id';
       await pumpAnkiGptApp(
+        variant: variant,
         tester: tester,
         body: const SingleChildScrollView(
           child: Padding(
@@ -79,6 +81,7 @@ void main() {
         language: Language.en,
         error: 'some-error',
         sessionId: 'session-id',
+        model: Model.gpt3_5,
       );
       await pumpResultSection(
         tester,
@@ -100,6 +103,7 @@ void main() {
         isLoading: false,
         language: Language.en,
         sessionId: 'session-id',
+        model: Model.gpt3_5,
       );
       await pumpResultSection(
         tester,
@@ -114,7 +118,7 @@ void main() {
       );
     });
 
-    testAdaptiveWidgets('renders as exepcted with cards',
+    testAdaptiveWidgets('renders as expected with cards',
         (tester, variant) async {
       final cards = generateDummyCards(50);
       const view = WatchView(
@@ -122,6 +126,7 @@ void main() {
         isLoading: false,
         language: Language.en,
         sessionId: 'session-id',
+        model: Model.gpt3_5,
       );
       await pumpResultSection(
         tester,
@@ -135,5 +140,5 @@ void main() {
         suffix: 'result_with_cards',
       );
     });
-  }, skip: 'https://github.com/rrousselGit/riverpod/issues/2047');
+  });
 }

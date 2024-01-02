@@ -28,8 +28,7 @@ class SessionDto with _$SessionDto {
     required int numberOfCards,
     @JsonKey(fromJson: parseVisibility) required Visibility visibility,
     required UserId userId,
-    @JsonKey(defaultValue: Model.gpt3_5, unknownEnumValue: Model.gpt3_5)
-    required Model model,
+    @JsonKey(fromJson: parseModel) required Model model,
   }) = _SessionDto;
 
   factory SessionDto.fromJson(Map<String, dynamic> json) =>
@@ -71,7 +70,31 @@ Visibility parseVisibility(Map<String, dynamic>? json) {
     return defaultValue;
   }
 
-  return Visibility.values.tryByName(json['value']);
+  return Visibility.values.tryByName(
+    value,
+    defaultValue: defaultValue,
+  );
+}
+
+Model parseModel(Map<String, dynamic>? json) {
+  const defaultValue = Model.gpt3_5;
+
+  if (json == null) {
+    return defaultValue;
+  }
+
+  final value = json['name'];
+  if (value is! String?) {
+    return defaultValue;
+  }
+
+  for (final model in Model.values) {
+    if (model.snakeCaseName == value) {
+      return model;
+    }
+  }
+
+  return defaultValue;
 }
 
 extension EnumByNameWithDefault<T extends Enum> on Iterable<T> {

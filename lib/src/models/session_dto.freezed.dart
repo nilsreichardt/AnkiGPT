@@ -35,7 +35,7 @@ mixin _$SessionDto {
   @JsonKey(fromJson: parseVisibility)
   Visibility get visibility => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(defaultValue: Model.gpt3_5, unknownEnumValue: Model.gpt3_5)
+  @JsonKey(fromJson: parseModel)
   Model get model => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -62,8 +62,7 @@ abstract class $SessionDtoCopyWith<$Res> {
       int numberOfCards,
       @JsonKey(fromJson: parseVisibility) Visibility visibility,
       String userId,
-      @JsonKey(defaultValue: Model.gpt3_5, unknownEnumValue: Model.gpt3_5)
-      Model model});
+      @JsonKey(fromJson: parseModel) Model model});
 
   $InputCopyWith<$Res> get input;
   $CsvMetadataCopyWith<$Res>? get csv;
@@ -188,8 +187,7 @@ abstract class _$$SessionDtoImplCopyWith<$Res>
       int numberOfCards,
       @JsonKey(fromJson: parseVisibility) Visibility visibility,
       String userId,
-      @JsonKey(defaultValue: Model.gpt3_5, unknownEnumValue: Model.gpt3_5)
-      Model model});
+      @JsonKey(fromJson: parseModel) Model model});
 
   @override
   $InputCopyWith<$Res> get input;
@@ -290,8 +288,7 @@ class _$SessionDtoImpl implements _SessionDto {
       required this.numberOfCards,
       @JsonKey(fromJson: parseVisibility) required this.visibility,
       required this.userId,
-      @JsonKey(defaultValue: Model.gpt3_5, unknownEnumValue: Model.gpt3_5)
-      required this.model})
+      @JsonKey(fromJson: parseModel) required this.model})
       : _cards = cards;
 
   factory _$SessionDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -332,7 +329,7 @@ class _$SessionDtoImpl implements _SessionDto {
   @override
   final String userId;
   @override
-  @JsonKey(defaultValue: Model.gpt3_5, unknownEnumValue: Model.gpt3_5)
+  @JsonKey(fromJson: parseModel)
   final Model model;
 
   @override
@@ -408,7 +405,7 @@ abstract class _SessionDto implements SessionDto {
       required final int numberOfCards,
       @JsonKey(fromJson: parseVisibility) required final Visibility visibility,
       required final String userId,
-      @JsonKey(defaultValue: Model.gpt3_5, unknownEnumValue: Model.gpt3_5)
+      @JsonKey(fromJson: parseModel)
       required final Model model}) = _$SessionDtoImpl;
 
   factory _SessionDto.fromJson(Map<String, dynamic> json) =
@@ -441,7 +438,7 @@ abstract class _SessionDto implements SessionDto {
   @override
   String get userId;
   @override
-  @JsonKey(defaultValue: Model.gpt3_5, unknownEnumValue: Model.gpt3_5)
+  @JsonKey(fromJson: parseModel)
   Model get model;
   @override
   @JsonKey(ignore: true)

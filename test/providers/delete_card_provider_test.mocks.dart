@@ -6,14 +6,13 @@
 import 'dart:async' as _i7;
 
 import 'package:ankigpt/src/infrastructure/session_repository.dart' as _i5;
-import 'package:ankigpt/src/models/model.dart' as _i9;
 import 'package:ankigpt/src/models/session_dto.dart' as _i8;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i4;
 import 'package:cloud_functions/cloud_functions.dart' as _i2;
-import 'package:file_picker/file_picker.dart' as _i10;
+import 'package:file_picker/file_picker.dart' as _i9;
 import 'package:firebase_storage/firebase_storage.dart' as _i3;
-import 'package:logger/src/log_level.dart' as _i12;
-import 'package:logger/src/logger.dart' as _i11;
+import 'package:logger/src/log_level.dart' as _i11;
+import 'package:logger/src/logger.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
 
@@ -123,7 +122,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
   _i7.Future<String> startSession({
     required _i8.Input? input,
     required int? numberOfCards,
-    required _i9.Model? model,
+    required String? model,
     required String? sessionId,
   }) =>
       (super.noSuchMethod(
@@ -170,7 +169,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
   _i7.Future<void> uploadFile({
     required String? sessionId,
     required String? userId,
-    required _i10.PlatformFile? file,
+    required _i9.PlatformFile? file,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -305,7 +304,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
 /// A class which mocks [Logger].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLogger extends _i1.Mock implements _i11.Logger {
+class MockLogger extends _i1.Mock implements _i10.Logger {
   @override
   void v(
     dynamic message, {
@@ -468,7 +467,7 @@ class MockLogger extends _i1.Mock implements _i11.Logger {
 
   @override
   void log(
-    _i12.Level? level,
+    _i11.Level? level,
     dynamic message, {
     DateTime? time,
     Object? error,

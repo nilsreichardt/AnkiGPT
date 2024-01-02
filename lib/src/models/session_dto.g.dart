@@ -21,9 +21,7 @@ _$SessionDtoImpl _$$SessionDtoImplFromJson(Map<String, dynamic> json) =>
       numberOfCards: json['numberOfCards'] as int,
       visibility: parseVisibility(json['visibility'] as Map<String, dynamic>?),
       userId: json['userId'] as String,
-      model: $enumDecodeNullable(_$ModelEnumMap, json['model'],
-              unknownValue: Model.gpt3_5) ??
-          Model.gpt3_5,
+      model: parseModel(json['model'] as Map<String, dynamic>?),
     );
 
 Map<String, dynamic> _$$SessionDtoImplToJson(_$SessionDtoImpl instance) =>
@@ -189,14 +187,14 @@ const _$SessionStatusEnumMap = {
   SessionStatus.stopped: 'stopped',
 };
 
-const _$ModelEnumMap = {
-  Model.gpt3_5: 'gpt3_5',
-  Model.gpt4: 'gpt4',
-};
-
 const _$VisibilityEnumMap = {
   Visibility.private: 'private',
   Visibility.anyoneWithLink: 'anyoneWithLink',
+};
+
+const _$ModelEnumMap = {
+  Model.gpt3_5: 'gpt3_5',
+  Model.gpt4: 'gpt4',
 };
 
 _$InputImpl _$$InputImplFromJson(Map<String, dynamic> json) => _$InputImpl(

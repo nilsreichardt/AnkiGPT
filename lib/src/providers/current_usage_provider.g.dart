@@ -21,7 +21,7 @@ final currentMonthUsageProvider = AutoDisposeProvider<int>.internal(
 );
 
 typedef CurrentMonthUsageRef = AutoDisposeProviderRef<int>;
-String _$currentGpt4UsageHash() => r'0fb4c1d4470e011119a657ea6c3613706c0f5776';
+String _$currentGpt4UsageHash() => r'cb47dde1553cadb781bfb9c2ac31166486574750';
 
 /// See also [currentGpt4Usage].
 @ProviderFor(currentGpt4Usage)

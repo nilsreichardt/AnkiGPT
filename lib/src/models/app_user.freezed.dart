@@ -400,8 +400,8 @@ UsagePerMonthPerModel _$UsagePerMonthPerModelFromJson(
 
 /// @nodoc
 mixin _$UsagePerMonthPerModel {
-  @JsonKey(name: 'gpt-4-1106-preview')
-  int get gpt4_1106Preview => throw _privateConstructorUsedError;
+  @JsonKey(name: 'gpt-4')
+  int get gpt4 => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -415,7 +415,7 @@ abstract class $UsagePerMonthPerModelCopyWith<$Res> {
           $Res Function(UsagePerMonthPerModel) then) =
       _$UsagePerMonthPerModelCopyWithImpl<$Res, UsagePerMonthPerModel>;
   @useResult
-  $Res call({@JsonKey(name: 'gpt-4-1106-preview') int gpt4_1106Preview});
+  $Res call({@JsonKey(name: 'gpt-4') int gpt4});
 }
 
 /// @nodoc
@@ -432,12 +432,12 @@ class _$UsagePerMonthPerModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? gpt4_1106Preview = null,
+    Object? gpt4 = null,
   }) {
     return _then(_value.copyWith(
-      gpt4_1106Preview: null == gpt4_1106Preview
-          ? _value.gpt4_1106Preview
-          : gpt4_1106Preview // ignore: cast_nullable_to_non_nullable
+      gpt4: null == gpt4
+          ? _value.gpt4
+          : gpt4 // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -452,7 +452,7 @@ abstract class _$$UsagePerMonthPerModelImplCopyWith<$Res>
       __$$UsagePerMonthPerModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'gpt-4-1106-preview') int gpt4_1106Preview});
+  $Res call({@JsonKey(name: 'gpt-4') int gpt4});
 }
 
 /// @nodoc
@@ -467,12 +467,12 @@ class __$$UsagePerMonthPerModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? gpt4_1106Preview = null,
+    Object? gpt4 = null,
   }) {
     return _then(_$UsagePerMonthPerModelImpl(
-      gpt4_1106Preview: null == gpt4_1106Preview
-          ? _value.gpt4_1106Preview
-          : gpt4_1106Preview // ignore: cast_nullable_to_non_nullable
+      gpt4: null == gpt4
+          ? _value.gpt4
+          : gpt4 // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -481,19 +481,18 @@ class __$$UsagePerMonthPerModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UsagePerMonthPerModelImpl implements _UsagePerMonthPerModel {
-  const _$UsagePerMonthPerModelImpl(
-      {@JsonKey(name: 'gpt-4-1106-preview') this.gpt4_1106Preview = 0});
+  const _$UsagePerMonthPerModelImpl({@JsonKey(name: 'gpt-4') this.gpt4 = 0});
 
   factory _$UsagePerMonthPerModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UsagePerMonthPerModelImplFromJson(json);
 
   @override
-  @JsonKey(name: 'gpt-4-1106-preview')
-  final int gpt4_1106Preview;
+  @JsonKey(name: 'gpt-4')
+  final int gpt4;
 
   @override
   String toString() {
-    return 'UsagePerMonthPerModel(gpt4_1106Preview: $gpt4_1106Preview)';
+    return 'UsagePerMonthPerModel(gpt4: $gpt4)';
   }
 
   @override
@@ -501,13 +500,12 @@ class _$UsagePerMonthPerModelImpl implements _UsagePerMonthPerModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UsagePerMonthPerModelImpl &&
-            (identical(other.gpt4_1106Preview, gpt4_1106Preview) ||
-                other.gpt4_1106Preview == gpt4_1106Preview));
+            (identical(other.gpt4, gpt4) || other.gpt4 == gpt4));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, gpt4_1106Preview);
+  int get hashCode => Object.hash(runtimeType, gpt4);
 
   @JsonKey(ignore: true)
   @override
@@ -526,15 +524,14 @@ class _$UsagePerMonthPerModelImpl implements _UsagePerMonthPerModel {
 
 abstract class _UsagePerMonthPerModel implements UsagePerMonthPerModel {
   const factory _UsagePerMonthPerModel(
-          {@JsonKey(name: 'gpt-4-1106-preview') final int gpt4_1106Preview}) =
-      _$UsagePerMonthPerModelImpl;
+      {@JsonKey(name: 'gpt-4') final int gpt4}) = _$UsagePerMonthPerModelImpl;
 
   factory _UsagePerMonthPerModel.fromJson(Map<String, dynamic> json) =
       _$UsagePerMonthPerModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'gpt-4-1106-preview')
-  int get gpt4_1106Preview;
+  @JsonKey(name: 'gpt-4')
+  int get gpt4;
   @override
   @JsonKey(ignore: true)
   _$$UsagePerMonthPerModelImplCopyWith<_$UsagePerMonthPerModelImpl>

@@ -6,6 +6,16 @@ enum Model {
   /// The model that is only available for plus users.
   gpt4;
 
+  /// Returns the name of the model.
+  ///
+  /// Uses the model naming convention of our backend.
+  String get snakeCaseName {
+    return switch (this) {
+      Model.gpt3_5 => 'gpt-3.5',
+      Model.gpt4 => 'gpt-4',
+    };
+  }
+
   /// Returns if the model is only available for plus users.
   bool isPlus() {
     return switch (this) {

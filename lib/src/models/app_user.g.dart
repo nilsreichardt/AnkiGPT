@@ -47,11 +47,11 @@ Map<String, dynamic> _$$UsageImplToJson(_$UsageImpl instance) =>
 _$UsagePerMonthPerModelImpl _$$UsagePerMonthPerModelImplFromJson(
         Map<String, dynamic> json) =>
     _$UsagePerMonthPerModelImpl(
-      gpt4_1106Preview: json['gpt-4-1106-preview'] as int? ?? 0,
+      gpt4: json['gpt-4'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$UsagePerMonthPerModelImplToJson(
         _$UsagePerMonthPerModelImpl instance) =>
     <String, dynamic>{
-      'gpt-4-1106-preview': instance.gpt4_1106Preview,
+      'gpt-4': instance.gpt4,
     };

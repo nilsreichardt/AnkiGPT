@@ -291,6 +291,7 @@ class _TierBase extends StatelessWidget {
 
 class Price extends StatelessWidget {
   const Price({
+    super.key,
     required this.priceEurPart,
     required this.priceCentPart,
   });

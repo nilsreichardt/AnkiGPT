@@ -3,6 +3,7 @@ import 'package:ankigpt/src/models/anki_card.dart';
 import 'package:ankigpt/src/models/card_feedback.dart';
 import 'package:ankigpt/src/models/card_id.dart';
 import 'package:ankigpt/src/models/language.dart';
+import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/pages/deck_page/error_card.dart';
 import 'package:ankigpt/src/pages/deck_page/search_bar.dart';
 import 'package:ankigpt/src/pages/deck_page/warning_card.dart';
@@ -58,7 +59,10 @@ class ResultSection extends ConsumerWidget {
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _Subtitle(language: view.language),
+                _Subtitle(
+                  language: view.language,
+                  model: view.model,
+                ),
                 if (view.hasError)
                   ErrorCard(
                     text: view.error,
@@ -821,9 +825,11 @@ class _CardIconButton extends StatelessWidget {
 class _Subtitle extends ConsumerWidget {
   const _Subtitle({
     required this.language,
+    required this.model,
   });
 
   final Language? language;
+  final Model? model;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -841,7 +847,7 @@ class _Subtitle extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12, top: 12),
       child: Text(
-        'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $cardsCount cards',
+        'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $cardsCount cards (${model?.getUiText()})',
         style: TextStyle(color: Colors.grey[500]),
       ),
     );

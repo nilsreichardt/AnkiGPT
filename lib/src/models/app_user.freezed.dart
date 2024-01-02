@@ -121,7 +121,9 @@ class _$AppUserImpl extends _AppUser {
   const _$AppUserImpl(
       {this.hasPlus = false,
       this.usage = const Usage(
-          generatedCardsCurrentMonth: 0, generatedMnemonicsCurrentMonth: 0)})
+          generatedCardsCurrentMonth: 0,
+          generatedMnemonicsCurrentMonth: 0,
+          generatedCardsCurrentMonthByModel: UsagePerMonthPerModel())})
       : super._();
 
   factory _$AppUserImpl.fromJson(Map<String, dynamic> json) =>
@@ -191,6 +193,8 @@ Usage _$UsageFromJson(Map<String, dynamic> json) {
 mixin _$Usage {
   int get generatedCardsCurrentMonth => throw _privateConstructorUsedError;
   int get generatedMnemonicsCurrentMonth => throw _privateConstructorUsedError;
+  UsagePerMonthPerModel get generatedCardsCurrentMonthByModel =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -203,7 +207,11 @@ abstract class $UsageCopyWith<$Res> {
       _$UsageCopyWithImpl<$Res, Usage>;
   @useResult
   $Res call(
-      {int generatedCardsCurrentMonth, int generatedMnemonicsCurrentMonth});
+      {int generatedCardsCurrentMonth,
+      int generatedMnemonicsCurrentMonth,
+      UsagePerMonthPerModel generatedCardsCurrentMonthByModel});
+
+  $UsagePerMonthPerModelCopyWith<$Res> get generatedCardsCurrentMonthByModel;
 }
 
 /// @nodoc
@@ -221,6 +229,7 @@ class _$UsageCopyWithImpl<$Res, $Val extends Usage>
   $Res call({
     Object? generatedCardsCurrentMonth = null,
     Object? generatedMnemonicsCurrentMonth = null,
+    Object? generatedCardsCurrentMonthByModel = null,
   }) {
     return _then(_value.copyWith(
       generatedCardsCurrentMonth: null == generatedCardsCurrentMonth
@@ -231,7 +240,22 @@ class _$UsageCopyWithImpl<$Res, $Val extends Usage>
           ? _value.generatedMnemonicsCurrentMonth
           : generatedMnemonicsCurrentMonth // ignore: cast_nullable_to_non_nullable
               as int,
+      generatedCardsCurrentMonthByModel: null ==
+              generatedCardsCurrentMonthByModel
+          ? _value.generatedCardsCurrentMonthByModel
+          : generatedCardsCurrentMonthByModel // ignore: cast_nullable_to_non_nullable
+              as UsagePerMonthPerModel,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UsagePerMonthPerModelCopyWith<$Res> get generatedCardsCurrentMonthByModel {
+    return $UsagePerMonthPerModelCopyWith<$Res>(
+        _value.generatedCardsCurrentMonthByModel, (value) {
+      return _then(
+          _value.copyWith(generatedCardsCurrentMonthByModel: value) as $Val);
+    });
   }
 }
 
@@ -243,7 +267,12 @@ abstract class _$$UsageImplCopyWith<$Res> implements $UsageCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int generatedCardsCurrentMonth, int generatedMnemonicsCurrentMonth});
+      {int generatedCardsCurrentMonth,
+      int generatedMnemonicsCurrentMonth,
+      UsagePerMonthPerModel generatedCardsCurrentMonthByModel});
+
+  @override
+  $UsagePerMonthPerModelCopyWith<$Res> get generatedCardsCurrentMonthByModel;
 }
 
 /// @nodoc
@@ -259,6 +288,7 @@ class __$$UsageImplCopyWithImpl<$Res>
   $Res call({
     Object? generatedCardsCurrentMonth = null,
     Object? generatedMnemonicsCurrentMonth = null,
+    Object? generatedCardsCurrentMonthByModel = null,
   }) {
     return _then(_$UsageImpl(
       generatedCardsCurrentMonth: null == generatedCardsCurrentMonth
@@ -269,6 +299,11 @@ class __$$UsageImplCopyWithImpl<$Res>
           ? _value.generatedMnemonicsCurrentMonth
           : generatedMnemonicsCurrentMonth // ignore: cast_nullable_to_non_nullable
               as int,
+      generatedCardsCurrentMonthByModel: null ==
+              generatedCardsCurrentMonthByModel
+          ? _value.generatedCardsCurrentMonthByModel
+          : generatedCardsCurrentMonthByModel // ignore: cast_nullable_to_non_nullable
+              as UsagePerMonthPerModel,
     ));
   }
 }
@@ -278,7 +313,8 @@ class __$$UsageImplCopyWithImpl<$Res>
 class _$UsageImpl implements _Usage {
   const _$UsageImpl(
       {this.generatedCardsCurrentMonth = 0,
-      this.generatedMnemonicsCurrentMonth = 0});
+      this.generatedMnemonicsCurrentMonth = 0,
+      this.generatedCardsCurrentMonthByModel = const UsagePerMonthPerModel()});
 
   factory _$UsageImpl.fromJson(Map<String, dynamic> json) =>
       _$$UsageImplFromJson(json);
@@ -289,10 +325,13 @@ class _$UsageImpl implements _Usage {
   @override
   @JsonKey()
   final int generatedMnemonicsCurrentMonth;
+  @override
+  @JsonKey()
+  final UsagePerMonthPerModel generatedCardsCurrentMonthByModel;
 
   @override
   String toString() {
-    return 'Usage(generatedCardsCurrentMonth: $generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth: $generatedMnemonicsCurrentMonth)';
+    return 'Usage(generatedCardsCurrentMonth: $generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth: $generatedMnemonicsCurrentMonth, generatedCardsCurrentMonthByModel: $generatedCardsCurrentMonthByModel)';
   }
 
   @override
@@ -307,13 +346,17 @@ class _$UsageImpl implements _Usage {
             (identical(other.generatedMnemonicsCurrentMonth,
                     generatedMnemonicsCurrentMonth) ||
                 other.generatedMnemonicsCurrentMonth ==
-                    generatedMnemonicsCurrentMonth));
+                    generatedMnemonicsCurrentMonth) &&
+            (identical(other.generatedCardsCurrentMonthByModel,
+                    generatedCardsCurrentMonthByModel) ||
+                other.generatedCardsCurrentMonthByModel ==
+                    generatedCardsCurrentMonthByModel));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth);
+  int get hashCode => Object.hash(runtimeType, generatedCardsCurrentMonth,
+      generatedMnemonicsCurrentMonth, generatedCardsCurrentMonthByModel);
 
   @JsonKey(ignore: true)
   @override
@@ -331,8 +374,10 @@ class _$UsageImpl implements _Usage {
 
 abstract class _Usage implements Usage {
   const factory _Usage(
-      {final int generatedCardsCurrentMonth,
-      final int generatedMnemonicsCurrentMonth}) = _$UsageImpl;
+          {final int generatedCardsCurrentMonth,
+          final int generatedMnemonicsCurrentMonth,
+          final UsagePerMonthPerModel generatedCardsCurrentMonthByModel}) =
+      _$UsageImpl;
 
   factory _Usage.fromJson(Map<String, dynamic> json) = _$UsageImpl.fromJson;
 
@@ -341,7 +386,154 @@ abstract class _Usage implements Usage {
   @override
   int get generatedMnemonicsCurrentMonth;
   @override
+  UsagePerMonthPerModel get generatedCardsCurrentMonthByModel;
+  @override
   @JsonKey(ignore: true)
   _$$UsageImplCopyWith<_$UsageImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+UsagePerMonthPerModel _$UsagePerMonthPerModelFromJson(
+    Map<String, dynamic> json) {
+  return _UsagePerMonthPerModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UsagePerMonthPerModel {
+  @JsonKey(name: 'gpt-4')
+  int get gpt4 => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $UsagePerMonthPerModelCopyWith<UsagePerMonthPerModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UsagePerMonthPerModelCopyWith<$Res> {
+  factory $UsagePerMonthPerModelCopyWith(UsagePerMonthPerModel value,
+          $Res Function(UsagePerMonthPerModel) then) =
+      _$UsagePerMonthPerModelCopyWithImpl<$Res, UsagePerMonthPerModel>;
+  @useResult
+  $Res call({@JsonKey(name: 'gpt-4') int gpt4});
+}
+
+/// @nodoc
+class _$UsagePerMonthPerModelCopyWithImpl<$Res,
+        $Val extends UsagePerMonthPerModel>
+    implements $UsagePerMonthPerModelCopyWith<$Res> {
+  _$UsagePerMonthPerModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? gpt4 = null,
+  }) {
+    return _then(_value.copyWith(
+      gpt4: null == gpt4
+          ? _value.gpt4
+          : gpt4 // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$UsagePerMonthPerModelImplCopyWith<$Res>
+    implements $UsagePerMonthPerModelCopyWith<$Res> {
+  factory _$$UsagePerMonthPerModelImplCopyWith(
+          _$UsagePerMonthPerModelImpl value,
+          $Res Function(_$UsagePerMonthPerModelImpl) then) =
+      __$$UsagePerMonthPerModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'gpt-4') int gpt4});
+}
+
+/// @nodoc
+class __$$UsagePerMonthPerModelImplCopyWithImpl<$Res>
+    extends _$UsagePerMonthPerModelCopyWithImpl<$Res,
+        _$UsagePerMonthPerModelImpl>
+    implements _$$UsagePerMonthPerModelImplCopyWith<$Res> {
+  __$$UsagePerMonthPerModelImplCopyWithImpl(_$UsagePerMonthPerModelImpl _value,
+      $Res Function(_$UsagePerMonthPerModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? gpt4 = null,
+  }) {
+    return _then(_$UsagePerMonthPerModelImpl(
+      gpt4: null == gpt4
+          ? _value.gpt4
+          : gpt4 // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UsagePerMonthPerModelImpl implements _UsagePerMonthPerModel {
+  const _$UsagePerMonthPerModelImpl({@JsonKey(name: 'gpt-4') this.gpt4 = 0});
+
+  factory _$UsagePerMonthPerModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UsagePerMonthPerModelImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'gpt-4')
+  final int gpt4;
+
+  @override
+  String toString() {
+    return 'UsagePerMonthPerModel(gpt4: $gpt4)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UsagePerMonthPerModelImpl &&
+            (identical(other.gpt4, gpt4) || other.gpt4 == gpt4));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, gpt4);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UsagePerMonthPerModelImplCopyWith<_$UsagePerMonthPerModelImpl>
+      get copyWith => __$$UsagePerMonthPerModelImplCopyWithImpl<
+          _$UsagePerMonthPerModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UsagePerMonthPerModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UsagePerMonthPerModel implements UsagePerMonthPerModel {
+  const factory _UsagePerMonthPerModel(
+      {@JsonKey(name: 'gpt-4') final int gpt4}) = _$UsagePerMonthPerModelImpl;
+
+  factory _UsagePerMonthPerModel.fromJson(Map<String, dynamic> json) =
+      _$UsagePerMonthPerModelImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'gpt-4')
+  int get gpt4;
+  @override
+  @JsonKey(ignore: true)
+  _$$UsagePerMonthPerModelImplCopyWith<_$UsagePerMonthPerModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

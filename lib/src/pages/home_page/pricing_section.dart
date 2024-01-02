@@ -79,16 +79,16 @@ class _FreeTier extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return _TierBase(
       name: 'Free',
-      price: '€0',
+      priceEurPart: '€0',
       points: const [
-        PointData('$freeUsageLimitPerMonth cards per month'),
-        PointData('Up to 20 cards per request'),
+        PointData('$freeUsageLimitPerMonth cards with GPT-3.5 per month'),
+        PointData('Up to 20 cards per deck'),
         PointData('Up to 4,000 input characters per request'),
+        PointData('Delete, edit & search cards'),
         PointData(
           'Generate $freeMnemonicsUsagePerMonth mnemonics per month',
           trailing: _HelpMnemonicsIconButton(),
         ),
-        PointData('Delete, edit & search cards'),
         PointData('Share decks with a link'),
       ],
       onPressedCallToAction: () {
@@ -199,11 +199,13 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
     final hasPlus = ref.watch(hasPlusProvider);
     return _TierBase(
       name: 'Plus',
-      price: '€9.99',
+      priceEurPart: '€14',
+      priceCentPart: '.99',
       priceDescription: 'Lifetime (one-time payment)',
       points: const [
-        PointData('Unlimited cards per month'),
-        PointData('Up to 150 cards per request'),
+        PointData('Unlimited cards with GPT-3.5 per month'),
+        PointData('$plusGpt4UsageLimitPerMonth cards with GPT-4 per month'),
+        PointData('Up to 150 cards per deck'),
         PointData('Up to 500,000 input characters (~ 200 pages) per request'),
         PointData(
           'Generate unlimited mnemonics',
@@ -222,7 +224,8 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
 class _TierBase extends StatelessWidget {
   const _TierBase({
     required this.name,
-    required this.price,
+    required this.priceEurPart,
+    this.priceCentPart,
     required this.points,
     required this.onPressedCallToAction,
     required this.callToActionText,
@@ -231,7 +234,8 @@ class _TierBase extends StatelessWidget {
   });
 
   final String name;
-  final String price;
+  final String priceEurPart;
+  final String? priceCentPart;
   final String? priceDescription;
   final List<PointData> points;
   final VoidCallback onPressedCallToAction;
@@ -245,7 +249,7 @@ class _TierBase extends StatelessWidget {
         width: _isMobileView(context)
             ? MediaQuery.of(context).size.width * 0.85
             : 365,
-        height: _isMobileView(context) ? 550 : 565,
+        height: 620,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -258,12 +262,9 @@ class _TierBase extends StatelessWidget {
                     name,
                     style: const TextStyle(fontSize: 24),
                   ),
-                  Text(
-                    price,
-                    style: const TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Price(
+                    priceEurPart: priceEurPart,
+                    priceCentPart: priceCentPart,
                   ),
                   Text(priceDescription ?? ''),
                 ],
@@ -284,6 +285,44 @@ class _TierBase extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class Price extends StatelessWidget {
+  const Price({
+    super.key,
+    required this.priceEurPart,
+    required this.priceCentPart,
+  });
+
+  final String priceEurPart;
+  final String? priceCentPart;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          priceEurPart,
+          style: const TextStyle(
+            fontSize: 48,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        if (priceCentPart != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 2, bottom: 11),
+            child: Text(
+              priceCentPart!,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600]!,
+              ),
+            ),
+          )
+      ],
     );
   }
 }

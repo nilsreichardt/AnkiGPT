@@ -6,6 +6,7 @@ import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
+import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
@@ -85,8 +86,10 @@ class PlusAdvantages extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SellingPoint(text: 'Unlimited cards per month'),
-        SellingPoint(text: 'Up to 150 cards per request'),
+        SellingPoint(text: 'Unlimited cards with GPT-3.5 per month'),
+        SellingPoint(
+            text: '$plusGpt4UsageLimitPerMonth cards with GPT-4 per month'),
+        SellingPoint(text: 'Up to 150 cards per deck'),
         SellingPoint(
             text: 'Up to 500,000 input characters (~ 200 pages) per request'),
         SellingPoint(text: 'Unlimited mnemonics per month'),
@@ -106,17 +109,14 @@ class _PlusPrice extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '€9.99',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.w600,
-            ),
+          const Price(
+            priceEurPart: '€14',
+            priceCentPart: '.99',
           ),
           Text(
             'Lifetime (one-time payment)',
             style: TextStyle(
-              color: Colors.grey[600]!,
+              color: Colors.grey[700]!,
             ),
           ),
         ],

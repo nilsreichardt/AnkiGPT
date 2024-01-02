@@ -21,6 +21,7 @@ _$SessionDtoImpl _$$SessionDtoImplFromJson(Map<String, dynamic> json) =>
       numberOfCards: json['numberOfCards'] as int,
       visibility: parseVisibility(json['visibility'] as Map<String, dynamic>?),
       userId: json['userId'] as String,
+      model: parseModel(json['model'] as Map<String, dynamic>?),
     );
 
 Map<String, dynamic> _$$SessionDtoImplToJson(_$SessionDtoImpl instance) =>
@@ -36,6 +37,7 @@ Map<String, dynamic> _$$SessionDtoImplToJson(_$SessionDtoImpl instance) =>
       'numberOfCards': instance.numberOfCards,
       'visibility': _$VisibilityEnumMap[instance.visibility]!,
       'userId': instance.userId,
+      'model': _$ModelEnumMap[instance.model]!,
     };
 
 const _$LanguageEnumMap = {
@@ -188,6 +190,11 @@ const _$SessionStatusEnumMap = {
 const _$VisibilityEnumMap = {
   Visibility.private: 'private',
   Visibility.anyoneWithLink: 'anyoneWithLink',
+};
+
+const _$ModelEnumMap = {
+  Model.gpt3_5: 'gpt3_5',
+  Model.gpt4: 'gpt4',
 };
 
 _$InputImpl _$$InputImplFromJson(Map<String, dynamic> json) => _$InputImpl(

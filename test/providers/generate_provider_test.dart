@@ -1,11 +1,11 @@
 import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/providers/analytics_provider.dart';
-import 'package:ankigpt/src/providers/card_generation_size_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/input_text_field_controller.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
+import 'package:ankigpt/src/providers/options_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:logger/logger.dart';
@@ -107,9 +107,9 @@ void main() {
 
       test('throws exception when user has selected a plus size', () {
         container
-            .read(generationSizeProvider.notifier)
-            // Fifty cards are only inlcuded in plus version
-            .set(CardGenrationSize.fifty);
+            .read(optionsControllerProvider.notifier)
+            // Fifty cards are only included in plus version
+            .setSize(CardGenrationSize.fifty);
 
         // Except that .submit throws PlusVersionException
         expect(
@@ -120,9 +120,9 @@ void main() {
 
       test('logs event when user has selected a plus size', () async {
         container
-            .read(generationSizeProvider.notifier)
+            .read(optionsControllerProvider.notifier)
             // Fifty cards are only inlcuded in plus version
-            .set(CardGenrationSize.fifty);
+            .setSize(CardGenrationSize.fifty);
 
         try {
           await container.read(generateNotifierProvider.notifier).submit();

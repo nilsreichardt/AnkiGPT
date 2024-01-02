@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'current_month_usage_provider.dart';
+part of 'current_usage_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -21,5 +21,20 @@ final currentMonthUsageProvider = AutoDisposeProvider<int>.internal(
 );
 
 typedef CurrentMonthUsageRef = AutoDisposeProviderRef<int>;
+String _$currentGpt4UsageHash() => r'cb47dde1553cadb781bfb9c2ac31166486574750';
+
+/// See also [currentGpt4Usage].
+@ProviderFor(currentGpt4Usage)
+final currentGpt4UsageProvider = AutoDisposeProvider<int>.internal(
+  currentGpt4Usage,
+  name: r'currentGpt4UsageProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$currentGpt4UsageHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef CurrentGpt4UsageRef = AutoDisposeProviderRef<int>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
@@ -52,31 +53,34 @@ class MyDecksSection extends ConsumerWidget {
                             for (final session in sessions)
                               session.maybeWhen(
                                 created: (questions, createdAt, name, sessionId,
-                                        numberOfCards) =>
+                                        model, numberOfCards) =>
                                     _CreatedHistoryDeck(
                                   questions: questions,
                                   createdAt: session.createdAt,
                                   name: name,
                                   sessionId: sessionId,
+                                  model: model,
                                   numberOfCards: numberOfCards,
                                 ),
                                 loading: (createdAt, name, numberOfCards,
-                                        sessionId) =>
+                                        sessionId, model) =>
                                     _LoadingHistoryDeck(
                                   createdAt: session.createdAt,
                                   name: name,
                                   numberOfCards: numberOfCards,
                                   isTesting: isTesting,
                                   sessionId: sessionId,
+                                  model: model,
                                 ),
                                 error: (error, createdAt, name, numberOfCards,
-                                        sessionId) =>
+                                        sessionId, model) =>
                                     _ErrorHistoryDeck(
                                   createdAt: session.createdAt,
                                   error: error,
                                   name: name,
                                   numberOfCards: numberOfCards,
                                   sessionId: sessionId,
+                                  model: model,
                                 ),
                                 orElse: () => const SizedBox(),
                               )
@@ -118,6 +122,7 @@ class _CreatedHistoryDeck extends ConsumerWidget {
     required this.questions,
     required this.numberOfCards,
     required this.sessionId,
+    required this.model,
   });
 
   final String name;
@@ -125,12 +130,14 @@ class _CreatedHistoryDeck extends ConsumerWidget {
   final List<String> questions;
   final int numberOfCards;
   final SessionId sessionId;
+  final Model model;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasMoreThanFiveQuestions = questions.length > 5;
     return _HistoryDeckBase(
       numberOfCards: numberOfCards,
+      model: model,
       name: name,
       createdAt: createdAt,
       sessionId: sessionId,
@@ -169,6 +176,7 @@ class _LoadingHistoryDeck extends StatelessWidget {
     required this.numberOfCards,
     required this.isTesting,
     required this.sessionId,
+    required this.model,
   });
 
   final String name;
@@ -176,10 +184,12 @@ class _LoadingHistoryDeck extends StatelessWidget {
   final int numberOfCards;
   final bool isTesting;
   final SessionId sessionId;
+  final Model model;
 
   @override
   Widget build(BuildContext context) {
     return _HistoryDeckBase(
+      model: model,
       numberOfCards: numberOfCards,
       name: name,
       createdAt: createdAt,
@@ -208,6 +218,7 @@ class _ErrorHistoryDeck extends StatelessWidget {
     required this.error,
     required this.numberOfCards,
     required this.sessionId,
+    required this.model,
   });
 
   final String name;
@@ -215,11 +226,13 @@ class _ErrorHistoryDeck extends StatelessWidget {
   final String? error;
   final int numberOfCards;
   final SessionId sessionId;
+  final Model model;
 
   @override
   Widget build(BuildContext context) {
     return _HistoryDeckBase(
         numberOfCards: numberOfCards,
+        model: model,
         name: name,
         sessionId: sessionId,
         createdAt: createdAt,
@@ -245,6 +258,7 @@ class _HistoryDeckBase extends StatelessWidget {
     required this.body,
     required this.numberOfCards,
     required this.sessionId,
+    required this.model,
     this.color = Colors.blue,
   });
 
@@ -254,6 +268,7 @@ class _HistoryDeckBase extends StatelessWidget {
   final Widget body;
   final int numberOfCards;
   final SessionId sessionId;
+  final Model model;
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +292,7 @@ class _HistoryDeckBase extends StatelessWidget {
                   ),
                 ),
               Text(
-                  '${DateFormat.yMEd().add_jms().format(createdAt!)}, $numberOfCards cards',
+                  '${DateFormat.yMEd().add_jms().format(createdAt!)}, $numberOfCards cards (${model.getUiText()})',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Theme.of(context)
                             .colorScheme

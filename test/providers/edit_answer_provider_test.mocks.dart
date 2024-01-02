@@ -122,6 +122,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
   _i7.Future<String> startSession({
     required _i8.Input? input,
     required int? numberOfCards,
+    required String? model,
     required String? sessionId,
   }) =>
       (super.noSuchMethod(
@@ -131,6 +132,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
           {
             #input: input,
             #numberOfCards: numberOfCards,
+            #model: model,
             #sessionId: sessionId,
           },
         ),
@@ -142,6 +144,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
             {
               #input: input,
               #numberOfCards: numberOfCards,
+              #model: model,
               #sessionId: sessionId,
             },
           ),
@@ -155,6 +158,7 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
             {
               #input: input,
               #numberOfCards: numberOfCards,
+              #model: model,
               #sessionId: sessionId,
             },
           ),

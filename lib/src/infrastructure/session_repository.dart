@@ -26,6 +26,7 @@ class SessionRepository {
   Future<SessionId> startSession({
     required Input input,
     required int numberOfCards,
+    required String model,
     required SessionId? sessionId,
   }) async {
     final result = await functions
@@ -36,6 +37,7 @@ class SessionRepository {
         'input': input.toJson(),
         'sessionId': sessionId,
         'numberOfCards': numberOfCards,
+        'model': model,
       }
     });
     return result.data['id'];

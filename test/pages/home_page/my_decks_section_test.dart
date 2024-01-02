@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:adaptive_test/adaptive_test.dart';
 import 'package:ankigpt/src/models/deck_preview.dart';
+import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/pages/home_page/my_decks_section.dart';
 import 'package:ankigpt/src/providers/deck_list_provider.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,7 @@ void main() {
           createdAt: DateTime(2023, 1, 1),
           name: _generateString(random),
           sessionId: _generateString(random),
+          model: Model.gpt3_5,
           numberOfCards: random.nextInt(100),
         ),
         DeckPreview.loading(
@@ -51,6 +53,7 @@ void main() {
           name: _generateString(random),
           numberOfCards: random.nextInt(100),
           sessionId: _generateString(random),
+          model: Model.gpt3_5,
         ),
         DeckPreview.error(
           message: _generateString(random),
@@ -58,6 +61,7 @@ void main() {
           name: _generateString(random),
           numberOfCards: random.nextInt(100),
           sessionId: _generateString(random),
+          model: Model.gpt3_5,
         ),
       ];
       await pumpMyDecksSection(

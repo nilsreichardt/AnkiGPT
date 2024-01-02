@@ -9,7 +9,7 @@ https://github.com/nilsreichardt/ankigpt/assets/24459435/853dee68-d634-48e4-93fe
 ## Features
 
 - 📁 Upload PDF slides or insert text
-- 🧠 Generate flashcards up to 150 [Anki](https://apps.ankiweb.net/) flashcards with one click
+- 🧠 Generate flashcards up to 150 [Anki](https://apps.ankiweb.net/) flashcards with one click using GPT-3.5 or GPT-4 by OpenAI
 - 📤 Export generated flashcards by GPT (ChatGPT) to [Anki](https://apps.ankiweb.net/) with CSV file
 - ✏️ Edit flashcards, in case you want to change something
 - 🗑️ Delete flashcards, in case GPT (ChatGPT) generated something wrong or useless card
@@ -36,7 +36,7 @@ AnkiGPT is designed to be a globally accessible tool, and as such, it supports n
 
 ### Which model is used for AnkiGPT?
 
-AnkiGPT uses as underlaying AI model GPT-3.5 by OpenAI.
+AnkiGPT primarily utilizes the GPT-3.5 by OpenAI model to generate flashcards, offering a seamless integration of advanced AI technology for effective learning. For users who opt for the AnkiGPT Plus version, they gain the enhanced capability to generate up to 150 flashcards per month using the more advanced [GPT-4 model](https://openai.com/gpt-4), ensuring even more sophisticated and nuanced content creation.
 
 ### Is the content from my submitted lecture slides used for AI training?
 

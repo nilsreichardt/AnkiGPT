@@ -42,6 +42,13 @@
       "target": "ankigpt-api",
       "rewrites": [
         {
+          "source": "/v1/pdf-reader",
+          "run": {
+            "serviceId": "pdf-reader",
+            "region": "europe-west1"
+          }
+        },
+        {
           "source": "/v1/tokenizer/**",
           "run": {
             "serviceId": "tokenizer",

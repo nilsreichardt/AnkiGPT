@@ -21,7 +21,7 @@ class FaqSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaxWidthConstrainedBox(
-      key: ref.read(homePageScollViewProvider).faqSectionKey,
+      key: ref.read(homePageScrollViewProvider).faqSectionKey,
       maxWidth: 850,
       child: const Column(
         children: [

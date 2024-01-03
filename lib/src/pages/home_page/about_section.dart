@@ -15,7 +15,7 @@ class AboutSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaxWidthConstrainedBox(
-      key: ref.read(homePageScollViewProvider).aboutSectionKey,
+      key: ref.read(homePageScrollViewProvider).aboutSectionKey,
       maxWidth: 850,
       child: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),

@@ -93,7 +93,7 @@ class PlusAdvantages extends StatelessWidget {
         SellingPoint(
             text: 'Up to 500,000 input characters (~ 200 pages) per request'),
         SellingPoint(text: 'Unlimited mnemonics per month'),
-        SellingPoint(text: 'Premium support'),
+        SellingPoint(text: 'Access all your decks'),
       ],
     );
   }

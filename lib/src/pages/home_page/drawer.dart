@@ -26,8 +26,9 @@ class HomePageDrawer extends ConsumerWidget {
                     spaceBetweenItems,
                     ListTile(
                       onTap: () {
-                        final key =
-                            ref.read(homePageScollViewProvider).inputSectionKey;
+                        final key = ref
+                            .read(homePageScrollViewProvider)
+                            .inputSectionKey;
                         scrollTo(context: context, key: key);
                         Navigator.pop(context);
                       },
@@ -42,7 +43,7 @@ class HomePageDrawer extends ConsumerWidget {
                     ListTile(
                       onTap: () {
                         final key = ref
-                            .read(homePageScollViewProvider)
+                            .read(homePageScrollViewProvider)
                             .pricingSectionKey;
                         scrollTo(context: context, key: key);
                         Navigator.pop(context);
@@ -52,8 +53,9 @@ class HomePageDrawer extends ConsumerWidget {
                     spaceBetweenItems,
                     ListTile(
                       onTap: () {
-                        final key =
-                            ref.read(homePageScollViewProvider).aboutSectionKey;
+                        final key = ref
+                            .read(homePageScrollViewProvider)
+                            .aboutSectionKey;
                         scrollTo(context: context, key: key);
                         Navigator.pop(context);
                       },
@@ -63,7 +65,7 @@ class HomePageDrawer extends ConsumerWidget {
                     ListTile(
                       onTap: () {
                         final key =
-                            ref.read(homePageScollViewProvider).faqSectionKey;
+                            ref.read(homePageScrollViewProvider).faqSectionKey;
                         scrollTo(context: context, key: key);
                         Navigator.pop(context);
                       },
@@ -75,7 +77,8 @@ class HomePageDrawer extends ConsumerWidget {
             ),
             InkWell(
               onTap: () {
-                final key = ref.read(homePageScollViewProvider).inputSectionKey;
+                final key =
+                    ref.read(homePageScrollViewProvider).inputSectionKey;
                 scrollTo(context: context, key: key);
                 Navigator.pop(context);
               },
@@ -101,7 +104,7 @@ class _DemoTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return _BasicTile(
       key: const ValueKey('demo-tile'),
-      sectionKey: ref.read(homePageScollViewProvider).demoSectionKey,
+      sectionKey: ref.read(homePageScrollViewProvider).demoSectionKey,
       text: 'Demo',
     );
   }
@@ -114,7 +117,7 @@ class _DeckTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return _BasicTile(
       key: const ValueKey('decks-tile'),
-      sectionKey: ref.read(homePageScollViewProvider).myDecksSectionKey,
+      sectionKey: ref.read(homePageScrollViewProvider).myDecksSectionKey,
       text: 'My Decks',
     );
   }

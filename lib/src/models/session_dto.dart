@@ -29,6 +29,7 @@ class SessionDto with _$SessionDto {
     @JsonKey(fromJson: parseVisibility) required Visibility visibility,
     required UserId userId,
     @JsonKey(fromJson: parseModel) required Model model,
+    required String? title,
   }) = _SessionDto;
 
   factory SessionDto.fromJson(Map<String, dynamic> json) =>

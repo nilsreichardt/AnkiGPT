@@ -37,6 +37,7 @@ mixin _$SessionDto {
   String get userId => throw _privateConstructorUsedError;
   @JsonKey(fromJson: parseModel)
   Model get model => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -62,7 +63,8 @@ abstract class $SessionDtoCopyWith<$Res> {
       int numberOfCards,
       @JsonKey(fromJson: parseVisibility) Visibility visibility,
       String userId,
-      @JsonKey(fromJson: parseModel) Model model});
+      @JsonKey(fromJson: parseModel) Model model,
+      String? title});
 
   $InputCopyWith<$Res> get input;
   $CsvMetadataCopyWith<$Res>? get csv;
@@ -93,6 +95,7 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
     Object? visibility = null,
     Object? userId = null,
     Object? model = null,
+    Object? title = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -143,6 +146,10 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as Model,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -187,7 +194,8 @@ abstract class _$$SessionDtoImplCopyWith<$Res>
       int numberOfCards,
       @JsonKey(fromJson: parseVisibility) Visibility visibility,
       String userId,
-      @JsonKey(fromJson: parseModel) Model model});
+      @JsonKey(fromJson: parseModel) Model model,
+      String? title});
 
   @override
   $InputCopyWith<$Res> get input;
@@ -218,6 +226,7 @@ class __$$SessionDtoImplCopyWithImpl<$Res>
     Object? visibility = null,
     Object? userId = null,
     Object? model = null,
+    Object? title = freezed,
   }) {
     return _then(_$SessionDtoImpl(
       id: null == id
@@ -268,6 +277,10 @@ class __$$SessionDtoImplCopyWithImpl<$Res>
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as Model,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -288,7 +301,8 @@ class _$SessionDtoImpl implements _SessionDto {
       required this.numberOfCards,
       @JsonKey(fromJson: parseVisibility) required this.visibility,
       required this.userId,
-      @JsonKey(fromJson: parseModel) required this.model})
+      @JsonKey(fromJson: parseModel) required this.model,
+      required this.title})
       : _cards = cards;
 
   factory _$SessionDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -331,10 +345,12 @@ class _$SessionDtoImpl implements _SessionDto {
   @override
   @JsonKey(fromJson: parseModel)
   final Model model;
+  @override
+  final String? title;
 
   @override
   String toString() {
-    return 'SessionDto(id: $id, language: $language, input: $input, createdAt: $createdAt, csv: $csv, cards: $cards, status: $status, error: $error, numberOfCards: $numberOfCards, visibility: $visibility, userId: $userId, model: $model)';
+    return 'SessionDto(id: $id, language: $language, input: $input, createdAt: $createdAt, csv: $csv, cards: $cards, status: $status, error: $error, numberOfCards: $numberOfCards, visibility: $visibility, userId: $userId, model: $model, title: $title)';
   }
 
   @override
@@ -357,7 +373,8 @@ class _$SessionDtoImpl implements _SessionDto {
             (identical(other.visibility, visibility) ||
                 other.visibility == visibility) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.model, model) || other.model == model));
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.title, title) || other.title == title));
   }
 
   @JsonKey(ignore: true)
@@ -375,7 +392,8 @@ class _$SessionDtoImpl implements _SessionDto {
       numberOfCards,
       visibility,
       userId,
-      model);
+      model,
+      title);
 
   @JsonKey(ignore: true)
   @override
@@ -405,8 +423,8 @@ abstract class _SessionDto implements SessionDto {
       required final int numberOfCards,
       @JsonKey(fromJson: parseVisibility) required final Visibility visibility,
       required final String userId,
-      @JsonKey(fromJson: parseModel)
-      required final Model model}) = _$SessionDtoImpl;
+      @JsonKey(fromJson: parseModel) required final Model model,
+      required final String? title}) = _$SessionDtoImpl;
 
   factory _SessionDto.fromJson(Map<String, dynamic> json) =
       _$SessionDtoImpl.fromJson;
@@ -440,6 +458,8 @@ abstract class _SessionDto implements SessionDto {
   @override
   @JsonKey(fromJson: parseModel)
   Model get model;
+  @override
+  String? get title;
   @override
   @JsonKey(ignore: true)
   _$$SessionDtoImplCopyWith<_$SessionDtoImpl> get copyWith =>

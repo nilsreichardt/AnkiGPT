@@ -154,4 +154,17 @@ class SessionRepository {
       }
     });
   }
+
+  Future<void> renameDeck({
+    required SessionId sessionId,
+    required String title,
+  }) async {
+    await functions.httpsCallableFromUrl(routeFunctionsUrl).call({
+      'destination': 'renameDeck',
+      'payload': {
+        'sessionId': sessionId,
+        'title': title,
+      }
+    });
+  }
 }

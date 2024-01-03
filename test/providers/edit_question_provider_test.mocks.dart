@@ -299,6 +299,24 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<void> renameDeck({
+    required String? sessionId,
+    required String? title,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #renameDeck,
+          [],
+          {
+            #sessionId: sessionId,
+            #title: title,
+          },
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [Logger].

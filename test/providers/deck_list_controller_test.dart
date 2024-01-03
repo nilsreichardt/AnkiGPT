@@ -208,6 +208,7 @@ SessionDto _generateSessionDto({
 }) {
   const uuid = Uuid();
   return SessionDto(
+    title: null,
     id: uuid.v4(),
     language: Language.de,
     input: Input(

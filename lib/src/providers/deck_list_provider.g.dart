@@ -6,19 +6,22 @@ part of 'deck_list_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$deckListHash() => r'4345f455f0dccd3a986aeede176653d4d6f7a476';
+String _$deckListControllerHash() =>
+    r'b5980ad76d30989a3c955474e12f8a15c76c5912';
 
-/// See also [deckList].
-@ProviderFor(deckList)
-final deckListProvider = AutoDisposeStreamProvider<List<DeckPreview>>.internal(
-  deckList,
-  name: r'deckListProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$deckListHash,
+/// See also [DeckListController].
+@ProviderFor(DeckListController)
+final deckListControllerProvider =
+    AutoDisposeNotifierProvider<DeckListController, DeckListState>.internal(
+  DeckListController.new,
+  name: r'deckListControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$deckListControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef DeckListRef = AutoDisposeStreamProviderRef<List<DeckPreview>>;
+typedef _$DeckListController = AutoDisposeNotifier<DeckListState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -6,20 +6,21 @@ part of 'home_page_scroll_view.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homePageScollViewHash() => r'94e7182a43485842cb18b3666e5e97d46516046f';
+String _$homePageScrollViewHash() =>
+    r'481cb85e4bfd370ad937487df8f57c9cd2cf691d';
 
-/// See also [homePageScollView].
-@ProviderFor(homePageScollView)
-final homePageScollViewProvider = Provider<HomePageScrollViewData>.internal(
-  homePageScollView,
-  name: r'homePageScollViewProvider',
+/// See also [homePageScrollView].
+@ProviderFor(homePageScrollView)
+final homePageScrollViewProvider = Provider<HomePageScrollViewData>.internal(
+  homePageScrollView,
+  name: r'homePageScrollViewProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$homePageScollViewHash,
+      : _$homePageScrollViewHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef HomePageScollViewRef = ProviderRef<HomePageScrollViewData>;
+typedef HomePageScrollViewRef = ProviderRef<HomePageScrollViewData>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

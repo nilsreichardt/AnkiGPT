@@ -12,7 +12,7 @@ class DemoSection extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: MaxWidthConstrainedBox(
-        key: ref.read(homePageScollViewProvider).demoSectionKey,
+        key: ref.read(homePageScrollViewProvider).demoSectionKey,
         child: const TutorialVideoPlayer(
           aspectRatio: 16 / 9.6,
           videoUrl:

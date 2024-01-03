@@ -28,6 +28,8 @@ mixin _$HomePageScrollViewData {
       throw _privateConstructorUsedError;
   GlobalKey<State<StatefulWidget>> get myDecksSectionKey =>
       throw _privateConstructorUsedError;
+  GlobalKey<State<StatefulWidget>> get loadMoreDecksButton =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomePageScrollViewDataCopyWith<HomePageScrollViewData> get copyWith =>
@@ -46,7 +48,8 @@ abstract class $HomePageScrollViewDataCopyWith<$Res> {
       GlobalKey<State<StatefulWidget>> aboutSectionKey,
       GlobalKey<State<StatefulWidget>> pricingSectionKey,
       GlobalKey<State<StatefulWidget>> faqSectionKey,
-      GlobalKey<State<StatefulWidget>> myDecksSectionKey});
+      GlobalKey<State<StatefulWidget>> myDecksSectionKey,
+      GlobalKey<State<StatefulWidget>> loadMoreDecksButton});
 }
 
 /// @nodoc
@@ -69,6 +72,7 @@ class _$HomePageScrollViewDataCopyWithImpl<$Res,
     Object? pricingSectionKey = null,
     Object? faqSectionKey = null,
     Object? myDecksSectionKey = null,
+    Object? loadMoreDecksButton = null,
   }) {
     return _then(_value.copyWith(
       inputSectionKey: null == inputSectionKey
@@ -95,6 +99,10 @@ class _$HomePageScrollViewDataCopyWithImpl<$Res,
           ? _value.myDecksSectionKey
           : myDecksSectionKey // ignore: cast_nullable_to_non_nullable
               as GlobalKey<State<StatefulWidget>>,
+      loadMoreDecksButton: null == loadMoreDecksButton
+          ? _value.loadMoreDecksButton
+          : loadMoreDecksButton // ignore: cast_nullable_to_non_nullable
+              as GlobalKey<State<StatefulWidget>>,
     ) as $Val);
   }
 }
@@ -114,7 +122,8 @@ abstract class _$$HomePageScrollViewDataImplCopyWith<$Res>
       GlobalKey<State<StatefulWidget>> aboutSectionKey,
       GlobalKey<State<StatefulWidget>> pricingSectionKey,
       GlobalKey<State<StatefulWidget>> faqSectionKey,
-      GlobalKey<State<StatefulWidget>> myDecksSectionKey});
+      GlobalKey<State<StatefulWidget>> myDecksSectionKey,
+      GlobalKey<State<StatefulWidget>> loadMoreDecksButton});
 }
 
 /// @nodoc
@@ -136,6 +145,7 @@ class __$$HomePageScrollViewDataImplCopyWithImpl<$Res>
     Object? pricingSectionKey = null,
     Object? faqSectionKey = null,
     Object? myDecksSectionKey = null,
+    Object? loadMoreDecksButton = null,
   }) {
     return _then(_$HomePageScrollViewDataImpl(
       inputSectionKey: null == inputSectionKey
@@ -162,6 +172,10 @@ class __$$HomePageScrollViewDataImplCopyWithImpl<$Res>
           ? _value.myDecksSectionKey
           : myDecksSectionKey // ignore: cast_nullable_to_non_nullable
               as GlobalKey<State<StatefulWidget>>,
+      loadMoreDecksButton: null == loadMoreDecksButton
+          ? _value.loadMoreDecksButton
+          : loadMoreDecksButton // ignore: cast_nullable_to_non_nullable
+              as GlobalKey<State<StatefulWidget>>,
     ));
   }
 }
@@ -175,7 +189,8 @@ class _$HomePageScrollViewDataImpl implements _HomePageScrollViewData {
       required this.aboutSectionKey,
       required this.pricingSectionKey,
       required this.faqSectionKey,
-      required this.myDecksSectionKey});
+      required this.myDecksSectionKey,
+      required this.loadMoreDecksButton});
 
   @override
   final GlobalKey<State<StatefulWidget>> inputSectionKey;
@@ -189,10 +204,12 @@ class _$HomePageScrollViewDataImpl implements _HomePageScrollViewData {
   final GlobalKey<State<StatefulWidget>> faqSectionKey;
   @override
   final GlobalKey<State<StatefulWidget>> myDecksSectionKey;
+  @override
+  final GlobalKey<State<StatefulWidget>> loadMoreDecksButton;
 
   @override
   String toString() {
-    return 'HomePageScrollViewData(inputSectionKey: $inputSectionKey, demoSectionKey: $demoSectionKey, aboutSectionKey: $aboutSectionKey, pricingSectionKey: $pricingSectionKey, faqSectionKey: $faqSectionKey, myDecksSectionKey: $myDecksSectionKey)';
+    return 'HomePageScrollViewData(inputSectionKey: $inputSectionKey, demoSectionKey: $demoSectionKey, aboutSectionKey: $aboutSectionKey, pricingSectionKey: $pricingSectionKey, faqSectionKey: $faqSectionKey, myDecksSectionKey: $myDecksSectionKey, loadMoreDecksButton: $loadMoreDecksButton)';
   }
 
   @override
@@ -211,12 +228,21 @@ class _$HomePageScrollViewDataImpl implements _HomePageScrollViewData {
             (identical(other.faqSectionKey, faqSectionKey) ||
                 other.faqSectionKey == faqSectionKey) &&
             (identical(other.myDecksSectionKey, myDecksSectionKey) ||
-                other.myDecksSectionKey == myDecksSectionKey));
+                other.myDecksSectionKey == myDecksSectionKey) &&
+            (identical(other.loadMoreDecksButton, loadMoreDecksButton) ||
+                other.loadMoreDecksButton == loadMoreDecksButton));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, inputSectionKey, demoSectionKey,
-      aboutSectionKey, pricingSectionKey, faqSectionKey, myDecksSectionKey);
+  int get hashCode => Object.hash(
+      runtimeType,
+      inputSectionKey,
+      demoSectionKey,
+      aboutSectionKey,
+      pricingSectionKey,
+      faqSectionKey,
+      myDecksSectionKey,
+      loadMoreDecksButton);
 
   @JsonKey(ignore: true)
   @override
@@ -228,13 +254,14 @@ class _$HomePageScrollViewDataImpl implements _HomePageScrollViewData {
 
 abstract class _HomePageScrollViewData implements HomePageScrollViewData {
   const factory _HomePageScrollViewData(
-          {required final GlobalKey<State<StatefulWidget>> inputSectionKey,
-          required final GlobalKey<State<StatefulWidget>> demoSectionKey,
-          required final GlobalKey<State<StatefulWidget>> aboutSectionKey,
-          required final GlobalKey<State<StatefulWidget>> pricingSectionKey,
-          required final GlobalKey<State<StatefulWidget>> faqSectionKey,
-          required final GlobalKey<State<StatefulWidget>> myDecksSectionKey}) =
-      _$HomePageScrollViewDataImpl;
+      {required final GlobalKey<State<StatefulWidget>> inputSectionKey,
+      required final GlobalKey<State<StatefulWidget>> demoSectionKey,
+      required final GlobalKey<State<StatefulWidget>> aboutSectionKey,
+      required final GlobalKey<State<StatefulWidget>> pricingSectionKey,
+      required final GlobalKey<State<StatefulWidget>> faqSectionKey,
+      required final GlobalKey<State<StatefulWidget>> myDecksSectionKey,
+      required final GlobalKey<State<StatefulWidget>>
+          loadMoreDecksButton}) = _$HomePageScrollViewDataImpl;
 
   @override
   GlobalKey<State<StatefulWidget>> get inputSectionKey;
@@ -248,6 +275,8 @@ abstract class _HomePageScrollViewData implements HomePageScrollViewData {
   GlobalKey<State<StatefulWidget>> get faqSectionKey;
   @override
   GlobalKey<State<StatefulWidget>> get myDecksSectionKey;
+  @override
+  GlobalKey<State<StatefulWidget>> get loadMoreDecksButton;
   @override
   @JsonKey(ignore: true)
   _$$HomePageScrollViewDataImplCopyWith<_$HomePageScrollViewDataImpl>

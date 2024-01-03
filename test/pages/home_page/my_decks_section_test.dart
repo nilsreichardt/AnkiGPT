@@ -5,11 +5,24 @@ import 'package:ankigpt/src/models/deck_preview.dart';
 import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/pages/home_page/my_decks_section.dart';
 import 'package:ankigpt/src/providers/deck_list_provider.dart';
+import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../utils/pump_ankigpt_app.dart';
+
+class MockDeckListController extends DeckListController {
+  final DeckListState _state;
+
+  MockDeckListController(this._state);
+
+  @override
+  DeckListState build() {
+    ref.onDispose(dispose);
+    return _state;
+  }
+}
 
 void main() {
   group(MyDecksSection, () {
@@ -21,7 +34,7 @@ void main() {
 
     Future<void> pumpMyDecksSection(
       WidgetTester tester, {
-      List<DeckPreview> decks = const [],
+      required DeckListState state,
       WindowConfigData? variant,
     }) async {
       await pumpAnkiGptApp(
@@ -33,7 +46,10 @@ void main() {
           ),
         ),
         overrides: [
-          deckListProvider.overrideWith((ref) => Stream.value(decks)),
+          deckListControllerProvider.overrideWith(
+            () => MockDeckListController(state),
+          ),
+          hasPlusProvider.overrideWithValue(true)
         ],
       );
     }
@@ -66,9 +82,16 @@ void main() {
       ];
       await pumpMyDecksSection(
         tester,
-        decks: decks,
+        state: DeckListLoaded(
+          batches: {
+            0: decks,
+          },
+          hasMore: true,
+          hasLess: false,
+        ),
         variant: variant,
       );
+      await tester.pumpAndSettle();
 
       await tester.expectGolden<ProviderScope>(
         variant,

@@ -97,7 +97,8 @@ class _NavigationItems extends ConsumerWidget {
           spaceBetweenItems,
           TextButton(
             onPressed: () {
-              final key = ref.read(homePageScollViewProvider).pricingSectionKey;
+              final key =
+                  ref.read(homePageScrollViewProvider).pricingSectionKey;
               scrollTo(context: context, key: key);
             },
             child: const Text('Pricing'),
@@ -105,7 +106,7 @@ class _NavigationItems extends ConsumerWidget {
           spaceBetweenItems,
           TextButton(
             onPressed: () {
-              final key = ref.read(homePageScollViewProvider).aboutSectionKey;
+              final key = ref.read(homePageScrollViewProvider).aboutSectionKey;
               scrollTo(context: context, key: key);
             },
             child: const Text('About'),
@@ -113,7 +114,7 @@ class _NavigationItems extends ConsumerWidget {
           spaceBetweenItems,
           TextButton(
             onPressed: () {
-              final key = ref.read(homePageScollViewProvider).faqSectionKey;
+              final key = ref.read(homePageScrollViewProvider).faqSectionKey;
               scrollTo(context: context, key: key);
             },
             child: const Text('FAQ'),
@@ -131,7 +132,7 @@ class _DemoButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return TextButton(
       onPressed: () {
-        final key = ref.read(homePageScollViewProvider).demoSectionKey;
+        final key = ref.read(homePageScrollViewProvider).demoSectionKey;
         scrollTo(context: context, key: key);
       },
       child: const Text('Demo'),
@@ -146,7 +147,7 @@ class _MyDecksButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return TextButton(
       onPressed: () {
-        final key = ref.read(homePageScollViewProvider).myDecksSectionKey;
+        final key = ref.read(homePageScrollViewProvider).myDecksSectionKey;
         scrollTo(context: context, key: key);
       },
       child: const Text('My Decks'),

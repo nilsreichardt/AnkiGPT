@@ -30,9 +30,8 @@ class SessionRepository {
     required SessionId? sessionId,
   }) async {
     final result = await functions
-        .httpsCallableFromUrl(routeFunctionsUrl)
+        .httpsCallable('startSession')
         .call<Map<String, dynamic>>({
-      'destination': 'startSession',
       'payload': {
         'input': input.toJson(),
         'sessionId': sessionId,

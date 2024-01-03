@@ -6,7 +6,7 @@ part 'home_page_scroll_view.freezed.dart';
 part 'home_page_scroll_view.g.dart';
 
 @Riverpod(keepAlive: true)
-HomePageScrollViewData homePageScollView(HomePageScollViewRef ref) {
+HomePageScrollViewData homePageScrollView(HomePageScrollViewRef ref) {
   return HomePageScrollViewData(
     inputSectionKey: GlobalKey(),
     demoSectionKey: GlobalKey(),
@@ -14,6 +14,7 @@ HomePageScrollViewData homePageScollView(HomePageScollViewRef ref) {
     pricingSectionKey: GlobalKey(),
     faqSectionKey: GlobalKey(),
     myDecksSectionKey: GlobalKey(),
+    loadMoreDecksButton: GlobalKey(),
   );
 }
 
@@ -26,5 +27,6 @@ class HomePageScrollViewData with _$HomePageScrollViewData {
     required GlobalKey pricingSectionKey,
     required GlobalKey faqSectionKey,
     required GlobalKey myDecksSectionKey,
+    required GlobalKey loadMoreDecksButton,
   }) = _HomePageScrollViewData;
 }

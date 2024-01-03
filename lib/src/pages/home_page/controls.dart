@@ -116,23 +116,25 @@ class _OptionsButton extends ConsumerWidget {
     // Keep the provider alive
     ref.watch(optionsControllerProvider);
 
-    return AnkiGptElevatedButton.icon(
-      tooltip: 'Edit options (e.g. number of cards, model)',
-      icon: const Icon(Icons.tune),
-      label: const Text('Options'),
-      border: Border.all(
-        color: Colors.grey[400]!,
-        width: 1.4,
+    return SizedBox(
+      child: AnkiGptElevatedButton.icon(
+        tooltip: 'Edit options (e.g. number of cards, model)',
+        icon: const Icon(Icons.tune),
+        label: const Text('Options'),
+        border: Border.all(
+          color: Colors.grey[400]!,
+          width: 1.4,
+        ),
+        color: Colors.transparent,
+        center: context.isMobile,
+        onPressed: () {
+          showModal(
+            context: context,
+            builder: (context) => const OptionsDialog(),
+            routeSettings: const RouteSettings(name: '/options'),
+          );
+        },
       ),
-      color: Colors.transparent,
-      center: context.isMobile,
-      onPressed: () {
-        showModal(
-          context: context,
-          builder: (context) => const OptionsDialog(),
-          routeSettings: const RouteSettings(name: '/options'),
-        );
-      },
     );
   }
 }

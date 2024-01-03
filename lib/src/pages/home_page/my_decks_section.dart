@@ -2,10 +2,16 @@ import 'dart:math';
 
 import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/models/session_id.dart';
+import 'package:ankigpt/src/pages/deck_page/error_card.dart';
+import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
+import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
+import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
+import 'package:ankigpt/src/pages/widgets/scroll_to.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/providers/deck_list_provider.dart';
+import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,69 +35,16 @@ class MyDecksSection extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
-          key: ref.read(homePageScollViewProvider).myDecksSectionKey,
+          key: ref.read(homePageScrollViewProvider).myDecksSectionKey,
           children: [
             const SectionTitle(title: 'My Decks'),
-            const Text(
-              'Shows the 10 latest decks you created.',
-              style: TextStyle(color: Colors.grey, fontSize: 12),
-            ),
+            const _Subtitle(),
             const SizedBox(height: 32),
-            ref.watch(deckListProvider).when(
-                  data: (sessions) {
-                    return AnimationLimiter(
-                      child: Column(
-                        children: AnimationConfiguration.toStaggeredList(
-                          duration: const Duration(milliseconds: 375),
-                          childAnimationBuilder: (widget) => SlideAnimation(
-                            verticalOffset: 20,
-                            child: FadeInAnimation(
-                              child: widget,
-                            ),
-                          ),
-                          children: [
-                            for (final session in sessions)
-                              session.maybeWhen(
-                                created: (questions, createdAt, name, sessionId,
-                                        model, numberOfCards) =>
-                                    _CreatedHistoryDeck(
-                                  questions: questions,
-                                  createdAt: session.createdAt,
-                                  name: name,
-                                  sessionId: sessionId,
-                                  model: model,
-                                  numberOfCards: numberOfCards,
-                                ),
-                                loading: (createdAt, name, numberOfCards,
-                                        sessionId, model) =>
-                                    _LoadingHistoryDeck(
-                                  createdAt: session.createdAt,
-                                  name: name,
-                                  numberOfCards: numberOfCards,
-                                  isTesting: isTesting,
-                                  sessionId: sessionId,
-                                  model: model,
-                                ),
-                                error: (error, createdAt, name, numberOfCards,
-                                        sessionId, model) =>
-                                    _ErrorHistoryDeck(
-                                  createdAt: session.createdAt,
-                                  error: error,
-                                  name: name,
-                                  numberOfCards: numberOfCards,
-                                  sessionId: sessionId,
-                                  model: model,
-                                ),
-                                orElse: () => const SizedBox(),
-                              )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  error: (error, _) => _ErrorText(error: '$error'),
-                  loading: () => const SizedBox(),
-                )
+            _List(isTesting: isTesting),
+            const LoadMoreButton(),
+            const LoadLessButton(),
+            const _Loading(),
+            const _Error(),
           ],
         ),
       ),
@@ -99,18 +52,199 @@ class MyDecksSection extends ConsumerWidget {
   }
 }
 
-class _ErrorText extends StatelessWidget {
-  const _ErrorText({
-    required this.error,
-  });
-
-  final String error;
+class _Subtitle extends ConsumerWidget {
+  const _Subtitle();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final amountOfDecks = ref.watch(deckListControllerProvider.select(
+      (s) => s.decks.length,
+    ));
     return Text(
-      'Error: $error\n\nPlease try again later or contact support.',
-      style: TextStyle(color: Theme.of(context).colorScheme.error),
+      'Shows the $amountOfDecks latest decks you created.',
+      style: const TextStyle(color: Colors.grey, fontSize: 12),
+    );
+  }
+}
+
+class _Loading extends ConsumerWidget {
+  const _Loading();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(deckListControllerProvider);
+    final isLoading = state is DeckListLoading;
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: isLoading ? const CircularProgressIndicator() : const SizedBox(),
+    );
+  }
+}
+
+class _List extends ConsumerWidget {
+  const _List({
+    required this.isTesting,
+  });
+
+  final bool isTesting;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final decks = ref.watch(deckListControllerProvider.select((s) => s.decks));
+    return AnimationLimiter(
+      child: Column(
+        children: AnimationConfiguration.toStaggeredList(
+          duration: const Duration(milliseconds: 375),
+          childAnimationBuilder: (widget) => SlideAnimation(
+            verticalOffset: 20,
+            child: FadeInAnimation(
+              child: widget,
+            ),
+          ),
+          children: [
+            for (final deck in decks)
+              deck.maybeWhen(
+                created: (questions, createdAt, name, sessionId, model,
+                        numberOfCards) =>
+                    _CreatedHistoryDeck(
+                  questions: questions,
+                  createdAt: deck.createdAt,
+                  name: name,
+                  sessionId: sessionId,
+                  model: model,
+                  numberOfCards: numberOfCards,
+                ),
+                loading: (createdAt, name, numberOfCards, sessionId, model) =>
+                    _LoadingHistoryDeck(
+                  createdAt: deck.createdAt,
+                  name: name,
+                  numberOfCards: numberOfCards,
+                  isTesting: isTesting,
+                  sessionId: sessionId,
+                  model: model,
+                ),
+                error:
+                    (error, createdAt, name, numberOfCards, sessionId, model) =>
+                        _ErrorHistoryDeck(
+                  createdAt: deck.createdAt,
+                  error: error,
+                  name: name,
+                  numberOfCards: numberOfCards,
+                  sessionId: sessionId,
+                  model: model,
+                ),
+                orElse: () => const SizedBox(),
+              )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Error extends ConsumerWidget {
+  const _Error();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(deckListControllerProvider);
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: state is DeckListError
+          ? ErrorCard(text: state.message)
+          : const SizedBox(),
+    );
+  }
+}
+
+class LoadMoreButton extends ConsumerWidget {
+  const LoadMoreButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final hasPlus = ref.watch(hasPlusProvider);
+    final state = ref.watch(deckListControllerProvider);
+    final hasMoreButton = switch (state) {
+      DeckListLoaded(hasMore: final hasMore) => hasMore,
+      _ => false,
+    };
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: hasMoreButton
+          ? AnkiGptElevatedButton.icon(
+              key: ref.read(homePageScrollViewProvider).loadMoreDecksButton,
+              color: Colors.transparent,
+              border: Border.all(
+                color: Colors.grey[400]!,
+                width: 1.4,
+              ),
+              onPressed: () async {
+                if (!hasPlus) {
+                  showPlusDialog(context);
+                  return;
+                }
+                final controller =
+                    ref.read(deckListControllerProvider.notifier);
+                controller.loadMore();
+              },
+              label: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('Load more decks'),
+                  if (!hasPlus) ...const [
+                    SizedBox(width: 8),
+                    SizedBox(
+                      width: 38,
+                      child: PlusBadge(withText: false),
+                    )
+                  ]
+                ],
+              ),
+              icon: const Icon(Icons.update),
+              mainAxisSize: MainAxisSize.min,
+            )
+          : const SizedBox(),
+    );
+  }
+}
+
+class LoadLessButton extends ConsumerWidget {
+  const LoadLessButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(deckListControllerProvider);
+    final hasLessButton = switch (state) {
+      DeckListLoaded(hasLess: final hasLess) => hasLess,
+      _ => false,
+    };
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: hasLessButton
+          ? Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: TextButton(
+                  onPressed: () {
+                    final controller =
+                        ref.read(deckListControllerProvider.notifier);
+                    controller.loadLess();
+
+                    Future.delayed(const Duration(milliseconds: 16)).then((_) {
+                      final loadMoreButtonKey = ref
+                          .read(homePageScrollViewProvider)
+                          .loadMoreDecksButton;
+                      scrollTo(
+                        context: context,
+                        key: loadMoreButtonKey,
+                        duration: Duration.zero,
+                      );
+                    });
+                  },
+                  child: const Text('Load less')),
+            )
+          : const SizedBox(),
     );
   }
 }

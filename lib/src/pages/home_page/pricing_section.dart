@@ -28,7 +28,7 @@ class PricingSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
-      key: ref.read(homePageScollViewProvider).pricingSectionKey,
+      key: ref.read(homePageScrollViewProvider).pricingSectionKey,
       children: [
         const SectionTitle(title: 'Pricing'),
         const SizedBox(height: 48),
@@ -89,10 +89,11 @@ class _FreeTier extends ConsumerWidget {
           'Generate $freeMnemonicsUsagePerMonth mnemonics per month',
           trailing: _HelpMnemonicsIconButton(),
         ),
+        PointData('Access the last 5 decks'),
         PointData('Share decks with a link'),
       ],
       onPressedCallToAction: () {
-        final key = ref.read(homePageScollViewProvider).inputSectionKey;
+        final key = ref.read(homePageScrollViewProvider).inputSectionKey;
         scrollTo(context: context, key: key);
       },
       callToActionText: 'Get started',
@@ -206,12 +207,12 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
         PointData('Unlimited cards with GPT-3.5 per month'),
         PointData('$plusGpt4UsageLimitPerMonth cards with GPT-4 per month'),
         PointData('Up to 150 cards per deck'),
-        PointData('Up to 500,000 input characters (~ 200 pages) per request'),
+        PointData('Up to 500,000 input characters (~ 200 pages) per deck'),
         PointData(
           'Generate unlimited mnemonics',
           trailing: _HelpMnemonicsIconButton(),
         ),
-        PointData('Premium support'),
+        PointData('Access all your decks'),
         PointData('All free features'),
       ],
       onPressedCallToAction: buy,
@@ -249,7 +250,7 @@ class _TierBase extends StatelessWidget {
         width: _isMobileView(context)
             ? MediaQuery.of(context).size.width * 0.85
             : 365,
-        height: 620,
+        height: 630,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

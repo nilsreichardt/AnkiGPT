@@ -21,7 +21,7 @@ class InputSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaxWidthConstrainedBox(
-      key: ref.read(homePageScollViewProvider).inputSectionKey,
+      key: ref.read(homePageScrollViewProvider).inputSectionKey,
       maxWidth: 700,
       child: AnimationLimiter(
         child: Padding(

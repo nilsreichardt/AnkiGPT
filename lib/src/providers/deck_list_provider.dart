@@ -99,7 +99,7 @@ typedef BatchId = int;
 
 extension SessionToDeckPreview on SessionDto {
   DeckPreview toDeckPreview() {
-    final name = _getName(input);
+    final name = title ?? _getName(input);
     if (error != null) {
       return DeckPreview.error(
         createdAt: createdAt,

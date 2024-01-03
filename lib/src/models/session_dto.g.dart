@@ -22,6 +22,7 @@ _$SessionDtoImpl _$$SessionDtoImplFromJson(Map<String, dynamic> json) =>
       visibility: parseVisibility(json['visibility'] as Map<String, dynamic>?),
       userId: json['userId'] as String,
       model: parseModel(json['model'] as Map<String, dynamic>?),
+      title: json['title'] as String?,
     );
 
 Map<String, dynamic> _$$SessionDtoImplToJson(_$SessionDtoImpl instance) =>
@@ -38,6 +39,7 @@ Map<String, dynamic> _$$SessionDtoImplToJson(_$SessionDtoImpl instance) =>
       'visibility': _$VisibilityEnumMap[instance.visibility]!,
       'userId': instance.userId,
       'model': _$ModelEnumMap[instance.model]!,
+      'title': instance.title,
     };
 
 const _$LanguageEnumMap = {

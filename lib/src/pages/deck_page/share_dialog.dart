@@ -2,8 +2,10 @@ import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/deck_page/error_card.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
+import 'package:ankigpt/src/pages/widgets/cancel_text_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/grey_shimmer.dart';
+import 'package:ankigpt/src/pages/widgets/text_or_circular_progess_indicator.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
 import 'package:ankigpt/src/providers/share_controller_provider.dart';
 import 'package:flutter/material.dart' hide Visibility;
@@ -58,7 +60,7 @@ class _ShareDialogState extends ConsumerState<ShareDialog> {
             ),
           ),
           actions: [
-            const _CancelButton(),
+            const CancelTextButton(),
             _SaveButton(visibility: visibility),
           ],
         ),
@@ -265,18 +267,6 @@ class _ErrorCard extends ConsumerWidget {
   }
 }
 
-class _CancelButton extends StatelessWidget {
-  const _CancelButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () => Navigator.of(context).pop(),
-      child: const Text('Cancel'),
-    );
-  }
-}
-
 class _SaveButton extends ConsumerWidget {
   const _SaveButton({
     required this.visibility,
@@ -315,26 +305,9 @@ class _SaveButton extends ConsumerWidget {
               );
             }
           : null,
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 275),
-        child: Stack(
-          key: ValueKey(isUpdating),
-          alignment: Alignment.center,
-          children: [
-            if (isUpdating)
-              const SizedBox(
-                width: 16,
-                height: 16,
-                child: CircularProgressIndicator(
-                  strokeWidth: 3,
-                ),
-              ),
-            Opacity(
-              opacity: isUpdating ? 0 : 1,
-              child: const Text('Save'),
-            ),
-          ],
-        ),
+      child: TextOrCircularProgressIndicator(
+        isUpdating: isUpdating,
+        child: const Text('SAVE'),
       ),
     );
   }

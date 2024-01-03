@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/deck_page/error_card.dart';
+import 'package:ankigpt/src/pages/home_page/deck_rename_dialog.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
@@ -414,30 +415,85 @@ class _HistoryDeckBase extends StatelessWidget {
         padding: const EdgeInsets.all(22),
         child: SizedBox(
           width: double.infinity,
-          child: Column(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (name != null)
-                Text(
-                  name!,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (name != null)
+                      Text(
+                        name!,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    Text(
+                        '${DateFormat.yMEd().add_jms().format(createdAt!)}, $numberOfCards cards (${model.getUiText()})',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.75),
+                            )),
+                    body,
+                  ],
                 ),
-              Text(
-                  '${DateFormat.yMEd().add_jms().format(createdAt!)}, $numberOfCards cards (${model.getUiText()})',
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.75),
-                      )),
-              body,
+              ),
+              _MoreOptionsMenu(
+                title: name ?? 'Untitled',
+                sessionId: sessionId,
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+enum _MoreOptionsMenuAction {
+  rename,
+}
+
+class _MoreOptionsMenu extends StatelessWidget {
+  const _MoreOptionsMenu({
+    required this.title,
+    required this.sessionId,
+  });
+
+  /// The title of the deck.
+  final String title;
+
+  final SessionId sessionId;
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<_MoreOptionsMenuAction>(
+      icon: const Icon(Icons.more_vert),
+      itemBuilder: (context) => [
+        const PopupMenuItem(
+          value: _MoreOptionsMenuAction.rename,
+          child: ListTile(
+            title: Text('Rename'),
+            leading: Icon(Icons.edit),
+            mouseCursor: SystemMouseCursors.click,
+          ),
+        )
+      ],
+      onSelected: (value) {
+        switch (value) {
+          case _MoreOptionsMenuAction.rename:
+            showDeckRenameDialog(
+              context: context,
+              title: title,
+              sessionId: sessionId,
+            );
+            break;
+        }
+      },
     );
   }
 }

@@ -11,3 +11,12 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
+    ignore:
+      # Ignoring the Firebase dependencies because they require also updating
+      # macos/Podfile and ios/Podfile (to apply the workaround for
+      # https://github.com/FirebaseExtended/flutterfire/issues/2751)
+      - dependency-name: cloud_firestore
+      - dependency-name: firebase_core
+      - dependency-name: firebase_storage
+      - dependency-name: firebase_auth
+      - dependency-name: cloud_functions

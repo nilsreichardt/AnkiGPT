@@ -13,17 +13,17 @@ dependencies:
   auto_size_text: ^3.0.0
   chewie: ^1.5.0
   clock: ^1.1.1
-  cloud_firestore: ^4.9.3
-  cloud_functions: ^4.4.2
+  cloud_firestore: 4.12.2
+  cloud_functions: 4.5.3
   collection: ^1.17.2
   confetti: ^0.7.0
   cross_file: ^0.3.3+4
   cupertino_icons: ^1.0.5
   easy_debounce: ^2.0.3
   file_picker: ^6.1.1
-  firebase_auth: ^4.10.1
-  firebase_core: ^2.17.0
-  firebase_storage: ^11.2.8
+  firebase_auth: 4.12.1
+  firebase_core: 2.21.0
+  firebase_storage: 11.4.1
   flutter:
     sdk: flutter
   flutter_markdown: ^0.6.14

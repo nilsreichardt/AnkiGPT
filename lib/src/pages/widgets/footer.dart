@@ -157,10 +157,30 @@ class _AboutAnkiGpt extends StatelessWidget {
         const SizedBox(height: 12),
         const Text('Flashcards may contain incorrect information!'),
         const SizedBox(height: 12),
+        const _ClimateInformation(),
+        const SizedBox(height: 12),
         const _Version(),
         const SizedBox(height: 16),
         const _SocialMedia(),
       ],
+    );
+  }
+}
+
+class _ClimateInformation extends StatelessWidget {
+  const _ClimateInformation();
+
+  @override
+  Widget build(BuildContext context) {
+    return MarkdownBody(
+      data:
+          'AnkiGPT will contribute 1% of your purchase to removing CO₂ from the atmosphere. Find here more information about [Stripe Climate](https://climate.stripe.com/26fHGz).',
+      styleSheet: MarkdownStyleSheet(
+        a: DefaultTextStyle.of(context).style.copyWith(
+              decoration: TextDecoration.underline,
+            ),
+      ),
+      onTapLink: (text, href, title) => launchUrl(Uri.parse(href!)),
     );
   }
 }

@@ -56,6 +56,13 @@
           }
         },
         {
+          "source": "/v1/importCardsFromGpt",
+          "run": {
+            "serviceId": "importcardsfromgpt",
+            "region": "europe-west1"
+          }
+        },
+        {
           "source": "**",
           "run": {
             "serviceId": "routehttp",

@@ -72,11 +72,17 @@ class Watch extends _$Watch {
   }
 
   bool _isOwner(UserId? userId, SessionDto dto) {
-    if (userId == null) return false;
-
     // Decks created with custom GPTs are owned by the user 'gpts' and everyone
     // can see/edit them.
-    return dto.userId == userId || dto.userId == 'gpts';
+    if (dto.userId == 'gpts') {
+      return true;
+    }
+
+    if (userId == null) {
+      return false;
+    }
+
+    return dto.userId == userId;
   }
 
   void _stopSubscription() {

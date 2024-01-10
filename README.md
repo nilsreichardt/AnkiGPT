@@ -68,14 +68,14 @@ Yes, AnkiGPT is available as a custom GPT. Custom GPTs were introduced by OpenAI
 
 **Advantages of using AnkiGPT as a GPT:**
 
-* Create unlimited flashcards without buying AnkiGPT Plus
-* Create unlimited flashcards with GPT-4
-* Create flashcards (besides the text & PDF input) from images (e.g. screenshots of lecture slides)
+- Create unlimited flashcards without buying AnkiGPT Plus
+- Create unlimited flashcards with GPT-4
+- Create flashcards (besides the text & PDF input) from images (e.g. screenshots of lecture slides)
 
 **Disadvantages of using AnkiGPT as a GPT:**
 
-* You need a ChatGPT Plus subscription
-* ChatGPT has a limited context windows, which means that GPT can only create 10 flashcards per message (you can ask for more flashcards when GPT is done)
+- You need a ChatGPT Plus subscription
+- ChatGPT has a limited context windows, which means that GPT can only create 10 flashcards per message (you can ask for more flashcards when GPT is done)
 
 Access AnkiGPT as GPT here: [https://chatg.pt/ankigpt](https://chatg.pt/ankigpt)
 

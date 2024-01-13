@@ -98,8 +98,6 @@ void main() {
             question: 'question',
           );
 
-      container.read(editQuestionProvider.notifier).clear();
-
       // Wait for the debounce duration
       await Future.delayed(const Duration(milliseconds: 1));
 

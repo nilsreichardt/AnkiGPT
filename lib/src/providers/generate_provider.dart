@@ -12,7 +12,6 @@ import 'package:ankigpt/src/models/user_id.dart';
 import 'package:ankigpt/src/providers/analytics_provider.dart';
 import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
 import 'package:ankigpt/src/providers/current_usage_provider.dart';
-import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/input_text_field_controller.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
@@ -20,7 +19,6 @@ import 'package:ankigpt/src/providers/options_provider.dart';
 import 'package:ankigpt/src/providers/router_provider.dart';
 import 'package:ankigpt/src/providers/session_repository_provider.dart';
 import 'package:ankigpt/src/providers/user_repository_provider.dart';
-import 'package:ankigpt/src/providers/wants_to_generate_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:file_picker/file_picker.dart';
@@ -79,11 +77,12 @@ class GenerateNotifier extends _$GenerateNotifier {
     _throwIfFreeLimitReached(options.size);
     _throwIfGpt4LimitReached(options.size, options.model);
 
-    if (!ref.read(hasAccount2Provider)) {
-      ref.read(wantsToGenerateProvider.notifier).set(true);
-      ref.read(routerProvider).go('/account');
-      return;
-    }
+    // This code requires the user to have an account (anonymous doesn't count).
+    // if (!ref.read(hasAccount2Provider)) {
+    //   ref.read(wantsToGenerateProvider.notifier).set(true);
+    //   ref.read(routerProvider).go('/account');
+    //   return;
+    // }
 
     state = const GenerateState.loading();
 

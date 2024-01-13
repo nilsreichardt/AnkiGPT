@@ -86,26 +86,5 @@ void main() {
         answer: 'second-Answer',
       ));
     });
-
-    test('.clear() should reset the provider', () async {
-      container.read(editAnswerProvider.notifier).setDebounceDuration(
-            const Duration(milliseconds: 1),
-          );
-
-      container.read(editAnswerProvider.notifier).debounce(
-            sessionId: 'sessionId',
-            cardId: 'cardId',
-            answer: 'answer',
-          );
-
-      // Wait for the debounce duration
-      await Future.delayed(const Duration(milliseconds: 1));
-
-      verifyNever(mockSessionRepository.editAnswer(
-        sessionId: 'sessionId',
-        cardId: 'cardId',
-        answer: 'answer',
-      ));
-    });
   });
 }

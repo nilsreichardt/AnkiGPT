@@ -51,9 +51,4 @@ class EditAnswer extends _$EditAnswer {
   void setDebounceDuration(Duration duration) {
     _debounceDuration = duration;
   }
-
-  void clear() {
-    EasyDebounce.cancel(_debounceKey);
-    _queue.cancel();
-  }
 }

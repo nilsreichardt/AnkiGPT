@@ -222,8 +222,6 @@ void main() {
               sessionId: sessionId,
             );
 
-        container.read(deleteCardControllerProvider.notifier).clear();
-
         verifyNever(mockSessionRepository.deleteCard(
           sessionId: sessionId,
           cardId: card2.id,

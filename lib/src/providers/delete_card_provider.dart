@@ -100,12 +100,4 @@ class DeleteCardController extends _$DeleteCardController {
     ref.read(cardsListProvider.notifier).add(_lastDeletedCard!);
     return true;
   }
-
-  /// Clears the internal queue.
-  ///
-  /// This method clears the internal queue of pending deletion requests. It
-  /// should be called when the session is closed.
-  void clear() {
-    _queue.cancel();
-  }
 }

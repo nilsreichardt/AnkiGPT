@@ -7,7 +7,7 @@ part of 'delete_card_provider.dart';
 // **************************************************************************
 
 String _$deleteCardControllerHash() =>
-    r'ef2fb901fb97c64775bc776c42fc9788419fe4c6';
+    r'c4927f65610d31eb12210bca5bed0e04cdec5a59';
 
 /// `DeleteCardController` provides a mechanism to manage card deletions in an
 /// Anki session.

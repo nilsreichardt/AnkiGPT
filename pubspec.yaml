@@ -47,7 +47,7 @@ dependencies:
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
   universal_platform: ^1.0.0+1
-  url_launcher: ^6.1.14
+  url_launcher: ^6.2.3
   uuid: ^4.2.2
   video_player: ^2.8.2
   wolt_responsive_layout_grid: ^0.0.3
@@ -58,7 +58,7 @@ dev_dependencies:
     git:
       url: https://github.com/nilsreichardt/adaptive_test
       ref: 7768b756e1298e888d902c98742b2de02089a8df
-  build_runner: ^2.4.5
+  build_runner: ^2.4.8
   custom_lint: ^0.5.7
   flutter_lints: ^3.0.1
   flutter_test:

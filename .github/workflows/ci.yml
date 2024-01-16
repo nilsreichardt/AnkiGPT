@@ -47,7 +47,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Install Dart
-        uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
+        uses: dart-lang/setup-dart@ca7e6fee45ffbd82b555a7ebfc236d2c86439f5b
         with:
           sdk: beta
 
@@ -125,7 +125,7 @@ jobs:
             --dart-define=FLAVOR="prod"
 
       - id: "auth"
-        uses: "google-github-actions/auth@67e9c72af6e0492df856527b474995862b7b6591"
+        uses: "google-github-actions/auth@f6de81663f7788d05bd15bcce18f0e57f23f0846"
         env:
           PROJECT_ID: ankigpt-prod
           PROJECT_NUMBER: 41416187582

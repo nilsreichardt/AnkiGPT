@@ -384,6 +384,8 @@ class _ExportToAnkiDialog extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const _WarningAfterDownload(),
+            const SizedBox(height: 12),
+            const _ContactSupportNote(),
           ],
         ),
       ),
@@ -393,6 +395,28 @@ class _ExportToAnkiDialog extends StatelessWidget {
           child: const Text('OK'),
         ),
       ],
+    );
+  }
+}
+
+class _ContactSupportNote extends StatelessWidget {
+  const _ContactSupportNote();
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 300),
+      child: MarkdownBody(
+        data:
+            'If you have any questions, please reach out to the [AnkiGPT Support](https://ankigpt.help/support).',
+        styleSheet: MarkdownStyleSheet(
+          textAlign: WrapAlignment.center,
+          p: const TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        onTapLink: (text, href, title) => launchUrl(Uri.parse(href!)),
+      ),
     );
   }
 }

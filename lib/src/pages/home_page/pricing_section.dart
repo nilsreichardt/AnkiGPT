@@ -205,7 +205,11 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
       priceDescription: 'Lifetime (one-time payment)',
       points: const [
         PointData('Unlimited cards with GPT-3.5 per month'),
-        PointData('$plusGpt4UsageLimitPerMonth cards with GPT-4 per month'),
+        PointData(
+          '150 cards with GPT-4 per month',
+          description:
+              'As a limited offer, you will have $plusGpt4UsageLimitPerMonth cards with GPT-4 per month until April 2024.',
+        ),
         PointData('Up to 150 cards per deck'),
         PointData('Up to 500,000 input characters (~ 200 pages) per deck'),
         PointData(
@@ -250,7 +254,7 @@ class _TierBase extends StatelessWidget {
         width: _isMobileView(context)
             ? MediaQuery.of(context).size.width * 0.85
             : 365,
-        height: _isMobileView(context) ? 660 : 630,
+        height: _isMobileView(context) ? 690 : 650,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -275,6 +279,7 @@ class _TierBase extends StatelessWidget {
               (point) => SellingPoint(
                 text: point.text,
                 trailing: point.trailing,
+                description: point.description,
               ),
             ),
             const Expanded(child: SizedBox()),
@@ -359,10 +364,12 @@ class SellingPoint extends StatelessWidget {
   const SellingPoint({
     super.key,
     required this.text,
+    this.description,
     this.trailing,
   });
 
   final String text;
+  final String? description;
   final Widget? trailing;
 
   @override
@@ -376,6 +383,7 @@ class SellingPoint extends StatelessWidget {
         ),
         title: Text(text),
         trailing: trailing,
+        subtitle: description != null ? Text(description!) : null,
       ),
     );
   }
@@ -383,10 +391,12 @@ class SellingPoint extends StatelessWidget {
 
 class PointData {
   final String text;
+  final String? description;
   final Widget? trailing;
 
   const PointData(
     this.text, {
     this.trailing,
+    this.description,
   });
 }

@@ -63,6 +63,13 @@
           }
         },
         {
+          "source": "/v1/unsubscribe-emails",
+          "run": {
+            "serviceId": "unsubscribeemails",
+            "region": "europe-west1"
+          }
+        },
+        {
           "source": "**",
           "run": {
             "serviceId": "routehttp",

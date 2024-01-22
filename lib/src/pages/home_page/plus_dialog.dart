@@ -88,9 +88,9 @@ class PlusAdvantages extends StatelessWidget {
       children: [
         SellingPoint(text: 'Unlimited cards with GPT-3.5 per month'),
         SellingPoint(
-          text: '150 cards with GPT-4 per month',
+          text: '$plusGpt4UsageLimitPerMonth cards with GPT-4 per month*',
           description:
-              'As a limited offer, you will have $plusGpt4UsageLimitPerMonth cards with GPT-4 per month until April 2024.',
+              '*Limited offer until April 2024, then 150 cards with GPT-4 per month',
         ),
         SellingPoint(text: 'Up to 150 cards per deck'),
         SellingPoint(

@@ -162,7 +162,13 @@ class _UploadFileButton extends ConsumerWidget {
                   Icon(Icons.upload_file),
                   SizedBox(height: 13),
                   Text('Upload PDF file'),
-                  SizedBox(height: 13),
+                  Text(
+                    'New: Or drag and drop it here.',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black38,
+                    ),
+                  ),
                 ],
               ),
             ),

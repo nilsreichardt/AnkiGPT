@@ -86,13 +86,15 @@ class _DragZoneState extends ConsumerState<DragZone> {
       child: Stack(
         children: [
           widget.child,
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            child: isDragging
-                ? const _DropIndicator()
-                : const SizedBox.shrink(
-                    key: ValueKey(false),
-                  ),
+          Positioned.fill(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              child: isDragging
+                  ? const _DropIndicator()
+                  : const SizedBox.shrink(
+                      key: ValueKey(false),
+                    ),
+            ),
           )
         ],
       ),
@@ -105,23 +107,20 @@ class _DropIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
-      key: const ValueKey(true),
-      child: Container(
-        color: Colors.black.withOpacity(0.5),
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            padding: const EdgeInsets.all(20),
-            child: const Text(
-              'Drop PDF file here',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+    return Container(
+      color: Colors.black.withOpacity(0.5),
+      child: Center(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          padding: const EdgeInsets.all(20),
+          child: const Text(
+            'Drop PDF file here',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),

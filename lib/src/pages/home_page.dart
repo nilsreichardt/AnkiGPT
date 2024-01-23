@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:ankigpt/src/pages/home_page/about_section.dart';
 import 'package:ankigpt/src/pages/home_page/app_bar.dart';
 import 'package:ankigpt/src/pages/home_page/demo_section.dart';
+import 'package:ankigpt/src/pages/home_page/drag_zone.dart';
 import 'package:ankigpt/src/pages/home_page/drawer.dart';
 import 'package:ankigpt/src/pages/home_page/faq_section.dart';
 import 'package:ankigpt/src/pages/home_page/input_section.dart';
@@ -13,16 +14,13 @@ import 'package:ankigpt/src/pages/successful_payment_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/providers/cloud_firestore_provider.dart';
-import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:ankigpt/src/providers/show_successful_playment_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:super_drag_and_drop/super_drag_and_drop.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({
@@ -92,106 +90,39 @@ class _HomePage2State extends ConsumerState<HomePage> {
       child: Scaffold(
         appBar: const HomePageAppBar2(),
         drawer: context.isMobile ? const HomePageDrawer() : null,
-        body: DropRegion(
-          formats: Formats.standardFormats,
-          onDropEnter: (event) {
-            setState(() {
-              isDragging = true;
-            });
-          },
-          onDropEnded: (event) {
-            setState(() {
-              isDragging = false;
-            });
-          },
-          onDropLeave: (event) {
-            setState(() {
-              isDragging = false;
-            });
-          },
-          onDropOver: (event) {
-            return DropOperation.copy;
-          },
-          onPerformDrop: (event) async {
-            final item = event.session.items.first;
-            item.dataReader!.getFile(Formats.pdf, (file) async {
-              final bytes = await file.readAll();
-              final data = {
-                'name': file.fileName,
-                'size': file.fileSize,
-                'bytes': bytes,
-              };
-              final platform = PlatformFile.fromMap(data);
-              ref.read(generateNotifierProvider.notifier).setPickedFile(
-                    platform,
-                  );
-            });
-          },
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: SafeArea(
-                  child: Column(
-                    children: [
-                      // Wrapping the widgets around a ConstrainedBox always show the
-                      // footer at the bottom of the page.
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: MediaQuery.of(context).size.height,
-                        ),
-                        child: Column(
-                          children: [
-                            const NewCard(),
-                            const InputSection(),
-                            const SizedBox(height: 50),
-                            isSignedIn
-                                ? const MyDecksSection()
-                                : const DemoSection(),
-                            const SizedBox(height: 100),
-                            const PricingSection(),
-                            const SizedBox(height: 100),
-                            const AboutSection(),
-                            const SizedBox(height: 100),
-                            const FaqSection(),
-                            const SizedBox(height: 100),
-                          ],
-                        ),
-                      ),
-                      const Footer(),
-                    ],
+        body: DragZone(
+          child: SingleChildScrollView(
+            child: SafeArea(
+              child: Column(
+                children: [
+                  // Wrapping the widgets around a ConstrainedBox always show the
+                  // footer at the bottom of the page.
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: MediaQuery.of(context).size.height,
+                    ),
+                    child: Column(
+                      children: [
+                        const NewCard(),
+                        const InputSection(),
+                        const SizedBox(height: 50),
+                        isSignedIn
+                            ? const MyDecksSection()
+                            : const DemoSection(),
+                        const SizedBox(height: 100),
+                        const PricingSection(),
+                        const SizedBox(height: 100),
+                        const AboutSection(),
+                        const SizedBox(height: 100),
+                        const FaqSection(),
+                        const SizedBox(height: 100),
+                      ],
+                    ),
                   ),
-                ),
+                  const Footer(),
+                ],
               ),
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                child: isDragging
-                    ? Positioned.fill(
-                        key: const ValueKey(true),
-                        child: Container(
-                          color: Colors.black.withOpacity(0.5),
-                          child: Center(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              padding: const EdgeInsets.all(20),
-                              child: const Text(
-                                'Drop PDF file here',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    : const SizedBox.shrink(
-                        key: ValueKey(false),
-                      ),
-              )
-            ],
+            ),
           ),
         ),
       ),

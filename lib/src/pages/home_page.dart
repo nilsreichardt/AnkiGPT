@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:ankigpt/src/pages/home_page/about_section.dart';
 import 'package:ankigpt/src/pages/home_page/app_bar.dart';
 import 'package:ankigpt/src/pages/home_page/demo_section.dart';
+import 'package:ankigpt/src/pages/home_page/drag_zone.dart';
 import 'package:ankigpt/src/pages/home_page/drawer.dart';
 import 'package:ankigpt/src/pages/home_page/faq_section.dart';
 import 'package:ankigpt/src/pages/home_page/input_section.dart';
@@ -87,34 +88,38 @@ class _HomePage2State extends ConsumerState<HomePage> {
       child: Scaffold(
         appBar: const HomePageAppBar2(),
         drawer: context.isMobile ? const HomePageDrawer() : null,
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Column(
-              children: [
-                // Wrapping the widgets around a ConstrainedBox always show the
-                // footer at the bottom of the page.
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: MediaQuery.of(context).size.height,
+        body: DragZone(
+          child: SingleChildScrollView(
+            child: SafeArea(
+              child: Column(
+                children: [
+                  // Wrapping the widgets around a ConstrainedBox always show the
+                  // footer at the bottom of the page.
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: MediaQuery.of(context).size.height,
+                    ),
+                    child: Column(
+                      children: [
+                        const NewCard(),
+                        const InputSection(),
+                        const SizedBox(height: 50),
+                        isSignedIn
+                            ? const MyDecksSection()
+                            : const DemoSection(),
+                        const SizedBox(height: 100),
+                        const PricingSection(),
+                        const SizedBox(height: 100),
+                        const AboutSection(),
+                        const SizedBox(height: 100),
+                        const FaqSection(),
+                        const SizedBox(height: 100),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    children: [
-                      const NewCard(),
-                      const InputSection(),
-                      const SizedBox(height: 50),
-                      isSignedIn ? const MyDecksSection() : const DemoSection(),
-                      const SizedBox(height: 100),
-                      const PricingSection(),
-                      const SizedBox(height: 100),
-                      const AboutSection(),
-                      const SizedBox(height: 100),
-                      const FaqSection(),
-                      const SizedBox(height: 100),
-                    ],
-                  ),
-                ),
-                const Footer(),
-              ],
+                  const Footer(),
+                ],
+              ),
             ),
           ),
         ),

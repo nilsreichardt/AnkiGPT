@@ -309,6 +309,17 @@ class GenerateNotifier extends _$GenerateNotifier {
     _pickedFile = result.files.first;
     ref.read(pickedFileProvider.notifier).set(_pickedFile);
 
+    _setSizeAfterPickingFile();
+  }
+
+  void setPickedFile(PlatformFile file) {
+    _pickedFile = file;
+    ref.read(pickedFileProvider.notifier).set(_pickedFile);
+
+    _setSizeAfterPickingFile();
+  }
+
+  void _setSizeAfterPickingFile() {
     // Maybe increase the size, when the current size is the default one. Slides are usually longer so we can assume
     // that the user wants to generate more cards.
     final size = ref.read(optionsControllerProvider).size;

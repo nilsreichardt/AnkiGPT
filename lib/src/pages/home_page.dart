@@ -35,8 +35,6 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePage2State extends ConsumerState<HomePage> {
-  bool isDragging = false;
-
   @override
   void initState() {
     super.initState();

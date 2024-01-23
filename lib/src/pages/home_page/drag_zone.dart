@@ -1,4 +1,6 @@
+import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
+import 'package:ankigpt/src/providers/logger/logger_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +20,25 @@ class DragZone extends ConsumerStatefulWidget {
 
 class _DragZoneState extends ConsumerState<DragZone> {
   bool isDragging = false;
+
+  void maybeShowWarningForMultipleFiles(PerformDropEvent event) {
+    final hasMultipleFiles = event.session.items.length > 1;
+    if (hasMultipleFiles) {
+      context.showTextSnackBar(
+          'Multiples files are not supported. Using the first file');
+    }
+  }
+
+  void logError(Object e) {
+    final logger = ref.read(loggerProvider);
+    logger.e('Could not read file from drag zone', error: e);
+  }
+
+  void displayErrorMessage() {
+    context.showTextSnackBar(
+      'Could not read file. Please try again or use the file picker.',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +63,10 @@ class _DragZoneState extends ConsumerState<DragZone> {
         return DropOperation.copy;
       },
       onPerformDrop: (event) async {
+        maybeShowWarningForMultipleFiles(event);
+
         final item = event.session.items.first;
+
         item.dataReader!.getFile(Formats.pdf, (file) async {
           final bytes = await file.readAll();
           final data = {
@@ -54,6 +78,9 @@ class _DragZoneState extends ConsumerState<DragZone> {
           ref.read(generateNotifierProvider.notifier).setPickedFile(
                 platform,
               );
+        }, onError: (e) {
+          logError(e);
+          displayErrorMessage();
         });
       },
       child: Stack(

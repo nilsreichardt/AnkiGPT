@@ -33,27 +33,6 @@ enum CardGenrationSize {
     return '${toInt()}';
   }
 
-  String getDurationText() {
-    switch (this) {
-      case CardGenrationSize.five:
-        return '~ 1 - 2 min';
-      case CardGenrationSize.ten:
-        return '~ 1 - 2 min';
-      case CardGenrationSize.twenty:
-        return '~ 1 - 2 min';
-      case CardGenrationSize.thirtyFive:
-        return '~ 3 min';
-      case CardGenrationSize.fifty:
-        return '~ 3 min';
-      case CardGenrationSize.seventyFive:
-        return '~ 5 min';
-      case CardGenrationSize.hundred:
-        return '~ 5 min';
-      case CardGenrationSize.hundertFifty:
-        return '~ 5 min';
-    }
-  }
-
   bool isPlus() {
     switch (this) {
       case CardGenrationSize.thirtyFive:

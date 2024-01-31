@@ -48,7 +48,7 @@ dependencies:
   shimmer: ^3.0.0
   super_drag_and_drop: ^0.8.4
   universal_platform: ^1.0.0+1
-  url_launcher: ^6.2.3
+  url_launcher: ^6.2.4
   uuid: ^4.3.3
   video_player: ^2.8.2
   wolt_responsive_layout_grid: ^0.0.3

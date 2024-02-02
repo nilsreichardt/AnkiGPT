@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:go_router/go_router.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 class MyDecksSection extends ConsumerWidget {

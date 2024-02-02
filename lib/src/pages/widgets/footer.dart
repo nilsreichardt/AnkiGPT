@@ -8,6 +8,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wiredash/wiredash.dart';
 import 'package:wolt_responsive_layout_grid/wolt_responsive_layout_grid.dart';
 
 class Footer extends StatelessWidget {
@@ -124,7 +125,7 @@ class _Product extends StatelessWidget {
       title: 'Product',
       links: [
         ('Source Code', Uri.parse('https://github.com/nilsreichardt/ankigpt')),
-        ('Feedback', Uri.parse('https://ankigpt.help/support')),
+        ('Feedback', Uri.parse('#feedback')),
       ],
     );
   }
@@ -242,6 +243,12 @@ class _LinksList extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 18),
               child: InkWell(
                 onTap: () {
+                  final isFeedback = '${link.$2}' == '#feedback';
+                  if (isFeedback) {
+                    Wiredash.of(context).show(inheritMaterialTheme: true);
+                    return;
+                  }
+
                   if (link.$2.scheme.isEmpty) {
                     context.go('${link.$2}');
                   } else {

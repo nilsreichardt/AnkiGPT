@@ -33,7 +33,6 @@ dependencies:
   freezed_annotation: ^2.2.0
   go_router: ^13.1.0
   google_sign_in: ^6.2.1
-  intl: ^0.19.0
   json_annotation: ^4.8.1
   logger: ^2.0.2+1
   package_info_plus: ^5.0.0
@@ -51,6 +50,7 @@ dependencies:
   url_launcher: ^6.2.4
   uuid: ^4.3.3
   video_player: ^2.8.2
+  wiredash: ^1.9.0
   wolt_responsive_layout_grid: ^0.0.3
 
 dev_dependencies:

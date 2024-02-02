@@ -51,16 +51,6 @@ void main() {
           uri: 'https://github.com/nilsreichardt/ankigpt',
         );
       });
-
-      testWidgets('opens support link, when clicks on "Feedback"',
-          (tester) async {
-        await testLink(
-          tester: tester,
-          pumpWidget: pumpFooter,
-          find: find.text('Feedback'),
-          uri: 'https://ankigpt.help/support',
-        );
-      });
     });
 
     group('Contact', () {

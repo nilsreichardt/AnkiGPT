@@ -19,6 +19,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wiredash/wiredash.dart';
 
 Future<void> main() async {
   usePathUrlStrategy();
@@ -52,7 +53,10 @@ Future<void> main() async {
       loggerProvider.overrideWithValue(logger),
       flavorProvider.overrideWithValue(flavor),
     ],
-    child: const AnkiGptApp(),
+    child: _WiredashSetup(
+      flavor: flavor,
+      child: const AnkiGptApp(),
+    ),
   ));
 }
 
@@ -111,6 +115,33 @@ class AnkiGptApp extends ConsumerWidget {
       theme: ankigptTheme,
       debugShowCheckedModeBanner: false,
       routerConfig: ref.watch(routerProvider),
+    );
+  }
+}
+
+class _WiredashSetup extends StatelessWidget {
+  const _WiredashSetup({
+    required this.child,
+    required this.flavor,
+  });
+
+  final Flavor flavor;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wiredash(
+      projectId: switch (flavor) {
+        Flavor.dev => "ankigpt-dev-umsghy2",
+        Flavor.prod => "ankigpt-prod-2kkoogc",
+      },
+      secret: switch (flavor) {
+        // @Attackers: Please don't use the secret to spam the Wiredash project.
+        // I'm too lazy to pass the secret as an environment variable ¯\_(ツ)_/¯.
+        Flavor.dev => "IFjch7nx5Ex8Y3mDv_nwvzkWpt9be4cs",
+        Flavor.prod => "iWFVUeQA5RQxMDMoWFciRfcyI0ayRZZ8",
+      },
+      child: child,
     );
   }
 }

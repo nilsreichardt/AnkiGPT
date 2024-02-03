@@ -63,7 +63,7 @@ jobs:
   test:
     # We need to use macOS because of the golden tests, see
     # https://github.com/flutter/flutter/issues/36667#issuecomment-521335243.
-    runs-on: macos-12
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 

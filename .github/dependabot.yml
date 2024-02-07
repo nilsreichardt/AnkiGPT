@@ -6,11 +6,11 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: "pub"
     directory: "/"
     schedule:
-      interval: weekly
+      interval: monthly
     ignore:
       # Ignoring the Firebase dependencies because they require also updating
       # macos/Podfile and ios/Podfile (to apply the workaround for

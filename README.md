@@ -2,7 +2,7 @@
 
 Generate flashcards from lecture slides with one click using GPT / AI technology and easily export them to Anki. An easy to use Anki ChatGPT combination.
 
-➡️ https://ankigpt.help
+➡️ https://AnkiGPT.help
 
 https://github.com/nilsreichardt/ankigpt/assets/24459435/853dee68-d634-48e4-93fe-f995fdf30d1a
 
@@ -17,8 +17,8 @@ https://github.com/nilsreichardt/ankigpt/assets/24459435/853dee68-d634-48e4-93fe
 
 Try it out:
 
-- As website: https://ankigpt.help (recommended)
-- As GPT in ChatGPT: https://chatg.pt/ankigpt (requires ChatGPT Plus subscription)
+- As website: https://AnkiGPT.help (recommended)
+- As GPT in ChatGPT: https://chatg.pt/AnkiGPT (requires ChatGPT Plus subscription)
 
 ## How does AnkiGPT work?
 
@@ -28,7 +28,7 @@ AnkiGPT first detects the language of the input. Then it splits the text into mu
 
 ### Is the source code of AnkiGPT public?
 
-Yes, the source code of the client for AnkiGPT is public and can be accessed by anyone interested. You can explore or even contribute to the project by visiting the GitHub repository ([nilsreichardt/ankigpt](https://github.com/nilsreichardt/ankigpt)). However, it's important to note that while the client's code is open, the backend (including the prompts) is closed source. We greatly value community input and appreciate all contributions to improve AnkiGPT.
+Yes, the source code of the client for AnkiGPT is public and can be accessed by anyone interested. You can explore or even contribute to the project by visiting the GitHub repository ([nilsreichardt/ankigpt](https://github.com/nilsreichardt/AnkiGPT)). However, it's important to note that while the client's code is open, the backend (including the prompts) is closed source. We greatly value community input and appreciate all contributions to improve AnkiGPT.
 
 ### Which languages are supported?
 
@@ -77,7 +77,7 @@ Yes, AnkiGPT is available as a custom GPT. Custom GPTs were introduced by OpenAI
 - You need a ChatGPT Plus subscription
 - ChatGPT has a limited context windows, which means that GPT can only create 10 flashcards per message (you can ask for more flashcards when GPT is done)
 
-Access AnkiGPT as GPT here: [https://chatg.pt/ankigpt](https://chatg.pt/ankigpt)
+Access AnkiGPT as GPT here: [https://chatg.pt/AnkiGPT](https://chatg.pt/ankigpt)
 
 ## Disclaimer
 

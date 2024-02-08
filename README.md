@@ -14,6 +14,7 @@ https://github.com/nilsreichardt/ankigpt/assets/24459435/853dee68-d634-48e4-93fe
 - ✏️ Edit flashcards, in case you want to change something
 - 🗑️ Delete flashcards, in case GPT (ChatGPT) generated something wrong or useless card
 - 💡 Generate mnemonics for your flashcards
+- 👫 Share decks with your friends
 
 Try it out:
 

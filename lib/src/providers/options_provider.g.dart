@@ -6,7 +6,7 @@ part of 'options_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$optionsControllerHash() => r'fa313e2b380519c471b4fef67dca09f03bcb5a91';
+String _$optionsControllerHash() => r'0eadcb1a969a523b5f469f981c7c0ca25456c874';
 
 /// See also [OptionsController].
 @ProviderFor(OptionsController)

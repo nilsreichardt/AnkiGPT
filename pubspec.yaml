@@ -45,7 +45,7 @@ dependencies:
   riverpod_annotation: ^2.1.1
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
-  super_drag_and_drop: ^0.8.4
+  super_drag_and_drop: ^0.8.5
   universal_platform: ^1.0.0+1
   url_launcher: ^6.2.4
   uuid: ^4.3.3
@@ -60,7 +60,7 @@ dev_dependencies:
       url: https://github.com/nilsreichardt/adaptive_test
       ref: 7768b756e1298e888d902c98742b2de02089a8df
   build_runner: ^2.4.8
-  custom_lint: ^0.6.0
+  custom_lint: ^0.6.2
   flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter

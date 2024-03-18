@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
@@ -14,6 +15,11 @@ class ProviderLoggerObserver extends ProviderObserver {
     Object? newValue,
     ProviderContainer container,
   ) {
+    if (newValue.runtimeType == PlatformFile) {
+      logger.t(
+          'Provider "${provider.name ?? provider.runtimeType}" updated: ${(newValue as PlatformFile).name}');
+      return;
+    }
     logger.t(
         'Provider "${provider.name ?? provider.runtimeType}" updated: $newValue');
   }

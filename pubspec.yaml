@@ -11,7 +11,7 @@ environment:
 dependencies:
   animations: ^2.0.11
   auto_size_text: ^3.0.0
-  chewie: ^1.5.0
+  chewie: ^1.7.5
   clock: ^1.1.1
   cloud_firestore: ^4.9.3
   cloud_functions: ^4.4.2

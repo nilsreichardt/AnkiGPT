@@ -47,7 +47,7 @@ class GenerateNotifier extends _$GenerateNotifier {
   SessionRepository get _sessionRepository =>
       ref.read(sessionRepositoryProvider);
   bool get _hasPlus => ref.read(hasPlusProvider);
-  int get _currentMonthUsage => ref.read(currentMonthUsageProvider);
+  // int get _currentMonthUsage => ref.read(currentMonthUsageProvider);
   int get _currentGpt4Usage => ref.read(currentGpt4UsageProvider);
   Analytics get _analytics => ref.read(analyticsProvider);
   static const _analyticsPage = 'generate';
@@ -76,7 +76,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       _throwIfTextInputIsInvalid(text);
     }
 
-    _throwIfFreeLimitReached(options.size);
+    // _throwIfFreeLimitReached(options.size);
     _throwIfGpt4LimitReached(options.size, options.model);
 
     if (!ref.read(hasAccount2Provider)) {
@@ -175,18 +175,18 @@ class GenerateNotifier extends _$GenerateNotifier {
     return 'An unknown error occurred. Please try again or contact the support.';
   }
 
-  void _throwIfFreeLimitReached(CardGenrationSize size) {
-    if (!_hasPlus) {
-      final remainingFreeLimit = freeUsageLimitPerMonth - _currentMonthUsage;
-      if (remainingFreeLimit < size.toInt()) {
-        _logFreeLimitExceeded();
-        throw FreeLimitExceededException(
-          currentDeckSize: size.toInt(),
-          remainingFreeLimit: remainingFreeLimit,
-        );
-      }
-    }
-  }
+  // void _throwIfFreeLimitReached(CardGenrationSize size) {
+  //   if (!_hasPlus) {
+  //     final remainingFreeLimit = freeUsageLimitPerMonth - _currentMonthUsage;
+  //     if (remainingFreeLimit < size.toInt()) {
+  //       _logFreeLimitExceeded();
+  //       throw FreeLimitExceededException(
+  //         currentDeckSize: size.toInt(),
+  //         remainingFreeLimit: remainingFreeLimit,
+  //       );
+  //     }
+  //   }
+  // }
 
   void _throwIfGpt4LimitReached(CardGenrationSize size, Model model) {
     if (_hasPlus && model == Model.gpt4) {
@@ -209,14 +209,14 @@ class GenerateNotifier extends _$GenerateNotifier {
     );
   }
 
-  void _logFreeLimitExceeded() {
-    unawaited(
-      _analytics.logEvent(
-        'free_limit_exceeded',
-        page: _analyticsPage,
-      ),
-    );
-  }
+  // void _logFreeLimitExceeded() {
+  //   unawaited(
+  //     _analytics.logEvent(
+  //       'free_limit_exceeded',
+  //       page: _analyticsPage,
+  //     ),
+  //   );
+  // }
 
   void _logStartSession(CardGenrationSize size) {
     unawaited(_analytics.logEvent(

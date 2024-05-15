@@ -12,7 +12,7 @@ class NewCard extends ConsumerStatefulWidget {
 }
 
 class _NewCardState extends ConsumerState<NewCard> {
-  static const _key = 'shown-gpt4-card';
+  static const _key = 'unlimited-gpt-3-5';
   bool? shouldShow;
 
   @override
@@ -50,7 +50,7 @@ class _NewCardState extends ConsumerState<NewCard> {
                   children: [
                     const Flexible(
                       child: Text(
-                        'New: GPT-4 support for AnkiGPT Plus users!',
+                        'Limited until June 7th: Free users can generated unlimited cards with GPT-3.5.',
                         style: TextStyle(
                           color: Colors.deepOrange,
                         ),

@@ -81,7 +81,11 @@ class _FreeTier extends ConsumerWidget {
       name: 'Free',
       priceEurPart: '€0',
       points: const [
-        PointData('$freeUsageLimitPerMonth cards with GPT-3.5 per month'),
+        PointData(
+          'Unlimited cards with GPT-3.5 per month*',
+          description:
+              '*Limited offer until June 7, 2024, then $freeUsageLimitPerMonth cards per month with GPT-3.5',
+        ),
         PointData('Up to 20 cards per deck'),
         PointData('Up to 4,000 input characters per request'),
         PointData('Delete, edit & search cards'),
@@ -208,7 +212,7 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
         PointData(
           '$plusGpt4UsageLimitPerMonth cards with GPT-4 per month*',
           description:
-              '*Limited offer until April 2024, then 150 cards with GPT-4 per month.',
+              '*Limited offer until June 7, 2024, then 150 cards per month with GPT-4',
         ),
         PointData('Up to 150 cards per deck'),
         PointData('Up to 500,000 input characters (~ 200 pages) per deck'),

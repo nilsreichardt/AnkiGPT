@@ -18,7 +18,7 @@ _$SessionDtoImpl _$$SessionDtoImplFromJson(Map<String, dynamic> json) =>
       cards: parseCards(json['cards'] as Map<String, dynamic>?),
       status: $enumDecode(_$SessionStatusEnumMap, json['status']),
       error: parseError(json['error']),
-      numberOfCards: json['numberOfCards'] as int,
+      numberOfCards: (json['numberOfCards'] as num).toInt(),
       visibility: parseVisibility(json['visibility'] as Map<String, dynamic>?),
       userId: json['userId'] as String,
       model: parseModel(json['model'] as Map<String, dynamic>?),

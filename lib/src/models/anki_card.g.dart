@@ -32,7 +32,7 @@ Map<String, dynamic> _$$AnkiCardImplToJson(_$AnkiCardImpl instance) =>
 
 _$JobImpl _$$JobImplFromJson(Map<String, dynamic> json) => _$JobImpl(
       id: json['id'] as String,
-      index: json['index'] as int,
+      index: (json['index'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$JobImplToJson(_$JobImpl instance) => <String, dynamic>{

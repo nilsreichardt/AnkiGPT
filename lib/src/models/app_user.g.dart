@@ -25,9 +25,9 @@ Map<String, dynamic> _$$AppUserImplToJson(_$AppUserImpl instance) =>
 
 _$UsageImpl _$$UsageImplFromJson(Map<String, dynamic> json) => _$UsageImpl(
       generatedCardsCurrentMonth:
-          json['generatedCardsCurrentMonth'] as int? ?? 0,
+          (json['generatedCardsCurrentMonth'] as num?)?.toInt() ?? 0,
       generatedMnemonicsCurrentMonth:
-          json['generatedMnemonicsCurrentMonth'] as int? ?? 0,
+          (json['generatedMnemonicsCurrentMonth'] as num?)?.toInt() ?? 0,
       generatedCardsCurrentMonthByModel:
           json['generatedCardsCurrentMonthByModel'] == null
               ? const UsagePerMonthPerModel()
@@ -47,7 +47,7 @@ Map<String, dynamic> _$$UsageImplToJson(_$UsageImpl instance) =>
 _$UsagePerMonthPerModelImpl _$$UsagePerMonthPerModelImplFromJson(
         Map<String, dynamic> json) =>
     _$UsagePerMonthPerModelImpl(
-      gpt4: json['gpt-4'] as int? ?? 0,
+      gpt4: (json['gpt-4'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$UsagePerMonthPerModelImplToJson(

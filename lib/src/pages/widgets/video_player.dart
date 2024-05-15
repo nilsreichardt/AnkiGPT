@@ -1,6 +1,5 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:universal_platform/universal_platform.dart';
 import 'package:video_player/video_player.dart';
 
 class TutorialVideoPlayer extends StatefulWidget {

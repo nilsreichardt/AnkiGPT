@@ -41,7 +41,6 @@ class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
   }
 
   Future<void> initVideo() async {
-    if (UniversalPlatform.isMacOS) return;
     try {
       await _controller.initialize();
       await _controller.setVolume(0);
@@ -79,19 +78,12 @@ class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              if (UniversalPlatform.isMacOS)
-                Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  decoration: const BoxDecoration(color: Colors.orange),
-                )
-              else
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: _chewieController == null
-                      ? const SizedBox.shrink()
-                      : Chewie(controller: _chewieController!),
-                ),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: _chewieController == null
+                    ? const SizedBox.shrink()
+                    : Chewie(controller: _chewieController!),
+              ),
               if (error != null) _ErrorText(error: error!)
             ],
           ),

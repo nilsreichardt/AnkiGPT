@@ -11,22 +11,22 @@ environment:
 dependencies:
   animations: ^2.0.11
   auto_size_text: ^3.0.0
-  chewie: ^1.5.0
+  chewie: ^1.8.1
   clock: ^1.1.1
-  cloud_firestore: ^4.9.3
-  cloud_functions: ^4.4.2
-  collection: ^1.17.2
+  cloud_firestore: ^4.17.3
+  cloud_functions: ^4.7.4
+  collection: ^1.18.0
   confetti: ^0.7.0
-  cross_file: ^0.3.3+4
+  cross_file: ^0.3.4+1
   cupertino_icons: ^1.0.5
   easy_debounce: ^2.0.3
   file_picker: ^6.1.1
-  firebase_auth: ^4.10.1
-  firebase_core: ^2.17.0
-  firebase_storage: ^11.2.8
+  firebase_auth: ^4.19.5
+  firebase_core: ^2.31.0
+  firebase_storage: ^11.7.5
   flutter:
     sdk: flutter
-  flutter_markdown: ^0.6.14
+  flutter_markdown: ^0.7.1
   flutter_riverpod: ^2.3.6
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.0.6
@@ -35,7 +35,7 @@ dependencies:
   google_sign_in: ^6.2.1
   json_annotation: ^4.8.1
   logger: ^2.0.2+1
-  package_info_plus: ^5.0.0
+  package_info_plus: ^8.0.0
   plausible_analytics: ^0.3.0
   queue:
     git:
@@ -43,14 +43,14 @@ dependencies:
       ref: a535dcc522d7104c2719cc6f9c4d198c6501c443
   retry: ^3.1.2
   riverpod_annotation: ^2.1.1
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.2.3
   shimmer: ^3.0.0
-  super_drag_and_drop: ^0.8.5
+  super_drag_and_drop: ^0.8.13
   universal_platform: ^1.0.0+1
-  url_launcher: ^6.2.4
-  uuid: ^4.3.3
-  video_player: ^2.8.2
-  wiredash: ^2.0.0
+  url_launcher: ^6.2.6
+  uuid: ^4.4.0
+  video_player: ^2.8.6
+  wiredash: ^2.1.2
   wolt_responsive_layout_grid: ^0.0.3
 
 dev_dependencies:
@@ -58,16 +58,16 @@ dev_dependencies:
   adaptive_test:
     git:
       url: https://github.com/nilsreichardt/adaptive_test
-      ref: 7768b756e1298e888d902c98742b2de02089a8df
-  build_runner: ^2.4.8
-  custom_lint: ^0.6.2
-  flutter_lints: ^3.0.1
+      ref: 2d6a9283da59c845840b4697a995731dadc5cc4a
+  build_runner: ^2.4.10
+  custom_lint: ^0.6.4
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
   freezed: ^2.4.7
-  json_serializable: ^6.7.0
-  mockito: ^5.4.2
-  path: ^1.8.3
+  json_serializable: ^6.8.0
+  mockito: ^5.4.4
+  path: ^1.9.0
   riverpod_generator: ^2.3.10
   riverpod_lint: ^2.3.7
 

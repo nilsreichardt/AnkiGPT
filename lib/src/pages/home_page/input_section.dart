@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/home_page/controls.dart';

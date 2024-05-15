@@ -57,31 +57,10 @@
       data-domain="ankigpt.help"
       src="https://plausible.io/js/script.js"
     ></script>
-
-    <script>
-      // The value below is injected by flutter build, do not touch.
-      const serviceWorkerVersion = null;
-    </script>
-    <!-- This script adds the flutter initialization JS code -->
-    <script src="flutter.js" defer></script>
   </head>
 
   <body>
-    <script>
-      window.addEventListener("load", function (ev) {
-        // Download main.dart.js
-        _flutter.loader.loadEntrypoint({
-          serviceWorker: {
-            serviceWorkerVersion: serviceWorkerVersion,
-          },
-          onEntrypointLoaded: function (engineInitializer) {
-            engineInitializer.initializeEngine().then(function (appRunner) {
-              appRunner.runApp();
-            });
-          },
-        });
-      });
-    </script>
+    <script src="flutter_bootstrap.js" async></script>
     <div class="spinner">
       <div class="double-bounce1"></div>
       <div class="double-bounce2"></div>

@@ -76,7 +76,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       _throwIfTextInputIsInvalid(text);
     }
 
-    _throwIfFreeLimitReached(options.size);
+    // _throwIfFreeLimitReached(options.size);
     _throwIfGpt4LimitReached(options.size, options.model);
 
     if (!ref.read(hasAccount2Provider)) {

@@ -116,7 +116,7 @@ void main() {
           () => container.read(generateNotifierProvider.notifier).submit(),
           throwsA(isA<PlusMembershipRequiredException>()),
         );
-      });
+      }, skip: 'Currently, free users can select all sizes.');
 
       test('logs event when user has selected a plus size', () async {
         container
@@ -134,7 +134,7 @@ void main() {
           'plus_required_to_generate',
           page: 'generate',
         )).called(1);
-      });
+      }, skip: 'Currently, free users can select all sizes.');
     });
   });
 }

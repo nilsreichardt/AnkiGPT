@@ -325,7 +325,8 @@ class GenerateNotifier extends _$GenerateNotifier {
     final size = ref.read(optionsControllerProvider).size;
     if (!size.isAvailableForFiles()) {
       ref.read(optionsControllerProvider.notifier).setSize(
-          _hasPlus ? CardGenrationSize.fifty : CardGenrationSize.twenty);
+          // _hasPlus ? CardGenrationSize.fifty : CardGenrationSize.twenty);
+          CardGenrationSize.fifty);
     }
   }
 

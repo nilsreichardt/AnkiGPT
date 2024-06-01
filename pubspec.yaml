@@ -34,7 +34,7 @@ dependencies:
   go_router: ^13.2.0
   google_sign_in: ^6.2.1
   json_annotation: ^4.8.1
-  logger: ^2.0.2+1
+  logger: ^2.3.0
   package_info_plus: ^8.0.0
   plausible_analytics: ^0.3.0
   queue:

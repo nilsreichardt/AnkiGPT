@@ -166,4 +166,18 @@ class SessionRepository {
       }
     });
   }
+
+  Future<SessionId> importFromGpt({
+    required List<Map<String, String>> cards,
+  }) async {
+    final res = await functions
+        .httpsCallableFromUrl(routeFunctionsUrl)
+        .call<Map<String, dynamic>>({
+      'destination': 'importFromGpt',
+      'payload': {
+        'cards': cards,
+      }
+    });
+    return res.data['sessionId'];
+  }
 }

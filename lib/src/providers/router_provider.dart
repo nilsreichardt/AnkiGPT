@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:ankigpt/src/pages/account_page.dart';
 import 'package:ankigpt/src/pages/deck_page.dart';
 import 'package:ankigpt/src/pages/home_page.dart';
+import 'package:ankigpt/src/pages/import_from_gpt_page/import_from_gpt_page.dart';
 import 'package:ankigpt/src/pages/imprint.dart';
 import 'package:ankigpt/src/providers/analytics_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
@@ -55,6 +56,12 @@ GoRouter router(RouterRef ref) {
             builder: (context, state) {
               final id = state.pathParameters['id'];
               return DeckPage(sessionId: id);
+            },
+          ),
+          GoRoute(
+            path: 'import-from-gpt',
+            builder: (context, state) {
+              return const ImportFromGptPage();
             },
           ),
         ],

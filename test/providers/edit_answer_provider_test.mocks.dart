@@ -317,6 +317,34 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<String> importFromGpt(
+          {required List<Map<String, String>>? cards}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #importFromGpt,
+          [],
+          {#cards: cards},
+        ),
+        returnValue: _i7.Future<String>.value(_i6.dummyValue<String>(
+          this,
+          Invocation.method(
+            #importFromGpt,
+            [],
+            {#cards: cards},
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<String>.value(_i6.dummyValue<String>(
+          this,
+          Invocation.method(
+            #importFromGpt,
+            [],
+            {#cards: cards},
+          ),
+        )),
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [Logger].

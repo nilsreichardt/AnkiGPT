@@ -12,7 +12,7 @@ class NewCard extends ConsumerStatefulWidget {
 }
 
 class _NewCardState extends ConsumerState<NewCard> {
-  static const _key = 'unlimited-gpt-3-5';
+  static const _key = 'unlimited-gpt-3-5-and-2k-gpt-4-cards';
   bool? shouldShow;
 
   @override

@@ -21,7 +21,9 @@ AnkiCard _$AnkiCardFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AnkiCard {
   String get id => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: parseString)
   String get question => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: parseString)
   String get answer => throw _privateConstructorUsedError;
   @JsonKey(fromJson: parseTimestampOrIsoString)
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -47,8 +49,8 @@ abstract class $AnkiCardCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String question,
-      String answer,
+      @JsonKey(fromJson: parseString) String question,
+      @JsonKey(fromJson: parseString) String answer,
       @JsonKey(fromJson: parseTimestampOrIsoString) DateTime createdAt,
       bool hasLiked,
       bool hasDisliked,
@@ -133,8 +135,8 @@ abstract class _$$AnkiCardImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String question,
-      String answer,
+      @JsonKey(fromJson: parseString) String question,
+      @JsonKey(fromJson: parseString) String answer,
       @JsonKey(fromJson: parseTimestampOrIsoString) DateTime createdAt,
       bool hasLiked,
       bool hasDisliked,
@@ -201,8 +203,8 @@ class __$$AnkiCardImplCopyWithImpl<$Res>
 class _$AnkiCardImpl extends _AnkiCard {
   const _$AnkiCardImpl(
       {required this.id,
-      required this.question,
-      required this.answer,
+      @JsonKey(fromJson: parseString) required this.question,
+      @JsonKey(fromJson: parseString) required this.answer,
       @JsonKey(fromJson: parseTimestampOrIsoString) required this.createdAt,
       this.hasLiked = false,
       this.hasDisliked = false,
@@ -215,8 +217,10 @@ class _$AnkiCardImpl extends _AnkiCard {
   @override
   final String id;
   @override
+  @JsonKey(fromJson: parseString)
   final String question;
   @override
+  @JsonKey(fromJson: parseString)
   final String answer;
   @override
   @JsonKey(fromJson: parseTimestampOrIsoString)
@@ -275,8 +279,8 @@ class _$AnkiCardImpl extends _AnkiCard {
 abstract class _AnkiCard extends AnkiCard {
   const factory _AnkiCard(
       {required final String id,
-      required final String question,
-      required final String answer,
+      @JsonKey(fromJson: parseString) required final String question,
+      @JsonKey(fromJson: parseString) required final String answer,
       @JsonKey(fromJson: parseTimestampOrIsoString)
       required final DateTime createdAt,
       final bool hasLiked,
@@ -290,8 +294,10 @@ abstract class _AnkiCard extends AnkiCard {
   @override
   String get id;
   @override
+  @JsonKey(fromJson: parseString)
   String get question;
   @override
+  @JsonKey(fromJson: parseString)
   String get answer;
   @override
   @JsonKey(fromJson: parseTimestampOrIsoString)

@@ -66,6 +66,10 @@ class Job with _$Job {
   factory Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);
 }
 
+/// Parses an object to a string.
+///
+/// Sometimes there was a problem that an answer was just an integer and it was
+/// stored as int (instead of a string)
 String parseString(dynamic text) {
   return '$text';
 }

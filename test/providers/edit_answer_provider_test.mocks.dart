@@ -352,6 +352,13 @@ class MockSessionRepository extends _i1.Mock implements _i5.SessionRepository {
 /// See the documentation for Mockito's code generation for more information.
 class MockLogger extends _i1.Mock implements _i10.Logger {
   @override
+  _i7.Future<void> get init => (super.noSuchMethod(
+        Invocation.getter(#init),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
   void v(
     dynamic message, {
     DateTime? time,

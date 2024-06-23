@@ -9,8 +9,8 @@ part of 'anki_card.dart';
 _$AnkiCardImpl _$$AnkiCardImplFromJson(Map<String, dynamic> json) =>
     _$AnkiCardImpl(
       id: json['id'] as String,
-      question: json['question'] as String,
-      answer: json['answer'] as String,
+      question: parseString(json['question']),
+      answer: parseString(json['answer']),
       createdAt: parseTimestampOrIsoString(json['createdAt']),
       hasLiked: json['hasLiked'] as bool? ?? false,
       hasDisliked: json['hasDisliked'] as bool? ?? false,

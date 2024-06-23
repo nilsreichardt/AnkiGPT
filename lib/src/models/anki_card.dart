@@ -10,8 +10,8 @@ class AnkiCard with _$AnkiCard {
 
   const factory AnkiCard({
     required String id,
-    required String question,
-    required String answer,
+    @JsonKey(fromJson: parseString) required String question,
+    @JsonKey(fromJson: parseString) required String answer,
     @JsonKey(fromJson: parseTimestampOrIsoString) required DateTime createdAt,
     @Default(false) bool hasLiked,
     @Default(false) bool hasDisliked,
@@ -64,4 +64,12 @@ class Job with _$Job {
   }) = _Job;
 
   factory Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);
+}
+
+/// Parses an object to a string.
+///
+/// Sometimes there was a problem that an answer was just an integer and it was
+/// stored as int (instead of a string)
+String parseString(dynamic text) {
+  return '$text';
 }

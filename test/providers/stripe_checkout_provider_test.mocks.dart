@@ -126,6 +126,13 @@ class MockBuyRepository extends _i1.Mock implements _i3.BuyRepository {
 /// See the documentation for Mockito's code generation for more information.
 class MockLogger extends _i1.Mock implements _i6.Logger {
   @override
+  _i5.Future<void> get init => (super.noSuchMethod(
+        Invocation.getter(#init),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
   void v(
     dynamic message, {
     DateTime? time,

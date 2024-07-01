@@ -59,7 +59,7 @@ dev_dependencies:
     git:
       url: https://github.com/nilsreichardt/adaptive_test
       ref: 2d6a9283da59c845840b4697a995731dadc5cc4a
-  build_runner: ^2.4.10
+  build_runner: ^2.4.11
   custom_lint: ^0.6.4
   flutter_lints: ^4.0.0
   flutter_test:

@@ -42,7 +42,7 @@ dependencies:
       url: https://github.com/nilsreichardt/dart_queue
       ref: a535dcc522d7104c2719cc6f9c4d198c6501c443
   retry: ^3.1.2
-  riverpod_annotation: ^2.1.1
+  riverpod_annotation: ^2.3.5
   shared_preferences: ^2.2.3
   shimmer: ^3.0.0
   super_drag_and_drop: ^0.8.13

@@ -6,7 +6,7 @@ jobs:
   analyze:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -27,7 +27,7 @@ jobs:
   custom-lint:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -44,7 +44,7 @@ jobs:
   format:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Install Dart
         uses: dart-lang/setup-dart@f0ead981b4d9a35b37f30d36160575d60931ec30
@@ -65,7 +65,7 @@ jobs:
     # https://github.com/flutter/flutter/issues/36667#issuecomment-521335243.
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -106,7 +106,7 @@ jobs:
       contents: "read" # for google-github-actions/auth
       id-token: "write" # for google-github-actions/auth
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action

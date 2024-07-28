@@ -50,7 +50,7 @@ class _NewCardState extends ConsumerState<NewCard> {
                   children: [
                     const Flexible(
                       child: Text(
-                        'Limited until July 1: Free users can generate unlimited cards with GPT-3.5 & Plus users up to 2,000 cards with GPT-4',
+                        'Limited until June 7th: Free users can generate unlimited cards with GPT-3.5.',
                         style: TextStyle(
                           color: Colors.deepOrange,
                         ),

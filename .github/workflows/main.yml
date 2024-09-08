@@ -67,7 +67,7 @@ jobs:
             --dart-define=FLAVOR="${{ matrix.environment.flavor }}"
 
       - id: auth
-        uses: google-github-actions/auth@71fee32a0bb7e97b4d33d548e7d957010649d8fa
+        uses: google-github-actions/auth@62cf5bd3e4211a0a0b51f2c6d6a37129d828611d
         with:
           workload_identity_provider: "projects/${{ matrix.environment.projectNumber }}/locations/global/workloadIdentityPools/github/providers/github-provider"
           service_account: "firebase-hosting-deployer@${{ matrix.environment.projectId }}.iam.gserviceaccount.com"

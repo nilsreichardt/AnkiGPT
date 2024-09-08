@@ -125,7 +125,7 @@ jobs:
             --dart-define=FLAVOR="prod"
 
       - id: "auth"
-        uses: "google-github-actions/auth@71fee32a0bb7e97b4d33d548e7d957010649d8fa"
+        uses: "google-github-actions/auth@62cf5bd3e4211a0a0b51f2c6d6a37129d828611d"
         env:
           PROJECT_ID: ankigpt-prod
           PROJECT_NUMBER: 41416187582

@@ -34,18 +34,14 @@ enum CardGenrationSize {
   }
 
   bool isPlus() {
-    // Temporary enabled all for free users.
-    return false;
-    // switch (this) {
-    //   case CardGenrationSize.thirtyFive:
-    //   case CardGenrationSize.fifty:
-    //   case CardGenrationSize.seventyFive:
-    //   case CardGenrationSize.hundred:
-    //   case CardGenrationSize.hundertFifty:
-    //     return true;
-    //   default:
-    //     return false;
-    // }
+    switch (this) {
+      case CardGenrationSize.seventyFive:
+      case CardGenrationSize.hundred:
+      case CardGenrationSize.hundertFifty:
+        return true;
+      default:
+        return false;
+    }
   }
 
   bool isAvailableForFiles() {

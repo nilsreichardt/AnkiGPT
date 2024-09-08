@@ -39,8 +39,12 @@ mixin _$SessionDto {
   Model get model => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
 
+  /// Serializes this SessionDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SessionDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SessionDtoCopyWith<SessionDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -80,6 +84,8 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SessionDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -153,6 +159,8 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
     ) as $Val);
   }
 
+  /// Create a copy of SessionDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $InputCopyWith<$Res> get input {
@@ -161,6 +169,8 @@ class _$SessionDtoCopyWithImpl<$Res, $Val extends SessionDto>
     });
   }
 
+  /// Create a copy of SessionDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CsvMetadataCopyWith<$Res>? get csv {
@@ -211,6 +221,8 @@ class __$$SessionDtoImplCopyWithImpl<$Res>
       _$SessionDtoImpl _value, $Res Function(_$SessionDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SessionDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -377,7 +389,7 @@ class _$SessionDtoImpl implements _SessionDto {
             (identical(other.title, title) || other.title == title));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -395,7 +407,9 @@ class _$SessionDtoImpl implements _SessionDto {
       model,
       title);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SessionDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SessionDtoImplCopyWith<_$SessionDtoImpl> get copyWith =>
@@ -460,8 +474,11 @@ abstract class _SessionDto implements SessionDto {
   Model get model;
   @override
   String? get title;
+
+  /// Create a copy of SessionDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SessionDtoImplCopyWith<_$SessionDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -476,8 +493,12 @@ mixin _$Input {
   InputType get type => throw _privateConstructorUsedError;
   FileInput? get file => throw _privateConstructorUsedError;
 
+  /// Serializes this Input to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Input
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $InputCopyWith<Input> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -501,6 +522,8 @@ class _$InputCopyWithImpl<$Res, $Val extends Input>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Input
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -524,6 +547,8 @@ class _$InputCopyWithImpl<$Res, $Val extends Input>
     ) as $Val);
   }
 
+  /// Create a copy of Input
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FileInputCopyWith<$Res>? get file {
@@ -558,6 +583,8 @@ class __$$InputImplCopyWithImpl<$Res>
       _$InputImpl _value, $Res Function(_$InputImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Input
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -609,11 +636,13 @@ class _$InputImpl extends _Input {
             (identical(other.file, file) || other.file == file));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, text, type, file);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Input
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InputImplCopyWith<_$InputImpl> get copyWith =>
@@ -642,8 +671,11 @@ abstract class _Input extends Input {
   InputType get type;
   @override
   FileInput? get file;
+
+  /// Create a copy of Input
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InputImplCopyWith<_$InputImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -657,8 +689,12 @@ mixin _$FileInput {
   String get name => throw _privateConstructorUsedError;
   String? get pdfPassword => throw _privateConstructorUsedError;
 
+  /// Serializes this FileInput to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FileInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FileInputCopyWith<FileInput> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -681,6 +717,8 @@ class _$FileInputCopyWithImpl<$Res, $Val extends FileInput>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FileInput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -719,6 +757,8 @@ class __$$FileInputImplCopyWithImpl<$Res>
       _$FileInputImpl _value, $Res Function(_$FileInputImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FileInput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -766,11 +806,13 @@ class _$FileInputImpl implements _FileInput {
                 other.pdfPassword == pdfPassword));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, pdfPassword);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FileInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FileInputImplCopyWith<_$FileInputImpl> get copyWith =>
@@ -796,8 +838,11 @@ abstract class _FileInput implements FileInput {
   String get name;
   @override
   String? get pdfPassword;
+
+  /// Create a copy of FileInput
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FileInputImplCopyWith<_$FileInputImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -23,8 +23,12 @@ mixin _$AppUser {
   bool get hasPlus => throw _privateConstructorUsedError;
   Usage get usage => throw _privateConstructorUsedError;
 
+  /// Serializes this AppUser to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AppUser
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AppUserCopyWith<AppUser> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -48,6 +52,8 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AppUser
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -66,6 +72,8 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     ) as $Val);
   }
 
+  /// Create a copy of AppUser
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UsageCopyWith<$Res> get usage {
@@ -96,6 +104,8 @@ class __$$AppUserImplCopyWithImpl<$Res>
       _$AppUserImpl _value, $Res Function(_$AppUserImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AppUser
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -150,11 +160,13 @@ class _$AppUserImpl extends _AppUser {
             (identical(other.usage, usage) || other.usage == usage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, hasPlus, usage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AppUser
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AppUserImplCopyWith<_$AppUserImpl> get copyWith =>
@@ -179,8 +191,11 @@ abstract class _AppUser extends AppUser {
   bool get hasPlus;
   @override
   Usage get usage;
+
+  /// Create a copy of AppUser
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AppUserImplCopyWith<_$AppUserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -196,8 +211,12 @@ mixin _$Usage {
   UsagePerMonthPerModel get generatedCardsCurrentMonthByModel =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this Usage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Usage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UsageCopyWith<Usage> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -224,6 +243,8 @@ class _$UsageCopyWithImpl<$Res, $Val extends Usage>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Usage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -248,6 +269,8 @@ class _$UsageCopyWithImpl<$Res, $Val extends Usage>
     ) as $Val);
   }
 
+  /// Create a copy of Usage
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UsagePerMonthPerModelCopyWith<$Res> get generatedCardsCurrentMonthByModel {
@@ -283,6 +306,8 @@ class __$$UsageImplCopyWithImpl<$Res>
       _$UsageImpl _value, $Res Function(_$UsageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Usage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -353,12 +378,14 @@ class _$UsageImpl implements _Usage {
                     generatedCardsCurrentMonthByModel));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, generatedCardsCurrentMonth,
       generatedMnemonicsCurrentMonth, generatedCardsCurrentMonthByModel);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Usage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UsageImplCopyWith<_$UsageImpl> get copyWith =>
@@ -387,8 +414,11 @@ abstract class _Usage implements Usage {
   int get generatedMnemonicsCurrentMonth;
   @override
   UsagePerMonthPerModel get generatedCardsCurrentMonthByModel;
+
+  /// Create a copy of Usage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UsageImplCopyWith<_$UsageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -403,8 +433,12 @@ mixin _$UsagePerMonthPerModel {
   @JsonKey(name: 'gpt-4')
   int get gpt4 => throw _privateConstructorUsedError;
 
+  /// Serializes this UsagePerMonthPerModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UsagePerMonthPerModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UsagePerMonthPerModelCopyWith<UsagePerMonthPerModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -429,6 +463,8 @@ class _$UsagePerMonthPerModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UsagePerMonthPerModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -464,6 +500,8 @@ class __$$UsagePerMonthPerModelImplCopyWithImpl<$Res>
       $Res Function(_$UsagePerMonthPerModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UsagePerMonthPerModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -503,11 +541,13 @@ class _$UsagePerMonthPerModelImpl implements _UsagePerMonthPerModel {
             (identical(other.gpt4, gpt4) || other.gpt4 == gpt4));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, gpt4);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UsagePerMonthPerModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UsagePerMonthPerModelImplCopyWith<_$UsagePerMonthPerModelImpl>
@@ -532,8 +572,11 @@ abstract class _UsagePerMonthPerModel implements UsagePerMonthPerModel {
   @override
   @JsonKey(name: 'gpt-4')
   int get gpt4;
+
+  /// Create a copy of UsagePerMonthPerModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UsagePerMonthPerModelImplCopyWith<_$UsagePerMonthPerModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

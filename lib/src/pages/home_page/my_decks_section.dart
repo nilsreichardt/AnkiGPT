@@ -234,6 +234,10 @@ class LoadLessButton extends ConsumerWidget {
                     controller.loadLess();
 
                     Future.delayed(const Duration(milliseconds: 16)).then((_) {
+                      if (!context.mounted) {
+                        return;
+                      }
+
                       final loadMoreButtonKey = ref
                           .read(homePageScrollViewProvider)
                           .loadMoreDecksButton;

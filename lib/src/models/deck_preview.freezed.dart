@@ -84,7 +84,9 @@ mixin _$DeckPreview {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DeckPreview
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DeckPreviewCopyWith<DeckPreview> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -113,6 +115,8 @@ class _$DeckPreviewCopyWithImpl<$Res, $Val extends DeckPreview>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DeckPreview
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -172,6 +176,8 @@ class __$$DeckPreviewCreatedImplCopyWithImpl<$Res>
       $Res Function(_$DeckPreviewCreatedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DeckPreview
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -274,7 +280,9 @@ class _$DeckPreviewCreatedImpl implements DeckPreviewCreated {
       model,
       numberOfCards);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DeckPreview
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeckPreviewCreatedImplCopyWith<_$DeckPreviewCreatedImpl> get copyWith =>
@@ -390,8 +398,11 @@ abstract class DeckPreviewCreated implements DeckPreview {
   Model get model;
   @override
   int get numberOfCards;
+
+  /// Create a copy of DeckPreview
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeckPreviewCreatedImplCopyWith<_$DeckPreviewCreatedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -420,6 +431,8 @@ class __$$DeckPreviewLoadingImplCopyWithImpl<$Res>
       $Res Function(_$DeckPreviewLoadingImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DeckPreview
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -499,7 +512,9 @@ class _$DeckPreviewLoadingImpl implements DeckPreviewLoading {
   int get hashCode => Object.hash(
       runtimeType, createdAt, name, numberOfCards, sessionId, model);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DeckPreview
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeckPreviewLoadingImplCopyWith<_$DeckPreviewLoadingImpl> get copyWith =>
@@ -611,8 +626,11 @@ abstract class DeckPreviewLoading implements DeckPreview {
   String get sessionId;
   @override
   Model get model;
+
+  /// Create a copy of DeckPreview
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeckPreviewLoadingImplCopyWith<_$DeckPreviewLoadingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -642,6 +660,8 @@ class __$$DeckPreviewErrorImplCopyWithImpl<$Res>
       $Res Function(_$DeckPreviewErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DeckPreview
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -730,7 +750,9 @@ class _$DeckPreviewErrorImpl implements DeckPreviewError {
   int get hashCode => Object.hash(
       runtimeType, message, createdAt, name, numberOfCards, sessionId, model);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DeckPreview
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeckPreviewErrorImplCopyWith<_$DeckPreviewErrorImpl> get copyWith =>
@@ -845,8 +867,11 @@ abstract class DeckPreviewError implements DeckPreview {
   String get sessionId;
   @override
   Model get model;
+
+  /// Create a copy of DeckPreview
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeckPreviewErrorImplCopyWith<_$DeckPreviewErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

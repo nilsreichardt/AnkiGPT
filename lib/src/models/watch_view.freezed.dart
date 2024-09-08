@@ -27,7 +27,9 @@ mixin _$WatchView {
   bool? get isOwner => throw _privateConstructorUsedError;
   Model? get model => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchView
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WatchViewCopyWith<WatchView> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -59,6 +61,8 @@ class _$WatchViewCopyWithImpl<$Res, $Val extends WatchView>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WatchView
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -141,6 +145,8 @@ class __$$WatchViewImplCopyWithImpl<$Res>
       _$WatchViewImpl _value, $Res Function(_$WatchViewImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WatchView
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -262,7 +268,9 @@ class _$WatchViewImpl extends _WatchView {
   int get hashCode => Object.hash(runtimeType, isLoading, downloadUrl, language,
       error, fileName, sessionId, inputText, isOwner, model);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WatchView
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WatchViewImplCopyWith<_$WatchViewImpl> get copyWith =>
@@ -295,13 +303,16 @@ abstract class _WatchView extends WatchView {
   @override
   String? get sessionId;
   @override
-  String? get inputText;
-  @override // Defines if the user is the owner of the session.
+  String? get inputText; // Defines if the user is the owner of the session.
+  @override
   bool? get isOwner;
   @override
   Model? get model;
+
+  /// Create a copy of WatchView
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WatchViewImplCopyWith<_$WatchViewImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

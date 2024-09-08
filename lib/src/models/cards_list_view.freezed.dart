@@ -22,7 +22,9 @@ mixin _$CardsListView {
   bool get canPressNext => throw _privateConstructorUsedError;
   bool get canPressPrevious => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CardsListView
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CardsListViewCopyWith<CardsListView> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +53,8 @@ class _$CardsListViewCopyWithImpl<$Res, $Val extends CardsListView>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CardsListView
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -109,6 +113,8 @@ class __$$CardsListViewImplCopyWithImpl<$Res>
       _$CardsListViewImpl _value, $Res Function(_$CardsListViewImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CardsListView
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -202,7 +208,9 @@ class _$CardsListViewImpl extends _CardsListView {
       canPressNext,
       canPressPrevious);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CardsListView
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CardsListViewImplCopyWith<_$CardsListViewImpl> get copyWith =>
@@ -228,8 +236,11 @@ abstract class _CardsListView extends CardsListView {
   bool get canPressNext;
   @override
   bool get canPressPrevious;
+
+  /// Create a copy of CardsListView
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CardsListViewImplCopyWith<_$CardsListViewImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

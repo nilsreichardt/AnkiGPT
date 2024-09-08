@@ -3,10 +3,16 @@
 /// The model that is used for generating the cards.
 enum Model {
   /// The default model.
+  ///
+  /// Keeping the model in the source code for backwards compatibility (showing
+  /// the model in old sessions).
   @Deprecated('Use gpt4o_mini instead')
   gpt3_5,
 
   /// The model that is only available for plus users.
+  ///
+  /// Keeping the model in the source code for backwards compatibility (showing
+  /// the model in old sessions).
   @Deprecated('Use gpt4o instead')
   gpt4,
 

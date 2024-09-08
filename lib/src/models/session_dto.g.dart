@@ -197,6 +197,8 @@ const _$VisibilityEnumMap = {
 const _$ModelEnumMap = {
   Model.gpt3_5: 'gpt3_5',
   Model.gpt4: 'gpt4',
+  Model.gpt4o_mini: 'gpt4o_mini',
+  Model.gpt4o: 'gpt4o',
 };
 
 _$InputImpl _$$InputImplFromJson(Map<String, dynamic> json) => _$InputImpl(

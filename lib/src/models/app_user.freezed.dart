@@ -430,7 +430,7 @@ UsagePerMonthPerModel _$UsagePerMonthPerModelFromJson(
 
 /// @nodoc
 mixin _$UsagePerMonthPerModel {
-  @JsonKey(name: 'gpt-4')
+  @JsonKey(name: 'gpt-4o')
   int get gpt4 => throw _privateConstructorUsedError;
 
   /// Serializes this UsagePerMonthPerModel to a JSON map.
@@ -449,7 +449,7 @@ abstract class $UsagePerMonthPerModelCopyWith<$Res> {
           $Res Function(UsagePerMonthPerModel) then) =
       _$UsagePerMonthPerModelCopyWithImpl<$Res, UsagePerMonthPerModel>;
   @useResult
-  $Res call({@JsonKey(name: 'gpt-4') int gpt4});
+  $Res call({@JsonKey(name: 'gpt-4o') int gpt4});
 }
 
 /// @nodoc
@@ -488,7 +488,7 @@ abstract class _$$UsagePerMonthPerModelImplCopyWith<$Res>
       __$$UsagePerMonthPerModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'gpt-4') int gpt4});
+  $Res call({@JsonKey(name: 'gpt-4o') int gpt4});
 }
 
 /// @nodoc
@@ -519,13 +519,13 @@ class __$$UsagePerMonthPerModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UsagePerMonthPerModelImpl implements _UsagePerMonthPerModel {
-  const _$UsagePerMonthPerModelImpl({@JsonKey(name: 'gpt-4') this.gpt4 = 0});
+  const _$UsagePerMonthPerModelImpl({@JsonKey(name: 'gpt-4o') this.gpt4 = 0});
 
   factory _$UsagePerMonthPerModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UsagePerMonthPerModelImplFromJson(json);
 
   @override
-  @JsonKey(name: 'gpt-4')
+  @JsonKey(name: 'gpt-4o')
   final int gpt4;
 
   @override
@@ -564,13 +564,13 @@ class _$UsagePerMonthPerModelImpl implements _UsagePerMonthPerModel {
 
 abstract class _UsagePerMonthPerModel implements UsagePerMonthPerModel {
   const factory _UsagePerMonthPerModel(
-      {@JsonKey(name: 'gpt-4') final int gpt4}) = _$UsagePerMonthPerModelImpl;
+      {@JsonKey(name: 'gpt-4o') final int gpt4}) = _$UsagePerMonthPerModelImpl;
 
   factory _UsagePerMonthPerModel.fromJson(Map<String, dynamic> json) =
       _$UsagePerMonthPerModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'gpt-4')
+  @JsonKey(name: 'gpt-4o')
   int get gpt4;
 
   /// Create a copy of UsagePerMonthPerModel

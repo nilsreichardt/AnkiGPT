@@ -86,9 +86,10 @@ class PlusAdvantages extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SellingPoint(text: 'Unlimited cards with GPT-3.5 per month'),
+        SellingPoint(text: 'Unlimited cards with GPT-4o mini per month'),
         SellingPoint(
-          text: '$plusGpt4UsageLimitPerMonth cards with GPT-4 per month',
+          text: '$plusGpt4UsageLimitPerMonth cards with GPT-4o per month',
+          description: 'GPT-4o is the most powerful model by OpenAI',
         ),
         SellingPoint(text: 'Up to 150 cards per deck'),
         SellingPoint(

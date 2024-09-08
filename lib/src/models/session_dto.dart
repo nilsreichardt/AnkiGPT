@@ -78,7 +78,7 @@ Visibility parseVisibility(Map<String, dynamic>? json) {
 }
 
 Model parseModel(Map<String, dynamic>? json) {
-  const defaultValue = Model.gpt3_5;
+  const defaultValue = Model.gpt4o_mini;
 
   if (json == null) {
     return defaultValue;

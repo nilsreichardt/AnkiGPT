@@ -61,7 +61,7 @@ void main() {
           createdAt: DateTime(2023, 1, 1),
           name: _generateString(random),
           sessionId: _generateString(random),
-          model: Model.gpt3_5,
+          model: Model.gpt4o_mini,
           numberOfCards: random.nextInt(100),
         ),
         DeckPreview.loading(
@@ -69,7 +69,7 @@ void main() {
           name: _generateString(random),
           numberOfCards: random.nextInt(100),
           sessionId: _generateString(random),
-          model: Model.gpt3_5,
+          model: Model.gpt4o_mini,
         ),
         DeckPreview.error(
           message: _generateString(random),
@@ -77,7 +77,7 @@ void main() {
           name: _generateString(random),
           numberOfCards: random.nextInt(100),
           sessionId: _generateString(random),
-          model: Model.gpt3_5,
+          model: Model.gpt4o_mini,
         ),
       ];
       await pumpMyDecksSection(

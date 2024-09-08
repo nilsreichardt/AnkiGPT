@@ -188,7 +188,7 @@ class GenerateNotifier extends _$GenerateNotifier {
   }
 
   void _throwIfGpt4LimitReached(CardGenrationSize size, Model model) {
-    if (_hasPlus && model == Model.gpt4) {
+    if (_hasPlus && model == Model.gpt4o) {
       final remainingGpt4Limit = plusGpt4UsageLimitPerMonth - _currentGpt4Usage;
       if (remainingGpt4Limit < size.toInt()) {
         throw Gpt4LimitExceededException(
@@ -363,7 +363,7 @@ class Gpt4LimitExceededException implements Exception {
   /// The deck size that the user tried to generate.
   final int currentDeckSize;
 
-  /// The number of cards the user has left for GPT-4.
+  /// The number of cards the user has left for GPT-4o.
   final int remainingGpt4Limit;
 }
 

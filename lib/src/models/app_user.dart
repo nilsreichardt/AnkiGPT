@@ -48,7 +48,7 @@ class Usage with _$Usage {
 @freezed
 class UsagePerMonthPerModel with _$UsagePerMonthPerModel {
   const factory UsagePerMonthPerModel({
-    @JsonKey(name: 'gpt-4') @Default(0) int gpt4,
+    @JsonKey(name: 'gpt-4o') @Default(0) int gpt4,
   }) = _UsagePerMonthPerModel;
 
   factory UsagePerMonthPerModel.fromJson(Map<String, dynamic> json) =>

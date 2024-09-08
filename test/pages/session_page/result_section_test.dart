@@ -81,7 +81,7 @@ void main() {
         language: Language.en,
         error: 'some-error',
         sessionId: 'session-id',
-        model: Model.gpt3_5,
+        model: Model.gpt4o_mini,
       );
       await pumpResultSection(
         tester,
@@ -103,7 +103,7 @@ void main() {
         isLoading: false,
         language: Language.en,
         sessionId: 'session-id',
-        model: Model.gpt3_5,
+        model: Model.gpt4o_mini,
       );
       await pumpResultSection(
         tester,
@@ -126,7 +126,7 @@ void main() {
         isLoading: false,
         language: Language.en,
         sessionId: 'session-id',
-        model: Model.gpt3_5,
+        model: Model.gpt4o_mini,
       );
       await pumpResultSection(
         tester,

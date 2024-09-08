@@ -146,7 +146,6 @@ class NumberOfCardsDropdown extends ConsumerWidget {
   }
 }
 
-// Use can choose between GPT-3.5 and GPT-4 (only plus) in a DropdownMenu.
 class _ModelOption extends StatelessWidget {
   const _ModelOption();
 
@@ -179,7 +178,7 @@ class ModelDropdown extends ConsumerWidget {
       child: DropdownButtonFormField<Model>(
         value: ref.watch(optionsControllerProvider.select((v) => v.model)),
         items: [
-          ...Model.values.map(
+          ...[Model.gpt4o_mini, Model.gpt4o].map(
             (c) => DropdownMenuItem(
               value: c,
               child: Row(
@@ -224,15 +223,15 @@ class _Gpt4Usage extends ConsumerWidget {
     final gpt4Usage = ref.watch(currentGpt4UsageProvider);
     final selectedModel =
         ref.watch(optionsControllerProvider.select((v) => v.model));
-    if (selectedModel != Model.gpt4) return const SizedBox();
+    if (selectedModel != Model.gpt4o) return const SizedBox();
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: selectedModel == Model.gpt4
+      child: selectedModel == Model.gpt4o
           ? Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                'You have used $gpt4Usage of your $plusGpt4UsageLimitPerMonth monthly GPT-4 limit.',
+                'You have used $gpt4Usage of your $plusGpt4UsageLimitPerMonth monthly GPT-4o limit.',
                 style: TextStyle(
                   color: Colors.grey[600]!,
                   fontSize: 12,

@@ -78,7 +78,7 @@ class _WhichModelIsUsed extends StatelessWidget {
       question: Text('Which model is used for AnkiGPT?'),
       answer: _MarkdownAnswer(
         text:
-            "AnkiGPT primarily utilizes the GPT-4o mini by OpenAI model to generate flashcards, offering a seamless integration of advanced AI technology for effective learning. For users who opt for the AnkiGPT Plus version, they gain the enhanced capability to generate up to $plusGpt4UsageLimitPerMonth flashcards per month using the more advanced [GPT-4o model](https://openai.com/index/hello-gpt-4o/), ensuring even more sophisticated and nuanced content creation.",
+            "AnkiGPT primarily utilizes the GPT-3.5 by OpenAI model to generate flashcards, offering a seamless integration of advanced AI technology for effective learning. For users who opt for the AnkiGPT Plus version, they gain the enhanced capability to generate up to $plusGpt4UsageLimitPerMonth flashcards per month using the more advanced [GPT-4o model](https://openai.com/index/hello-gpt-4o/), ensuring even more sophisticated and nuanced content creation.",
       ),
     );
   }

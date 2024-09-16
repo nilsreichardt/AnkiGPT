@@ -82,7 +82,7 @@ class _FreeTier extends ConsumerWidget {
       priceEurPart: '€0',
       points: const [
         PointData(
-          '$freeUsageLimitPerMonth cards with GPT-4o mini per month',
+          '$freeUsageLimitPerMonth cards with GPT-3.5 per month',
         ),
         PointData('Up to 20 cards per deck'),
         PointData('Up to 4,000 input characters per request'),

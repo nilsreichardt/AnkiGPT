@@ -31,7 +31,7 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.0.6
   freezed_annotation: ^2.2.0
-  go_router: ^13.2.0
+  go_router: ^14.2.8
   google_sign_in: ^6.2.1
   json_annotation: ^4.8.1
   logger: ^2.3.0

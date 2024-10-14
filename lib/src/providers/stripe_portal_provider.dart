@@ -24,6 +24,9 @@ class StripePortal extends _$StripePortal {
   Future<void> open() async {
     final url = state ?? await generateUrl();
     reset();
-    await launchUrl(Uri.parse(url));
+    await launchUrl(
+      Uri.parse(url),
+      webOnlyWindowName: '_self',
+    );
   }
 }

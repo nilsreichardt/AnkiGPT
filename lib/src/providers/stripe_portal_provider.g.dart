@@ -6,7 +6,7 @@ part of 'stripe_portal_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$stripePortalHash() => r'43db3d26b3bbd805346cc256921edf370c4c1c6a';
+String _$stripePortalHash() => r'c6c308009693146d18abb8204dd517a2ccc79b21';
 
 /// See also [StripePortal].
 @ProviderFor(StripePortal)

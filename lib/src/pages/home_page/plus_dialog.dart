@@ -8,7 +8,6 @@ import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
-import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';
 import 'package:flutter/material.dart';
@@ -136,17 +135,6 @@ class _BuyButton extends ConsumerStatefulWidget {
 
 class _BuyButtonState extends ConsumerState<_BuyButton> {
   bool isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    final isSignedIn = ref.read(isSignedInProvider);
-    if (isSignedIn) {
-      // Generating URL in the background
-      unawaited(ref.read(stripeCheckoutProvider.notifier).generateUrl());
-    }
-  }
 
   Future<void> buy() async {
     final hasAccount = ref.read(hasAccount2Provider);

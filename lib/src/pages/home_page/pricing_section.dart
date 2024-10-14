@@ -173,18 +173,6 @@ class _PlusTier extends ConsumerStatefulWidget {
 }
 
 class _PlusTierState extends ConsumerState<_PlusTier> {
-  @override
-  void initState() {
-    super.initState();
-
-    final hasAccount = ref.read(hasAccount2Provider);
-    if (hasAccount) {
-      // Generating URL in the background to avoid being blocked by Safari for not
-      // being triggered by a user action when the user clicks on the button.
-      ref.read(stripeCheckoutProvider.notifier).generateUrl();
-    }
-  }
-
   Future<void> buy() async {
     final hasAccount = ref.read(hasAccount2Provider);
     unawaited(ref.read(clickedBuyProvider.future));

@@ -58,42 +58,6 @@ void main() {
       container.dispose();
     });
 
-    group('generateUrl()', () {
-      test('generates Stripe checkout URL', () async {
-        final checkout = container.read(stripeCheckoutProvider.notifier);
-
-        final url = await checkout.generateUrl();
-
-        expect(url, firstCheckoutUrl);
-      });
-
-      test('reuses checkout URL if it is not expired', () async {
-        final checkout = container.read(stripeCheckoutProvider.notifier);
-
-        await checkout.generateUrl();
-
-        when(mockBuyRepository.createCheckoutSessionUrl())
-            .thenAnswer((_) async => secondCheckoutUrl);
-        final url = await checkout.generateUrl();
-
-        expect(url, firstCheckoutUrl);
-      });
-
-      test('generates new checkout URL if it is expired', () async {
-        final checkout = container.read(stripeCheckoutProvider.notifier);
-
-        await checkout.generateUrl();
-
-        when(mockBuyRepository.createCheckoutSessionUrl())
-            .thenAnswer((_) async => secondCheckoutUrl);
-        when(mockClock.now())
-            .thenReturn(baseDateTime.add(const Duration(days: 1)));
-        final url = await checkout.generateUrl();
-
-        expect(url, secondCheckoutUrl);
-      });
-    });
-
     group('open()', () {
       test('opens Stripe checkout URL', () async {
         final checkout = container.read(stripeCheckoutProvider.notifier);
@@ -127,39 +91,6 @@ void main() {
         await checkout.open();
 
         expect(mockUrlLauncher.launchCalled, isTrue);
-      });
-
-      test('uses stored URL if available', () async {
-        final checkout = container.read(stripeCheckoutProvider.notifier);
-
-        await checkout.generateUrl();
-
-        mockUrlLauncher.setLaunchExpectations(
-          url: firstCheckoutUrl,
-          webOnlyWindowName: '_self',
-        );
-        await checkout.open();
-
-        verify(mockBuyRepository.createCheckoutSessionUrl()).called(1);
-      });
-
-      test('generates new URL if current URL expired', () async {
-        final checkout = container.read(stripeCheckoutProvider.notifier);
-
-        await checkout.generateUrl();
-
-        when(mockBuyRepository.createCheckoutSessionUrl())
-            .thenAnswer((_) async => secondCheckoutUrl);
-        mockUrlLauncher.setLaunchExpectations(
-          url: secondCheckoutUrl,
-          webOnlyWindowName: '_self',
-        );
-
-        when(mockClock.now())
-            .thenReturn(baseDateTime.add(const Duration(days: 1)));
-        await checkout.open();
-
-        verify(mockBuyRepository.createCheckoutSessionUrl()).called(2);
       });
     });
   });

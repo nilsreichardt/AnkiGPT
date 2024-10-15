@@ -44,11 +44,11 @@ class _AppBarSmallScreen extends StatelessWidget {
   }
 }
 
-class AppBarLargeScreen extends ConsumerWidget {
+class AppBarLargeScreen extends StatelessWidget {
   const AppBarLargeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return const Padding(
       padding: EdgeInsets.all(18),
       child: Stack(
@@ -176,11 +176,11 @@ class _MoreOptions extends StatelessWidget {
   }
 }
 
-class _Title extends ConsumerWidget {
+class _Title extends StatelessWidget {
   const _Title();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

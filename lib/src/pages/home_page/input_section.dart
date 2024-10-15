@@ -32,7 +32,7 @@ class InputSection extends ConsumerWidget {
               ),
               delay: const Duration(milliseconds: 250),
               children: [
-                const _Headline(),
+                const _SpaceTop(),
                 const _InputField(),
                 const _FileButton(),
                 const _EnterPdfPassword(),
@@ -46,8 +46,8 @@ class InputSection extends ConsumerWidget {
   }
 }
 
-class _Headline extends StatelessWidget {
-  const _Headline();
+class _SpaceTop extends StatelessWidget {
+  const _SpaceTop();
 
   @override
   Widget build(BuildContext context) {

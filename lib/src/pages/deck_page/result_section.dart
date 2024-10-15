@@ -841,7 +841,7 @@ class _Subtitle extends ConsumerWidget {
       return fileName ?? 'File';
     }
 
-    return '${view.inputText?.substring(30)}...';
+    return '${view.inputText?.length ?? 0 > 30 ? view.inputText?.substring(0, 30) : view.inputText}...';
   }
 
   @override

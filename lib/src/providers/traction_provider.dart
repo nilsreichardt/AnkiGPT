@@ -16,6 +16,14 @@ Stream<String> getTractionStream(GetTractionStreamRef ref) {
   });
 }
 
+@Riverpod(keepAlive: true)
+Stream<int> getTractionStreamInt(GetTractionStreamIntRef ref) {
+  final firestore = ref.read(cloudFirestoreProvider);
+  return firestore.doc('Analytics/overview').snapshots().map((snapshot) {
+    return snapshot.data()!['totalCards'] as int;
+  });
+}
+
 @visibleForTesting
 String formatTraction(int traction) {
   return traction.toString().replaceAllMapped(

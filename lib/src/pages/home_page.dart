@@ -4,13 +4,11 @@ import 'package:ankigpt/src/pages/home_page/about_section.dart';
 import 'package:ankigpt/src/pages/home_page/app_bar.dart';
 import 'package:ankigpt/src/pages/home_page/demo_section.dart';
 import 'package:ankigpt/src/pages/home_page/drag_zone.dart';
-import 'package:ankigpt/src/pages/home_page/drawer.dart';
 import 'package:ankigpt/src/pages/home_page/faq_section.dart';
 import 'package:ankigpt/src/pages/home_page/input_section.dart';
 import 'package:ankigpt/src/pages/home_page/my_decks_section.dart';
 import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
 import 'package:ankigpt/src/pages/successful_payment_dialog.dart';
-import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/providers/cloud_firestore_provider.dart';
 import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
@@ -85,8 +83,6 @@ class _HomePage2State extends ConsumerState<HomePage> {
     final isSignedIn = ref.watch(isSignedInProvider);
     return SelectionArea(
       child: Scaffold(
-        appBar: const HomePageAppBar2(),
-        drawer: context.isMobile ? const HomePageDrawer() : null,
         body: DragZone(
           child: SingleChildScrollView(
             child: SafeArea(
@@ -100,6 +96,7 @@ class _HomePage2State extends ConsumerState<HomePage> {
                     ),
                     child: Column(
                       children: [
+                        const HomePageAppBar2(),
                         // const NewCard(),
                         const InputSection(),
                         const SizedBox(height: 50),

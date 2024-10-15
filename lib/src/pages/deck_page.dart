@@ -138,7 +138,7 @@ class _ExportToAnkiDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Tutorial: How import a .csv file into Anki'),
+      title: const Text('Tutorial: How to import a .csv file into Anki'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:animations/animations.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/pages/deck_page/result_section.dart';
-import 'package:ankigpt/src/pages/home_page/controls.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';

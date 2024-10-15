@@ -3,6 +3,7 @@ import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/providers/traction_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:number_slide_animation/number_slide_animation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -126,8 +127,6 @@ class _Traction extends ConsumerWidget {
 class _MoreOptions extends StatelessWidget {
   const _MoreOptions();
 
-  get context => null;
-
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<int>(
@@ -154,21 +153,21 @@ class _MoreOptions extends StatelessWidget {
   void _onSelected(BuildContext context, int item) {
     switch (item) {
       case 0:
-        _launchURL(Uri.parse('https://ankigpt.help/support'));
+        _launchURL(context, Uri.parse('https://ankigpt.help/support'));
         break;
       case 1:
-        _launchURL(Uri.parse('https://ankigpt.help/privacy-policy'));
+        _launchURL(context, Uri.parse('https://ankigpt.help/privacy-policy'));
         break;
       case 2:
-        _launchURL(Uri.parse('/imprint'));
+        _launchURL(context, Uri.parse('/imprint'));
         break;
       case 3:
-        _launchURL(Uri.parse('https://ankigpt.help/terms-of-service'));
+        _launchURL(context, Uri.parse('https://ankigpt.help/terms-of-service'));
         break;
     }
   }
 
-  void _launchURL(Uri uri) async {
+  void _launchURL(BuildContext context, Uri uri) async {
     if (uri.scheme.isEmpty) {
       context.go('$uri');
     } else {

@@ -8,6 +8,8 @@ import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:ankigpt/src/providers/input_text_field_controller.dart';
+import 'package:ankigpt/src/providers/traction_provider.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -32,7 +34,7 @@ class InputSection extends ConsumerWidget {
               ),
               delay: const Duration(milliseconds: 250),
               children: [
-                const _SpaceTop(),
+                const _Headline(),
                 const _InputField(),
                 const _FileButton(),
                 const _EnterPdfPassword(),
@@ -46,8 +48,8 @@ class InputSection extends ConsumerWidget {
   }
 }
 
-class _SpaceTop extends StatelessWidget {
-  const _SpaceTop();
+class _Headline extends StatelessWidget {
+  const _Headline();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,45 @@ class _SpaceTop extends StatelessWidget {
         top: min(35, MediaQuery.of(context).size.width * 0.1),
         bottom: 52,
       ),
-      child: const SizedBox(),
+      child: const Column(
+        children: [
+          AutoSizeText(
+            'Turn lecture slides\ninto flashcards.',
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            style: TextStyle(
+              fontSize: 72,
+              fontWeight: FontWeight.bold,
+              height: 1.1,
+            ),
+          ),
+          SizedBox(height: 6),
+          _Traction(),
+        ],
+      ),
+    );
+  }
+}
+
+class _Traction extends ConsumerWidget {
+  const _Traction();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final value = ref.watch(getTractionStreamProvider);
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 275),
+      child: Text(
+        'Generated ${value.map(data: (d) => d.value, error: (e) => 'XXX,XXX', loading: (_) => '000,000')} flashcards so far.',
+        key: ValueKey(value),
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w300,
+          fontFeatures: const [FontFeature.tabularFigures()],
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+        ),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

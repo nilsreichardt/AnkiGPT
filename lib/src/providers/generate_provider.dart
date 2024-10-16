@@ -78,11 +78,11 @@ class GenerateNotifier extends _$GenerateNotifier {
     _throwIfGpt4LimitReached(options.size, options.model);
 
     // This code requires the user to have an account (anonymous doesn't count).
-    // if (!ref.read(hasAccount2Provider)) {
-    //   ref.read(wantsToGenerateProvider.notifier).set(true);
-    //   ref.read(routerProvider).go('/account');
-    //   return;
-    // }
+    if (!ref.read(hasAccount2Provider)) {
+      ref.read(wantsToGenerateProvider.notifier).set(true);
+      ref.read(routerProvider).go('/account');
+      return;
+    }
 
     state = const GenerateState.loading();
 

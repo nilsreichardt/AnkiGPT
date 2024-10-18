@@ -16,7 +16,7 @@ class DemoSection extends ConsumerWidget {
         child: const TutorialVideoPlayer(
           aspectRatio: 16 / 9.6,
           videoUrl:
-              'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fankigpt.mp4?alt=media&token=4ffb0db0-b24d-4bc5-87bc-f339725105d6',
+              'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fdemo-2024-10.mp4?alt=media&token=0d917d1e-4a01-4e5b-a42a-b56a42006f4f',
         ),
       ),
     );

@@ -69,23 +69,20 @@ class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.7,
-      child: AspectRatio(
-        aspectRatio: widget.aspectRatio,
-        child: Center(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: _chewieController == null
-                    ? const SizedBox.shrink()
-                    : Chewie(controller: _chewieController!),
-              ),
-              if (error != null) _ErrorText(error: error!)
-            ],
-          ),
+    return AspectRatio(
+      aspectRatio: widget.aspectRatio,
+      child: Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: _chewieController == null
+                  ? const SizedBox.shrink()
+                  : Chewie(controller: _chewieController!),
+            ),
+            if (error != null) _ErrorText(error: error!)
+          ],
         ),
       ),
     );

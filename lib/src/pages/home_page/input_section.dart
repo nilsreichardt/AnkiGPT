@@ -29,7 +29,7 @@ class InputSection extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
           child: Column(
             children: AnimationConfiguration.toStaggeredList(
-              duration: const Duration(milliseconds: 1000),
+              duration: const Duration(milliseconds: 1300),
               childAnimationBuilder: (widget) => SlideAnimation(
                 verticalOffset: 20,
                 child: FadeInAnimation(child: widget),

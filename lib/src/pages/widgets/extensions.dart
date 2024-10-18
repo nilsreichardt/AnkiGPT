@@ -51,5 +51,5 @@ extension DimensionsExtension on BuildContext {
   bool get isTiny => MediaQuery.of(this).size.width < 350;
   bool get isMobile => MediaQuery.of(this).size.width < 750;
   bool get isTablet => MediaQuery.of(this).size.width >= 650;
-  bool get isDesktop => MediaQuery.of(this).size.width >= 1000;
+  bool get isDesktop => MediaQuery.of(this).size.width >= 1050;
 }

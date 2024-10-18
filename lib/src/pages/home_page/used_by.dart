@@ -19,13 +19,23 @@ class UsedBy extends StatelessWidget {
     ];
     return Column(
       children: <Widget>[
+        // if (context.isDesktop) _SpaceTop(),
         const _Text(),
         const SizedBox(height: 20),
-        context.isMobile
-            ? const _LogosMobile(universities: universities)
-            : const _LogosDesktop(universities: universities),
+        context.isDesktop
+            ? const _LogosDesktop(universities: universities)
+            : const _LogosMobile(universities: universities)
       ],
     );
+  }
+}
+
+class _SpaceTop extends StatelessWidget {
+  const _SpaceTop();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(height: MediaQuery.of(context).size.height * 0.15);
   }
 }
 

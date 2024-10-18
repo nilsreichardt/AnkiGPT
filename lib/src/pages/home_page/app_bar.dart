@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ankigpt/src/pages/widgets/account_page_icon_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/providers/traction_provider.dart';
@@ -30,13 +32,13 @@ class _AppBarSmallScreen extends StatelessWidget {
           children: [
             AccountPageButton(),
             SizedBox(width: 12),
-            _MoreOptions(),
+            HomePageAppBarMoreOptions(),
           ],
         ),
         SizedBox(height: 12),
-        Center(child: _Title()),
+        Center(child: HomePageAppBarTitle()),
         SizedBox(height: 12),
-        _Traction(
+        Traction(
           crossAxisAlignment: CrossAxisAlignment.center,
         ),
       ],
@@ -51,31 +53,48 @@ class AppBarLargeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Padding(
       padding: EdgeInsets.all(18),
-      child: Stack(
+      child: Column(
         children: [
-          Positioned(
-            left: 0,
-            child: _Traction(),
+          Stack(
+            children: [
+              Positioned(
+                left: 0,
+                child: Traction(),
+              ),
+              Center(child: HomePageAppBarTitle()),
+              Positioned(
+                right: 0,
+                child: Row(
+                  children: [
+                    AccountPageButton(),
+                    SizedBox(width: 12),
+                    HomePageAppBarMoreOptions(),
+                  ],
+                ),
+              ),
+            ],
           ),
-          Center(child: _Title()),
-          Positioned(
-            right: 0,
-            child: Row(
-              children: [
-                AccountPageButton(),
-                SizedBox(width: 12),
-                _MoreOptions(),
-              ],
-            ),
-          ),
+          // _SpaceBottom(),
         ],
       ),
     );
   }
 }
 
-class _Traction extends ConsumerWidget {
-  const _Traction({
+// class _SpaceBottom extends StatelessWidget {
+//   const _SpaceBottom();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final heightFactor = MediaQuery.of(context).size.height;
+//     return SizedBox(
+//         height: heightFactor * (1 / (1 + exp(-0.1 * heightFactor))));
+//   }
+// }
+
+class Traction extends ConsumerWidget {
+  const Traction({
+    super.key,
     this.crossAxisAlignment = CrossAxisAlignment.start,
   });
 
@@ -124,8 +143,8 @@ class _Traction extends ConsumerWidget {
   }
 }
 
-class _MoreOptions extends StatelessWidget {
-  const _MoreOptions();
+class HomePageAppBarMoreOptions extends StatelessWidget {
+  const HomePageAppBarMoreOptions();
 
   @override
   Widget build(BuildContext context) {
@@ -177,8 +196,8 @@ class _MoreOptions extends StatelessWidget {
   }
 }
 
-class _Title extends StatelessWidget {
-  const _Title();
+class HomePageAppBarTitle extends StatelessWidget {
+  const HomePageAppBarTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -192,11 +211,15 @@ class _Title extends StatelessWidget {
             fontSize: 28,
           ),
         ),
-        Text(
-          'Turn lecture slides into Anki flashcards'.toUpperCase(),
-          style: TextStyle(
-            fontSize: 14,
-            color: DefaultTextStyle.of(context).style.color?.withOpacity(0.7),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 38),
+          child: Text(
+            'Turn lecture slides into Anki flashcards'.toUpperCase(),
+            style: TextStyle(
+              fontSize: 14,
+              color: DefaultTextStyle.of(context).style.color?.withOpacity(0.7),
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
       ],

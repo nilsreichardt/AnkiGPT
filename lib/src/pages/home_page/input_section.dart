@@ -61,7 +61,7 @@ class _Headline extends StatelessWidget {
       child: const Column(
         children: [
           AutoSizeText(
-            'Turn lecture slides\ninto Anki flashcards.',
+            'Turn lecture slides\ninto flashcards.',
             textAlign: TextAlign.center,
             maxLines: 2,
             style: TextStyle(

@@ -91,10 +91,7 @@ class PlusAdvantages extends StatelessWidget {
           description: 'GPT-4o is the most powerful model by OpenAI',
         ),
         SellingPoint(text: 'Up to 150 cards per deck'),
-        SellingPoint(
-            text: 'Up to 500,000 input characters (~ 200 pages) per request'),
         SellingPoint(text: 'Unlimited mnemonics per month'),
-        SellingPoint(text: 'Access all your decks'),
       ],
     );
   }

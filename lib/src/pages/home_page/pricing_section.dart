@@ -82,16 +82,14 @@ class _FreeTier extends ConsumerWidget {
       priceEurPart: '€0',
       points: const [
         PointData(
-          '$freeUsageLimitPerMonth cards with GPT-3.5 per month',
+          '$freeUsageLimitPerMonth cards with per month',
         ),
-        PointData('Up to 20 cards per deck'),
-        PointData('Up to 4,000 input characters per request'),
+        PointData('Up to 35 cards per deck'),
         PointData('Delete, edit & search cards'),
         PointData(
           'Generate $freeMnemonicsUsagePerMonth mnemonics per month',
           trailing: _HelpMnemonicsIconButton(),
         ),
-        PointData('Access the last 5 decks'),
         PointData('Share decks with a link'),
       ],
       onPressedCallToAction: () {
@@ -200,13 +198,10 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
           description: "GPT-4o is the most powerful model by OpenAI",
         ),
         PointData('Up to 150 cards per deck'),
-        PointData('Up to 500,000 input characters (~ 200 pages) per deck'),
         PointData(
           'Generate unlimited mnemonics',
           trailing: _HelpMnemonicsIconButton(),
         ),
-        PointData('Access all your decks'),
-        PointData('All free features'),
       ],
       onPressedCallToAction: buy,
       callToActionText: 'Buy',
@@ -243,7 +238,7 @@ class _TierBase extends StatelessWidget {
         width: _isMobileView(context)
             ? MediaQuery.of(context).size.width * 0.85
             : 365,
-        height: _isMobileView(context) ? 690 : 650,
+        height: _isMobileView(context) ? 500 : 500,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

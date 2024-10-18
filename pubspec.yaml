@@ -35,6 +35,7 @@ dependencies:
   google_sign_in: ^6.2.1
   json_annotation: ^4.8.1
   logger: ^2.3.0
+  marquee_list: ^1.0.0
   number_slide_animation: ^0.2.1
   package_info_plus: ^8.0.0
   plausible_analytics: ^0.3.0
@@ -78,7 +79,6 @@ flutter:
   assets:
     - assets/logo/
     - assets/icons/
-    - assets/images/
   fonts:
     - family: Ubuntu
       fonts:

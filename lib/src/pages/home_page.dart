@@ -1,15 +1,13 @@
 import 'dart:async';
 
-import 'package:ankigpt/src/pages/home_page/about_section.dart';
 import 'package:ankigpt/src/pages/home_page/app_bar.dart';
 import 'package:ankigpt/src/pages/home_page/demo_section.dart';
 import 'package:ankigpt/src/pages/home_page/drag_zone.dart';
-import 'package:ankigpt/src/pages/home_page/faq_section.dart';
 import 'package:ankigpt/src/pages/home_page/input_section.dart';
 import 'package:ankigpt/src/pages/home_page/my_decks_section.dart';
-import 'package:ankigpt/src/pages/home_page/pricing_section.dart';
+import 'package:ankigpt/src/pages/home_page/used_by.dart';
 import 'package:ankigpt/src/pages/successful_payment_dialog.dart';
-import 'package:ankigpt/src/pages/widgets/footer.dart';
+import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/providers/cloud_firestore_provider.dart';
 import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:ankigpt/src/providers/logger/logger_provider.dart';
@@ -85,57 +83,42 @@ class _HomePage2State extends ConsumerState<HomePage> {
       child: Scaffold(
         body: DragZone(
           child: SingleChildScrollView(
-            child: SafeArea(
-              child: Column(
-                children: [
-                  // Wrapping the widgets around a ConstrainedBox always show the
-                  // footer at the bottom of the page.
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: MediaQuery.of(context).size.height,
-                    ),
-                    child: Column(
-                      children: [
-                        const HomePageAppBar2(),
-                        // const NewCard(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 28),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Expanded(child: InputSection()),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 24,
-                                  right: 12,
-                                ),
-                                child: Container(
-                                  color: Colors.white12,
-                                  width: 4,
-                                  height: 300,
-                                ),
-                              ),
-                              Expanded(
-                                child: isSignedIn
-                                    ? const MyDecksSection()
-                                    : const DemoSection(),
-                              )
-                            ],
+            child: MaxWidthConstrainedBox(
+              maxWidth: 1600,
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    const HomePageAppBar2(),
+                    // const NewCard(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 28),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Expanded(child: InputSection()),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 24,
+                              right: 12,
+                            ),
+                            child: Container(
+                              color: Colors.white12,
+                              width: 4,
+                              height: 300,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 100),
-                        const PricingSection(),
-                        const SizedBox(height: 100),
-                        const AboutSection(),
-                        const SizedBox(height: 100),
-                        const FaqSection(),
-                        const SizedBox(height: 100),
-                      ],
+                          Expanded(
+                            child: isSignedIn
+                                ? const MyDecksSection()
+                                : const DemoSection(),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  const Footer(),
-                ],
+                    const UsedBy(),
+                  ],
+                ),
               ),
             ),
           ),

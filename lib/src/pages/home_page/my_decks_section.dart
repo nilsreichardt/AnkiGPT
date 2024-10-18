@@ -7,7 +7,6 @@ import 'package:ankigpt/src/pages/home_page/deck_rename_dialog.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
-import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
 import 'package:ankigpt/src/pages/widgets/scroll_to.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
@@ -16,10 +15,10 @@ import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:go_router/go_router.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'package:remixicon/remixicon.dart';
 
 class MyDecksSection extends ConsumerWidget {
   const MyDecksSection({
@@ -32,39 +31,23 @@ class MyDecksSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaxWidthConstrainedBox(
-      maxWidth: 900,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          key: ref.read(homePageScrollViewProvider).myDecksSectionKey,
-          children: [
-            const SectionTitle(title: 'My Decks'),
-            const _Subtitle(),
-            const SizedBox(height: 32),
-            _List(isTesting: isTesting),
-            const LoadMoreButton(),
-            const LoadLessButton(),
-            const _Loading(),
-            const _Error(),
-          ],
-        ),
+    final state = ref.watch(deckListControllerProvider);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: switch (state) {
+          DeckListError() => const _Error(),
+          DeckListLoading() => const _Loading(),
+          DeckListLoaded() => Column(
+              children: [
+                const SectionTitle(title: 'My Decks'),
+                const SizedBox(height: 32),
+                _List(isTesting: isTesting)
+              ],
+            ),
+        },
       ),
-    );
-  }
-}
-
-class _Subtitle extends ConsumerWidget {
-  const _Subtitle();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final amountOfDecks = ref.watch(deckListControllerProvider.select(
-      (s) => s.decks.length,
-    ));
-    return Text(
-      'Shows the $amountOfDecks latest decks you created.',
-      style: const TextStyle(color: Colors.grey, fontSize: 12),
     );
   }
 }
@@ -92,53 +75,48 @@ class _List extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final decks = ref.watch(deckListControllerProvider.select((s) => s.decks));
-    return AnimationLimiter(
-      child: Column(
-        children: AnimationConfiguration.toStaggeredList(
-          duration: const Duration(milliseconds: 375),
-          childAnimationBuilder: (widget) => SlideAnimation(
-            verticalOffset: 20,
-            child: FadeInAnimation(
-              child: widget,
-            ),
-          ),
-          children: [
-            for (final deck in decks)
-              deck.maybeWhen(
-                created: (questions, createdAt, name, sessionId, model,
-                        numberOfCards) =>
+    final decks =
+        ref.watch(deckListControllerProvider.select((s) => s.decks)).toList();
+    return SizedBox(
+      height: MediaQuery.of(context).size.height - 188,
+      child: ListView.builder(
+        shrinkWrap: true,
+        // physics: const NeverScrollableScrollPhysics(),
+        itemCount: decks.length,
+        itemBuilder: (context, index) {
+          final deck = decks[index];
+          return deck.maybeWhen(
+            created:
+                (questions, createdAt, name, sessionId, model, numberOfCards) =>
                     _CreatedHistoryDeck(
-                  questions: questions,
-                  createdAt: deck.createdAt,
-                  name: name,
-                  sessionId: sessionId,
-                  model: model,
-                  numberOfCards: numberOfCards,
-                ),
-                loading: (createdAt, name, numberOfCards, sessionId, model) =>
-                    _LoadingHistoryDeck(
-                  createdAt: deck.createdAt,
-                  name: name,
-                  numberOfCards: numberOfCards,
-                  isTesting: isTesting,
-                  sessionId: sessionId,
-                  model: model,
-                ),
-                error:
-                    (error, createdAt, name, numberOfCards, sessionId, model) =>
-                        _ErrorHistoryDeck(
-                  createdAt: deck.createdAt,
-                  error: error,
-                  name: name,
-                  numberOfCards: numberOfCards,
-                  sessionId: sessionId,
-                  model: model,
-                ),
-                orElse: () => const SizedBox(),
-              )
-          ],
-        ),
+              questions: questions,
+              createdAt: deck.createdAt,
+              name: name,
+              sessionId: sessionId,
+              model: model,
+              numberOfCards: numberOfCards,
+            ),
+            loading: (createdAt, name, numberOfCards, sessionId, model) =>
+                _LoadingHistoryDeck(
+              createdAt: deck.createdAt,
+              name: name,
+              numberOfCards: numberOfCards,
+              isTesting: isTesting,
+              sessionId: sessionId,
+              model: model,
+            ),
+            error: (error, createdAt, name, numberOfCards, sessionId, model) =>
+                _ErrorHistoryDeck(
+              createdAt: deck.createdAt,
+              error: error,
+              name: name,
+              numberOfCards: numberOfCards,
+              sessionId: sessionId,
+              model: model,
+            ),
+            orElse: () => const SizedBox(),
+          );
+        },
       ),
     );
   }
@@ -281,28 +259,76 @@ class _CreatedHistoryDeck extends ConsumerWidget {
       name: name,
       createdAt: createdAt,
       sessionId: sessionId,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      color: Colors.white,
+      body: Stack(
         children: [
-          const SizedBox(height: 22),
-          for (final question in questions.sublist(0, min(questions.length, 5)))
-            Text(
-              '• $question',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (final question
+                  in questions.sublist(0, min(questions.length, 2)))
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: AnkiGptCard(
+                    color: Colors.black12,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    child: Text(
+                      '• $question',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black54),
+                    ),
+                  ),
+                ),
+              if (hasMoreThanFiveQuestions) ...[
+                const SizedBox(height: 12),
+                const Text(
+                  '...',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ]
+            ],
+          ),
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.white,
+                    Colors.white10,
+                  ],
+                ),
               ),
             ),
-          if (hasMoreThanFiveQuestions) ...[
-            const SizedBox(height: 12),
-            const Text(
-              '...',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+          ),
+          Positioned(
+            left: 0,
+            bottom: 0,
+            child: AnkiGptCard(
+              borderRadius: const BorderRadius.all(Radius.circular(32)),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              color: Colors.black,
+              child: Text('$numberOfCards Cards'),
             ),
-          ]
+          ),
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: IconButton.filled(
+              onPressed: () {},
+              icon: const Icon(Remix.arrow_right_line),
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
     );
@@ -334,6 +360,7 @@ class _LoadingHistoryDeck extends StatelessWidget {
       name: name,
       createdAt: createdAt,
       sessionId: sessionId,
+      color: Colors.white,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 32, 16, 16),
         child: Tooltip(
@@ -416,7 +443,7 @@ class _HistoryDeckBase extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 16),
       child: AnkiGptCard(
         onPressed: () => context.go('/deck/$sessionId'),
-        color: color.withOpacity(0.1),
+        color: color,
         padding: const EdgeInsets.all(22),
         child: SizedBox(
           width: double.infinity,
@@ -433,16 +460,16 @@ class _HistoryDeckBase extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
+                        maxLines: 1,
                       ),
                     Text(
-                        '${DateFormat.yMEd().add_jms().format(createdAt!)}, $numberOfCards cards (${model.getUiText()})',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withOpacity(0.75),
-                            )),
+                      '${DateFormat.yMEd().add_jms().format(createdAt!)}, $numberOfCards cards (${model.getUiText()})',
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: Colors.black54,
+                          ),
+                    ),
                     body,
                   ],
                 ),

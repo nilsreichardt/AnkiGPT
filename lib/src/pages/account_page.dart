@@ -180,7 +180,13 @@ class _AppleSignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SignInButton(
-      icon: SvgPicture.asset('assets/logo/apple-logo.svg'),
+      icon: SvgPicture.asset(
+        'assets/logo/apple-logo.svg',
+        colorFilter: const ColorFilter.mode(
+          Colors.white,
+          BlendMode.srcIn,
+        ),
+      ),
       authProvider: AuthProvider.apple,
     );
   }
@@ -264,11 +270,14 @@ class _DangerZoneCard extends StatelessWidget {
         borderRadius: defaultAnkiGptBorderRadius,
         child: AnkiGptCard(
           padding: const EdgeInsets.all(0),
-          color: Theme.of(context).colorScheme.error.withOpacity(0.1),
+          color: Theme.of(context).colorScheme.error.withOpacity(0.3),
           child: const Column(
             children: [
               _SignOutTile(),
-              Divider(height: 0),
+              Divider(
+                height: 0,
+                color: Colors.white30,
+              ),
               _DeleteAccountTile(),
             ],
           ),

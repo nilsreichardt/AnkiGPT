@@ -114,48 +114,53 @@ class _DesktopHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: AnimationConfiguration.toStaggeredList(
-        duration: const Duration(milliseconds: 1300),
-        childAnimationBuilder: (widget) => SlideAnimation(
-          verticalOffset: 20,
-          child: FadeInAnimation(child: widget),
-        ),
-        delay: const Duration(milliseconds: 250),
-        children: [
-          const HomePageAppBar2(),
-          // const NewCard(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 28),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Expanded(child: InputSection()),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 24,
-                    right: 12,
+    return AnimationLimiter(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: AnimationConfiguration.toStaggeredList(
+          duration: const Duration(milliseconds: 1300),
+          childAnimationBuilder: (widget) => SlideAnimation(
+            verticalOffset: 20,
+            child: FadeInAnimation(child: widget),
+          ),
+          delay: const Duration(milliseconds: 250),
+          children: [
+            const HomePageAppBar2(),
+            // const NewCard(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Expanded(
+                    child: InputSection(),
                   ),
-                  child: Container(
-                    color: Colors.white12,
-                    width: 4,
-                    height: 300,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 24,
+                      right: 12,
+                    ),
+                    child: Container(
+                      color: Colors.white12,
+                      width: 4,
+                      height: 300,
+                    ),
                   ),
-                ),
-                Expanded(
-                  child:
-                      isSignedIn ? const MyDecksSection() : const DemoSection(),
-                )
-              ],
+                  Expanded(
+                    child: isSignedIn
+                        ? const MyDecksSection()
+                        : const DemoSection(),
+                  )
+                ],
+              ),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 48),
-            child: UsedBy(),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.only(bottom: isSignedIn ? 0 : 48),
+              child: isSignedIn ? const SizedBox() : const UsedBy(),
+            ),
+          ],
+        ),
       ),
     );
   }

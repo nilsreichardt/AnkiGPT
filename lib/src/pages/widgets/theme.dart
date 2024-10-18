@@ -9,21 +9,24 @@ final ankigptTheme = ThemeData(
   primaryColor: Colors.white,
   useMaterial3: true,
   brightness: Brightness.dark,
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     centerTitle: true,
   ),
-  colorScheme: ColorScheme.dark(
+  colorScheme: const ColorScheme.dark(
     primary: Colors.white,
     secondary: Colors.white,
     onPrimary: Colors.white,
     onSecondary: Colors.white,
   ),
-  buttonTheme: ButtonThemeData(
+  buttonTheme: const ButtonThemeData(
     buttonColor: Colors.black,
     textTheme: ButtonTextTheme.primary,
   ),
   snackBarTheme: const SnackBarThemeData(
     behavior: SnackBarBehavior.floating,
+  ),
+  dialogTheme: const DialogTheme(
+    backgroundColor: Colors.white,
   ),
   fontFamily: _fontFamily,
   textTheme: ThemeData.dark().textTheme.apply(

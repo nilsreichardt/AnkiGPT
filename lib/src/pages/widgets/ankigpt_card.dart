@@ -35,7 +35,7 @@ class AnkiGptCard extends StatefulWidget {
 class _AnkiGptCardState extends State<AnkiGptCard> {
   Color? _getColor(BuildContext context) {
     if (widget.color == null) {
-      return Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1);
+      return Theme.of(context).colorScheme.inversePrimary.withOpacity(0.15);
     }
 
     if (widget.color == Colors.transparent) {

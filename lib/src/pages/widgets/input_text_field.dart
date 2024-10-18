@@ -19,7 +19,7 @@ Supports all languages.''',
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
       borderSide: const BorderSide(
-        color: Color(0xFFCECECE),
+        color: Colors.white24,
         width: 2,
       ),
     );
@@ -31,7 +31,6 @@ Supports all languages.''',
           enabledBorder: border,
           disabledBorder: border,
           filled: true,
-          fillColor: Colors.white,
           hintText: hintText,
           hintStyle: const TextStyle(fontWeight: FontWeight.normal)),
       minLines: 6,

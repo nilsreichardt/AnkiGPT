@@ -108,11 +108,11 @@ class _DropIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black.withOpacity(0.5),
+      color: Colors.white.withOpacity(0.5),
       child: Center(
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.black,
             borderRadius: BorderRadius.circular(12),
           ),
           padding: const EdgeInsets.all(20),

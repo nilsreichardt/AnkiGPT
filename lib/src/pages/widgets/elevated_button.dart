@@ -14,6 +14,7 @@ class AnkiGptElevatedButton extends StatelessWidget {
     this.disabledBackgroundColor,
     this.disabledForegroundColor,
     this.border,
+    this.borderRadius,
   });
 
   factory AnkiGptElevatedButton.icon({
@@ -29,6 +30,7 @@ class AnkiGptElevatedButton extends StatelessWidget {
     BoxBorder? border,
     bool center,
     MainAxisSize mainAxisSize,
+    BorderRadius? borderRadius,
   }) = _AnkiGptElevatedButtonWithIcon;
 
   final VoidCallback? onPressed;
@@ -39,6 +41,7 @@ class AnkiGptElevatedButton extends StatelessWidget {
   final Color? disabledBackgroundColor;
   final Color? disabledForegroundColor;
   final BoxBorder? border;
+  final BorderRadius? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +51,7 @@ class AnkiGptElevatedButton extends StatelessWidget {
     final color = this.color ?? Theme.of(context).colorScheme.inversePrimary;
     final disabledForegroundColor =
         this.disabledForegroundColor ?? _disabledForegroundColorFallback;
-    final borderRadius = BorderRadius.circular(10.0);
+    final borderRadius = this.borderRadius ?? BorderRadius.circular(10.0);
 
     return Semantics(
       button: true,
@@ -66,7 +69,7 @@ class AnkiGptElevatedButton extends StatelessWidget {
           border: border,
           child: DefaultTextStyle.merge(
             style: TextStyle(
-              color: isEnabled ? null : disabledForegroundColor,
+              color: isEnabled ? Colors.black : disabledForegroundColor,
               fontWeight: FontWeight.w500,
               fontSize: 16,
             ),
@@ -88,6 +91,7 @@ class _AnkiGptElevatedButtonWithIcon extends AnkiGptElevatedButton {
     super.disabledBackgroundColor,
     super.disabledForegroundColor,
     super.border,
+    super.borderRadius,
     Widget? icon,
     Widget? label,
     bool center = false,

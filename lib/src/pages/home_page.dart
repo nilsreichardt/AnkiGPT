@@ -98,11 +98,32 @@ class _HomePage2State extends ConsumerState<HomePage> {
                       children: [
                         const HomePageAppBar2(),
                         // const NewCard(),
-                        const InputSection(),
-                        const SizedBox(height: 50),
-                        isSignedIn
-                            ? const MyDecksSection()
-                            : const DemoSection(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 28),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Expanded(child: InputSection()),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 24,
+                                  right: 12,
+                                ),
+                                child: Container(
+                                  color: Colors.white12,
+                                  width: 4,
+                                  height: 300,
+                                ),
+                              ),
+                              Expanded(
+                                child: isSignedIn
+                                    ? const MyDecksSection()
+                                    : const DemoSection(),
+                              )
+                            ],
+                          ),
+                        ),
                         const SizedBox(height: 100),
                         const PricingSection(),
                         const SizedBox(height: 100),

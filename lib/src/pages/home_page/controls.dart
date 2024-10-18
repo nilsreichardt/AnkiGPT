@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:animations/animations.dart';
+import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/pages/deck_page/error_card.dart';
 import 'package:ankigpt/src/pages/home_page/options_dialog.dart';
@@ -19,95 +20,69 @@ import 'package:ankigpt/src/providers/watch_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:remixicon/remixicon.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Controls extends ConsumerWidget {
-  const Controls({super.key});
+class SizeRow extends StatelessWidget {
+  const SizeRow({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(generateNotifierProvider);
+  Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 12),
-      child: Column(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          if (state is GenerationStateError)
-            _GenerationErrorCard(message: state.message),
-          context.isMobile
-              ? const _MobileControlsView()
-              : const _DesktopControlsView(),
+          for (final size in CardGenrationSize.values) _Size(size: size),
         ],
       ),
     );
   }
 }
 
-class _DesktopControlsView extends ConsumerWidget {
-  const _DesktopControlsView();
+class _Size extends ConsumerWidget {
+  const _Size({
+    required this.size,
+  });
+
+  final CardGenrationSize size;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sessionId = ref.watch(sessionIdProvider);
-    final isWatching = sessionId != null;
-    return Row(
-      children: [
-        const _ExportToAnkiButton(),
-        const Expanded(child: SizedBox()),
-        const _LoadingButton(),
-        if (!isWatching) ...[
-          const _OptionsButton(),
-          const SizedBox(width: 12),
-          const _GenerateButton(),
-        ] else
-          const _CreateNewDeck(),
-      ],
-    );
-  }
-}
-
-class _MobileControlsView extends ConsumerWidget {
-  const _MobileControlsView();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final sessionId = ref.watch(sessionIdProvider);
-    final isWatching = sessionId != null;
-    return Column(
-      children: [
-        const _ExportToAnkiButton(),
-        const SizedBox(height: 12),
-        if (!isWatching) ...[
-          const _OptionsButton(),
-          const SizedBox(height: 12),
-          const _GenerateButton(),
-        ] else
-          const _CreateNewDeck(),
-      ],
-    );
-  }
-}
-
-class _CreateNewDeck extends StatelessWidget {
-  const _CreateNewDeck();
-
-  @override
-  Widget build(BuildContext context) {
-    return AnkiGptElevatedButton.icon(
-      tooltip: 'Create a new deck with a different input',
-      icon: const Icon(Icons.add),
-      label: const Text('New Deck'),
-      border: Border.all(
-        color: Colors.grey[400]!,
-        width: 1.4,
+    final borderRadius = BorderRadius.circular(16);
+    final options = ref.watch(optionsControllerProvider);
+    final isSelected = options.size == size;
+    return Tooltip(
+      message: 'Generate ${size.getUiText()} flashcards',
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: () {
+          ref.read(optionsControllerProvider.notifier).setSize(size);
+        },
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: Material(
+            key: ValueKey(isSelected),
+            borderRadius: borderRadius,
+            color: isSelected ? Colors.white : Colors.white24,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
+              child: Text(
+                size.getUiText(),
+                style: TextStyle(
+                  color: isSelected ? Colors.black : Colors.white,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
-      color: Colors.transparent,
-      center: context.isMobile,
-      onPressed: () => context.pop(),
     );
   }
 }
 
+// ignore: unused_element
 class _OptionsButton extends ConsumerWidget {
   const _OptionsButton();
 
@@ -139,8 +114,8 @@ class _OptionsButton extends ConsumerWidget {
   }
 }
 
-class _GenerateButton extends ConsumerWidget {
-  const _GenerateButton();
+class GenerateButton extends ConsumerWidget {
+  const GenerateButton();
 
   Future<void> generate(BuildContext context, WidgetRef ref) async {
     try {
@@ -195,29 +170,35 @@ class _GenerateButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isGenerating =
-        ref.watch(generateNotifierProvider) is GenerationStateLoading;
+        (ref.watch(generateNotifierProvider) is GenerationStateLoading);
 
     final options = ref.watch(optionsControllerProvider);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: AnkiGptElevatedButton.icon(
-        key: ValueKey(isGenerating),
-        tooltip: isGenerating
-            ? 'Generating...'
-            : 'Generate ${options.size.getUiText()} flashcards (${options.model.getUiText()})',
-        icon: isGenerating ? null : const Icon(Icons.play_arrow),
-        label: isGenerating
-            ? const _GenerateButtonLoadingIndicator()
-            : const Text('Generate'),
-        center: context.isMobile,
-        onPressed: isGenerating ? null : () => generate(context, ref),
+      child: SizedBox(
+        child: AnkiGptElevatedButton.icon(
+          key: ValueKey(isGenerating),
+          tooltip: isGenerating
+              ? 'Generating...'
+              : 'Generate ${options.size.getUiText()} flashcards (${options.model.getUiText()})',
+          icon: isGenerating ? null : const Icon(Remix.bard_fill),
+          borderRadius: BorderRadius.circular(16),
+          label: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: isGenerating
+                ? const _GenerateButtonLoadingIndicator()
+                : const Text('Generate flashcards'),
+          ),
+          center: true,
+          onPressed: isGenerating ? null : () => generate(context, ref),
+        ),
       ),
     );
   }
 }
 
-class _GenerationErrorCard extends ConsumerWidget {
-  const _GenerationErrorCard({
+class GenerationErrorCard extends ConsumerWidget {
+  const GenerationErrorCard({
     required this.message,
   });
 
@@ -309,11 +290,13 @@ class _GenerateButtonLoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 42, vertical: 2),
+      padding: EdgeInsets.symmetric(vertical: 1),
       child: SizedBox(
         height: 20,
         width: 20,
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: Colors.black,
+        ),
       ),
     );
   }

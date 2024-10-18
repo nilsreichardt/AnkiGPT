@@ -1,8 +1,7 @@
 enum CardGenrationSize {
   five,
   ten,
-  twenty,
-  thirtyFive,
+  twentyFive,
   fifty,
   seventyFive,
   hundred,
@@ -14,10 +13,8 @@ enum CardGenrationSize {
         return 5;
       case CardGenrationSize.ten:
         return 10;
-      case CardGenrationSize.twenty:
-        return 20;
-      case CardGenrationSize.thirtyFive:
-        return 35;
+      case CardGenrationSize.twentyFive:
+        return 25;
       case CardGenrationSize.fifty:
         return 50;
       case CardGenrationSize.seventyFive:
@@ -46,8 +43,7 @@ enum CardGenrationSize {
 
   bool isAvailableForFiles() {
     switch (this) {
-      case CardGenrationSize.twenty:
-      case CardGenrationSize.thirtyFive:
+      case CardGenrationSize.twentyFive:
       case CardGenrationSize.fifty:
       case CardGenrationSize.seventyFive:
       case CardGenrationSize.hundred:

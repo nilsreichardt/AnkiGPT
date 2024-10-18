@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
 
-final _colorScheme = ColorScheme.fromSeed(
-  seedColor: const Color(0xFF00FF7F),
-);
 const blackGreen = Color(0xFF001D0E);
 const darkGreen = Color(0xFF004723);
 const lightGreen = Color(0xFFA8FFD3);
 const _fontFamily = 'Ubuntu';
 
 final ankigptTheme = ThemeData(
-  colorScheme: _colorScheme,
+  primaryColor: Colors.white,
   useMaterial3: true,
+  brightness: Brightness.dark,
   appBarTheme: AppBarTheme(
     centerTitle: true,
-    backgroundColor: _colorScheme.inversePrimary,
+  ),
+  colorScheme: ColorScheme.dark(
+    primary: Colors.white,
+    secondary: Colors.white,
+    onPrimary: Colors.white,
+    onSecondary: Colors.white,
+  ),
+  buttonTheme: ButtonThemeData(
+    buttonColor: Colors.black,
+    textTheme: ButtonTextTheme.primary,
   ),
   snackBarTheme: const SnackBarThemeData(
     behavior: SnackBarBehavior.floating,
   ),
   fontFamily: _fontFamily,
-  textTheme: ThemeData.light().textTheme.apply(
-        bodyColor: blackGreen,
-        displayColor: blackGreen,
+  textTheme: ThemeData.dark().textTheme.apply(
         fontFamily: _fontFamily,
       ),
-  scaffoldBackgroundColor: const Color(0xFFE9FFF4),
+  scaffoldBackgroundColor: Colors.black,
   pageTransitionsTheme: PageTransitionsTheme(
     builders: TargetPlatform.values.asMap().map(
           (key, value) => MapEntry(

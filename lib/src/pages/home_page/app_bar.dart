@@ -140,6 +140,7 @@ class _MoreOptions extends StatelessWidget {
           child: Icon(Icons.more_vert),
         ),
       ),
+      iconColor: Colors.black,
       onSelected: (item) => _onSelected(context, item),
       itemBuilder: (context) => [
         const PopupMenuItem<int>(value: 0, child: Text('Support (WhatsApp)')),
@@ -192,7 +193,7 @@ class _Title extends StatelessWidget {
           ),
         ),
         Text(
-          'Turn lecture slides into flashcards'.toUpperCase(),
+          'Turn lecture slides into Anki flashcards'.toUpperCase(),
           style: TextStyle(
             fontSize: 14,
             color: DefaultTextStyle.of(context).style.color?.withOpacity(0.7),

@@ -45,7 +45,7 @@ class SocialMediaIconButton extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: borderRadius,
             border: Border.all(
-              color: darkGreen,
+              color: Colors.white,
               width: 2,
             ),
           ),
@@ -55,6 +55,10 @@ class SocialMediaIconButton extends StatelessWidget {
               'assets/logo/${platform.name}-logo.svg',
               height: 30,
               width: 30,
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
             ),
           ),
         ),

@@ -42,7 +42,7 @@ class MyDecksSection extends ConsumerWidget {
           DeckListLoaded() => Column(
               children: [
                 const SectionTitle(title: 'My Decks'),
-                const SizedBox(height: 32),
+                const SizedBox(height: 16),
                 _List(isTesting: isTesting)
               ],
             ),
@@ -78,7 +78,7 @@ class _List extends ConsumerWidget {
     final decks =
         ref.watch(deckListControllerProvider.select((s) => s.decks)).toList();
     return SizedBox(
-      height: MediaQuery.of(context).size.height - 188,
+      height: MediaQuery.of(context).size.height - 172,
       child: ListView.builder(
         shrinkWrap: true,
         // physics: const NeverScrollableScrollPhysics(),
@@ -262,39 +262,42 @@ class _CreatedHistoryDeck extends ConsumerWidget {
       color: Colors.white,
       body: Stack(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              for (final question
-                  in questions.sublist(0, min(questions.length, 2)))
-                Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: AnkiGptCard(
-                    color: Colors.black12,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    child: Text(
-                      '• $question',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black54),
+          SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final question
+                    in questions.sublist(0, min(questions.length, 2)))
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: AnkiGptCard(
+                      color: Colors.black12,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      child: Text(
+                        '• $question',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black54),
+                      ),
                     ),
                   ),
-                ),
-              if (hasMoreThanFiveQuestions) ...[
-                const SizedBox(height: 12),
-                const Text(
-                  '...',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                if (hasMoreThanFiveQuestions) ...[
+                  const SizedBox(height: 12),
+                  const Text(
+                    '...',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ]
-            ],
+                ]
+              ],
+            ),
           ),
           Positioned.fill(
             child: Container(
@@ -318,15 +321,6 @@ class _CreatedHistoryDeck extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               color: Colors.black,
               child: Text('$numberOfCards Cards'),
-            ),
-          ),
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: IconButton.filled(
-              onPressed: () {},
-              icon: const Icon(Remix.arrow_right_line),
-              color: Colors.white,
             ),
           ),
         ],
@@ -445,41 +439,60 @@ class _HistoryDeckBase extends StatelessWidget {
         onPressed: () => context.go('/deck/$sessionId'),
         color: color,
         padding: const EdgeInsets.all(22),
-        child: SizedBox(
-          width: double.infinity,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (name != null)
-                      Text(
-                        name!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                        maxLines: 1,
-                      ),
-                    Text(
-                      '${DateFormat.yMEd().add_jms().format(createdAt!)}, $numberOfCards cards (${model.getUiText()})',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: Colors.black54,
+        child: Stack(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (name != null)
+                          Text(
+                            name!,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            maxLines: 1,
                           ),
+                        Text(
+                          '${DateFormat.yMEd().add_jms().format(createdAt!)}, $numberOfCards cards (${model.getUiText()})',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: Colors.black54,
+                                  ),
+                        ),
+                        body,
+                      ],
                     ),
-                    body,
-                  ],
+                  ),
+                  _MoreOptionsMenu(
+                    title: name ?? 'Untitled',
+                    sessionId: sessionId,
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: ClipOval(
+                child: Material(
+                  color: Colors.black,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Remix.arrow_right_line),
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              _MoreOptionsMenu(
-                title: name ?? 'Untitled',
-                sessionId: sessionId,
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
@@ -505,6 +518,7 @@ class _MoreOptionsMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopupMenuButton<_MoreOptionsMenuAction>(
       icon: const Icon(Icons.more_vert),
+      iconColor: Colors.black,
       itemBuilder: (context) => [
         const PopupMenuItem(
           value: _MoreOptionsMenuAction.rename,

@@ -17,7 +17,7 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFFB8E7CF),
+      color: Colors.white.withOpacity(0.15),
       child: const MaxWidthConstrainedBox(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 64),
@@ -194,8 +194,8 @@ class _Version extends ConsumerWidget {
     final version = ref.watch(versionProvider);
     return Text(
       '$version Version',
-      style: TextStyle(
-        color: Colors.grey[600],
+      style: const TextStyle(
+        color: Colors.white54,
         fontSize: 12,
       ),
     );

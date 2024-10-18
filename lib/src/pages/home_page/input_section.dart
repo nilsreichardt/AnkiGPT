@@ -35,8 +35,7 @@ class InputSection extends ConsumerWidget {
               delay: const Duration(milliseconds: 250),
               children: [
                 const _Headline(),
-                const _InputField(),
-                const _FileButton(),
+                const _TabView(),
                 const _EnterPdfPassword(),
                 const Controls(),
               ],
@@ -44,6 +43,57 @@ class InputSection extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _TabView extends ConsumerStatefulWidget {
+  const _TabView();
+
+  @override
+  _TabViewState createState() => _TabViewState();
+}
+
+class _TabViewState extends ConsumerState<_TabView>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TabBar(
+          controller: _tabController,
+          dividerHeight: 0,
+          splashBorderRadius: BorderRadius.circular(24),
+          tabs: const [
+            Tab(text: 'Upload File'),
+            Tab(text: 'Input Text'),
+          ],
+        ),
+        SizedBox(
+          height: 230, // Adjust height as needed
+          child: TabBarView(
+            controller: _tabController,
+            children: const [
+              _FileButton(),
+              _InputField(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -61,7 +111,7 @@ class _Headline extends StatelessWidget {
       child: const Column(
         children: [
           AutoSizeText(
-            'Turn lecture slides\ninto flashcards.',
+            'Turn lecture slides\ninto Anki flashcards.',
             textAlign: TextAlign.center,
             maxLines: 2,
             style: TextStyle(

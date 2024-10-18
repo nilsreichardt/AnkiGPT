@@ -831,6 +831,19 @@ class _Subtitle extends ConsumerWidget {
   final Language? language;
   final Model? model;
 
+  String getTitle(WidgetRef ref) {
+    final sessionId = ref.watch(sessionIdProvider)!;
+    final view = ref.watch(watchProvider(sessionId));
+
+    if (view.hasFile) {
+      final fileName =
+          ref.watch(watchProvider(sessionId).select((view) => view.fileName));
+      return fileName ?? 'File';
+    }
+
+    return '${(view.inputText?.length ?? 0) > 30 ? view.inputText?.substring(0, 30) : view.inputText}...';
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final query = ref.watch(searchQueryProvider);
@@ -847,7 +860,9 @@ class _Subtitle extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12, top: 12),
       child: Text(
-        'Detected language: ${language == null ? '...' : language!.getDisplayName()}, $cardsCount cards (${model?.getUiText()})',
+        'Deck: "${getTitle(ref)}", Language: ${language == null ? '...' : language!.getDisplayName()}, $cardsCount cards',
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(color: Colors.grey[500]),
       ),
     );

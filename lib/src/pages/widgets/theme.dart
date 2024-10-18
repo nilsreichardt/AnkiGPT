@@ -27,6 +27,17 @@ final ankigptTheme = ThemeData(
   ),
   dialogTheme: const DialogTheme(
     backgroundColor: Colors.white,
+    titleTextStyle: TextStyle(
+      color: Colors.black,
+      fontSize: 28,
+      fontWeight: FontWeight.w500,
+      fontFamily: _fontFamily,
+    ),
+    contentTextStyle: TextStyle(
+      color: Colors.black,
+      fontSize: 18,
+      fontFamily: _fontFamily,
+    ),
   ),
   fontFamily: _fontFamily,
   textTheme: ThemeData.dark().textTheme.apply(

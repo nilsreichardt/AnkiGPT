@@ -370,9 +370,23 @@ class SellingPoint extends StatelessWidget {
           Icons.check,
           color: Colors.green,
         ),
-        title: Text(text),
+        title: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+          ),
+        ),
         trailing: trailing,
-        subtitle: description != null ? Text(description!) : null,
+        subtitle: description != null
+            ? Text(
+                description!,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
+              )
+            : null,
       ),
     );
   }

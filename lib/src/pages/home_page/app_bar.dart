@@ -1,12 +1,9 @@
-import 'dart:math';
-
 import 'package:ankigpt/src/pages/widgets/account_page_icon_button.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/providers/traction_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:number_slide_animation/number_slide_animation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePageAppBar2 extends StatelessWidget {

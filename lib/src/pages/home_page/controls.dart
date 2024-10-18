@@ -12,6 +12,7 @@ import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
+import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/options_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
@@ -51,30 +52,73 @@ class _Size extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final borderRadius = BorderRadius.circular(16);
     final options = ref.watch(optionsControllerProvider);
+    final hasPlus = ref.watch(hasPlusProvider);
     final isSelected = options.size == size;
     return Tooltip(
       message: 'Generate ${size.getUiText()} flashcards',
       child: InkWell(
         borderRadius: borderRadius,
         onTap: () {
-          ref.read(optionsControllerProvider.notifier).setSize(size);
+          if (!hasPlus && size.isPlus()) {
+            showModal(
+              context: context,
+              builder: (context) => const PlusDialog(),
+              routeSettings: const RouteSettings(name: '/plus'),
+            );
+            return;
+          } else {
+            ref.read(optionsControllerProvider.notifier).setSize(size);
+          }
         },
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
-          child: Material(
-            key: ValueKey(isSelected),
-            borderRadius: borderRadius,
-            color: isSelected ? Colors.white : Colors.white24,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
-              child: Text(
-                size.getUiText(),
-                style: TextStyle(
-                  color: isSelected ? Colors.black : Colors.white,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Material(
+                key: ValueKey(isSelected),
+                borderRadius: borderRadius,
+                color:
+                    isSelected ? Colors.white : Colors.white.withOpacity(0.2),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
+                  child: Text(
+                    size.getUiText(),
+                    style: TextStyle(
+                      color: isSelected ? Colors.black : Colors.white,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.normal,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              if (!hasPlus && size.isPlus()) const _PlusIcon(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PlusIcon extends StatelessWidget {
+  const _PlusIcon();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: -8,
+      top: -8,
+      child: Material(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+        child: const Padding(
+          padding: EdgeInsets.all(4),
+          child: Icon(
+            Remix.lock_2_fill,
+            color: Colors.black,
+            size: 16,
           ),
         ),
       ),

@@ -308,6 +308,7 @@ class _ResultCardState extends ConsumerState<ResultCard> {
       onEnter: (_) => switchHovering(),
       onExit: (_) => switchHovering(),
       child: AnkiGptCard(
+        color: Colors.white.withOpacity(0.2),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 6, 14, 0),
           child: Column(
@@ -453,7 +454,7 @@ class _CardAnswerState extends ConsumerState<_CardAnswer> {
       },
       text: widget.answer,
       style: TextStyle(
-        color: Colors.grey[700],
+        color: Colors.white70,
         fontSize: 14,
       ),
     );

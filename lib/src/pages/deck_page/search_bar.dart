@@ -30,7 +30,11 @@ class _SearchBarState extends ConsumerState<CardsSearchBar> {
     }
 
     return AnkiGptCard(
-      color: Colors.grey.withOpacity(0.1),
+      border: Border.all(
+        color: Colors.white30,
+        width: 2,
+      ),
+      color: Colors.transparent,
       padding: const EdgeInsets.fromLTRB(16, 6, 12, 6),
       child: Row(
         children: [

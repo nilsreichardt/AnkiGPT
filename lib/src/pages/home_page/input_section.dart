@@ -75,6 +75,7 @@ class _TabViewState extends ConsumerState<_TabView>
     return Column(
       children: [
         TabBar(
+          physics: const NeverScrollableScrollPhysics(),
           controller: _tabController,
           dividerHeight: 0,
           splashBorderRadius: BorderRadius.circular(24),

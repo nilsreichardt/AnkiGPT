@@ -870,14 +870,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  number_slide_animation:
-    dependency: "direct main"
-    description:
-      name: number_slide_animation
-      sha256: "5f981463e079de3a170e772bc5fbb6a465f3352ce5cec4c8b1dc1bfaf1c9f4ad"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.1"
   package_config:
     dependency: transitive
     description:

@@ -102,7 +102,7 @@ class Traction extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final value = ref.watch(getTractionStreamIntProvider);
+    final value = ref.watch(getTractionStreamProvider);
     return Column(
       crossAxisAlignment: crossAxisAlignment,
       mainAxisSize: MainAxisSize.min,
@@ -114,16 +114,13 @@ class Traction extends ConsumerWidget {
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
             key: ValueKey(value),
-            child: NumberSlideAnimation(
-              number: value.when(
-                data: (v) => '$v',
+            child: Text(
+              value.when(
+                data: (v) => v,
                 error: (e, s) => '0',
                 loading: () => '000000',
               ),
-              duration: const Duration(seconds: 4),
-              curve: Curves.easeOut,
-              textStyle: const TextStyle(
-                // color: Colors.white,
+              style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w600,
               ),

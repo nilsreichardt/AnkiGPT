@@ -36,12 +36,8 @@ mixin _$AnkiCard {
   /// date will have a null value for this field.
   Job? get job => throw _privateConstructorUsedError;
 
-  /// Serializes this AnkiCard to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of AnkiCard
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $AnkiCardCopyWith<AnkiCard> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -73,8 +69,6 @@ class _$AnkiCardCopyWithImpl<$Res, $Val extends AnkiCard>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of AnkiCard
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -118,8 +112,6 @@ class _$AnkiCardCopyWithImpl<$Res, $Val extends AnkiCard>
     ) as $Val);
   }
 
-  /// Create a copy of AnkiCard
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $JobCopyWith<$Res>? get job {
@@ -162,8 +154,6 @@ class __$$AnkiCardImplCopyWithImpl<$Res>
       _$AnkiCardImpl _value, $Res Function(_$AnkiCardImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AnkiCard
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -267,14 +257,12 @@ class _$AnkiCardImpl extends _AnkiCard {
             (identical(other.job, job) || other.job == job));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, question, answer, createdAt, hasLiked, hasDisliked, job);
 
-  /// Create a copy of AnkiCard
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$AnkiCardImplCopyWith<_$AnkiCardImpl> get copyWith =>
@@ -318,18 +306,15 @@ abstract class _AnkiCard extends AnkiCard {
   bool get hasLiked;
   @override
   bool get hasDisliked;
+  @override
 
   /// The information of the job that created this card.
   ///
   /// This feature was added on 8. August 2023. Cards created before that
   /// date will have a null value for this field.
-  @override
   Job? get job;
-
-  /// Create a copy of AnkiCard
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$AnkiCardImplCopyWith<_$AnkiCardImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -343,12 +328,8 @@ mixin _$Job {
   String get id => throw _privateConstructorUsedError;
   int get index => throw _privateConstructorUsedError;
 
-  /// Serializes this Job to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Job
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $JobCopyWith<Job> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -369,8 +350,6 @@ class _$JobCopyWithImpl<$Res, $Val extends Job> implements $JobCopyWith<$Res> {
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Job
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -405,8 +384,6 @@ class __$$JobImplCopyWithImpl<$Res> extends _$JobCopyWithImpl<$Res, _$JobImpl>
   __$$JobImplCopyWithImpl(_$JobImpl _value, $Res Function(_$JobImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Job
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -453,13 +430,11 @@ class _$JobImpl implements _Job {
             (identical(other.index, index) || other.index == index));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, index);
 
-  /// Create a copy of Job
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$JobImplCopyWith<_$JobImpl> get copyWith =>
@@ -483,11 +458,8 @@ abstract class _Job implements Job {
   String get id;
   @override
   int get index;
-
-  /// Create a copy of Job
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$JobImplCopyWith<_$JobImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

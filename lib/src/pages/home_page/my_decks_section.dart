@@ -19,6 +19,7 @@ import 'package:go_router/go_router.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
+import 'package:very_good_infinite_list/very_good_infinite_list.dart';
 
 class MyDecksSection extends ConsumerWidget {
   const MyDecksSection({
@@ -75,13 +76,16 @@ class _List extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final decks =
-        ref.watch(deckListControllerProvider.select((s) => s.decks)).toList();
+    final state = ref.watch(deckListControllerProvider.select((s) => s));
+    final decks = state.decks.toList();
     return SizedBox(
       height: MediaQuery.of(context).size.height - 172,
-      child: ListView.builder(
-        shrinkWrap: true,
-        // physics: const NeverScrollableScrollPhysics(),
+      child: InfiniteList(
+        onFetchData: () {
+          final controller = ref.read(deckListControllerProvider.notifier);
+          controller.loadMore();
+        },
+        hasReachedMax: state is DeckListLoaded && !state.hasMore,
         itemCount: decks.length,
         itemBuilder: (context, index) {
           final deck = decks[index];
@@ -364,7 +368,7 @@ class _LoadingHistoryDeck extends StatelessWidget {
             // uses a fixed value so that we can test the UI. Otherwise, the
             // pumpAndSettle() call in the tests will never complete.
             value: isTesting ? 0.5 : null,
-            color: Colors.blue,
+            color: Colors.black,
           ),
         ),
       ),
@@ -404,7 +408,7 @@ class _ErrorHistoryDeck extends StatelessWidget {
             'Error generating cards',
             style: TextStyle(
               fontSize: 16,
-              color: Theme.of(context).colorScheme.error,
+              color: Colors.red[50],
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -461,7 +465,7 @@ class _HistoryDeckBase extends StatelessWidget {
                             maxLines: 1,
                           ),
                         Text(
-                          '${DateFormat.yMEd().add_jms().format(createdAt!)}, $numberOfCards cards (${model.getUiText()})',
+                          '${DateFormat.yMEd().add_jms().format(createdAt!)} (${model.getUiText()})',
                           style:
                               Theme.of(context).textTheme.bodySmall!.copyWith(
                                     color: Colors.black54,

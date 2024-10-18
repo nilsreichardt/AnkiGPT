@@ -1,6 +1,7 @@
 import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
+import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/cancel_text_button.dart';
 import 'package:ankigpt/src/pages/widgets/plus_badge.dart';
 import 'package:ankigpt/src/providers/current_usage_provider.dart';
@@ -26,8 +27,6 @@ class OptionsDialog extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _NumberOfCardsOption(),
-              SizedBox(height: 24),
               _ModelOption(),
             ],
           ),
@@ -35,7 +34,7 @@ class OptionsDialog extends StatelessWidget {
       ),
       actions: [
         const CancelTextButton(),
-        TextButton(
+        ElevatedButton(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('OK'),
         ),
@@ -80,72 +79,6 @@ class _Option extends StatelessWidget {
   }
 }
 
-class _NumberOfCardsOption extends StatelessWidget {
-  const _NumberOfCardsOption();
-
-  @override
-  Widget build(BuildContext context) {
-    return const _Option(
-      title: Text('Number of cards'),
-      subtitle: Text('Specify the number of cards to generate.'),
-      child: NumberOfCardsDropdown(),
-    );
-  }
-}
-
-class NumberOfCardsDropdown extends ConsumerWidget {
-  const NumberOfCardsDropdown({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final hasPlus = ref.watch(hasPlusProvider);
-    final hasPickedFile = ref.watch(pickedFileProvider) != null;
-
-    final availableSizes = CardGenrationSize.values
-        .where((c) => hasPickedFile ? c.isAvailableForFiles() : true)
-        .toList();
-
-    return SizedBox(
-      width: double.infinity,
-      child: DropdownButtonFormField<CardGenrationSize>(
-        value: ref.watch(optionsControllerProvider.select((v) => v.size)),
-        items: [
-          ...availableSizes.map(
-            (c) => DropdownMenuItem(
-              value: c,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('${c.getUiText()} cards'),
-                  if (!hasPlus && c.isPlus()) ...[
-                    const SizedBox(width: 12),
-                    const SizedBox(
-                      width: 38,
-                      child: PlusBadge(
-                        withText: false,
-                      ),
-                    )
-                  ]
-                ],
-              ),
-            ),
-          )
-        ],
-        onChanged: (v) {
-          if (v != null) {
-            if (!hasPlus && v.isPlus()) {
-              showPlusDialog(context);
-            }
-
-            ref.read(optionsControllerProvider.notifier).setSize(v);
-          }
-        },
-      ),
-    );
-  }
-}
-
 class _ModelOption extends StatelessWidget {
   const _ModelOption();
 
@@ -173,40 +106,64 @@ class ModelDropdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasPlus = ref.watch(hasPlusProvider);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.black54,
+        width: 2,
+      ),
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    );
     return SizedBox(
       width: double.infinity,
-      child: DropdownButtonFormField<Model>(
-        value: ref.watch(optionsControllerProvider.select((v) => v.model)),
-        items: [
-          ...[Model.gpt4o_mini, Model.gpt4o].map(
-            (c) => DropdownMenuItem(
-              value: c,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(c.getUiText()),
-                  if (!hasPlus && c.isPlus()) ...[
-                    const SizedBox(width: 12),
-                    const SizedBox(
-                      width: 38,
-                      child: PlusBadge(withText: false),
-                    )
-                  ]
-                ],
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          brightness: Brightness.light,
+        ),
+        child: DropdownButtonFormField<Model>(
+          dropdownColor: Colors.white,
+          value: ref.watch(optionsControllerProvider.select((v) => v.model)),
+          decoration: const InputDecoration(
+            border: border,
+            enabledBorder: border,
+            focusedBorder: border,
+          ),
+          items: [
+            ...[Model.gpt4o_mini, Model.gpt4o].map(
+              (c) => DropdownMenuItem(
+                value: c,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      c.getUiText(),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    if (!hasPlus && c.isPlus()) ...[
+                      const SizedBox(width: 12),
+                      const SizedBox(
+                        width: 38,
+                        child: PlusBadge(withText: false),
+                      )
+                    ]
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-        onChanged: (v) {
-          if (v != null) {
-            if (!hasPlus && v.isPlus()) {
-              showPlusDialog(context);
-            }
+          ],
+          onChanged: (v) {
+            if (v != null) {
+              if (!hasPlus && v.isPlus()) {
+                showPlusDialog(context);
+              }
 
-            ref.read(optionsControllerProvider.notifier).setModel(v);
-          }
-        },
+              ref.read(optionsControllerProvider.notifier).setModel(v);
+            }
+          },
+        ),
       ),
     );
   }

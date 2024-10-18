@@ -13,6 +13,7 @@ import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
+import 'package:ankigpt/src/providers/is_signed_in_provider.dart';
 import 'package:ankigpt/src/providers/options_provider.dart';
 import 'package:ankigpt/src/providers/search_provider.dart';
 import 'package:ankigpt/src/providers/session_id_provider.dart';
@@ -24,17 +25,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SizeRow extends StatelessWidget {
+class SizeRow extends ConsumerWidget {
   const SizeRow({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isSignedIn = ref.watch(isSignedInProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           for (final size in CardGenrationSize.values) _Size(size: size),
+          if (isSignedIn) ...[
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Container(
+                width: 2,
+                height: 40,
+                color: Colors.white.withOpacity(0.2),
+              ),
+            ),
+            const _OptionsButton(),
+          ]
         ],
       ),
     );
@@ -136,23 +149,24 @@ class _OptionsButton extends ConsumerWidget {
     ref.watch(optionsControllerProvider);
 
     return SizedBox(
-      child: AnkiGptElevatedButton.icon(
-        tooltip: 'Edit options (e.g. number of cards, model)',
-        icon: const Icon(Icons.tune),
-        label: const Text('Options'),
-        border: Border.all(
-          color: Colors.grey[400]!,
-          width: 1.4,
+      child: Material(
+        shape: const OvalBorder(
+          side: BorderSide(
+            color: Colors.white,
+            width: 2,
+          ),
         ),
-        color: Colors.transparent,
-        center: context.isMobile,
-        onPressed: () {
-          showModal(
-            context: context,
-            builder: (context) => const OptionsDialog(),
-            routeSettings: const RouteSettings(name: '/options'),
-          );
-        },
+        child: IconButton(
+          tooltip: 'Options',
+          icon: const Icon(Remix.settings_3_fill),
+          onPressed: () {
+            showModal(
+              context: context,
+              builder: (context) => const OptionsDialog(),
+              routeSettings: const RouteSettings(name: '/options'),
+            );
+          },
+        ),
       ),
     );
   }

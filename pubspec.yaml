@@ -16,7 +16,7 @@ dependencies:
   cloud_firestore: ^4.17.3
   cloud_functions: ^4.7.4
   collection: ^1.18.0
-  confetti: ^0.7.0
+  confetti: ^0.8.0
   cross_file: ^0.3.4+1
   cupertino_icons: ^1.0.5
   easy_debounce: ^2.0.3

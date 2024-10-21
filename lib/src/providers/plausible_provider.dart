@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -11,10 +10,13 @@ Plausible plausible(PlausibleRef ref) {
 
   final plausible = Plausible(serverUrl, domain);
 
-  if (kDebugMode) {
-    // Disable Plausible in debug mode to avoid skewing analytics.
-    plausible.enabled = false;
-  }
+  // if (kDebugMode) {
+  //   // Disable Plausible in debug mode to avoid skewing analytics.
+  //   plausible.enabled = false;
+  // }
+
+  // Plausible is currently disabled.
+  plausible.enabled = false;
 
   return plausible;
 }

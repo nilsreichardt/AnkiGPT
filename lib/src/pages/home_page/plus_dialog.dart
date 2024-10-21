@@ -6,7 +6,6 @@ import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/extensions.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
-import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
 import 'package:ankigpt/src/providers/stripe_checkout_provider.dart';
 import 'package:ankigpt/src/providers/wants_to_buy_provider.dart';

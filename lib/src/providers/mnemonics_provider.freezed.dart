@@ -84,9 +84,6 @@ class _$MnemonicsStateCopyWithImpl<$Res, $Val extends MnemonicsState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of MnemonicsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -105,9 +102,6 @@ class __$$MnemonicsStateGeneratingImplCopyWithImpl<$Res>
       _$MnemonicsStateGeneratingImpl _value,
       $Res Function(_$MnemonicsStateGeneratingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of MnemonicsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -225,9 +219,6 @@ class __$$MnemonicsStateAppendingImplCopyWithImpl<$Res>
       _$MnemonicsStateAppendingImpl _value,
       $Res Function(_$MnemonicsStateAppendingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of MnemonicsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -346,8 +337,6 @@ class __$$MnemonicsStateErrorImplCopyWithImpl<$Res>
       $Res Function(_$MnemonicsStateErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of MnemonicsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -386,9 +375,7 @@ class _$MnemonicsStateErrorImpl implements MnemonicsStateError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of MnemonicsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$MnemonicsStateErrorImplCopyWith<_$MnemonicsStateErrorImpl> get copyWith =>
@@ -475,10 +462,7 @@ abstract class MnemonicsStateError implements MnemonicsState {
       _$MnemonicsStateErrorImpl;
 
   String get message;
-
-  /// Create a copy of MnemonicsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$MnemonicsStateErrorImplCopyWith<_$MnemonicsStateErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -500,8 +484,6 @@ class __$$MnemonicsStateLoadedImplCopyWithImpl<$Res>
       $Res Function(_$MnemonicsStateLoadedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of MnemonicsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -550,9 +532,7 @@ class _$MnemonicsStateLoadedImpl implements MnemonicsStateLoaded {
   @override
   int get hashCode => Object.hash(runtimeType, mnemonic, traceId);
 
-  /// Create a copy of MnemonicsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$MnemonicsStateLoadedImplCopyWith<_$MnemonicsStateLoadedImpl>
@@ -642,10 +622,7 @@ abstract class MnemonicsStateLoaded implements MnemonicsState {
 
   String get mnemonic;
   String? get traceId;
-
-  /// Create a copy of MnemonicsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$MnemonicsStateLoadedImplCopyWith<_$MnemonicsStateLoadedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

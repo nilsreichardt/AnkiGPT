@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:animations/animations.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
+import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -41,11 +42,10 @@ class _SuccessfulPlusPaymentDialogState
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          Padding(
+    return Stack(
+      children: [
+        AlertDialog(
+          content: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -66,20 +66,36 @@ class _SuccessfulPlusPaymentDialogState
                 ),
                 const SizedBox(height: 22),
                 const PlusAdvantages(),
+                const SizedBox(height: 22),
+                MaxWidthConstrainedBox(
+                  maxWidth: 350,
+                  child: Text(
+                    'In case the upgrade does not work, please contact the support (see bottom of the page).',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.7)),
+                  ),
+                ),
               ],
             ),
           ),
-          ConfettiWidget(
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: ConfettiWidget(
             confettiController: confettiController,
             blastDirection: pi / 2,
             blastDirectionality: BlastDirectionality.explosive,
           ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('OK'),
         ),
       ],
     );

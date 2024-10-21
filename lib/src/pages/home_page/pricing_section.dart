@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:animations/animations.dart';
 import 'package:ankigpt/src/pages/widgets/ankigpt_card.dart';
 import 'package:ankigpt/src/pages/widgets/elevated_button.dart';
-import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/scroll_to.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
-import 'package:ankigpt/src/pages/widgets/video_player.dart';
 import 'package:ankigpt/src/providers/buy_button_analytics.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_account_provider.dart';
@@ -82,83 +79,15 @@ class _FreeTier extends ConsumerWidget {
       priceEurPart: '€0',
       points: const [
         PointData(
-          '$freeUsageLimitPerMonth cards with per month',
+          '$freeUsageLimitPerMonth cards per month',
         ),
-        PointData('Up to 35 cards per deck'),
-        PointData('Delete, edit & search cards'),
-        PointData(
-          'Generate $freeMnemonicsUsagePerMonth mnemonics per month',
-          trailing: _HelpMnemonicsIconButton(),
-        ),
-        PointData('Share decks with a link'),
+        PointData('Up to 50 cards per deck'),
       ],
       onPressedCallToAction: () {
         final key = ref.read(homePageScrollViewProvider).inputSectionKey;
         scrollTo(context: context, key: key);
       },
       callToActionText: 'Get started',
-    );
-  }
-}
-
-class _HelpMnemonicsIconButton extends StatelessWidget {
-  const _HelpMnemonicsIconButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      tooltip: 'What are mnemonics?',
-      onPressed: () => showMnemonicHelpDialog(context),
-      icon: const Icon(Icons.help_outline),
-    );
-  }
-}
-
-Future<void> showMnemonicHelpDialog(BuildContext context) {
-  return showModal(
-    context: context,
-    builder: (context) => const _HelpMnemonicsDialog(),
-  );
-}
-
-class _HelpMnemonicsDialog extends StatelessWidget {
-  const _HelpMnemonicsDialog();
-
-  @override
-  Widget build(BuildContext context) {
-    return SelectionArea(
-      child: MaxWidthConstrainedBox(
-        maxWidth: 500,
-        child: AlertDialog(
-          title: const Text('What are mnemonics?'),
-          content: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: min(MediaQuery.of(context).size.height * 2, 300),
-                  child: const TutorialVideoPlayer(
-                    aspectRatio: 4 / 2.9,
-                    videoUrl:
-                        'https://firebasestorage.googleapis.com/v0/b/ankigpt-prod.appspot.com/o/assets%2Fmnemonic_demo.mp4?alt=media&token=9c67f440-bc36-4b05-a428-b55d5d660be3',
-                  ),
-                ),
-                const Text(
-                  'Mnemonics is a learning technique that helps individuals remember information, typically by associating complex data with simple, easily recalled cues like sequences, words, or images. They often work by creating relatable or familiar connections in the brain, which can facilitate quicker recall and better memory retention.\n\nFor example, the phrase "Every Good Boy Deserves Fudge" is a musical mnemonic used to remember the order of the lines in the treble clef (EGBDF).\n\nWith AnkiGPT you can generate mnemonics for your flashcard with one click.',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
-            )
-          ],
-        ),
-      ),
     );
   }
 }
@@ -192,16 +121,10 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
       priceCentPart: '.99',
       priceDescription: 'Lifetime (one-time payment)',
       points: const [
-        PointData('Unlimited cards with GPT-4o mini per month'),
         PointData(
-          '$plusGpt4UsageLimitPerMonth cards with GPT-4o per month',
-          description: "GPT-4o is the most powerful model by OpenAI",
+          'Unlimited cards per month',
         ),
         PointData('Up to 150 cards per deck'),
-        PointData(
-          'Generate unlimited mnemonics',
-          trailing: _HelpMnemonicsIconButton(),
-        ),
       ],
       onPressedCallToAction: buy,
       callToActionText: 'Buy',
@@ -238,7 +161,7 @@ class _TierBase extends StatelessWidget {
         width: _isMobileView(context)
             ? MediaQuery.of(context).size.width * 0.85
             : 365,
-        height: _isMobileView(context) ? 500 : 500,
+        height: _isMobileView(context) ? 350 : 320,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

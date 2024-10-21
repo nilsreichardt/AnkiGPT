@@ -154,6 +154,7 @@ class _BuyButtonState extends ConsumerState<_BuyButton> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.center,
       children: [
         Opacity(
           opacity: isLoading ? 0 : 1,

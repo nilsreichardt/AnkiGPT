@@ -142,7 +142,6 @@ class _Traction extends ConsumerWidget {
         key: ValueKey(value),
         style: TextStyle(
           fontSize: 18,
-          fontWeight: FontWeight.w300,
           fontFeatures: const [FontFeature.tabularFigures()],
           color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
         ),

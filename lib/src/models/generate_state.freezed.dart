@@ -85,9 +85,6 @@ class _$GenerateStateCopyWithImpl<$Res, $Val extends GenerateState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of GenerateState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -106,9 +103,6 @@ class __$$GenerationStateInitialImplCopyWithImpl<$Res>
       _$GenerationStateInitialImpl _value,
       $Res Function(_$GenerationStateInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of GenerateState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -228,8 +222,6 @@ class __$$GenerationStateErrorImplCopyWithImpl<$Res>
       $Res Function(_$GenerationStateErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GenerateState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -268,9 +260,7 @@ class _$GenerationStateErrorImpl implements GenerationStateError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of GenerateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$GenerationStateErrorImplCopyWith<_$GenerationStateErrorImpl>
@@ -359,10 +349,7 @@ abstract class GenerationStateError implements GenerateState {
       _$GenerationStateErrorImpl;
 
   String get message;
-
-  /// Create a copy of GenerateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$GenerationStateErrorImplCopyWith<_$GenerationStateErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -383,9 +370,6 @@ class __$$GenerationStateLoadingImplCopyWithImpl<$Res>
       _$GenerationStateLoadingImpl _value,
       $Res Function(_$GenerationStateLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of GenerateState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -505,9 +489,6 @@ class __$$GenerationStatePasswordRequiredImplCopyWithImpl<$Res>
       _$GenerationStatePasswordRequiredImpl _value,
       $Res Function(_$GenerationStatePasswordRequiredImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of GenerateState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

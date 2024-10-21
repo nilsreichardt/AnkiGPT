@@ -31,9 +31,7 @@ mixin _$HomePageScrollViewData {
   GlobalKey<State<StatefulWidget>> get loadMoreDecksButton =>
       throw _privateConstructorUsedError;
 
-  /// Create a copy of HomePageScrollViewData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $HomePageScrollViewDataCopyWith<HomePageScrollViewData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -65,8 +63,6 @@ class _$HomePageScrollViewDataCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of HomePageScrollViewData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -140,8 +136,6 @@ class __$$HomePageScrollViewDataImplCopyWithImpl<$Res>
       $Res Function(_$HomePageScrollViewDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of HomePageScrollViewData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -250,9 +244,7 @@ class _$HomePageScrollViewDataImpl implements _HomePageScrollViewData {
       myDecksSectionKey,
       loadMoreDecksButton);
 
-  /// Create a copy of HomePageScrollViewData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$HomePageScrollViewDataImplCopyWith<_$HomePageScrollViewDataImpl>
@@ -285,11 +277,8 @@ abstract class _HomePageScrollViewData implements HomePageScrollViewData {
   GlobalKey<State<StatefulWidget>> get myDecksSectionKey;
   @override
   GlobalKey<State<StatefulWidget>> get loadMoreDecksButton;
-
-  /// Create a copy of HomePageScrollViewData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$HomePageScrollViewDataImplCopyWith<_$HomePageScrollViewDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

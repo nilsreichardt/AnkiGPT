@@ -90,9 +90,6 @@ class _$AccountViewCopyWithImpl<$Res, $Val extends AccountView>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of AccountView
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -117,8 +114,6 @@ class __$$AccountViewSignedInImplCopyWithImpl<$Res>
       $Res Function(_$AccountViewSignedInImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AccountView
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -202,9 +197,7 @@ class _$AccountViewSignedInImpl implements AccountViewSignedIn {
   int get hashCode => Object.hash(runtimeType, email, authProvider,
       generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth, hasPlus);
 
-  /// Create a copy of AccountView
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$AccountViewSignedInImplCopyWith<_$AccountViewSignedInImpl> get copyWith =>
@@ -308,10 +301,7 @@ abstract class AccountViewSignedIn implements AccountView {
   int get generatedCardsCurrentMonth;
   int get generatedMnemonicsCurrentMonth;
   bool get hasPlus;
-
-  /// Create a copy of AccountView
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$AccountViewSignedInImplCopyWith<_$AccountViewSignedInImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -330,9 +320,6 @@ class __$$AccountViewSignedOutImplCopyWithImpl<$Res>
   __$$AccountViewSignedOutImplCopyWithImpl(_$AccountViewSignedOutImpl _value,
       $Res Function(_$AccountViewSignedOutImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of AccountView
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

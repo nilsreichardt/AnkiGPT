@@ -153,56 +153,61 @@ class _BuyButtonState extends ConsumerState<_BuyButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Opacity(
-          opacity: isLoading ? 0 : 1,
-          child: IgnorePointer(
-            ignoring: isLoading,
-            child: SizedBox(
-              width: double.infinity,
-              height: 40,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  shadowColor: Colors.transparent,
-                ),
-                onPressed: () async {
-                  setState(() {
-                    isLoading = true;
-                  });
-
-                  try {
-                    await buy();
-                  } on Exception catch (e) {
-                    if (!context.mounted) return;
-                    context.showTextSnackBar('Error while buying Plus: $e');
-                    Navigator.pop(context);
-                  } finally {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 250),
+      child: Stack(
+        key: ValueKey(isLoading),
+        alignment: Alignment.center,
+        children: [
+          Opacity(
+            opacity: isLoading ? 0 : 1,
+            child: IgnorePointer(
+              ignoring: isLoading,
+              child: SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shadowColor: Colors.transparent,
+                  ),
+                  onPressed: () async {
                     setState(() {
-                      isLoading = false;
+                      isLoading = true;
                     });
-                  }
-                },
-                child: const Text('BUY'),
+
+                    try {
+                      await buy();
+                    } on Exception catch (e) {
+                      if (!context.mounted) return;
+                      context.showTextSnackBar('Error while buying Plus: $e');
+                      Navigator.pop(context);
+                    } finally {
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                  },
+                  child: const Text('BUY'),
+                ),
               ),
             ),
           ),
-        ),
-        Opacity(
-          opacity: isLoading ? 1 : 0,
-          child: IgnorePointer(
-            ignoring: !isLoading,
-            child: const SizedBox(
-              height: 25,
-              width: 25,
-              child: CircularProgressIndicator(),
+          Opacity(
+            opacity: isLoading ? 1 : 0,
+            child: IgnorePointer(
+              ignoring: !isLoading,
+              child: const SizedBox(
+                height: 25,
+                width: 25,
+                child: CircularProgressIndicator(),
+              ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

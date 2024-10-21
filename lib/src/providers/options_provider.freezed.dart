@@ -19,9 +19,7 @@ mixin _$GenerationOptions {
   CardGenrationSize get size => throw _privateConstructorUsedError;
   Model get model => throw _privateConstructorUsedError;
 
-  /// Create a copy of GenerationOptions
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $GenerationOptionsCopyWith<GenerationOptions> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,8 +43,6 @@ class _$GenerationOptionsCopyWithImpl<$Res, $Val extends GenerationOptions>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of GenerationOptions
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -85,8 +81,6 @@ class __$$GenerationOptionsImplCopyWithImpl<$Res>
       $Res Function(_$GenerationOptionsImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GenerationOptions
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -134,9 +128,7 @@ class _$GenerationOptionsImpl extends _GenerationOptions {
   @override
   int get hashCode => Object.hash(runtimeType, size, model);
 
-  /// Create a copy of GenerationOptions
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$GenerationOptionsImplCopyWith<_$GenerationOptionsImpl> get copyWith =>
@@ -154,11 +146,8 @@ abstract class _GenerationOptions extends GenerationOptions {
   CardGenrationSize get size;
   @override
   Model get model;
-
-  /// Create a copy of GenerationOptions
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$GenerationOptionsImplCopyWith<_$GenerationOptionsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

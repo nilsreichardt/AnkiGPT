@@ -42,11 +42,10 @@ class _SuccessfulPlusPaymentDialogState
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          Padding(
+    return Stack(
+      children: [
+        AlertDialog(
+          content: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -83,17 +82,20 @@ class _SuccessfulPlusPaymentDialogState
               ],
             ),
           ),
-          ConfettiWidget(
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: ConfettiWidget(
             confettiController: confettiController,
             blastDirection: pi / 2,
             blastDirectionality: BlastDirectionality.explosive,
           ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('OK'),
         ),
       ],
     );

@@ -46,20 +46,26 @@ class PlusDialog extends ConsumerWidget {
     return AlertDialog(
       title: const Text("AnkiGPT Plus"),
       content: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (top != null) top!,
-            const PlusAdvantages(),
-            const SizedBox(height: 16),
-            const _PlusPrice(),
-          ],
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minWidth: 400,
+            minHeight: 240,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (top != null) top!,
+              const PlusAdvantages(),
+              const SizedBox(height: 16),
+              const _PlusPrice(),
+            ],
+          ),
         ),
       ),
       actions: const [
-        _CancelButton(),
         _BuyButton(),
+        _CancelButton(),
       ],
     );
   }
@@ -70,9 +76,14 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () => Navigator.pop(context),
-      child: const Text('CANCEL'),
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: Center(
+        child: TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('CANCEL'),
+        ),
+      ),
     );
   }
 }
@@ -85,13 +96,8 @@ class PlusAdvantages extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SellingPoint(text: 'Unlimited cards with GPT-4o mini per month'),
-        SellingPoint(
-          text: '$plusGpt4UsageLimitPerMonth cards with GPT-4o per month',
-          description: 'GPT-4o is the most powerful model by OpenAI',
-        ),
+        SellingPoint(text: 'Unlimited cards per month'),
         SellingPoint(text: 'Up to 150 cards per deck'),
-        SellingPoint(text: 'Unlimited mnemonics per month'),
       ],
     );
   }
@@ -115,6 +121,7 @@ class _PlusPrice extends StatelessWidget {
             'Lifetime (one-time payment)',
             style: TextStyle(
               color: Colors.grey[700]!,
+              fontSize: 16,
             ),
           ),
         ],
@@ -153,31 +160,35 @@ class _BuyButtonState extends ConsumerState<_BuyButton> {
           opacity: isLoading ? 0 : 1,
           child: IgnorePointer(
             ignoring: isLoading,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor,
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shadowColor: Colors.transparent,
-              ),
-              onPressed: () async {
-                setState(() {
-                  isLoading = true;
-                });
-
-                try {
-                  await buy();
-                } on Exception catch (e) {
-                  if (!context.mounted) return;
-                  context.showTextSnackBar('Error while buying Plus: $e');
-                  Navigator.pop(context);
-                } finally {
+            child: SizedBox(
+              width: double.infinity,
+              height: 40,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shadowColor: Colors.transparent,
+                ),
+                onPressed: () async {
                   setState(() {
-                    isLoading = false;
+                    isLoading = true;
                   });
-                }
-              },
-              child: const Text('BUY'),
+
+                  try {
+                    await buy();
+                  } on Exception catch (e) {
+                    if (!context.mounted) return;
+                    context.showTextSnackBar('Error while buying Plus: $e');
+                    Navigator.pop(context);
+                  } finally {
+                    setState(() {
+                      isLoading = false;
+                    });
+                  }
+                },
+                child: const Text('BUY'),
+              ),
             ),
           ),
         ),

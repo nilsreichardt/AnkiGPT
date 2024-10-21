@@ -82,15 +82,9 @@ class _FreeTier extends ConsumerWidget {
       priceEurPart: '€0',
       points: const [
         PointData(
-          '$freeUsageLimitPerMonth cards with per month',
+          '$freeUsageLimitPerMonth cards per month',
         ),
-        PointData('Up to 35 cards per deck'),
-        PointData('Delete, edit & search cards'),
-        PointData(
-          'Generate $freeMnemonicsUsagePerMonth mnemonics per month',
-          trailing: _HelpMnemonicsIconButton(),
-        ),
-        PointData('Share decks with a link'),
+        PointData('Up to 50 cards per deck'),
       ],
       onPressedCallToAction: () {
         final key = ref.read(homePageScrollViewProvider).inputSectionKey;
@@ -192,16 +186,10 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
       priceCentPart: '.99',
       priceDescription: 'Lifetime (one-time payment)',
       points: const [
-        PointData('Unlimited cards with GPT-4o mini per month'),
         PointData(
-          '$plusGpt4UsageLimitPerMonth cards with GPT-4o per month',
-          description: "GPT-4o is the most powerful model by OpenAI",
+          'Unlimited cards per month',
         ),
         PointData('Up to 150 cards per deck'),
-        PointData(
-          'Generate unlimited mnemonics',
-          trailing: _HelpMnemonicsIconButton(),
-        ),
       ],
       onPressedCallToAction: buy,
       callToActionText: 'Buy',
@@ -238,7 +226,7 @@ class _TierBase extends StatelessWidget {
         width: _isMobileView(context)
             ? MediaQuery.of(context).size.width * 0.85
             : 365,
-        height: _isMobileView(context) ? 500 : 500,
+        height: _isMobileView(context) ? 350 : 320,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

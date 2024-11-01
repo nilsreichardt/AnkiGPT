@@ -26,7 +26,7 @@ dependencies:
   firebase_storage: ^11.7.5
   flutter:
     sdk: flutter
-  flutter_markdown: ^0.7.1
+  flutter_markdown: ^0.7.4+1
   flutter_riverpod: ^2.3.6
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.0.6

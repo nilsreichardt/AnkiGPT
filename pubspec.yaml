@@ -20,7 +20,7 @@ dependencies:
   cross_file: ^0.3.4+1
   cupertino_icons: ^1.0.5
   easy_debounce: ^2.0.3
-  file_picker: ^6.1.1
+  file_picker: ^8.0.7
   firebase_auth: ^4.19.5
   firebase_core: ^2.31.0
   firebase_storage: ^11.7.5

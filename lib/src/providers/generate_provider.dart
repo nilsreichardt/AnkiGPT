@@ -109,6 +109,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       await _sessionRepository.startSession(
         numberOfCards: options.size.toInt(),
         sessionId: sessionId,
+        language: options.language,
         model: options.model.snakeCaseName,
         input: Input(
           text: text.isEmpty ? null : text,

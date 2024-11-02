@@ -1,4 +1,5 @@
 import 'package:ankigpt/src/models/card_generation_size.dart';
+import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/pages/home_page/plus_dialog.dart';
 import 'package:ankigpt/src/pages/widgets/cancel_text_button.dart';
@@ -27,6 +28,8 @@ class OptionsDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               _NumberOfCardsOption(),
+              SizedBox(height: 24),
+              _LanguageOption(),
               SizedBox(height: 24),
               _ModelOption(),
             ],
@@ -239,6 +242,47 @@ class _Gpt4Usage extends ConsumerWidget {
               ),
             )
           : const SizedBox(),
+    );
+  }
+}
+
+class _LanguageOption extends StatelessWidget {
+  const _LanguageOption();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _Option(
+      title: Text('Language'),
+      subtitle: Text(
+          'Specify the language for the generated flashcards. By default, the language will be detected automatically.'),
+      child: _LanguageDropdown(),
+    );
+  }
+}
+
+class _LanguageDropdown extends ConsumerWidget {
+  const _LanguageDropdown();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: double.infinity,
+      child: DropdownButtonFormField<Language>(
+        value: ref.watch(optionsControllerProvider.select((v) => v.language)),
+        items: [
+          ...Language.values.map(
+            (language) => DropdownMenuItem(
+              value: language,
+              child: Text(language.getDisplayName()),
+            ),
+          ),
+        ],
+        onChanged: (v) {
+          if (v != null) {
+            ref.read(optionsControllerProvider.notifier).setLanguage(v);
+          }
+        },
+      ),
     );
   }
 }

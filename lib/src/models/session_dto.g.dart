@@ -43,6 +43,7 @@ Map<String, dynamic> _$$SessionDtoImplToJson(_$SessionDtoImpl instance) =>
     };
 
 const _$LanguageEnumMap = {
+  Language.auto: 'auto',
   Language.aa: 'aa',
   Language.ab: 'ab',
   Language.ace: 'ace',

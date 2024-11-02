@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$GenerationOptions {
   CardGenrationSize get size => throw _privateConstructorUsedError;
   Model get model => throw _privateConstructorUsedError;
+  Language get language => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GenerationOptionsCopyWith<GenerationOptions> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $GenerationOptionsCopyWith<$Res> {
           GenerationOptions value, $Res Function(GenerationOptions) then) =
       _$GenerationOptionsCopyWithImpl<$Res, GenerationOptions>;
   @useResult
-  $Res call({CardGenrationSize size, Model model});
+  $Res call({CardGenrationSize size, Model model, Language language});
 }
 
 /// @nodoc
@@ -48,6 +49,7 @@ class _$GenerationOptionsCopyWithImpl<$Res, $Val extends GenerationOptions>
   $Res call({
     Object? size = null,
     Object? model = null,
+    Object? language = null,
   }) {
     return _then(_value.copyWith(
       size: null == size
@@ -58,6 +60,10 @@ class _$GenerationOptionsCopyWithImpl<$Res, $Val extends GenerationOptions>
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as Model,
+      language: null == language
+          ? _value.language
+          : language // ignore: cast_nullable_to_non_nullable
+              as Language,
     ) as $Val);
   }
 }
@@ -70,7 +76,7 @@ abstract class _$$GenerationOptionsImplCopyWith<$Res>
       __$$GenerationOptionsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({CardGenrationSize size, Model model});
+  $Res call({CardGenrationSize size, Model model, Language language});
 }
 
 /// @nodoc
@@ -86,6 +92,7 @@ class __$$GenerationOptionsImplCopyWithImpl<$Res>
   $Res call({
     Object? size = null,
     Object? model = null,
+    Object? language = null,
   }) {
     return _then(_$GenerationOptionsImpl(
       size: null == size
@@ -96,6 +103,10 @@ class __$$GenerationOptionsImplCopyWithImpl<$Res>
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as Model,
+      language: null == language
+          ? _value.language
+          : language // ignore: cast_nullable_to_non_nullable
+              as Language,
     ));
   }
 }
@@ -103,17 +114,20 @@ class __$$GenerationOptionsImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GenerationOptionsImpl extends _GenerationOptions {
-  const _$GenerationOptionsImpl({required this.size, required this.model})
+  const _$GenerationOptionsImpl(
+      {required this.size, required this.model, required this.language})
       : super._();
 
   @override
   final CardGenrationSize size;
   @override
   final Model model;
+  @override
+  final Language language;
 
   @override
   String toString() {
-    return 'GenerationOptions(size: $size, model: $model)';
+    return 'GenerationOptions(size: $size, model: $model, language: $language)';
   }
 
   @override
@@ -122,11 +136,13 @@ class _$GenerationOptionsImpl extends _GenerationOptions {
         (other.runtimeType == runtimeType &&
             other is _$GenerationOptionsImpl &&
             (identical(other.size, size) || other.size == size) &&
-            (identical(other.model, model) || other.model == model));
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.language, language) ||
+                other.language == language));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, size, model);
+  int get hashCode => Object.hash(runtimeType, size, model, language);
 
   @JsonKey(ignore: true)
   @override
@@ -139,13 +155,16 @@ class _$GenerationOptionsImpl extends _GenerationOptions {
 abstract class _GenerationOptions extends GenerationOptions {
   const factory _GenerationOptions(
       {required final CardGenrationSize size,
-      required final Model model}) = _$GenerationOptionsImpl;
+      required final Model model,
+      required final Language language}) = _$GenerationOptionsImpl;
   const _GenerationOptions._() : super._();
 
   @override
   CardGenrationSize get size;
   @override
   Model get model;
+  @override
+  Language get language;
   @override
   @JsonKey(ignore: true)
   _$$GenerationOptionsImplCopyWith<_$GenerationOptionsImpl> get copyWith =>

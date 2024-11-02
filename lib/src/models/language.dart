@@ -5,6 +5,7 @@
 ///
 /// See: https://en.wikipedia.org/wiki/ISO_639
 enum Language {
+  auto, // Auto-detect
   aa, // Afar
   ab, // Abkhazian
   ace, // Achinese
@@ -256,6 +257,8 @@ enum Language {
   /// Gets the display name for the language.
   String getDisplayName() {
     switch (this) {
+      case Language.auto:
+        return 'Auto-detect';
       case Language.aa:
         return 'Afar';
       case Language.ab:

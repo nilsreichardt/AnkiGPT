@@ -39,6 +39,8 @@ class SessionRepository {
         'sessionId': sessionId,
         'numberOfCards': numberOfCards,
         'model': model,
+        // Only include language when not auto-detecting to let the backend
+        // handle detection.
         if (language != Language.auto) 'language': language.name,
       }
     });

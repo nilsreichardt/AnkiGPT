@@ -5,6 +5,7 @@ import 'package:ankigpt/src/infrastructure/user_repository.dart';
 import 'package:ankigpt/src/models/card_generation_size.dart';
 import 'package:ankigpt/src/models/generate_state.dart';
 import 'package:ankigpt/src/models/input_type.dart';
+import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/model.dart';
 import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
@@ -109,6 +110,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       await _sessionRepository.startSession(
         numberOfCards: options.size.toInt(),
         sessionId: sessionId,
+        language: options.language,
         model: options.model.snakeCaseName,
         input: Input(
           text: text.isEmpty ? null : text,
@@ -121,7 +123,7 @@ class GenerateNotifier extends _$GenerateNotifier {
               : null,
         ),
       );
-      _logStartSession(options.size);
+      _logStartSession(options.size, options.language);
 
       _logger.d("Started session with id: $sessionId");
 
@@ -219,12 +221,13 @@ class GenerateNotifier extends _$GenerateNotifier {
     );
   }
 
-  void _logStartSession(CardGenrationSize size) {
+  void _logStartSession(CardGenrationSize size, Language language) {
     unawaited(_analytics.logEvent(
       'start_session',
       params: {
         'size': size.name,
         'input_type': _hasPickedFile ? 'file' : 'text',
+        'language': language.name,
       },
       page: _analyticsPage,
     ));

@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:ankigpt/src/models/card_id.dart';
+import 'package:ankigpt/src/models/language.dart';
 import 'package:ankigpt/src/models/session_dto.dart';
 import 'package:ankigpt/src/models/session_id.dart';
 import 'package:ankigpt/src/models/user_id.dart';
@@ -28,6 +29,7 @@ class SessionRepository {
     required int numberOfCards,
     required String model,
     required SessionId? sessionId,
+    required Language language,
   }) async {
     final result = await functions
         .httpsCallable('startSession')
@@ -37,6 +39,9 @@ class SessionRepository {
         'sessionId': sessionId,
         'numberOfCards': numberOfCards,
         'model': model,
+        // Only include language when not auto-detecting to let the backend
+        // handle detection.
+        if (language != Language.auto) 'language': language.name,
       }
     });
     return result.data['id'];

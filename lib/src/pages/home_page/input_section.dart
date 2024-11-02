@@ -249,7 +249,7 @@ class _PickedFileButton extends ConsumerWidget {
           alignment: Alignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(12, 40, 12, 40),
+              padding: const EdgeInsets.fromLTRB(12, 68, 12, 40),
               child: Column(
                 children: [
                   const Icon(Icons.upload_file),

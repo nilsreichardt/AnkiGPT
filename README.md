@@ -4,7 +4,7 @@ Generate flashcards from lecture slides with one click using GPT / AI technology
 
 ➡️ https://AnkiGPT.help
 
-https://github.com/nilsreichardt/ankigpt/assets/24459435/853dee68-d634-48e4-93fe-f995fdf30d1a
+https://github.com/user-attachments/assets/99d7bfcb-a11b-47af-9ac4-50b92f36bed7
 
 ## Features
 

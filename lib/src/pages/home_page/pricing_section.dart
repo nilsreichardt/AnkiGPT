@@ -76,7 +76,7 @@ class _FreeTier extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return _TierBase(
       name: 'Free',
-      priceEurPart: '€0',
+      priceUsdPart: '\$0',
       points: const [
         PointData(
           '$freeUsageLimitPerMonth cards per month',
@@ -117,7 +117,7 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
     final hasPlus = ref.watch(hasPlusProvider);
     return _TierBase(
       name: 'Plus',
-      priceEurPart: '€14',
+      priceUsdPart: '\$14',
       priceCentPart: '.99',
       priceDescription: 'Lifetime (one-time payment)',
       points: const [
@@ -136,7 +136,7 @@ class _PlusTierState extends ConsumerState<_PlusTier> {
 class _TierBase extends StatelessWidget {
   const _TierBase({
     required this.name,
-    required this.priceEurPart,
+    required this.priceUsdPart,
     this.priceCentPart,
     required this.points,
     required this.onPressedCallToAction,
@@ -146,7 +146,7 @@ class _TierBase extends StatelessWidget {
   });
 
   final String name;
-  final String priceEurPart;
+  final String priceUsdPart;
   final String? priceCentPart;
   final String? priceDescription;
   final List<PointData> points;
@@ -175,7 +175,7 @@ class _TierBase extends StatelessWidget {
                     style: const TextStyle(fontSize: 24),
                   ),
                   Price(
-                    priceEurPart: priceEurPart,
+                    priceUsdPart: priceUsdPart,
                     priceCentPart: priceCentPart,
                   ),
                   Text(priceDescription ?? ''),
@@ -205,11 +205,11 @@ class _TierBase extends StatelessWidget {
 class Price extends StatelessWidget {
   const Price({
     super.key,
-    required this.priceEurPart,
+    required this.priceUsdPart,
     required this.priceCentPart,
   });
 
-  final String priceEurPart;
+  final String priceUsdPart;
   final String? priceCentPart;
 
   @override
@@ -218,7 +218,7 @@ class Price extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          priceEurPart,
+          priceUsdPart,
           style: const TextStyle(
             fontSize: 48,
             fontWeight: FontWeight.bold,

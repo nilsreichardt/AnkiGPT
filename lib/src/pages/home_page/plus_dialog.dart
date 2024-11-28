@@ -113,7 +113,7 @@ class _PlusPrice extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Price(
-            priceEurPart: '€14',
+            priceUsdPart: '\$14',
             priceCentPart: '.99',
           ),
           Text(

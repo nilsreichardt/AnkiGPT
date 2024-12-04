@@ -172,7 +172,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     }
 
     if (e.message == 'unknown-language-exception') {
-      return 'It was not possible to detect the language of the input. Please try again with a different input. In case you uploading a file, ensure that the file contains enough text (text from images is not supported). Also, it could be that the text in your file is not readable by our OCR. In this case, please copy the text from the file and paste it into the text field.';
+      return 'It was not possible to automatically detect the language of the input. Please specify manually the language of the input. Use the options button to change the language.';
     }
 
     return 'An unknown error occurred. Please try again or contact the support.';

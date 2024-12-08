@@ -35,7 +35,7 @@ dependencies:
   google_sign_in: ^6.2.1
   json_annotation: ^4.8.1
   logger: ^2.3.0
-  package_info_plus: ^8.0.0
+  package_info_plus: ^8.1.1
   plausible_analytics: ^0.3.0
   queue:
     git:

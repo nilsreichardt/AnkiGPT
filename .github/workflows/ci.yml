@@ -48,14 +48,12 @@ jobs:
 
       - name: Install Dart
         uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
-        with:
-          sdk: 3.7.0
 
       - name: Install Prettier
         run: npm install --global prettier@3.0.1
 
       - name: Format (Dart)
-        run: dart format --set-exit-if-changed $(find lib -name "*.dart" -not \( -name "*.*freezed.dart" -o -name "*.*g.dart" \) )
+        run: dart format .
 
       - name: Format (Prettier)
         run: prettier . --check

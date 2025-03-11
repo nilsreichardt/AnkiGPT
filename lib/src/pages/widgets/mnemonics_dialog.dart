@@ -67,7 +67,7 @@ class _MnemonicsDialogState extends ConsumerState<MnemonicsDialog> {
           child: Column(
             children: [
               AnkiGptCard(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.grey.withValues(alpha: 0.2),
                 child: const SelectableText(
                   'Mnemonics are memory aids that use associations, such as visual images, patterns, or rhymes, to help encode, store, and retrieve information more easily, making them highly effective for studying by enhancing recall and retention of complex material.',
                   style: TextStyle(

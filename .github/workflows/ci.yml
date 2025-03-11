@@ -53,7 +53,7 @@ jobs:
         run: npm install --global prettier@3.0.1
 
       - name: Format (Dart)
-        run: dart format --set-exit-if-changed $(find lib -name "*.dart" -not \( -name "*.*freezed.dart" -o -name "*.*g.dart" \) )
+        run: dart format .
 
       - name: Format (Prettier)
         run: prettier . --check
@@ -118,7 +118,6 @@ jobs:
       - name: Build
         run: |
           flutter build web \
-            --web-renderer canvaskit \
             --dart-define=RELEASE_DATE="$(date +"%B %e %Y")" \
             --dart-define=FLAVOR="prod"
 

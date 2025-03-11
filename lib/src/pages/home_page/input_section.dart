@@ -143,7 +143,7 @@ class _Traction extends ConsumerWidget {
         style: TextStyle(
           fontSize: 18,
           fontFeatures: const [FontFeature.tabularFigures()],
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
         ),
         textAlign: TextAlign.center,
       ),
@@ -201,7 +201,7 @@ class _UploadFileButton extends ConsumerWidget {
           onPressed: () =>
               ref.read(generateNotifierProvider.notifier).pickFile(),
           borderRadius: borderRadius,
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
           child: const SizedBox(
             width: double.infinity,
             child: Padding(
@@ -242,7 +242,7 @@ class _PickedFileButton extends ConsumerWidget {
           ? null
           : () => ref.read(generateNotifierProvider.notifier).pickFile(),
       borderRadius: borderRadius,
-      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
       child: SizedBox(
         width: double.infinity,
         child: Stack(
@@ -295,7 +295,7 @@ class _EnterPdfPassword extends ConsumerWidget {
           ? Padding(
               padding: const EdgeInsets.only(top: 16),
               child: AnkiGptCard(
-                color: Colors.orange.withOpacity(0.1),
+                color: Colors.orange.withValues(alpha: 0.1),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -317,7 +317,7 @@ class _EnterPdfPassword extends ConsumerWidget {
                         color: Theme.of(context)
                             .colorScheme
                             .onSurface
-                            .withOpacity(0.6),
+                            .withValues(alpha: 0.6),
                       ),
                     ),
                     const SizedBox(height: 12),

@@ -127,7 +127,7 @@ class _CardFeedbackBaseDialogState extends State<_CardFeedbackBaseDialog> {
         children: [
           Material(
             shape: const CircleBorder(),
-            color: widget.iconColor.withOpacity(0.15),
+            color: widget.iconColor.withValues(alpha: 0.15),
             child: IconTheme(
               data:
                   Theme.of(context).iconTheme.copyWith(color: widget.iconColor),

@@ -120,7 +120,6 @@ jobs:
       - name: Build
         run: |
           flutter build web \
-            --web-renderer canvaskit \
             --dart-define=RELEASE_DATE="$(date +"%B %e %Y")" \
             --dart-define=FLAVOR="prod"
 

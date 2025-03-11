@@ -18,7 +18,6 @@ import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
 import 'package:ankigpt/src/providers/sign_out_provider.dart';
 import 'package:ankigpt/src/providers/stripe_portal_provider.dart';
-import 'package:ankigpt/src/providers/user_id_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -275,7 +274,7 @@ class _DangerZoneCard extends ConsumerWidget {
         child: AnkiGptCard(
           padding: const EdgeInsets.all(0),
           color: Theme.of(context).colorScheme.error.withValues(alpha: 0.1),
-          child: const Column(
+          child: Column(
             children: [
               const _SignOutTile(),
               const Divider(height: 0),
@@ -346,21 +345,24 @@ class _DeleteAccontConfirmationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Delete account'),
-      content: const Text(
-        'Are you sure you want to delete your account? Your account will be deleted in 7 days.',
-      ),
-      actions: [
-        const CancelTextButton(),
-        TextButton(
-          style: TextButton.styleFrom(
-            foregroundColor: Theme.of(context).colorScheme.error,
-          ),
-          onPressed: () => Navigator.of(context).pop(true),
-          child: const Text('SCHEDULE DELETE'),
+    return MaxWidthConstrainedBox(
+      maxWidth: 500,
+      child: AlertDialog(
+        title: const Text('Delete account'),
+        content: const Text(
+          'Are you sure you want to delete your account? Your account will be deleted in 7 days.',
         ),
-      ],
+        actions: [
+          const CancelTextButton(),
+          TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+            ),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('SCHEDULE DELETE'),
+          ),
+        ],
+      ),
     );
   }
 }

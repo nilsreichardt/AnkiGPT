@@ -147,7 +147,10 @@ class _SignInNote extends StatelessWidget {
         Text(
           'An account is required to prevent abuse.',
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.6),
               ),
         ),
       ],
@@ -165,7 +168,10 @@ class _LegalText extends StatelessWidget {
           'By signing in, you confirm that you read the [Terms of Service](https://ankigpt.help/terms) and [Privacy Policy](https://ankigpt.help/privacy-policy).',
       styleSheet: MarkdownStyleSheet(
         p: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.6),
             ),
       ),
       onTapLink: (text, href, title) async {
@@ -268,8 +274,8 @@ class _DangerZoneCard extends ConsumerWidget {
         borderRadius: defaultAnkiGptBorderRadius,
         child: AnkiGptCard(
           padding: const EdgeInsets.all(0),
-          color: Theme.of(context).colorScheme.error.withOpacity(0.1),
-          child: Column(
+          color: Theme.of(context).colorScheme.error.withValues(alpha: 0.1),
+          child: const Column(
             children: [
               const _SignOutTile(),
               const Divider(height: 0),
@@ -608,7 +614,7 @@ class _AvatarCard extends ConsumerWidget {
                       backgroundColor: Theme.of(context)
                           .colorScheme
                           .inversePrimary
-                          .withOpacity(0.2),
+                          .withValues(alpha: 0.2),
                       child: Icon(
                         Icons.account_circle,
                         color: Theme.of(context).colorScheme.primary,
@@ -660,7 +666,7 @@ class _FreeUsage extends StatelessWidget {
           LinearProgressIndicator(
             value: percentage,
             backgroundColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
             valueColor: AlwaysStoppedAnimation<Color>(
               Theme.of(context).colorScheme.primary,
             ),

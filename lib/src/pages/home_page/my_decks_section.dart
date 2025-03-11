@@ -416,7 +416,7 @@ class _HistoryDeckBase extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 16),
       child: AnkiGptCard(
         onPressed: () => context.go('/deck/$sessionId'),
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         padding: const EdgeInsets.all(22),
         child: SizedBox(
           width: double.infinity,
@@ -441,7 +441,7 @@ class _HistoryDeckBase extends StatelessWidget {
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurface
-                                  .withOpacity(0.75),
+                                  .withValues(alpha: 0.75),
                             )),
                     body,
                   ],

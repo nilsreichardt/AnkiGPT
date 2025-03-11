@@ -23,13 +23,13 @@ class DeleteUserRepository {
 
   Future<void> scheduleDeleteUser() async {
     await _functions.httpsCallableFromUrl(_routeFunctionsUrl).call({
-      'destination': 'scheduleDeleteUser',
+      'destination': 'scheduleAccountDeletion',
     });
   }
 
   Future<void> cancelDeleteUser() async {
     await _functions.httpsCallableFromUrl(_routeFunctionsUrl).call({
-      'destination': 'cancelDeleteUser',
+      'destination': 'cancelScheduledAccountDeletion',
     });
   }
 }

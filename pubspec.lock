@@ -1544,10 +1544,10 @@ packages:
     dependency: "direct main"
     description:
       name: wiredash
-      sha256: "589f4e45337a4b4e38fb5f93c4eb676cb63b9cb5c00fa228d4ba5c5180ed8a07"
+      sha256: "19351f9bc2a4b7f59a3638534810df43c7e2e346edf12eb80d463d15f87f9d61"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.2"
+    version: "2.4.0"
   wolt_responsive_layout_grid:
     dependency: "direct main"
     description:

@@ -88,7 +88,7 @@ class _CustomGptNote extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: AnkiGptCard(
-        color: Colors.orange.withOpacity(0.1),
+        color: Colors.orange.withValues(alpha: 0.1),
         child: const Text(
           'This deck is generated with the a GPT using ChatGPT. These decks are always public and can not be made private.',
           style: TextStyle(

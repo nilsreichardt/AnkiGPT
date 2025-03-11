@@ -285,7 +285,7 @@ class _LimitExceededCard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.orange[100]!.withOpacity(0.7),
+            color: Colors.orange[100]!.withValues(alpha: 0.7),
             borderRadius: BorderRadius.circular(12),
           ),
           child: MarkdownBody(

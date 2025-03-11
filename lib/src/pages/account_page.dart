@@ -10,7 +10,9 @@ import 'package:ankigpt/src/pages/widgets/footer.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
 import 'package:ankigpt/src/providers/account_view_provider.dart';
+import 'package:ankigpt/src/providers/app_user_provider.dart';
 import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
+import 'package:ankigpt/src/providers/delete_user_provider.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
@@ -253,11 +255,13 @@ class _SignInButton extends ConsumerWidget {
   }
 }
 
-class _DangerZoneCard extends StatelessWidget {
+class _DangerZoneCard extends ConsumerWidget {
   const _DangerZoneCard();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(appUserProvider).value;
+    final hasDeleteUserSchedule = user?.deleteUserSchedule != null;
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: ClipRRect(
@@ -265,11 +269,14 @@ class _DangerZoneCard extends StatelessWidget {
         child: AnkiGptCard(
           padding: const EdgeInsets.all(0),
           color: Theme.of(context).colorScheme.error.withOpacity(0.1),
-          child: const Column(
+          child: Column(
             children: [
-              _SignOutTile(),
-              Divider(height: 0),
-              _DeleteAccountTile(),
+              const _SignOutTile(),
+              const Divider(height: 0),
+              if (hasDeleteUserSchedule)
+                const _CancelDeleteUserScheduleTile()
+              else
+                const _DeleteAccountTile(),
             ],
           ),
         ),
@@ -286,25 +293,68 @@ class _DeleteAccountTile extends ConsumerWidget {
     return _DangerZoneTile(
       icon: const Icon(Icons.delete_forever),
       title: const Text('Delete account'),
-      onTap: () {
-        final userId = ref.read(userIdProvider);
-
-        final parameters = <String, String>{
-          'subject': '🗑️ AnkiGPT: Delete Account Request',
-          'body':
-              'Hey!\n\nI would like to delete my account.\nUser ID: $userId\n\nBest regards'
-        };
-        final mailto = Uri(
-          scheme: 'mailto',
-          path: 'support@ankigpt.help',
-          query: parameters.entries
-              .map((e) =>
-                  '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-              .join('&'),
+      onTap: () async {
+        final shouldDelete = await showModal<bool>(
+          context: context,
+          builder: (_) => const _DeleteAccontConfirmationDialog(),
         );
 
-        launchUrl(mailto);
+        if (shouldDelete == true && context.mounted) {
+          try {
+            await ref.read(scheduleDeleteUserProvider.future);
+          } on Exception catch (e) {
+            if (!context.mounted) return;
+            context.showTextSnackBar('Error: $e');
+          }
+        }
       },
+    );
+  }
+}
+
+class _CancelDeleteUserScheduleTile extends ConsumerWidget {
+  const _CancelDeleteUserScheduleTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return _DangerZoneTile(
+      icon: const Icon(Icons.delete_forever),
+      title: const Text('Cancel delete account'),
+      onTap: () async {
+        try {
+          await ref.read(cancelDeleteUserProvider.future);
+          if (!context.mounted) return;
+          context.showTextSnackBar(
+              'Account deletion scheduled has been canceled. Your account will not be deleted.');
+        } on Exception catch (e) {
+          if (!context.mounted) return;
+          context.showTextSnackBar('Error: $e');
+        }
+      },
+    );
+  }
+}
+
+class _DeleteAccontConfirmationDialog extends StatelessWidget {
+  const _DeleteAccontConfirmationDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Delete account'),
+      content: const Text(
+        'Are you sure you want to delete your account? Your account will be deleted in 7 days.',
+      ),
+      actions: [
+        const CancelTextButton(),
+        TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.error,
+          ),
+          onPressed: () => Navigator.of(context).pop(true),
+          child: const Text('SCHEDULE DELETE'),
+        ),
+      ],
     );
   }
 }

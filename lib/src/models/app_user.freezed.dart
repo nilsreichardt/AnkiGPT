@@ -22,6 +22,8 @@ AppUser _$AppUserFromJson(Map<String, dynamic> json) {
 mixin _$AppUser {
   bool get hasPlus => throw _privateConstructorUsedError;
   Usage get usage => throw _privateConstructorUsedError;
+  DeleteUserSchedule? get deleteUserSchedule =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,9 +35,11 @@ abstract class $AppUserCopyWith<$Res> {
   factory $AppUserCopyWith(AppUser value, $Res Function(AppUser) then) =
       _$AppUserCopyWithImpl<$Res, AppUser>;
   @useResult
-  $Res call({bool hasPlus, Usage usage});
+  $Res call(
+      {bool hasPlus, Usage usage, DeleteUserSchedule? deleteUserSchedule});
 
   $UsageCopyWith<$Res> get usage;
+  $DeleteUserScheduleCopyWith<$Res>? get deleteUserSchedule;
 }
 
 /// @nodoc
@@ -53,6 +57,7 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
   $Res call({
     Object? hasPlus = null,
     Object? usage = null,
+    Object? deleteUserSchedule = freezed,
   }) {
     return _then(_value.copyWith(
       hasPlus: null == hasPlus
@@ -63,6 +68,10 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
           ? _value.usage
           : usage // ignore: cast_nullable_to_non_nullable
               as Usage,
+      deleteUserSchedule: freezed == deleteUserSchedule
+          ? _value.deleteUserSchedule
+          : deleteUserSchedule // ignore: cast_nullable_to_non_nullable
+              as DeleteUserSchedule?,
     ) as $Val);
   }
 
@@ -71,6 +80,19 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
   $UsageCopyWith<$Res> get usage {
     return $UsageCopyWith<$Res>(_value.usage, (value) {
       return _then(_value.copyWith(usage: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DeleteUserScheduleCopyWith<$Res>? get deleteUserSchedule {
+    if (_value.deleteUserSchedule == null) {
+      return null;
+    }
+
+    return $DeleteUserScheduleCopyWith<$Res>(_value.deleteUserSchedule!,
+        (value) {
+      return _then(_value.copyWith(deleteUserSchedule: value) as $Val);
     });
   }
 }
@@ -82,10 +104,13 @@ abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       __$$AppUserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool hasPlus, Usage usage});
+  $Res call(
+      {bool hasPlus, Usage usage, DeleteUserSchedule? deleteUserSchedule});
 
   @override
   $UsageCopyWith<$Res> get usage;
+  @override
+  $DeleteUserScheduleCopyWith<$Res>? get deleteUserSchedule;
 }
 
 /// @nodoc
@@ -101,6 +126,7 @@ class __$$AppUserImplCopyWithImpl<$Res>
   $Res call({
     Object? hasPlus = null,
     Object? usage = null,
+    Object? deleteUserSchedule = freezed,
   }) {
     return _then(_$AppUserImpl(
       hasPlus: null == hasPlus
@@ -111,6 +137,10 @@ class __$$AppUserImplCopyWithImpl<$Res>
           ? _value.usage
           : usage // ignore: cast_nullable_to_non_nullable
               as Usage,
+      deleteUserSchedule: freezed == deleteUserSchedule
+          ? _value.deleteUserSchedule
+          : deleteUserSchedule // ignore: cast_nullable_to_non_nullable
+              as DeleteUserSchedule?,
     ));
   }
 }
@@ -123,7 +153,8 @@ class _$AppUserImpl extends _AppUser {
       this.usage = const Usage(
           generatedCardsCurrentMonth: 0,
           generatedMnemonicsCurrentMonth: 0,
-          generatedCardsCurrentMonthByModel: UsagePerMonthPerModel())})
+          generatedCardsCurrentMonthByModel: UsagePerMonthPerModel()),
+      this.deleteUserSchedule = null})
       : super._();
 
   factory _$AppUserImpl.fromJson(Map<String, dynamic> json) =>
@@ -135,10 +166,13 @@ class _$AppUserImpl extends _AppUser {
   @override
   @JsonKey()
   final Usage usage;
+  @override
+  @JsonKey()
+  final DeleteUserSchedule? deleteUserSchedule;
 
   @override
   String toString() {
-    return 'AppUser(hasPlus: $hasPlus, usage: $usage)';
+    return 'AppUser(hasPlus: $hasPlus, usage: $usage, deleteUserSchedule: $deleteUserSchedule)';
   }
 
   @override
@@ -147,12 +181,15 @@ class _$AppUserImpl extends _AppUser {
         (other.runtimeType == runtimeType &&
             other is _$AppUserImpl &&
             (identical(other.hasPlus, hasPlus) || other.hasPlus == hasPlus) &&
-            (identical(other.usage, usage) || other.usage == usage));
+            (identical(other.usage, usage) || other.usage == usage) &&
+            (identical(other.deleteUserSchedule, deleteUserSchedule) ||
+                other.deleteUserSchedule == deleteUserSchedule));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, hasPlus, usage);
+  int get hashCode =>
+      Object.hash(runtimeType, hasPlus, usage, deleteUserSchedule);
 
   @JsonKey(ignore: true)
   @override
@@ -169,8 +206,10 @@ class _$AppUserImpl extends _AppUser {
 }
 
 abstract class _AppUser extends AppUser {
-  const factory _AppUser({final bool hasPlus, final Usage usage}) =
-      _$AppUserImpl;
+  const factory _AppUser(
+      {final bool hasPlus,
+      final Usage usage,
+      final DeleteUserSchedule? deleteUserSchedule}) = _$AppUserImpl;
   const _AppUser._() : super._();
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$AppUserImpl.fromJson;
@@ -179,6 +218,8 @@ abstract class _AppUser extends AppUser {
   bool get hasPlus;
   @override
   Usage get usage;
+  @override
+  DeleteUserSchedule? get deleteUserSchedule;
   @override
   @JsonKey(ignore: true)
   _$$AppUserImplCopyWith<_$AppUserImpl> get copyWith =>
@@ -536,4 +577,142 @@ abstract class _UsagePerMonthPerModel implements UsagePerMonthPerModel {
   @JsonKey(ignore: true)
   _$$UsagePerMonthPerModelImplCopyWith<_$UsagePerMonthPerModelImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+DeleteUserSchedule _$DeleteUserScheduleFromJson(Map<String, dynamic> json) {
+  return _DeleteUserSchedule.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DeleteUserSchedule {
+  String get id => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DeleteUserScheduleCopyWith<DeleteUserSchedule> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DeleteUserScheduleCopyWith<$Res> {
+  factory $DeleteUserScheduleCopyWith(
+          DeleteUserSchedule value, $Res Function(DeleteUserSchedule) then) =
+      _$DeleteUserScheduleCopyWithImpl<$Res, DeleteUserSchedule>;
+  @useResult
+  $Res call({String id});
+}
+
+/// @nodoc
+class _$DeleteUserScheduleCopyWithImpl<$Res, $Val extends DeleteUserSchedule>
+    implements $DeleteUserScheduleCopyWith<$Res> {
+  _$DeleteUserScheduleCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DeleteUserScheduleImplCopyWith<$Res>
+    implements $DeleteUserScheduleCopyWith<$Res> {
+  factory _$$DeleteUserScheduleImplCopyWith(_$DeleteUserScheduleImpl value,
+          $Res Function(_$DeleteUserScheduleImpl) then) =
+      __$$DeleteUserScheduleImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id});
+}
+
+/// @nodoc
+class __$$DeleteUserScheduleImplCopyWithImpl<$Res>
+    extends _$DeleteUserScheduleCopyWithImpl<$Res, _$DeleteUserScheduleImpl>
+    implements _$$DeleteUserScheduleImplCopyWith<$Res> {
+  __$$DeleteUserScheduleImplCopyWithImpl(_$DeleteUserScheduleImpl _value,
+      $Res Function(_$DeleteUserScheduleImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$DeleteUserScheduleImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DeleteUserScheduleImpl implements _DeleteUserSchedule {
+  const _$DeleteUserScheduleImpl({required this.id});
+
+  factory _$DeleteUserScheduleImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DeleteUserScheduleImplFromJson(json);
+
+  @override
+  final String id;
+
+  @override
+  String toString() {
+    return 'DeleteUserSchedule(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DeleteUserScheduleImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DeleteUserScheduleImplCopyWith<_$DeleteUserScheduleImpl> get copyWith =>
+      __$$DeleteUserScheduleImplCopyWithImpl<_$DeleteUserScheduleImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DeleteUserScheduleImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DeleteUserSchedule implements DeleteUserSchedule {
+  const factory _DeleteUserSchedule({required final String id}) =
+      _$DeleteUserScheduleImpl;
+
+  factory _DeleteUserSchedule.fromJson(Map<String, dynamic> json) =
+      _$DeleteUserScheduleImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  @JsonKey(ignore: true)
+  _$$DeleteUserScheduleImplCopyWith<_$DeleteUserScheduleImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

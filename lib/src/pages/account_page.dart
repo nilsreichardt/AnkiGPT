@@ -23,6 +23,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// The number of days after which the account will be deleted if the user
+/// does not cancel the deletion.
+///
+/// If changed, also update the backend.
+const int accountDeletionPeriodDays = 7;
+
 class AccountPage extends ConsumerWidget {
   const AccountPage({super.key});
 
@@ -290,7 +296,7 @@ class _DeleteOrCancelDeleteAccountTile extends ConsumerWidget {
   Future<void> _scheduleDeleteUser(BuildContext context, WidgetRef ref) async {
     final shouldDelete = await showModal<bool>(
       context: context,
-      builder: (_) => const _DeleteAccontConfirmationDialog(),
+      builder: (_) => const _DeleteAccountConfirmationDialog(),
     );
 
     if (shouldDelete == true && context.mounted) {
@@ -306,7 +312,7 @@ class _DeleteOrCancelDeleteAccountTile extends ConsumerWidget {
         if (!context.mounted) return;
         context.hideSnackBar();
         context.showTextSnackBar(
-            'Your account will be deleted in 7 days. You can cancel the deletion at any time.');
+            'Your account will be deleted in $accountDeletionPeriodDays days. You can cancel the deletion at any time.');
       } catch (e) {
         if (!context.mounted) return;
         context.hideSnackBar();
@@ -330,7 +336,7 @@ class _DeleteOrCancelDeleteAccountTile extends ConsumerWidget {
       if (!context.mounted) return;
       context.hideSnackBar();
       context.showTextSnackBar(
-          'Account deletion scheduled has been canceled. Your account will not be deleted.');
+          'Account deletion schedule has been canceled. Your account will not be deleted.');
     } on Exception catch (e) {
       if (!context.mounted) return;
       context.hideSnackBar();
@@ -357,8 +363,8 @@ class _DeleteOrCancelDeleteAccountTile extends ConsumerWidget {
   }
 }
 
-class _DeleteAccontConfirmationDialog extends StatelessWidget {
-  const _DeleteAccontConfirmationDialog();
+class _DeleteAccountConfirmationDialog extends StatelessWidget {
+  const _DeleteAccountConfirmationDialog();
 
   @override
   Widget build(BuildContext context) {
@@ -367,7 +373,7 @@ class _DeleteAccontConfirmationDialog extends StatelessWidget {
       child: AlertDialog(
         title: const Text('Delete account'),
         content: const Text(
-          'Are you sure you want to delete your account? Your account will be deleted in 7 days.',
+          'Are you sure you want to delete your account? Your account will be deleted in $accountDeletionPeriodDays days.',
         ),
         actions: [
           const CancelTextButton(),

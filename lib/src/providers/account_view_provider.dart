@@ -22,6 +22,7 @@ AccountView accountView(AccountViewRef ref) {
     generatedMnemonicsCurrentMonth:
         appUser?.usage.generatedMnemonicsCurrentMonth ?? 0,
     hasPlus: appUser?.hasPlus ?? false,
+    hasDeleteUserSchedule: appUser?.deleteUserSchedule != null,
   );
 }
 
@@ -33,6 +34,7 @@ class AccountView with _$AccountView {
     required int generatedCardsCurrentMonth,
     required int generatedMnemonicsCurrentMonth,
     required bool hasPlus,
+    required bool hasDeleteUserSchedule,
   }) = AccountViewSignedIn;
 
   const factory AccountView.signedOut() = AccountViewSignedOut;

@@ -12,7 +12,7 @@ import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
 import 'package:ankigpt/src/providers/account_view_provider.dart';
 import 'package:ankigpt/src/providers/app_user_provider.dart';
 import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
-import 'package:ankigpt/src/providers/delete_user_provider.dart';
+import 'package:ankigpt/src/providers/delete_user_controller.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
@@ -265,8 +265,6 @@ class _DangerZoneCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(appUserProvider).value;
-    final hasDeleteUserSchedule = user?.deleteUserSchedule != null;
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: ClipRRect(
@@ -274,14 +272,11 @@ class _DangerZoneCard extends ConsumerWidget {
         child: AnkiGptCard(
           padding: const EdgeInsets.all(0),
           color: Theme.of(context).colorScheme.error.withValues(alpha: 0.1),
-          child: Column(
+          child: const Column(
             children: [
-              const _SignOutTile(),
-              const Divider(height: 0),
-              if (hasDeleteUserSchedule)
-                const _CancelDeleteUserScheduleTile()
-              else
-                const _DeleteAccountTile(),
+              _SignOutTile(),
+              Divider(height: 0),
+              _DeleteOrCancelDeleteAccountTile(),
             ],
           ),
         ),
@@ -290,53 +285,73 @@ class _DangerZoneCard extends ConsumerWidget {
   }
 }
 
-class _DeleteAccountTile extends ConsumerWidget {
-  const _DeleteAccountTile();
+class _DeleteOrCancelDeleteAccountTile extends ConsumerWidget {
+  const _DeleteOrCancelDeleteAccountTile();
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return _DangerZoneTile(
-      icon: const Icon(Icons.delete_forever),
-      title: const Text('Delete account'),
-      onTap: () async {
-        final shouldDelete = await showModal<bool>(
-          context: context,
-          builder: (_) => const _DeleteAccontConfirmationDialog(),
+  Future<void> _scheduleDeleteUser(BuildContext context, WidgetRef ref) async {
+    final shouldDelete = await showModal<bool>(
+      context: context,
+      builder: (_) => const _DeleteAccontConfirmationDialog(),
+    );
+
+    if (shouldDelete == true && context.mounted) {
+      try {
+        context.showTextSnackBar(
+          'Scheduling account deletion...',
+          withLoadingCircle: true,
         );
 
-        if (shouldDelete == true && context.mounted) {
-          try {
-            await ref.read(scheduleDeleteUserProvider.future);
-            if (!context.mounted) return;
-            context.showTextSnackBar(
-                'Your account will be deleted in 7 days. You can cancel the deletion at any time.');
-          } on Exception catch (e) {
-            if (!context.mounted) return;
-            context.showTextSnackBar('Error: $e');
-          }
-        }
-      },
-    );
-  }
-}
+        final controller = ref.read(deleteUserControllerProvider.notifier);
+        await controller.scheduleDeleteUser();
 
-class _CancelDeleteUserScheduleTile extends ConsumerWidget {
-  const _CancelDeleteUserScheduleTile();
+        if (!context.mounted) return;
+        context.hideSnackBar();
+        context.showTextSnackBar(
+            'Your account will be deleted in 7 days. You can cancel the deletion at any time.');
+      } catch (e) {
+        if (!context.mounted) return;
+        context.hideSnackBar();
+        context.showTextSnackBar(
+            'Failed to schedule account deletion: ${e.toString()}');
+      }
+    }
+  }
+
+  Future<void> _cancelDeleteUserSchedule(
+      BuildContext context, WidgetRef ref) async {
+    try {
+      context.showTextSnackBar(
+        'Cancelling account deletion...',
+        withLoadingCircle: true,
+      );
+
+      final controller = ref.read(deleteUserControllerProvider.notifier);
+      await controller.cancelDeleteUser();
+
+      if (!context.mounted) return;
+      context.hideSnackBar();
+      context.showTextSnackBar(
+          'Account deletion scheduled has been canceled. Your account will not be deleted.');
+    } on Exception catch (e) {
+      if (!context.mounted) return;
+      context.hideSnackBar();
+      context.showTextSnackBar('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final view = ref.watch(accountViewProvider) as AccountViewSignedIn;
+    final hasDeleteUserSchedule = view.hasDeleteUserSchedule;
     return _DangerZoneTile(
-      icon: const Icon(Icons.delete_forever),
-      title: const Text('Cancel delete account'),
+      icon: Icon(hasDeleteUserSchedule ? Icons.delete_forever : Icons.delete),
+      title: Text(
+          hasDeleteUserSchedule ? 'Cancel delete account' : 'Delete account'),
       onTap: () async {
-        try {
-          await ref.read(cancelDeleteUserProvider.future);
-          if (!context.mounted) return;
-          context.showTextSnackBar(
-              'Account deletion scheduled has been canceled. Your account will not be deleted.');
-        } on Exception catch (e) {
-          if (!context.mounted) return;
-          context.showTextSnackBar('Error: $e');
+        if (hasDeleteUserSchedule) {
+          await _cancelDeleteUserSchedule(context, ref);
+        } else {
+          await _scheduleDeleteUser(context, ref);
         }
       },
     );

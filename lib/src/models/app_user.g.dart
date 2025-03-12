@@ -64,11 +64,11 @@ Map<String, dynamic> _$$UsagePerMonthPerModelImplToJson(
 _$DeleteUserScheduleImpl _$$DeleteUserScheduleImplFromJson(
         Map<String, dynamic> json) =>
     _$DeleteUserScheduleImpl(
-      id: json['id'] as String,
+      taskId: json['taskId'] as String,
     );
 
 Map<String, dynamic> _$$DeleteUserScheduleImplToJson(
         _$DeleteUserScheduleImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'taskId': instance.taskId,
     };

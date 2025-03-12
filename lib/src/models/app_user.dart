@@ -59,7 +59,7 @@ class UsagePerMonthPerModel with _$UsagePerMonthPerModel {
 @freezed
 class DeleteUserSchedule with _$DeleteUserSchedule {
   const factory DeleteUserSchedule({
-    required String id,
+    required String taskId,
   }) = _DeleteUserSchedule;
 
   factory DeleteUserSchedule.fromJson(Map<String, dynamic> json) =>

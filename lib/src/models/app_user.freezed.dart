@@ -585,7 +585,7 @@ DeleteUserSchedule _$DeleteUserScheduleFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DeleteUserSchedule {
-  String get id => throw _privateConstructorUsedError;
+  String get taskId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -599,7 +599,7 @@ abstract class $DeleteUserScheduleCopyWith<$Res> {
           DeleteUserSchedule value, $Res Function(DeleteUserSchedule) then) =
       _$DeleteUserScheduleCopyWithImpl<$Res, DeleteUserSchedule>;
   @useResult
-  $Res call({String id});
+  $Res call({String taskId});
 }
 
 /// @nodoc
@@ -615,12 +615,12 @@ class _$DeleteUserScheduleCopyWithImpl<$Res, $Val extends DeleteUserSchedule>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? taskId = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      taskId: null == taskId
+          ? _value.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -634,7 +634,7 @@ abstract class _$$DeleteUserScheduleImplCopyWith<$Res>
       __$$DeleteUserScheduleImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id});
+  $Res call({String taskId});
 }
 
 /// @nodoc
@@ -648,12 +648,12 @@ class __$$DeleteUserScheduleImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? taskId = null,
   }) {
     return _then(_$DeleteUserScheduleImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      taskId: null == taskId
+          ? _value.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -662,17 +662,17 @@ class __$$DeleteUserScheduleImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DeleteUserScheduleImpl implements _DeleteUserSchedule {
-  const _$DeleteUserScheduleImpl({required this.id});
+  const _$DeleteUserScheduleImpl({required this.taskId});
 
   factory _$DeleteUserScheduleImpl.fromJson(Map<String, dynamic> json) =>
       _$$DeleteUserScheduleImplFromJson(json);
 
   @override
-  final String id;
+  final String taskId;
 
   @override
   String toString() {
-    return 'DeleteUserSchedule(id: $id)';
+    return 'DeleteUserSchedule(taskId: $taskId)';
   }
 
   @override
@@ -680,12 +680,12 @@ class _$DeleteUserScheduleImpl implements _DeleteUserSchedule {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DeleteUserScheduleImpl &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.taskId, taskId) || other.taskId == taskId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id);
+  int get hashCode => Object.hash(runtimeType, taskId);
 
   @JsonKey(ignore: true)
   @override
@@ -703,14 +703,14 @@ class _$DeleteUserScheduleImpl implements _DeleteUserSchedule {
 }
 
 abstract class _DeleteUserSchedule implements DeleteUserSchedule {
-  const factory _DeleteUserSchedule({required final String id}) =
+  const factory _DeleteUserSchedule({required final String taskId}) =
       _$DeleteUserScheduleImpl;
 
   factory _DeleteUserSchedule.fromJson(Map<String, dynamic> json) =
       _$DeleteUserScheduleImpl.fromJson;
 
   @override
-  String get id;
+  String get taskId;
   @override
   @JsonKey(ignore: true)
   _$$DeleteUserScheduleImplCopyWith<_$DeleteUserScheduleImpl> get copyWith =>

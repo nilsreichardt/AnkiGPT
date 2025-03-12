@@ -307,6 +307,9 @@ class _DeleteAccountTile extends ConsumerWidget {
         if (shouldDelete == true && context.mounted) {
           try {
             await ref.read(scheduleDeleteUserProvider.future);
+            if (!context.mounted) return;
+            context.showTextSnackBar(
+                'Your account will be deleted in 7 days. You can cancel the deletion at any time.');
           } on Exception catch (e) {
             if (!context.mounted) return;
             context.showTextSnackBar('Error: $e');

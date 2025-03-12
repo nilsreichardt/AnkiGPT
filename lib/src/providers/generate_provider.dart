@@ -37,7 +37,7 @@ const freeUsageLimitPerMonth = 100;
 
 const freeMnemonicsUsagePerMonth = 5;
 
-const plusGpt4UsageLimitPerMonth = 20_000;
+const plusGpt4UsageLimitPerMonth = 20000;
 
 @Riverpod(keepAlive: true, dependencies: [hasPlus])
 class GenerateNotifier extends _$GenerateNotifier {

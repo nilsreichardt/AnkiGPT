@@ -56,8 +56,13 @@ jobs:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
+      - name: Setup Node.js
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e
+        with:
+          node-version: "20"
+
       - name: Install Firebase CLI
-        run: npm install -g firebase-tools@13.0.2
+        run: npm install -g firebase-tools@13.35.1
 
       - name: Build
         run: |

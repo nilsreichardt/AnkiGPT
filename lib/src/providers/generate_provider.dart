@@ -28,6 +28,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:universal_html/html.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:uuid/uuid.dart';
 
 part 'generate_provider.g.dart';
@@ -335,6 +337,14 @@ class GenerateNotifier extends _$GenerateNotifier {
   }
 
   void clearPickedFile() {
+    if (UniversalPlatform.isWeb &&
+        _pickedFile != null &&
+        _pickedFile!.path != null) {
+      // Blob URLs should be revoked after usage, see
+      // https://github.com/miguelpruivo/flutter_file_picker/wiki/api#-pickfiles.
+      Url.revokeObjectUrl(_pickedFile!.path!);
+    }
+
     _pickedFile = null;
     ref.read(pickedFileProvider.notifier).set(_pickedFile);
   }

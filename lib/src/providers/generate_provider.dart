@@ -31,7 +31,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:universal_html/html.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:uuid/uuid.dart';
-import 'package:universal_html/parsing.dart';
 
 part 'generate_provider.g.dart';
 

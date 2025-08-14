@@ -310,6 +310,8 @@ const _$ModelEnumMap = {
   Model.gpt4: 'gpt4',
   Model.gpt4o_mini: 'gpt4o_mini',
   Model.gpt4o: 'gpt4o',
+  Model.gpt5_nano: 'gpt5_nano',
+  Model.gpt5: 'gpt5',
 };
 
 _$InputImpl _$$InputImplFromJson(Map<String, dynamic> json) => _$InputImpl(

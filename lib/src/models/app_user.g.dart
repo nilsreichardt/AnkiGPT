@@ -52,13 +52,13 @@ Map<String, dynamic> _$$UsageImplToJson(_$UsageImpl instance) =>
 _$UsagePerMonthPerModelImpl _$$UsagePerMonthPerModelImplFromJson(
         Map<String, dynamic> json) =>
     _$UsagePerMonthPerModelImpl(
-      gpt4: (json['gpt-4o'] as num?)?.toInt() ?? 0,
+      gpt5: (json['gpt-5'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$UsagePerMonthPerModelImplToJson(
         _$UsagePerMonthPerModelImpl instance) =>
     <String, dynamic>{
-      'gpt-4o': instance.gpt4,
+      'gpt-5': instance.gpt5,
     };
 
 _$DeleteUserScheduleImpl _$$DeleteUserScheduleImplFromJson(

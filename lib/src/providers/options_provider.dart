@@ -10,7 +10,7 @@ part 'options_provider.g.dart';
 @riverpod
 class OptionsController extends _$OptionsController {
   static const defaultSize = CardGenrationSize.thirty;
-  static const defaultModel = Model.gpt4o_mini;
+  static const defaultModel = Model.gpt5_nano;
   static const defaultLanguage = Language.auto;
 
   static const defaultOptions = GenerationOptions(

@@ -39,7 +39,7 @@ const freeUsageLimitPerMonth = 100;
 
 const freeMnemonicsUsagePerMonth = 5;
 
-const plusGpt4UsageLimitPerMonth = 20000;
+const plusGpt5UsageLimitPerMonth = 20000;
 
 @Riverpod(keepAlive: true, dependencies: [hasPlus])
 class GenerateNotifier extends _$GenerateNotifier {
@@ -51,7 +51,7 @@ class GenerateNotifier extends _$GenerateNotifier {
       ref.read(sessionRepositoryProvider);
   bool get _hasPlus => ref.read(hasPlusProvider);
   int get _currentMonthUsage => ref.read(currentMonthUsageProvider);
-  int get _currentGpt4Usage => ref.read(currentGpt4UsageProvider);
+  int get _currentGpt5Usage => ref.read(currentGpt5UsageProvider);
   Analytics get _analytics => ref.read(analyticsProvider);
   static const _analyticsPage = 'generate';
 
@@ -80,7 +80,7 @@ class GenerateNotifier extends _$GenerateNotifier {
     }
 
     _throwIfFreeLimitReached(options.size);
-    _throwIfGpt4LimitReached(options.size, options.model);
+    _throwIfGpt5LimitReached(options.size, options.model);
 
     // This code requires the user to have an account (anonymous doesn't count).
     if (!ref.read(hasAccount2Provider)) {
@@ -193,13 +193,13 @@ class GenerateNotifier extends _$GenerateNotifier {
     }
   }
 
-  void _throwIfGpt4LimitReached(CardGenrationSize size, Model model) {
-    if (_hasPlus && model == Model.gpt4o) {
-      final remainingGpt4Limit = plusGpt4UsageLimitPerMonth - _currentGpt4Usage;
-      if (remainingGpt4Limit < size.toInt()) {
-        throw Gpt4LimitExceededException(
+  void _throwIfGpt5LimitReached(CardGenrationSize size, Model model) {
+    if (_hasPlus && model == Model.gpt5) {
+      final remainingGpt5Limit = plusGpt5UsageLimitPerMonth - _currentGpt5Usage;
+      if (remainingGpt5Limit < size.toInt()) {
+        throw Gpt5LimitExceededException(
           currentDeckSize: size.toInt(),
-          remainingGpt4Limit: remainingGpt4Limit,
+          remainingGpt5Limit: remainingGpt5Limit,
         );
       }
     }
@@ -369,17 +369,17 @@ class FreeLimitExceededException implements Exception {
   final int remainingFreeLimit;
 }
 
-class Gpt4LimitExceededException implements Exception {
-  const Gpt4LimitExceededException({
+class Gpt5LimitExceededException implements Exception {
+  const Gpt5LimitExceededException({
     required this.currentDeckSize,
-    required this.remainingGpt4Limit,
+    required this.remainingGpt5Limit,
   });
 
   /// The deck size that the user tried to generate.
   final int currentDeckSize;
 
   /// The number of cards the user has left for GPT-4o.
-  final int remainingGpt4Limit;
+  final int remainingGpt5Limit;
 }
 
 @riverpod

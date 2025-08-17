@@ -2,7 +2,6 @@ import 'package:ankigpt/src/pages/widgets/animated_swap.dart';
 import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/section_title.dart';
 import 'package:ankigpt/src/pages/widgets/theme.dart';
-import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/home_page_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -78,7 +77,7 @@ class _WhichModelIsUsed extends StatelessWidget {
       question: Text('Which model is used for AnkiGPT?'),
       answer: _MarkdownAnswer(
         text:
-            "AnkiGPT primarily utilizes the GPT-3.5 by OpenAI model to generate flashcards, offering a seamless integration of advanced AI technology for effective learning. For users who opt for the AnkiGPT Plus version, they gain the enhanced capability to generate up to $plusGpt4UsageLimitPerMonth flashcards per month using the more advanced [GPT-4o model](https://openai.com/index/hello-gpt-4o/), ensuring even more sophisticated and nuanced content creation.",
+            "AnkiGPT primarily utilizes the GPT-5 by OpenAI model to generate flashcards, offering a seamless integration of advanced AI technology for effective learning.",
       ),
     );
   }
@@ -175,7 +174,7 @@ class _IsAnkiGPTAsGPTAvailable extends StatelessWidget {
 **Advantages of using AnkiGPT as a GPT:**
 
 * Create unlimited flashcards without buying AnkiGPT Plus
-* Create unlimited flashcards with GPT-4o
+* Create unlimited flashcards with GPT-5
 * Create flashcards (besides the text & PDF input) from images (e.g. screenshots of lecture slides)
 
 **Disadvantages of using AnkiGPT as a GPT:**

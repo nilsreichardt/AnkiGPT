@@ -441,8 +441,8 @@ UsagePerMonthPerModel _$UsagePerMonthPerModelFromJson(
 
 /// @nodoc
 mixin _$UsagePerMonthPerModel {
-  @JsonKey(name: 'gpt-4o')
-  int get gpt4 => throw _privateConstructorUsedError;
+  @JsonKey(name: 'gpt-5')
+  int get gpt5 => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -456,7 +456,7 @@ abstract class $UsagePerMonthPerModelCopyWith<$Res> {
           $Res Function(UsagePerMonthPerModel) then) =
       _$UsagePerMonthPerModelCopyWithImpl<$Res, UsagePerMonthPerModel>;
   @useResult
-  $Res call({@JsonKey(name: 'gpt-4o') int gpt4});
+  $Res call({@JsonKey(name: 'gpt-5') int gpt5});
 }
 
 /// @nodoc
@@ -473,12 +473,12 @@ class _$UsagePerMonthPerModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? gpt4 = null,
+    Object? gpt5 = null,
   }) {
     return _then(_value.copyWith(
-      gpt4: null == gpt4
-          ? _value.gpt4
-          : gpt4 // ignore: cast_nullable_to_non_nullable
+      gpt5: null == gpt5
+          ? _value.gpt5
+          : gpt5 // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -493,7 +493,7 @@ abstract class _$$UsagePerMonthPerModelImplCopyWith<$Res>
       __$$UsagePerMonthPerModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'gpt-4o') int gpt4});
+  $Res call({@JsonKey(name: 'gpt-5') int gpt5});
 }
 
 /// @nodoc
@@ -508,12 +508,12 @@ class __$$UsagePerMonthPerModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? gpt4 = null,
+    Object? gpt5 = null,
   }) {
     return _then(_$UsagePerMonthPerModelImpl(
-      gpt4: null == gpt4
-          ? _value.gpt4
-          : gpt4 // ignore: cast_nullable_to_non_nullable
+      gpt5: null == gpt5
+          ? _value.gpt5
+          : gpt5 // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -522,18 +522,18 @@ class __$$UsagePerMonthPerModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UsagePerMonthPerModelImpl implements _UsagePerMonthPerModel {
-  const _$UsagePerMonthPerModelImpl({@JsonKey(name: 'gpt-4o') this.gpt4 = 0});
+  const _$UsagePerMonthPerModelImpl({@JsonKey(name: 'gpt-5') this.gpt5 = 0});
 
   factory _$UsagePerMonthPerModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UsagePerMonthPerModelImplFromJson(json);
 
   @override
-  @JsonKey(name: 'gpt-4o')
-  final int gpt4;
+  @JsonKey(name: 'gpt-5')
+  final int gpt5;
 
   @override
   String toString() {
-    return 'UsagePerMonthPerModel(gpt4: $gpt4)';
+    return 'UsagePerMonthPerModel(gpt5: $gpt5)';
   }
 
   @override
@@ -541,12 +541,12 @@ class _$UsagePerMonthPerModelImpl implements _UsagePerMonthPerModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UsagePerMonthPerModelImpl &&
-            (identical(other.gpt4, gpt4) || other.gpt4 == gpt4));
+            (identical(other.gpt5, gpt5) || other.gpt5 == gpt5));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, gpt4);
+  int get hashCode => Object.hash(runtimeType, gpt5);
 
   @JsonKey(ignore: true)
   @override
@@ -565,14 +565,14 @@ class _$UsagePerMonthPerModelImpl implements _UsagePerMonthPerModel {
 
 abstract class _UsagePerMonthPerModel implements UsagePerMonthPerModel {
   const factory _UsagePerMonthPerModel(
-      {@JsonKey(name: 'gpt-4o') final int gpt4}) = _$UsagePerMonthPerModelImpl;
+      {@JsonKey(name: 'gpt-5') final int gpt5}) = _$UsagePerMonthPerModelImpl;
 
   factory _UsagePerMonthPerModel.fromJson(Map<String, dynamic> json) =
       _$UsagePerMonthPerModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'gpt-4o')
-  int get gpt4;
+  @JsonKey(name: 'gpt-5')
+  int get gpt5;
   @override
   @JsonKey(ignore: true)
   _$$UsagePerMonthPerModelImplCopyWith<_$UsagePerMonthPerModelImpl>

@@ -10,7 +10,7 @@ int currentMonthUsage(CurrentMonthUsageRef ref) {
 }
 
 @Riverpod()
-int currentGpt4Usage(CurrentGpt4UsageRef ref) {
+int currentGpt5Usage(CurrentGpt5UsageRef ref) {
   final appUser = ref.watch(appUserProvider);
-  return appUser.value?.usage.generatedCardsCurrentMonthByModel.gpt4 ?? 0;
+  return appUser.value?.usage.generatedCardsCurrentMonthByModel.gpt5 ?? 0;
 }

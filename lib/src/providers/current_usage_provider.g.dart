@@ -21,20 +21,20 @@ final currentMonthUsageProvider = AutoDisposeProvider<int>.internal(
 );
 
 typedef CurrentMonthUsageRef = AutoDisposeProviderRef<int>;
-String _$currentGpt4UsageHash() => r'cb47dde1553cadb781bfb9c2ac31166486574750';
+String _$currentGpt5UsageHash() => r'7130313e6281112ff99be9b93823faf15a097c82';
 
-/// See also [currentGpt4Usage].
-@ProviderFor(currentGpt4Usage)
-final currentGpt4UsageProvider = AutoDisposeProvider<int>.internal(
-  currentGpt4Usage,
-  name: r'currentGpt4UsageProvider',
+/// See also [currentGpt5Usage].
+@ProviderFor(currentGpt5Usage)
+final currentGpt5UsageProvider = AutoDisposeProvider<int>.internal(
+  currentGpt5Usage,
+  name: r'currentGpt5UsageProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$currentGpt4UsageHash,
+      : _$currentGpt5UsageHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef CurrentGpt4UsageRef = AutoDisposeProviderRef<int>;
+typedef CurrentGpt5UsageRef = AutoDisposeProviderRef<int>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

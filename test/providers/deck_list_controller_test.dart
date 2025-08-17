@@ -223,6 +223,6 @@ SessionDto _generateSessionDto({
     numberOfCards: 0,
     visibility: Visibility.private,
     userId: uuid.v4(),
-    model: Model.gpt4o_mini,
+    model: Model.gpt5_nano,
   );
 }

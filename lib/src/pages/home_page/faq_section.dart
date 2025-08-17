@@ -175,7 +175,7 @@ class _IsAnkiGPTAsGPTAvailable extends StatelessWidget {
 **Advantages of using AnkiGPT as a GPT:**
 
 * Create unlimited flashcards without buying AnkiGPT Plus
-* Create unlimited flashcards with GPT-4o
+* Create unlimited flashcards with GPT-5
 * Create flashcards (besides the text & PDF input) from images (e.g. screenshots of lecture slides)
 
 **Disadvantages of using AnkiGPT as a GPT:**

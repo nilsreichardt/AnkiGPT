@@ -378,7 +378,7 @@ class Gpt5LimitExceededException implements Exception {
   /// The deck size that the user tried to generate.
   final int currentDeckSize;
 
-  /// The number of cards the user has left for GPT-4o.
+  /// The number of cards the user has left for GPT-5.
   final int remainingGpt5Limit;
 }
 

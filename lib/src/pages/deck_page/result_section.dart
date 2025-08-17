@@ -391,7 +391,8 @@ class _CardTextFieldState extends State<_CardTextField> {
       onExit: (_) => switchHovering(),
       child: AnkiGptCard(
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        color: hovering ? Colors.grey.withOpacity(0.1) : Colors.transparent,
+        color:
+            hovering ? Colors.grey.withValues(alpha: 0.1) : Colors.transparent,
         child: TextField(
           controller: widget.controller,
           maxLines: null,

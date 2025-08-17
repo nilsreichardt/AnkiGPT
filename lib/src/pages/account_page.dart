@@ -11,17 +11,23 @@ import 'package:ankigpt/src/pages/widgets/max_width_constrained_box.dart';
 import 'package:ankigpt/src/pages/widgets/staggered_list.dart';
 import 'package:ankigpt/src/providers/account_view_provider.dart';
 import 'package:ankigpt/src/providers/clear_session_state_provider.dart';
+import 'package:ankigpt/src/providers/delete_user_controller.dart';
 import 'package:ankigpt/src/providers/generate_provider.dart';
 import 'package:ankigpt/src/providers/has_plus_provider.dart';
 import 'package:ankigpt/src/providers/sign_in_provider.dart';
 import 'package:ankigpt/src/providers/sign_out_provider.dart';
 import 'package:ankigpt/src/providers/stripe_portal_provider.dart';
-import 'package:ankigpt/src/providers/user_id_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+/// The number of days after which the account will be deleted if the user
+/// does not cancel the deletion.
+///
+/// If changed, also update the backend.
+const int accountDeletionPeriodDays = 7;
 
 class AccountPage extends ConsumerWidget {
   const AccountPage({super.key});
@@ -145,7 +151,10 @@ class _SignInNote extends StatelessWidget {
         Text(
           'An account is required to prevent abuse.',
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.6),
               ),
         ),
       ],
@@ -163,7 +172,10 @@ class _LegalText extends StatelessWidget {
           'By signing in, you confirm that you read the [Terms of Service](https://ankigpt.help/terms) and [Privacy Policy](https://ankigpt.help/privacy-policy).',
       styleSheet: MarkdownStyleSheet(
         p: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.6),
             ),
       ),
       onTapLink: (text, href, title) async {
@@ -253,23 +265,23 @@ class _SignInButton extends ConsumerWidget {
   }
 }
 
-class _DangerZoneCard extends StatelessWidget {
+class _DangerZoneCard extends ConsumerWidget {
   const _DangerZoneCard();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: ClipRRect(
         borderRadius: defaultAnkiGptBorderRadius,
         child: AnkiGptCard(
           padding: const EdgeInsets.all(0),
-          color: Theme.of(context).colorScheme.error.withOpacity(0.1),
+          color: Theme.of(context).colorScheme.error.withValues(alpha: 0.1),
           child: const Column(
             children: [
               _SignOutTile(),
               Divider(height: 0),
-              _DeleteAccountTile(),
+              _DeleteOrCancelDeleteAccountTile(),
             ],
           ),
         ),
@@ -278,33 +290,102 @@ class _DangerZoneCard extends StatelessWidget {
   }
 }
 
-class _DeleteAccountTile extends ConsumerWidget {
-  const _DeleteAccountTile();
+class _DeleteOrCancelDeleteAccountTile extends ConsumerWidget {
+  const _DeleteOrCancelDeleteAccountTile();
+
+  Future<void> _scheduleDeleteUser(BuildContext context, WidgetRef ref) async {
+    final shouldDelete = await showModal<bool>(
+      context: context,
+      builder: (_) => const _DeleteAccountConfirmationDialog(),
+    );
+
+    if (shouldDelete == true && context.mounted) {
+      try {
+        context.showTextSnackBar(
+          'Scheduling account deletion...',
+          withLoadingCircle: true,
+        );
+
+        final controller = ref.read(deleteUserControllerProvider.notifier);
+        await controller.scheduleDeleteUser();
+
+        if (!context.mounted) return;
+        context.hideSnackBar();
+        context.showTextSnackBar(
+            'Your account will be deleted in $accountDeletionPeriodDays days. You can cancel the deletion at any time.');
+      } catch (e) {
+        if (!context.mounted) return;
+        context.hideSnackBar();
+        context.showTextSnackBar(
+            'Failed to schedule account deletion: ${e.toString()}');
+      }
+    }
+  }
+
+  Future<void> _cancelDeleteUserSchedule(
+      BuildContext context, WidgetRef ref) async {
+    try {
+      context.showTextSnackBar(
+        'Cancelling account deletion...',
+        withLoadingCircle: true,
+      );
+
+      final controller = ref.read(deleteUserControllerProvider.notifier);
+      await controller.cancelDeleteUser();
+
+      if (!context.mounted) return;
+      context.hideSnackBar();
+      context.showTextSnackBar(
+          'Account deletion schedule has been canceled. Your account will not be deleted.');
+    } on Exception catch (e) {
+      if (!context.mounted) return;
+      context.hideSnackBar();
+      context.showTextSnackBar('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final view = ref.watch(accountViewProvider) as AccountViewSignedIn;
+    final hasDeleteUserSchedule = view.hasDeleteUserSchedule;
     return _DangerZoneTile(
-      icon: const Icon(Icons.delete_forever),
-      title: const Text('Delete account'),
-      onTap: () {
-        final userId = ref.read(userIdProvider);
-
-        final parameters = <String, String>{
-          'subject': '🗑️ AnkiGPT: Delete Account Request',
-          'body':
-              'Hey!\n\nI would like to delete my account.\nUser ID: $userId\n\nBest regards'
-        };
-        final mailto = Uri(
-          scheme: 'mailto',
-          path: 'support@ankigpt.help',
-          query: parameters.entries
-              .map((e) =>
-                  '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-              .join('&'),
-        );
-
-        launchUrl(mailto);
+      icon: Icon(hasDeleteUserSchedule ? Icons.delete_forever : Icons.delete),
+      title: Text(
+          hasDeleteUserSchedule ? 'Cancel delete account' : 'Delete account'),
+      onTap: () async {
+        if (hasDeleteUserSchedule) {
+          await _cancelDeleteUserSchedule(context, ref);
+        } else {
+          await _scheduleDeleteUser(context, ref);
+        }
       },
+    );
+  }
+}
+
+class _DeleteAccountConfirmationDialog extends StatelessWidget {
+  const _DeleteAccountConfirmationDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstrainedBox(
+      maxWidth: 500,
+      child: AlertDialog(
+        title: const Text('Delete account'),
+        content: const Text(
+          'Are you sure you want to delete your account? Your account will be deleted in $accountDeletionPeriodDays days.',
+        ),
+        actions: [
+          const CancelTextButton(),
+          TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+            ),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('SCHEDULE DELETE'),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -558,7 +639,7 @@ class _AvatarCard extends ConsumerWidget {
                       backgroundColor: Theme.of(context)
                           .colorScheme
                           .inversePrimary
-                          .withOpacity(0.2),
+                          .withValues(alpha: 0.2),
                       child: Icon(
                         Icons.account_circle,
                         color: Theme.of(context).colorScheme.primary,
@@ -610,7 +691,7 @@ class _FreeUsage extends StatelessWidget {
           LinearProgressIndicator(
             value: percentage,
             backgroundColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
             valueColor: AlwaysStoppedAnimation<Color>(
               Theme.of(context).colorScheme.primary,
             ),

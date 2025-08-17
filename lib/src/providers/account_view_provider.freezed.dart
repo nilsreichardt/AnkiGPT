@@ -23,7 +23,8 @@ mixin _$AccountView {
             AuthProvider authProvider,
             int generatedCardsCurrentMonth,
             int generatedMnemonicsCurrentMonth,
-            bool hasPlus)
+            bool hasPlus,
+            bool hasDeleteUserSchedule)
         signedIn,
     required TResult Function() signedOut,
   }) =>
@@ -35,7 +36,8 @@ mixin _$AccountView {
             AuthProvider authProvider,
             int generatedCardsCurrentMonth,
             int generatedMnemonicsCurrentMonth,
-            bool hasPlus)?
+            bool hasPlus,
+            bool hasDeleteUserSchedule)?
         signedIn,
     TResult? Function()? signedOut,
   }) =>
@@ -47,7 +49,8 @@ mixin _$AccountView {
             AuthProvider authProvider,
             int generatedCardsCurrentMonth,
             int generatedMnemonicsCurrentMonth,
-            bool hasPlus)?
+            bool hasPlus,
+            bool hasDeleteUserSchedule)?
         signedIn,
     TResult Function()? signedOut,
     required TResult orElse(),
@@ -103,7 +106,8 @@ abstract class _$$AccountViewSignedInImplCopyWith<$Res> {
       AuthProvider authProvider,
       int generatedCardsCurrentMonth,
       int generatedMnemonicsCurrentMonth,
-      bool hasPlus});
+      bool hasPlus,
+      bool hasDeleteUserSchedule});
 }
 
 /// @nodoc
@@ -122,6 +126,7 @@ class __$$AccountViewSignedInImplCopyWithImpl<$Res>
     Object? generatedCardsCurrentMonth = null,
     Object? generatedMnemonicsCurrentMonth = null,
     Object? hasPlus = null,
+    Object? hasDeleteUserSchedule = null,
   }) {
     return _then(_$AccountViewSignedInImpl(
       email: freezed == email
@@ -144,6 +149,10 @@ class __$$AccountViewSignedInImplCopyWithImpl<$Res>
           ? _value.hasPlus
           : hasPlus // ignore: cast_nullable_to_non_nullable
               as bool,
+      hasDeleteUserSchedule: null == hasDeleteUserSchedule
+          ? _value.hasDeleteUserSchedule
+          : hasDeleteUserSchedule // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -156,7 +165,8 @@ class _$AccountViewSignedInImpl implements AccountViewSignedIn {
       required this.authProvider,
       required this.generatedCardsCurrentMonth,
       required this.generatedMnemonicsCurrentMonth,
-      required this.hasPlus});
+      required this.hasPlus,
+      required this.hasDeleteUserSchedule});
 
   @override
   final String? email;
@@ -168,10 +178,12 @@ class _$AccountViewSignedInImpl implements AccountViewSignedIn {
   final int generatedMnemonicsCurrentMonth;
   @override
   final bool hasPlus;
+  @override
+  final bool hasDeleteUserSchedule;
 
   @override
   String toString() {
-    return 'AccountView.signedIn(email: $email, authProvider: $authProvider, generatedCardsCurrentMonth: $generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth: $generatedMnemonicsCurrentMonth, hasPlus: $hasPlus)';
+    return 'AccountView.signedIn(email: $email, authProvider: $authProvider, generatedCardsCurrentMonth: $generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth: $generatedMnemonicsCurrentMonth, hasPlus: $hasPlus, hasDeleteUserSchedule: $hasDeleteUserSchedule)';
   }
 
   @override
@@ -190,12 +202,20 @@ class _$AccountViewSignedInImpl implements AccountViewSignedIn {
                     generatedMnemonicsCurrentMonth) ||
                 other.generatedMnemonicsCurrentMonth ==
                     generatedMnemonicsCurrentMonth) &&
-            (identical(other.hasPlus, hasPlus) || other.hasPlus == hasPlus));
+            (identical(other.hasPlus, hasPlus) || other.hasPlus == hasPlus) &&
+            (identical(other.hasDeleteUserSchedule, hasDeleteUserSchedule) ||
+                other.hasDeleteUserSchedule == hasDeleteUserSchedule));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, email, authProvider,
-      generatedCardsCurrentMonth, generatedMnemonicsCurrentMonth, hasPlus);
+  int get hashCode => Object.hash(
+      runtimeType,
+      email,
+      authProvider,
+      generatedCardsCurrentMonth,
+      generatedMnemonicsCurrentMonth,
+      hasPlus,
+      hasDeleteUserSchedule);
 
   @JsonKey(ignore: true)
   @override
@@ -212,12 +232,13 @@ class _$AccountViewSignedInImpl implements AccountViewSignedIn {
             AuthProvider authProvider,
             int generatedCardsCurrentMonth,
             int generatedMnemonicsCurrentMonth,
-            bool hasPlus)
+            bool hasPlus,
+            bool hasDeleteUserSchedule)
         signedIn,
     required TResult Function() signedOut,
   }) {
     return signedIn(email, authProvider, generatedCardsCurrentMonth,
-        generatedMnemonicsCurrentMonth, hasPlus);
+        generatedMnemonicsCurrentMonth, hasPlus, hasDeleteUserSchedule);
   }
 
   @override
@@ -228,12 +249,13 @@ class _$AccountViewSignedInImpl implements AccountViewSignedIn {
             AuthProvider authProvider,
             int generatedCardsCurrentMonth,
             int generatedMnemonicsCurrentMonth,
-            bool hasPlus)?
+            bool hasPlus,
+            bool hasDeleteUserSchedule)?
         signedIn,
     TResult? Function()? signedOut,
   }) {
     return signedIn?.call(email, authProvider, generatedCardsCurrentMonth,
-        generatedMnemonicsCurrentMonth, hasPlus);
+        generatedMnemonicsCurrentMonth, hasPlus, hasDeleteUserSchedule);
   }
 
   @override
@@ -244,14 +266,15 @@ class _$AccountViewSignedInImpl implements AccountViewSignedIn {
             AuthProvider authProvider,
             int generatedCardsCurrentMonth,
             int generatedMnemonicsCurrentMonth,
-            bool hasPlus)?
+            bool hasPlus,
+            bool hasDeleteUserSchedule)?
         signedIn,
     TResult Function()? signedOut,
     required TResult orElse(),
   }) {
     if (signedIn != null) {
       return signedIn(email, authProvider, generatedCardsCurrentMonth,
-          generatedMnemonicsCurrentMonth, hasPlus);
+          generatedMnemonicsCurrentMonth, hasPlus, hasDeleteUserSchedule);
     }
     return orElse();
   }
@@ -294,13 +317,15 @@ abstract class AccountViewSignedIn implements AccountView {
       required final AuthProvider authProvider,
       required final int generatedCardsCurrentMonth,
       required final int generatedMnemonicsCurrentMonth,
-      required final bool hasPlus}) = _$AccountViewSignedInImpl;
+      required final bool hasPlus,
+      required final bool hasDeleteUserSchedule}) = _$AccountViewSignedInImpl;
 
   String? get email;
   AuthProvider get authProvider;
   int get generatedCardsCurrentMonth;
   int get generatedMnemonicsCurrentMonth;
   bool get hasPlus;
+  bool get hasDeleteUserSchedule;
   @JsonKey(ignore: true)
   _$$AccountViewSignedInImplCopyWith<_$AccountViewSignedInImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -350,7 +375,8 @@ class _$AccountViewSignedOutImpl implements AccountViewSignedOut {
             AuthProvider authProvider,
             int generatedCardsCurrentMonth,
             int generatedMnemonicsCurrentMonth,
-            bool hasPlus)
+            bool hasPlus,
+            bool hasDeleteUserSchedule)
         signedIn,
     required TResult Function() signedOut,
   }) {
@@ -365,7 +391,8 @@ class _$AccountViewSignedOutImpl implements AccountViewSignedOut {
             AuthProvider authProvider,
             int generatedCardsCurrentMonth,
             int generatedMnemonicsCurrentMonth,
-            bool hasPlus)?
+            bool hasPlus,
+            bool hasDeleteUserSchedule)?
         signedIn,
     TResult? Function()? signedOut,
   }) {
@@ -380,7 +407,8 @@ class _$AccountViewSignedOutImpl implements AccountViewSignedOut {
             AuthProvider authProvider,
             int generatedCardsCurrentMonth,
             int generatedMnemonicsCurrentMonth,
-            bool hasPlus)?
+            bool hasPlus,
+            bool hasDeleteUserSchedule)?
         signedIn,
     TResult Function()? signedOut,
     required TResult orElse(),

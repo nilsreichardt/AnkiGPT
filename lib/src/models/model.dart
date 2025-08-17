@@ -6,22 +6,31 @@ enum Model {
   ///
   /// Keeping the model in the source code for backwards compatibility (showing
   /// the model in old sessions).
-  @Deprecated('Use gpt4o_mini instead')
+  @Deprecated('Use gpt5_nano instead')
   gpt3_5,
 
   /// The model that is only available for plus users.
   ///
   /// Keeping the model in the source code for backwards compatibility (showing
   /// the model in old sessions).
-  @Deprecated('Use gpt4o instead')
+  @Deprecated('Use gpt5 instead')
   gpt4,
 
   /// The default model.
+  @Deprecated('Use gpt5_nano instead')
   // ignore: constant_identifier_names
   gpt4o_mini,
 
   /// The model that is only available for plus users.
-  gpt4o;
+  @Deprecated('Use gpt5 instead')
+  gpt4o,
+
+  // The default_model.
+  // ignore: constant_identifier_names
+  gpt5_nano,
+
+  /// The model that is only available for plus users.
+  gpt5;
 
   /// Returns the name of the model.
   ///
@@ -32,6 +41,8 @@ enum Model {
       Model.gpt4o => 'gpt-4o',
       Model.gpt3_5 => 'gpt-3.5',
       Model.gpt4 => 'gpt-4',
+      Model.gpt5 => 'gpt-5',
+      Model.gpt5_nano => 'gpt-5-nano'
     };
   }
 
@@ -42,6 +53,8 @@ enum Model {
       Model.gpt4 => true,
       Model.gpt4o_mini => false,
       Model.gpt4o => true,
+      Model.gpt5_nano => false,
+      Model.gpt5 => true,
     };
   }
 
@@ -51,6 +64,8 @@ enum Model {
       Model.gpt4 => 'GPT-4',
       Model.gpt4o_mini => 'GPT-4o mini',
       Model.gpt4o => 'GPT-4o',
+      Model.gpt5 => 'GPT-5',
+      Model.gpt5_nano => 'GPT-5 nano'
     };
   }
 }

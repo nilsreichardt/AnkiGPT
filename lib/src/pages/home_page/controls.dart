@@ -177,12 +177,12 @@ class _GenerateButton extends ConsumerWidget {
         return;
       }
 
-      if (e is Gpt4LimitExceededException) {
+      if (e is Gpt5LimitExceededException) {
         showPlusDialog(
           context,
-          top: _Gpt4LimitExceededCard(
+          top: _Gpt5LimitExceededCard(
             currentDeckSize: e.currentDeckSize,
-            remainingCardsForCurrentMonth: e.remainingGpt4Limit,
+            remainingCardsForCurrentMonth: e.remainingGpt5Limit,
           ),
         );
         return;
@@ -252,8 +252,8 @@ As a free user, you can create a maximum of $freeUsageLimitPerMonth cards per mo
   }
 }
 
-class _Gpt4LimitExceededCard extends StatelessWidget {
-  const _Gpt4LimitExceededCard({
+class _Gpt5LimitExceededCard extends StatelessWidget {
+  const _Gpt5LimitExceededCard({
     required this.currentDeckSize,
     required this.remainingCardsForCurrentMonth,
   });
@@ -265,7 +265,7 @@ class _Gpt4LimitExceededCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return _LimitExceededCard(text: '''**Limit reached!**
 
-You can create a maximum of $plusGpt4UsageLimitPerMonth cards with GPT-4 per month. You have $remainingCardsForCurrentMonth remaining, but you attempted to generate $currentDeckSize cards.''');
+You can create a maximum of $plusGpt5UsageLimitPerMonth cards with GPT-4 per month. You have $remainingCardsForCurrentMonth remaining, but you attempted to generate $currentDeckSize cards.''');
   }
 }
 
@@ -285,7 +285,7 @@ class _LimitExceededCard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.orange[100]!.withOpacity(0.7),
+            color: Colors.orange[100]!.withValues(alpha: 0.7),
             borderRadius: BorderRadius.circular(12),
           ),
           child: MarkdownBody(

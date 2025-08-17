@@ -163,7 +163,7 @@ class _ModelOption extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           ModelDropdown(),
-          _Gpt4Usage(),
+          _Gpt5Usage(),
         ],
       ),
     );
@@ -181,7 +181,7 @@ class ModelDropdown extends ConsumerWidget {
       child: DropdownButtonFormField<Model>(
         value: ref.watch(optionsControllerProvider.select((v) => v.model)),
         items: [
-          ...[Model.gpt4o_mini, Model.gpt4o].map(
+          ...[Model.gpt5_nano, Model.gpt5].map(
             (c) => DropdownMenuItem(
               value: c,
               child: Row(
@@ -215,26 +215,26 @@ class ModelDropdown extends ConsumerWidget {
   }
 }
 
-class _Gpt4Usage extends ConsumerWidget {
-  const _Gpt4Usage();
+class _Gpt5Usage extends ConsumerWidget {
+  const _Gpt5Usage();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasPlus = ref.watch(hasPlusProvider);
     if (!hasPlus) return const SizedBox();
 
-    final gpt4Usage = ref.watch(currentGpt4UsageProvider);
+    final gpt5Usage = ref.watch(currentGpt5UsageProvider);
     final selectedModel =
         ref.watch(optionsControllerProvider.select((v) => v.model));
-    if (selectedModel != Model.gpt4o) return const SizedBox();
+    if (selectedModel != Model.gpt5) return const SizedBox();
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: selectedModel == Model.gpt4o
+      child: selectedModel == Model.gpt5
           ? Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                'You have used $gpt4Usage of your $plusGpt4UsageLimitPerMonth monthly GPT-4o limit.',
+                'You have used $gpt5Usage of your $plusGpt5UsageLimitPerMonth monthly GPT-5 limit.',
                 style: TextStyle(
                   color: Colors.grey[600]!,
                   fontSize: 12,

@@ -44,7 +44,7 @@ class _NewCardState extends ConsumerState<NewCard> {
               child: AnkiGptCard(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                color: Colors.orange.withOpacity(0.2),
+                color: Colors.orange.withValues(alpha: 0.2),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

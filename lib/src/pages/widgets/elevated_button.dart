@@ -59,8 +59,8 @@ class AnkiGptElevatedButton extends StatelessWidget {
         child: AnkiGptCard(
           borderRadius: borderRadius,
           onPressed: isEnabled ? onPressed : null,
-          hoverColor: color.withOpacity(0.1),
-          splashColor: color.withOpacity(0.1),
+          hoverColor: color.withValues(alpha: 0.1),
+          splashColor: color.withValues(alpha: 0.1),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
           color: isEnabled ? color : disabledBackgroundColor,
           border: border,

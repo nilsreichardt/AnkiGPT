@@ -16,6 +16,7 @@ class AppUser with _$AppUser {
       generatedCardsCurrentMonthByModel: UsagePerMonthPerModel(),
     ))
     Usage usage,
+    @Default(null) DeleteUserSchedule? deleteUserSchedule,
   }) = _AppUser;
 
   /// Defines if the reached the maximum number of mnemonics a free user can
@@ -48,9 +49,19 @@ class Usage with _$Usage {
 @freezed
 class UsagePerMonthPerModel with _$UsagePerMonthPerModel {
   const factory UsagePerMonthPerModel({
-    @JsonKey(name: 'gpt-4o') @Default(0) int gpt4,
+    @JsonKey(name: 'gpt-5') @Default(0) int gpt5,
   }) = _UsagePerMonthPerModel;
 
   factory UsagePerMonthPerModel.fromJson(Map<String, dynamic> json) =>
       _$UsagePerMonthPerModelFromJson(json);
+}
+
+@freezed
+class DeleteUserSchedule with _$DeleteUserSchedule {
+  const factory DeleteUserSchedule({
+    required String taskId,
+  }) = _DeleteUserSchedule;
+
+  factory DeleteUserSchedule.fromJson(Map<String, dynamic> json) =>
+      _$DeleteUserScheduleFromJson(json);
 }

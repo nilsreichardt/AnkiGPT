@@ -15,12 +15,17 @@ _$AppUserImpl _$$AppUserImplFromJson(Map<String, dynamic> json) =>
               generatedMnemonicsCurrentMonth: 0,
               generatedCardsCurrentMonthByModel: UsagePerMonthPerModel())
           : Usage.fromJson(json['usage'] as Map<String, dynamic>),
+      deleteUserSchedule: json['deleteUserSchedule'] == null
+          ? null
+          : DeleteUserSchedule.fromJson(
+              json['deleteUserSchedule'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$AppUserImplToJson(_$AppUserImpl instance) =>
     <String, dynamic>{
       'hasPlus': instance.hasPlus,
       'usage': instance.usage.toJson(),
+      'deleteUserSchedule': instance.deleteUserSchedule?.toJson(),
     };
 
 _$UsageImpl _$$UsageImplFromJson(Map<String, dynamic> json) => _$UsageImpl(
@@ -47,11 +52,23 @@ Map<String, dynamic> _$$UsageImplToJson(_$UsageImpl instance) =>
 _$UsagePerMonthPerModelImpl _$$UsagePerMonthPerModelImplFromJson(
         Map<String, dynamic> json) =>
     _$UsagePerMonthPerModelImpl(
-      gpt4: (json['gpt-4o'] as num?)?.toInt() ?? 0,
+      gpt5: (json['gpt-5'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$UsagePerMonthPerModelImplToJson(
         _$UsagePerMonthPerModelImpl instance) =>
     <String, dynamic>{
-      'gpt-4o': instance.gpt4,
+      'gpt-5': instance.gpt5,
+    };
+
+_$DeleteUserScheduleImpl _$$DeleteUserScheduleImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DeleteUserScheduleImpl(
+      taskId: json['taskId'] as String,
+    );
+
+Map<String, dynamic> _$$DeleteUserScheduleImplToJson(
+        _$DeleteUserScheduleImpl instance) =>
+    <String, dynamic>{
+      'taskId': instance.taskId,
     };

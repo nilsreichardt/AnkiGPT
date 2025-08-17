@@ -18,7 +18,7 @@ class ErrorCard extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: AnkiGptCard(
-        color: Theme.of(context).colorScheme.error.withOpacity(0.1),
+        color: Theme.of(context).colorScheme.error.withValues(alpha: 0.1),
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [

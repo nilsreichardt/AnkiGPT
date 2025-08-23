@@ -50,7 +50,7 @@ class _NewCardState extends ConsumerState<NewCard> {
                   children: [
                     const Flexible(
                       child: Text(
-                        'New: GPT-5 is now available!',
+                        'New: GPT-5 is available now!',
                         style: TextStyle(
                           color: Colors.deepOrange,
                         ),

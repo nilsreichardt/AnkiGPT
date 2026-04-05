@@ -127,39 +127,39 @@ class _VisibilityButtons extends ConsumerWidget {
       _ => false,
     };
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        for (final v in Visibility.values)
-          GreyShimmer(
-            enabled: isLoading,
-            child: RadioListTile<Visibility>(
-              shape: RoundedRectangleBorder(
-                borderRadius: defaultAnkiGptBorderRadius,
-              ),
-              title: Text(switch (v) {
-                Visibility.private => 'Private',
-                Visibility.anyoneWithLink => 'Anyone with link',
-              }),
-              subtitle: Text(switch (v) {
-                Visibility.private => 'Only you can see this deck.',
-                Visibility.anyoneWithLink =>
-                  'Anyone with the link can see this deck.',
-              }),
-              value: v,
-              groupValue: currentVisibility,
-              onChanged: isLoading || isGeneratedByCustomGpt
-                  ? null
-                  : (v) {
-                      if (v == null) return;
+    final isSelectionDisabled = isLoading || isGeneratedByCustomGpt;
 
-                      ref
-                          .read(shareControllerProvider(sessionId).notifier)
-                          .setVisibility(v);
-                    },
+    return RadioGroup<Visibility>(
+      groupValue: currentVisibility,
+      onChanged: (v) {
+        if (v == null || isSelectionDisabled) return;
+        ref.read(shareControllerProvider(sessionId).notifier).setVisibility(v);
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final v in Visibility.values)
+            GreyShimmer(
+              enabled: isLoading,
+              child: RadioListTile<Visibility>(
+                shape: RoundedRectangleBorder(
+                  borderRadius: defaultAnkiGptBorderRadius,
+                ),
+                title: Text(switch (v) {
+                  Visibility.private => 'Private',
+                  Visibility.anyoneWithLink => 'Anyone with link',
+                }),
+                subtitle: Text(switch (v) {
+                  Visibility.private => 'Only you can see this deck.',
+                  Visibility.anyoneWithLink =>
+                    'Anyone with the link can see this deck.',
+                }),
+                value: v,
+                enabled: !isSelectionDisabled,
+              ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }

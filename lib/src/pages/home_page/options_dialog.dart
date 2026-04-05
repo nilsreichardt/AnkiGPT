@@ -103,6 +103,7 @@ class NumberOfCardsDropdown extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final hasPlus = ref.watch(hasPlusProvider);
     final hasPickedFile = ref.watch(pickedFileProvider) != null;
+    final selectedSize = ref.watch(optionsControllerProvider.select((v) => v.size));
 
     final availableSizes = CardGenrationSize.values
         .where((c) => hasPickedFile ? c.isAvailableForFiles() : true)
@@ -111,7 +112,8 @@ class NumberOfCardsDropdown extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: DropdownButtonFormField<CardGenrationSize>(
-        initialValue: ref.watch(optionsControllerProvider.select((v) => v.size)),
+        key: ValueKey(selectedSize),
+        initialValue: selectedSize,
         items: [
           ...availableSizes.map(
             (c) => DropdownMenuItem(
@@ -176,10 +178,12 @@ class ModelDropdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasPlus = ref.watch(hasPlusProvider);
+    final selectedModel = ref.watch(optionsControllerProvider.select((v) => v.model));
     return SizedBox(
       width: double.infinity,
       child: DropdownButtonFormField<Model>(
-        initialValue: ref.watch(optionsControllerProvider.select((v) => v.model)),
+        key: ValueKey(selectedModel),
+        initialValue: selectedModel,
         items: [
           ...[Model.gpt5_nano, Model.gpt5].map(
             (c) => DropdownMenuItem(
@@ -265,11 +269,13 @@ class _LanguageDropdown extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedLanguage =
+        ref.watch(optionsControllerProvider.select((v) => v.language));
     return SizedBox(
       width: double.infinity,
       child: DropdownButtonFormField<Language>(
-        initialValue:
-            ref.watch(optionsControllerProvider.select((v) => v.language)),
+        key: ValueKey(selectedLanguage),
+        initialValue: selectedLanguage,
         items: [
           ...Language.values.map(
             (language) => DropdownMenuItem(

@@ -111,7 +111,7 @@ class NumberOfCardsDropdown extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: DropdownButtonFormField<CardGenrationSize>(
-        value: ref.watch(optionsControllerProvider.select((v) => v.size)),
+        initialValue: ref.watch(optionsControllerProvider.select((v) => v.size)),
         items: [
           ...availableSizes.map(
             (c) => DropdownMenuItem(
@@ -179,7 +179,7 @@ class ModelDropdown extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: DropdownButtonFormField<Model>(
-        value: ref.watch(optionsControllerProvider.select((v) => v.model)),
+        initialValue: ref.watch(optionsControllerProvider.select((v) => v.model)),
         items: [
           ...[Model.gpt5_nano, Model.gpt5].map(
             (c) => DropdownMenuItem(
@@ -268,7 +268,8 @@ class _LanguageDropdown extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: DropdownButtonFormField<Language>(
-        value: ref.watch(optionsControllerProvider.select((v) => v.language)),
+        initialValue:
+            ref.watch(optionsControllerProvider.select((v) => v.language)),
         items: [
           ...Language.values.map(
             (language) => DropdownMenuItem(
